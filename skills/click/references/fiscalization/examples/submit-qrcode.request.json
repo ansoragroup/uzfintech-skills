@@ -1,0 +1,5 @@
+{
+  "service_id": 100,
+  "payment_id": 5200001,
+  "qrcode": "https://ofd.soliq.uz/epi?t=<FISCAL_MODULE_ID>&r=<RECEIPT_NUMBER>&c=<YYYYMMDDHHMMSS>&s=<FISCAL_SIGN>"
+}

@@ -1,0 +1,7 @@
+{
+  "service_id": 100,
+  "otp_data": "<QR_CONTENT>",
+  "amount": 25000,
+  "cashbox_code": "till-01",
+  "transaction_id": "100001"
+}

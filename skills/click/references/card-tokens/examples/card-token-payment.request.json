@@ -1,0 +1,6 @@
+{
+  "service_id": 100,
+  "card_token": "<CARD_TOKEN>",
+  "amount": 25000,
+  "transaction_parameter": "100001"
+}

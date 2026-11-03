@@ -1,0 +1,23 @@
+{
+  "service_id": 100,
+  "payment_id": 5200001,
+  "items": [
+    {
+      "Name": "Sample product, 1 pc",
+      "SPIC": "<SPIC_CODE>",
+      "Units": 1,
+      "PackageCode": "<PACKAGE_CODE>",
+      "GoodPrice": 2500000,
+      "Price": 2500000,
+      "Amount": 1,
+      "VAT": 267857,
+      "VATPercent": 12,
+      "CommissionInfo": {
+        "TIN": "<TIN_9_DIGITS>"
+      }
+    }
+  ],
+  "received_ecash": 0,
+  "received_cash": 0,
+  "received_card": 2500000
+}

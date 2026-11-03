@@ -1,0 +1,125 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://pay-docs.paynet.uz/payment-cancellation",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "reverse",
+  "endpoint": "POST <BASE_URL>/api/v1/payment-service/payment/reverse?value=<transactionId|paymentId> (verb and path form unconfirmed, see README)",
+  "params": {
+    "type": "object",
+    "x-in": "query",
+    "properties": {
+      "value": {
+        "type": "string",
+        "description": "transactionId or paymentId"
+      }
+    },
+    "required": [
+      "value"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "integer",
+        "description": "0 = success"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "CREATED",
+                  "PENDING_CONFIRM",
+                  "UNKNOWN",
+                  "SUCCESS",
+                  "FAILED",
+                  "CANCELLED",
+                  "RETURNED",
+                  "CANCEL_PENDING",
+                  "RETURN_PENDING"
+                ]
+              },
+              "transactionId": {
+                "type": "string"
+              },
+              "orderId": {
+                "type": "string"
+              },
+              "paymentId": {
+                "type": "string"
+              },
+              "attributes": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "provider": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "HUMO",
+              "UZCARD",
+              null
+            ]
+          },
+          "providerCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "providerMessage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "code"
+        ]
+      }
+    },
+    "required": [
+      "status"
+    ]
+  }
+}

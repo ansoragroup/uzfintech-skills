@@ -1,0 +1,7 @@
+{
+  "service_id": "100",
+  "merchant_id": "1",
+  "amount": "25000.00",
+  "transaction_param": "100001",
+  "return_url": "https://merchant.example.com/orders/100001"
+}

@@ -1,0 +1,5 @@
+{
+  "service_id": 100,
+  "card_token": "<CARD_TOKEN>",
+  "sms_code": "<OTP>"
+}
