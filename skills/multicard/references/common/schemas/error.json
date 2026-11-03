@@ -1,0 +1,36 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/4736405f0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "error envelope",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "const": false
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "ERROR_* code"
+        },
+        "details": {
+          "type": "string",
+          "description": "human-readable text"
+        }
+      },
+      "required": [
+        "code"
+      ]
+    }
+  },
+  "required": [
+    "success",
+    "error"
+  ]
+}

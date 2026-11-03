@@ -1,7 +1,7 @@
 # Upstream contract sources tracked by scripts/sync.
 # Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and
-# status are written by the script. kind: openapi | openapi-labels | html | file;
-# spa: docusaurus | bundle for client-rendered html pages.
+# status are written by the script. kind: openapi | openapi-labels | html | file |
+# markdown; spa: docusaurus | bundle for client-rendered html pages.
 sources:
   - id: uzum-merchant-ru
     provider: uzum
@@ -1054,5 +1054,1175 @@ sources:
     spa: docusaurus
     refs: [skills/click/references/shop-api/README.md, skills/click/references/sandbox/README.md]
     sha256: 5d6f051c37b8ac28c37e6e815a43cb36c25c86123f8d5c1645337ba87cd8ad7f
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-home
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/
+    refs: [skills/payme/references/common/README.md]
+    sha256: a1a120e36bcd9573d346417ccf88008bb711253fb592b835be233f22b6c182de
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-checkout
+    provider: payme
+    product: checkout
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/initsializatsiya-platezhey/
+    refs: [skills/payme/references/checkout/README.md]
+    sha256: d6e041463738aa39637e39087d7a98285ca3fc52ecfa187a3148a8469b9744c1
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-checkout-button-qr
+    provider: payme
+    product: checkout
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/initsializatsiya-platezhey/generatsiya-knopki-oplaty-i-qr-koda
+    refs: [skills/payme/references/checkout/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 99919b3e75a8e1e28702a95170151633a51e407c8772fc6cf15d3292d5b373ab
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-checkout-errors
+    provider: payme
+    product: checkout
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/initsializatsiya-platezhey/oshibki-otpravki-cheka
+    refs: [skills/payme/references/checkout/README.md]
+    sha256: 9ae49c875dd2fa77c28ace46b1ed94b6cdd53d370b688da53678b17a56ae6568
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-checkout-get
+    provider: payme
+    product: checkout
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-get
+    refs: [skills/payme/references/checkout/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 34be0862ffe7a1724126ff7c2d4fa4d61445bd435579b0865ac05e385051397a
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-checkout-post
+    provider: payme
+    product: checkout
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-post
+    refs: [skills/payme/references/checkout/README.md, skills/payme/references/fiscalization/README.md]
+    sha256: cb2c7f5a8eb9fa64bef31894f41aa64254da7132340e93381c1a2beec20ca69f
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-mobile
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/integratsiya-s-mobilnym-prilozheniem/
+    refs: [skills/payme/references/common/README.md]
+    sha256: 2d663792a380f2bfc63acf8fdeb20d65eda1093012223687ae2adc4c6c5f5b97
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-mobile-result
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/integratsiya-s-mobilnym-prilozheniem/obrabotka-rezultata
+    refs: [skills/payme/references/common/README.md]
+    sha256: 0713a31d254f42577055297e82615e653569b6aa93adcc164c0dc849a160874c
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-mobile-library
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/integratsiya-s-mobilnym-prilozheniem/podklyuchenie-biblioteki
+    refs: [skills/payme/references/common/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 651105d819c27986eb3754e7e277e21bdd40a6c667239d3109e3524a0f4f8bde
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-mobile-app
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/integratsiya-s-mobilnym-prilozheniem/rabota-v-mobilnom-prilozhenii
+    refs: [skills/payme/references/common/README.md]
+    sha256: 8f30c6bd0002c8365a5e253367aeaf08889b2f2301a834d45e588d78e32d71e7
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-mobile-sandbox
+    provider: payme
+    product: sandbox
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/integratsiya-s-mobilnym-prilozheniem/testirovanie-v-pesochnitse
+    refs: [skills/payme/references/sandbox/README.md]
+    sha256: 95da6cb48812cfd15a4c20e93d6bb23e42c912992fb068b0201d1c2120002e8d
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-methods
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/
+    refs: [skills/payme/references/merchant/README.md]
+    sha256: 241f7ca10ed42d7541e147618696fb56f814b7d92c2530f1f949785a1861eac5
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-canceltransaction
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/canceltransaction
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 49dd8398d3efacb66cc7fb00a6b194610ec40f19ff52d74ed55daca7020416d9
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-checkperformtransaction
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/checkperformtransaction
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 922522a68a0821e3224249beb627bf62d81be6f7d371923e679436eb11f05d43
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-checktransaction
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/checktransaction
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/fiscalization/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 8cd83e2eef162a4d5aeb00d00af2a095da6f998aa8d89e91243133f6856193f2
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-createtransaction
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/createtransaction
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/sandbox/README.md]
+    sha256: a4a7b0ce7c57564a0a73611d863df07aecff8a7784388c4e68da0d570b785cb3
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-getstatement
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/getstatement
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 4927f4e029f17bba35c553b9952014862dcb32ddad0d7ecc106821249d5b0d21
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-errors
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/oshibki-errors
+    refs: [skills/payme/references/merchant/README.md]
+    sha256: 40afdc7a2b31000dfde23f53fd067047d489cb8c9df2cc1c4552f02ac20e9cd7
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-performtransaction
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/performtransaction
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 34b761df28d3d9fbc339d92af799bd04e06e6f2b4efe23e3bc1d70f4b8cf35e4
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-setfiscaldata
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/setfiscaldata
+    refs: [skills/payme/references/merchant/README.md, skills/payme/references/fiscalization/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 08bbae647b1135b5c8c042df5488d9c35fa0572cdbc6e65ebf7d416374452323
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-data-types
+    provider: payme
+    product: merchant
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-merchant-api/tipy-dannykh
+    refs: [skills/payme/references/merchant/README.md]
+    sha256: fd0c0b41297fb4244a592eab628f606d8c375f7abf5fb1727fc92199e5b0a4a6
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-methods
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/
+    refs: [skills/payme/references/subscribe/README.md]
+    sha256: a845e9dc488ed000944478391249a3c0b610ed2aa3bba4bbd1abe6586a6e18a4
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-cards-check
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/cards.check
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: da43bc7be872229d4d00bc318c6d1582ac38b8b15445f68163aba6561ee1feea
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-cards-create
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/cards.create
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: dab468668e914d90cc2054f30f517522387191233ce7654725a01261b59f3976
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-cards-get-verify-code
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/cards.get_verify_code
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 566cad83d373f178cb40d901604291c9dfb127f4b0476eda5d8f15e61f028850
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-cards-remove
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/cards.remove
+    refs: [skills/payme/references/subscribe/README.md]
+    sha256: 72d8973baa91ed08ff9d5d28f5aa10af1b56c946ef68dca94db821b0957e9250
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-cards-verify
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/cards.verify
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: dce09d2e3477c3cf9ef416b88bdeef51c0e5929dd1815f94c6c6d5175ce1f791
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-hold
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/kholdirovanie
+    refs: [skills/payme/references/subscribe/README.md]
+    sha256: 7b9e667056195e207f29b4d9b6cd42c9f2e2173f061f32642f0505df80e67341
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-cancel
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.cancel
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 43d45ed65fbe14fd3fe988243b4750f27a0d24fde93c682a64c9a03097e13ba1
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-check
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.check
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 75118c4bcaf129e42e74863e7df6fe47cb273e853e6e9534be71071a95203fa4
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-create
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.create
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/fiscalization/README.md, skills/payme/references/sandbox/README.md]
+    sha256: e12355cf06d108542fe7edfda732b72b45035a3194b1acaa526613635fc17ebe
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-get
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.get
+    refs: [skills/payme/references/subscribe/README.md]
+    sha256: 660f5fda8901e86c2eee7beead7325fdd1b27c677f86d3721ec930d909cc273a
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-get-all
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.get_all
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 679a2d5d6d7baa932d628cdbfb13e8c0baf913d6bfdc589e210b96c246b7f7eb
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-pay
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.pay
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 42cc7377d21a436ad174017a8e295c189e1b19ce45910c212001bba2aa42c13e
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-send
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.send
+    refs: [skills/payme/references/subscribe/README.md]
+    sha256: a6ccd79ca698a22fff481710403566f9ba9dc0441761b147f5a55f79f29392b6
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipts-set-fiscal-data
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/receipts.set_fiscal_data
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/fiscalization/README.md]
+    sha256: 9fccbb029480fc5e7c2a08aecd9fce25616c31c4340d81d44b75a07454973f8f
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-receipt-states
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/metody-subscribe-api/sostoyaniya-cheka
+    refs: [skills/payme/references/subscribe/README.md]
+    sha256: 1069d46a7ce27a99217cd01340f63391602c2442c5ac4ca446909718b6086d51
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-setup
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/nastroyka-vzaimodeystviya
+    refs: [skills/payme/references/common/README.md]
+    sha256: 54e9d21131aa16906438c009bbca79fef4717998a99b2c0d1e4cfbcb7ff2ac01
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-sandbox
+    provider: payme
+    product: sandbox
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/pesochnitsa
+    refs: [skills/payme/references/sandbox/README.md, skills/payme/references/common/README.md]
+    sha256: 5c951d7932875e4ce7baf94ff8c1386691ed8b1c78db5f50063b6b75eca27478
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-cms-plugins
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/plaginy-dlya-cms
+    refs: [skills/payme/references/common/README.md]
+    sha256: fbe60dbaf565da179ab84e04541b550e56d2377d767d3736f46e5f4ad164903d
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-cashbox-credentials
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/poisk-klyucha-i-id-kassy-v-lichnom-kabinete/
+    refs: [skills/payme/references/common/README.md]
+    sha256: cc0d7e3f8f012aa275b62cf70cb8f485286dc619b8d243bf7a25587fe356f2e6
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-cashbox-id
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/poisk-klyucha-i-id-kassy-v-lichnom-kabinete/poisk-id-kassy
+    refs: [skills/payme/references/common/README.md]
+    sha256: 1d7b3ddd2b593489d45b1d2976a5415d1c248d69b88510390396621ca36d8ae9
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-cashbox-key
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/poisk-klyucha-i-id-kassy-v-lichnom-kabinete/poisk-klyucha-parolya-ot-kassy
+    refs: [skills/payme/references/common/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 83a441d2414b744b7d062b75831b6b6554c518abb0c2ed82febf1121075cee8b
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-server-example
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/primer-realizatsii-servera
+    refs: [skills/payme/references/common/README.md]
+    sha256: 5a42c467de8bd686c9b63822ad5afedf5468e6f7fc3d6fc1cded6f843ae0d573
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-protocol
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/protokol-merchant-api/
+    refs: [skills/payme/references/common/README.md, skills/payme/references/merchant/README.md]
+    sha256: 4da256d638fc39247297adfe280beda9b0e477cb9298f518d5e1cd6d9e048f9c
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-response-format
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/protokol-merchant-api/format-otveta
+    refs: [skills/payme/references/common/README.md, skills/payme/references/merchant/README.md]
+    sha256: 85fa6cdef60d758e362fe14d6cdea12254f8408245fc34d9a2cf64edeee6b29f
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-request-format
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/protokol-merchant-api/format-zaprosa
+    refs: [skills/payme/references/common/README.md, skills/payme/references/merchant/README.md]
+    sha256: 1de9563d3ea0813983912e8115a71eb151da8aab2a981a25acbce7c132049724
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-common-errors
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/protokol-merchant-api/obschie-oshibki
+    refs: [skills/payme/references/common/README.md, skills/payme/references/merchant/README.md]
+    sha256: 148b13dc4a04a9eab6eb60577aad1261fec586d5e9b14e6a276b2f077bf94927
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-merchant-flow
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/protokol-merchant-api/skhema-vzaimodeystviya
+    refs: [skills/payme/references/common/README.md, skills/payme/references/merchant/README.md]
+    sha256: 775e9ccc61430ec9e1955b8a75d607c978f97c8b3da5959c95053d82f40183aa
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-subscribe-protocol
+    provider: payme
+    product: subscribe
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/protokol-subscribe-api
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/common/README.md, skills/payme/references/sandbox/README.md]
+    sha256: f7cfa3bb8011ff03072e9ed49e774d488222dc37702b3a322edc6309679f7dc5
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-resources
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/resursy
+    refs: [skills/payme/references/common/README.md]
+    sha256: 3add37a613e61447ebece45f046259452204d8a513cb102d91921159634075d5
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-support
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/tekhnicheskaya-podderzhka
+    refs: [skills/payme/references/common/README.md]
+    sha256: 22ba86c352cbebe09bce660d330fec75dc28d7ce3421d0afb52013b7ae8f3478
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-telegram
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/telegram-bot/
+    refs: [skills/payme/references/common/README.md]
+    sha256: 71e59d4edd12e4bcd0861817f5952273f64f9afb1dc33b9e52da7eb2213382dc
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-telegram-flow
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/telegram-bot/diagramma-protsessa-oplaty
+    refs: [skills/payme/references/common/README.md]
+    sha256: 20340912b282419906aee02616d5c0d47fc149f6965be4850cb0ecdf28669825
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-telegram-cashbox
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/telegram-bot/dobavlenie-kassy-dlya-bota
+    refs: [skills/payme/references/common/README.md]
+    sha256: 6bc0e14fa847d32a53cc0b752728b66a1e3fef944ab4bb7aa18d0def10fb17c0
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-telegram-connect
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/telegram-bot/podklyuchenie-bota
+    refs: [skills/payme/references/common/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 7ca28559e87d915e5de993e17aab93a451d9bb9952c3eff803cf236054f428f4
+    fetched: 2026-11-03
+    status: ok
+  - id: payme-protocols-interaction
+    provider: payme
+    product: common
+    kind: html
+    lang: ru
+    url: https://developer.help.paycom.uz/vzaimodeystvie-protokolov-merchant-api-i-subscribe-api
+    refs: [skills/payme/references/common/README.md, skills/payme/references/sandbox/README.md]
+    sha256: 20765b67c8c7ba54fd319a2931db6653c475e429556c26f1f1b74d41dd8ce312
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-llms
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/llms.txt
+    refs: [skills/multicard/references/common/README.md]
+    sha256: 3fc2bda83d5928ca2f270577a41a65c0e6b67c96c41eda8747bbafea1c093e93
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-intro
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4736405f0.md
+    refs: [skills/multicard/references/common/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 7461979e6566fff3ee72878e8d7444e5c3e92750127226de7ba27c1e4e56b6c7
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-auth-guide
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488543f0.md
+    refs: [skills/multicard/references/common/README.md]
+    sha256: 57715eb8392b65236fea6ae3ffd0d75b2ad954efcbc64d62370fc3c989b0b24e
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-invoice-guide
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488544f0.md
+    refs: [skills/multicard/references/invoice/README.md]
+    sha256: 3a262bd2c231d08354f35da5f722042ba5d605a1436520a3058c5bb215f59454
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-bind-form-guide
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488545f0.md
+    refs: [skills/multicard/references/cards/README.md]
+    sha256: 3012316c99e06d8fbf5155861bab93a0e2551c88b7a44aa0801e3dd51d2ca182
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-bind-api-guide
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488546f0.md
+    refs: [skills/multicard/references/cards/README.md]
+    sha256: 5c2d4b5d8dcc6734697fd787ea8cfde9369373e02e7f3b1d119ca466e4091bbd
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-guide
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488547f0.md
+    refs: [skills/multicard/references/payments/README.md]
+    sha256: 5a23312f9533361d58dcd8c9a599705f2e44385eb8964726edcb62ba20262e2d
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-hold-guide
+    provider: multicard
+    product: hold
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488548f0.md
+    refs: [skills/multicard/references/hold/README.md]
+    sha256: d96c2318cd97e7feba4ac844eb3e721f8bd545f6e3e6918af2ce6ecdae3cc37a
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payout-guide
+    provider: multicard
+    product: payouts
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/4488549f0.md
+    refs: [skills/multicard/references/payouts/README.md]
+    sha256: 900b3c0e5d8493d52ea0cdcceb751dccd8d4b2ce14ab04d46e921b700d6da0ac
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-auth-token
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729295e0.md
+    refs: [skills/multicard/references/common/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: f97ebcbf867408b3091b6e16ec5e61bd34256d84a45e7a865efc86f3fcc1b642
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-invoice-create
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729296e0.md
+    refs: [skills/multicard/references/invoice/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 65712277e35072c614a1cacbd8365ab001d1cacac530ac27eb1a3ba5f68abd08
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-invoice-get
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729297e0.md
+    refs: [skills/multicard/references/invoice/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: b477de324d724c7ce33878532ee1acdd45709156d8ffe6ccd7f725ea116c5b61
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-invoice-delete
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729298e0.md
+    refs: [skills/multicard/references/invoice/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 92a7311cb8432be482d3b6035156a240667d8523d1867678f692f1f1708c56cd
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-invoice-scanpay
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729299e0.md
+    refs: [skills/multicard/references/invoice/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 89e89a316237a2dca5fe38c2bae7667e621e40d6530fcbea6cb3717fbc656ecf
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-callback-success
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729300e0.md
+    refs: [skills/multicard/references/invoice/README.md, skills/multicard/references/common/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: ab5bb7060586c1598cdf1ff60d411b4ad0a847e16bd0f2a613387746ddb5d1f7
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-callback-webhooks
+    provider: multicard
+    product: invoice
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729301e0.md
+    refs: [skills/multicard/references/invoice/README.md, skills/multicard/references/common/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 0cd058e8c291b30ba0dbd69c15697621ee7524188374f13def6a189a41cd30b1
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-bind-link
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729302e0.md
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 2700e1c8f133675f29d158af2aa4b1e0fae0f04e0061050bcc00db59ac83ac13
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-bind-callback
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729303e0.md
+    refs: [skills/multicard/references/cards/README.md]
+    sha256: 131c1428ebfeca2ee1e0129e635d14dac74f3fe06d972901cf7a460f67771cff
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-bind-status
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729304e0.md
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 0a690e7f9e8386615d07d581780165568df3e9e2107bb202f9332edf233c9308
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-get
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729305e0.md
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: f0ebd6fd2054ba94125c4dfe609d67c6c8240f96c437a0ff2352d6a538a7216a
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-check-pinfl
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729306e0.md
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: baaff415fad41846afe2ea2e34a1c9d89c8a8e198eb9ca866b0f6acf0a2ddec7
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-revoke
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729307e0.md
+    refs: [skills/multicard/references/cards/README.md]
+    sha256: e1afb678c42872f070227cdf8d3c89af00dc1a616420de565ccf3daa659c5989
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-add
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729308e0.md
+    refs: [skills/multicard/references/cards/README.md]
+    sha256: 0b87d4515494992096a4e757a205b48c4d66d7e7cb3e8aa0508d232c54c0ea51
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-confirm
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729309e0.md
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: ebbf24102bedfc81dc4bfcbffd9e1257a7bf4a2eaab67b5ebf3d11ca9aeab500
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-card-check-pan
+    provider: multicard
+    product: cards
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/22557089e0.md
+    refs: [skills/multicard/references/cards/README.md]
+    sha256: 577713ada540ec924713daf27309c1b4388390b069b2a3103c721a84f1f3f4b4
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-token
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729310e0.md
+    refs: [skills/multicard/references/payments/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 0b16eca635eef73b001c2e21020edcf98dc1eb45bccae5ace4bae50a2679a5fe
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-card
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729311e0.md
+    refs: [skills/multicard/references/payments/README.md]
+    sha256: 80fcde57dafccab62ea0c653e9ccd6c66c9ecc697f55ddf320a13089b6116c5e
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-split
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729312e0.md
+    refs: [skills/multicard/references/payments/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 5d73736e59b279c0731ed982a70b2697a134c65e0193a07ae9720681336aaf74
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-app
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729313e0.md
+    refs: [skills/multicard/references/payments/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: dc3ea2af444f7ddb8f094189982821ae528e722d6c7f659392820277ac1086fa
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-confirm
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729314e0.md
+    refs: [skills/multicard/references/payments/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: ffa5d1ceca83ad516ab6d07809a71adb953df91ab6d7745e33492dabf0862499
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-fiscal-link
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729315e0.md
+    refs: [skills/multicard/references/payments/README.md]
+    sha256: 46b2794ead190bb3cb69092a5b96185bb4f769461be3d4cd9ad71e4d7beec2af
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-refund
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729316e0.md
+    refs: [skills/multicard/references/payments/README.md]
+    sha256: a71f1ff218b99751c11534e3a1159aea758412a3891fc6d866ad41dd8e7d5bff
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-refund-partial
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/24802978e0.md
+    refs: [skills/multicard/references/payments/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 36d4351269d31facb560c66434906320771566bc278c34eebfbebbab6dfaf44c
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-get
+    provider: multicard
+    product: payments
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729317e0.md
+    refs: [skills/multicard/references/payments/README.md]
+    sha256: 69784e0e5fbfe8405120315492644a40339969bf7dce661f6c42f1f69791b9cc
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-hold-create
+    provider: multicard
+    product: hold
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729318e0.md
+    refs: [skills/multicard/references/hold/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: c37c75ab8ea81623610c0522483e634b60e22dcadf06b80175c2a6067a411667
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-hold-confirm
+    provider: multicard
+    product: hold
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729319e0.md
+    refs: [skills/multicard/references/hold/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 8a807996f9474469f403ebb311e9e134a38702f73eeff5157d4f5b2229f270e1
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-hold-charge
+    provider: multicard
+    product: hold
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729320e0.md
+    refs: [skills/multicard/references/hold/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: e454ffcd302099992a18457a8267bc4e2da670277345dbdaa4f38e18ed77606f
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-hold-get
+    provider: multicard
+    product: hold
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729321e0.md
+    refs: [skills/multicard/references/hold/README.md]
+    sha256: 7fb616ed4da25de438f29d0e07e4a4b282dad7068d954b3fa373fba3f673d0f0
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-hold-cancel
+    provider: multicard
+    product: hold
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729322e0.md
+    refs: [skills/multicard/references/hold/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 92547b49d27af348ec80eed235b0325eaebcb49891df3b24dce2021d98d7f010
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payout-create
+    provider: multicard
+    product: payouts
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729323e0.md
+    refs: [skills/multicard/references/payouts/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 693ccf3fc907c8e2dfb91d4e8b1fcf68c3e7c4f4ccce9f0827aaab4f197b8612
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payout-confirm
+    provider: multicard
+    product: payouts
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729324e0.md
+    refs: [skills/multicard/references/payouts/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: d2c9ce57b23fc257fb212a110dbf03412cdf5a30f6fde286023b9ec17dbc4305
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payout-get
+    provider: multicard
+    product: payouts
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729325e0.md
+    refs: [skills/multicard/references/payouts/README.md]
+    sha256: 9a7b9237f4be3ff5ecf0395f94e4bd3f845df655c36d827c830c44542064f797
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-store-get
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/41406205e0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 6caa8b0864629847856576b771df7a6bb1f083b0a4e1e8a54d4ff8059a9f6400
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-application-get
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729326e0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: eeb64df8d0e0579666f0f0c0514c173b430a37c82ff0ce071bbcf5236e8addc5
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-merchant-account-get
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729327e0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: e0d7e1c3924621bf1c396b49d2752110ae89ef5e45cf4c8ac1df9f4dedff1b66
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payment-history
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729328e0.md
+    refs: [skills/multicard/references/reports/README.md, skills/multicard/references/sandbox/README.md]
+    sha256: 8bc0d1b0a955637e4cb0f353cc1486515764828be7e1beabea70031aaf18d515
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-payout-history
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/19729329e0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 8808365d096494ba7e2ab26a01e5135e425f3dea8291efb98f6f52331cec44dd
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-application
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9357257d0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 7ddd8239b051b6810b343d79f8b2e26fa31b47ec2d292e4c043f7ce086a80fb1
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-payment
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9357883d0.md
+    refs: [skills/multicard/references/common/README.md]
+    sha256: 322ebe45ff19e81d657290be16342fa1b7f1ecec7a61d6107a23399c9cc57a8c
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-card
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9356533d0.md
+    refs: [skills/multicard/references/common/README.md, skills/multicard/references/cards/README.md]
+    sha256: d99ccb8c1c71f59710bf592e1d672dc732fccc5bac50250a4510737027baab7d
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-split
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9355022d0.md
+    refs: [skills/multicard/references/common/README.md]
+    sha256: a917b112ecaf92ac4b666491bef74115f98945b8cd9ce015e24f519e27e2702a
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-ofd
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9355028d0.md
+    refs: [skills/multicard/references/common/README.md]
+    sha256: efe0f81742bfbbe82e6eb157191e6c947360cd2eb8000e9b088a0b4ce0f48093
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-payment-status
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9416791d0.md
+    refs: [skills/multicard/references/common/README.md]
+    sha256: be8201163fe8e3df976a9331cadd10eba376ca653a6f14e1be4edb506f3aa62a
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-payment-service
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9545152d0.md
+    refs: [skills/multicard/references/common/README.md, skills/multicard/references/payments/README.md]
+    sha256: b324e83e73ae2db61114ff6f34aacdb3a39bd1e43cf458ea5df6024978aeb13b
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-store
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9655483d0.md
+    refs: [skills/multicard/references/reports/README.md, skills/multicard/references/common/README.md]
+    sha256: 17d24a0bc34a31a2dd8f55d6b60e2cc90f16bd0215aaa95c409f5380f0496875
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-merchant
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9655500d0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 0f853b044a2f114a291a77032df8809d5142528a88aa921be2c54920f0bdae79
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-billing-fields
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9655508d0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 876357608ab831cdd91d22d8a667402d2321394c5b55cd7a5f4e64e20b6773d5
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-merchant-account
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9655769d0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 9925f2b5e7121b321806ee44430393bab741f52a40eda2721f3c3faafa9808b1
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-tax-receipt
+    provider: multicard
+    product: common
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9655813d0.md
+    refs: [skills/multicard/references/common/README.md]
+    sha256: 8accec4e9f7b4da1faa9c9ee82d756092a1bbda21c56bdc36d53a984fc14d4a8
+    fetched: 2026-11-03
+    status: ok
+  - id: multicard-model-clearing
+    provider: multicard
+    product: reports
+    kind: markdown
+    lang: ru
+    url: https://docs.multicard.uz/9655929d0.md
+    refs: [skills/multicard/references/reports/README.md]
+    sha256: 1e3454019fcb7ecccde6df0436c0c835341c7699f11ad2a3692f081fc900dfec
     fetched: 2026-11-03
     status: ok

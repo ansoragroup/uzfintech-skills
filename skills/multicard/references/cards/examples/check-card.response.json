@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "data": {
+    "masked_pan": "860012******0000",
+    "bank": {
+      "bin": "<BIN>",
+      "name": "Bank Example",
+      "color": null,
+      "logo": null,
+      "ps_bank_id": null,
+      "country": "UZ"
+    },
+    "ps": "uzcard",
+    "holder_name": "SAMPLE HOLDER"
+  }
+}

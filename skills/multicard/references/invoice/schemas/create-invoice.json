@@ -1,0 +1,183 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729296e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "create-invoice",
+  "endpoint": "POST https://mesh.multicard.uz/payment/invoice",
+  "params": {
+    "type": "object",
+    "properties": {
+      "store_id": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "cashbox id (int) or cashbox uuid (string)"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "lang": {
+        "type": "string",
+        "enum": [
+          "ru",
+          "uz",
+          "en"
+        ]
+      },
+      "return_url": {
+        "type": "string"
+      },
+      "return_error_url": {
+        "type": "string",
+        "description": "defaults to return_url"
+      },
+      "callback_url": {
+        "type": "string",
+        "description": "success callback target"
+      },
+      "sms": {
+        "type": "string",
+        "description": "998XXXXXXXXX: send the payment link by SMS"
+      },
+      "ttl": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "description": "invoice lifetime, seconds; default 1 day"
+      },
+      "ofd": {
+        "$ref": "../../common/schemas/ofd.json"
+      }
+    },
+    "required": [
+      "store_id",
+      "amount",
+      "invoice_id",
+      "callback_url",
+      "ofd"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "Multicard uuid (36 chars)"
+      },
+      "store_id": {
+        "type": "integer"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "return_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "return_error_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "callback_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "ofd": {
+        "anyOf": [
+          {
+            "$ref": "../../common/schemas/ofd.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "split": {
+        "anyOf": [
+          {
+            "$ref": "../../common/schemas/split.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "sms": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "payment": {
+        "anyOf": [
+          {
+            "$ref": "../../common/schemas/payment.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "checkout_url": {
+        "type": "string",
+        "description": "hosted payment page"
+      },
+      "short_link": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "production only; use for QR codes"
+      },
+      "deeplink": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "added_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "updated_on": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Y-m-d H:i:s, GMT+5"
+      }
+    },
+    "required": [
+      "uuid",
+      "store_id",
+      "amount",
+      "invoice_id",
+      "checkout_url"
+    ]
+  }
+}

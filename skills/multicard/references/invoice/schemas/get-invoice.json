@@ -1,0 +1,138 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729297e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "get-invoice",
+  "endpoint": "GET https://mesh.multicard.uz/payment/invoice/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "invoice uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "Multicard uuid (36 chars)"
+      },
+      "store_id": {
+        "type": "integer"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "return_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "return_error_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "callback_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "ofd": {
+        "anyOf": [
+          {
+            "$ref": "../../common/schemas/ofd.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "split": {
+        "anyOf": [
+          {
+            "$ref": "../../common/schemas/split.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "sms": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "payment": {
+        "anyOf": [
+          {
+            "$ref": "../../common/schemas/payment.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "checkout_url": {
+        "type": "string",
+        "description": "hosted payment page"
+      },
+      "short_link": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "production only; use for QR codes"
+      },
+      "deeplink": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "added_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "updated_on": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Y-m-d H:i:s, GMT+5"
+      }
+    },
+    "required": [
+      "uuid",
+      "store_id",
+      "amount",
+      "invoice_id",
+      "checkout_url"
+    ]
+  },
+  "x-errors": {
+    "400": "ERROR_TRANS_NOT_READY (invoice expired)",
+    "404": "ERROR_NOT_FOUND"
+  }
+}

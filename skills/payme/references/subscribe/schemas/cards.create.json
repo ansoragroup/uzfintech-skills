@@ -1,0 +1,90 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-subscribe-api/cards.create/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "cards.create",
+  "endpoint": "POST https://checkout.paycom.uz/api (test: https://checkout.test.paycom.uz/api), JSON-RPC 2.0",
+  "params": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "full card number, typed by the payer into your Payme-compliant form",
+            "pattern": "^\\d{16}$"
+          },
+          "expire": {
+            "type": "string",
+            "description": "MMYY",
+            "pattern": "^(0[1-9]|1[0-2])\\d{2}$"
+          }
+        },
+        "required": [
+          "number",
+          "expire"
+        ]
+      },
+      "account": {
+        "type": "object",
+        "description": "merchant-defined fields configured in the cashbox, e.g. order_id"
+      },
+      "save": {
+        "type": "boolean",
+        "description": "true: reusable token; false: one-time token deleted after payment"
+      },
+      "customer": {
+        "type": "string",
+        "description": "any payer identifier of yours"
+      }
+    },
+    "required": [
+      "card"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "masked card number; safe to store"
+          },
+          "expire": {
+            "type": "string",
+            "description": "expiry as returned (format varies, e.g. MM/YY)"
+          },
+          "token": {
+            "type": "string",
+            "description": "card token for later calls"
+          },
+          "recurrent": {
+            "type": "boolean",
+            "description": "token can be reused for later payments"
+          },
+          "verify": {
+            "type": "boolean",
+            "description": "card was verified by SMS OTP"
+          }
+        },
+        "required": [
+          "number",
+          "expire",
+          "token",
+          "recurrent",
+          "verify"
+        ]
+      }
+    },
+    "required": [
+      "card"
+    ]
+  },
+  "x-auth": "X-Auth: <CASHBOX_ID> (front end allowed)"
+}

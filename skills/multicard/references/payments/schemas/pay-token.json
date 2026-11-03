@@ -1,0 +1,76 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729310e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "create-payment-token",
+  "endpoint": "POST https://mesh.multicard.uz/payment",
+  "params": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "store_id": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "cashbox id (int) or cashbox uuid (string)"
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "callback_url": {
+        "type": "string",
+        "description": "success callback target"
+      },
+      "device_details": {
+        "type": "object",
+        "properties": {
+          "ip": {
+            "type": "string",
+            "description": "payer device IP"
+          },
+          "user_agent": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ip",
+          "user_agent"
+        ]
+      },
+      "ofd": {
+        "$ref": "../../common/schemas/ofd.json"
+      }
+    },
+    "required": [
+      "card",
+      "amount",
+      "store_id",
+      "invoice_id"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/payment.json"
+  }
+}

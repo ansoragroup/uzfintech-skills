@@ -1,0 +1,115 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729323e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "create-payout",
+  "endpoint": "POST https://mesh.multicard.uz/payment/credit",
+  "params": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "pan": {
+            "type": "string",
+            "description": "full PAN, Uzcard or Humo"
+          },
+          "token": {
+            "type": "string",
+            "description": "bound card token"
+          }
+        },
+        "description": "pass pan or token"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "store_id": {
+        "type": "string",
+        "description": "cashbox id; typed string on this endpoint"
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "confirmable": {
+        "type": "boolean",
+        "description": "false or omitted: one-step payout; true: confirm with confirm-payout"
+      },
+      "device_details": {
+        "type": "object",
+        "properties": {
+          "ip": {
+            "type": "string",
+            "description": "payer device IP"
+          },
+          "user_agent": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ip",
+          "user_agent"
+        ]
+      },
+      "kyc_data": {
+        "type": "object",
+        "properties": {
+          "last_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "middle_name": {
+            "type": "string"
+          },
+          "passport": {
+            "type": "string"
+          },
+          "pinfl": {
+            "type": "string"
+          },
+          "dob": {
+            "type": "string"
+          },
+          "passport_expiry_date": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "last_name",
+          "first_name",
+          "middle_name",
+          "passport",
+          "pinfl",
+          "dob",
+          "passport_expiry_date"
+        ],
+        "description": "needed above 10 000 000 UZS; dob YYYY-MM-DD"
+      }
+    },
+    "required": [
+      "card",
+      "amount",
+      "store_id",
+      "invoice_id",
+      "confirmable",
+      "device_details"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/payment.json"
+  },
+  "x-poll-on": [
+    "ERROR_UNKNOWN",
+    "timeout"
+  ],
+  "x-note": "kyc_data is marked required in the schema but needed only above 10 000 000 UZS; the response returns it as a JSON string"
+}

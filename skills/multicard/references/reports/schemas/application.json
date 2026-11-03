@@ -1,0 +1,55 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729326e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "get-application",
+  "endpoint": "GET https://mesh.multicard.uz/payment/application",
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "application_id": {
+        "type": "string"
+      },
+      "wallet_sum": {
+        "type": "integer",
+        "description": "wallet balance, tiyin"
+      },
+      "wallet_overdraft": {
+        "type": "integer",
+        "description": "allowed negative balance, tiyin"
+      },
+      "otp_required": {
+        "type": "integer"
+      },
+      "otp_length": {
+        "type": "integer"
+      },
+      "allow_bank_transaction": {
+        "type": "integer"
+      },
+      "official_name": {
+        "type": "string"
+      },
+      "added_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "updated_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      }
+    },
+    "required": [
+      "application_id",
+      "wallet_sum",
+      "wallet_overdraft"
+    ]
+  }
+}

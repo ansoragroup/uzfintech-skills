@@ -1,0 +1,58 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-get/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "checkout GET",
+  "endpoint": "GET https://checkout.paycom.uz/<base64(params)>",
+  "params": {
+    "type": "object",
+    "properties": {
+      "m": {
+        "type": "string",
+        "description": "merchant (cashbox) id or alias"
+      },
+      "ac.<field>": {
+        "type": "string",
+        "description": "one key per Account field, e.g. ac.order_id"
+      },
+      "a": {
+        "type": "integer",
+        "description": "amount, tiyin",
+        "minimum": 1
+      },
+      "l": {
+        "type": "string",
+        "enum": [
+          "ru",
+          "uz",
+          "en"
+        ]
+      },
+      "c": {
+        "type": "string",
+        "description": "return URL after payment or cancel"
+      },
+      "ct": {
+        "type": "integer",
+        "description": "milliseconds to wait after success before returning to c"
+      },
+      "cr": {
+        "type": "string",
+        "description": "currency code, ISO format"
+      }
+    },
+    "required": [
+      "m",
+      "ac.<field>",
+      "a"
+    ],
+    "description": "decoded params string: key=value pairs joined with ';', then base64-encoded into the URL path"
+  },
+  "result": {
+    "type": "string",
+    "description": "Payme checkout page (HTML); errors are shown on the page, see the README"
+  }
+}

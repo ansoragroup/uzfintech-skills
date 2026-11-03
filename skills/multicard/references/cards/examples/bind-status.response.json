@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "data": {
+    "id": 501,
+    "application_id": "<APPLICATION_ID>",
+    "payer_id": "<SESSION_ID>",
+    "card_pan": "860012******0000",
+    "card_token": "<CARD_TOKEN>",
+    "phone": "998901234567",
+    "holder_name": "SAMPLE HOLDER",
+    "pinfl": null,
+    "ps": "uzcard",
+    "status": "active",
+    "added_on": "2026-11-03 12:00:00",
+    "card_status": {
+      "code": 0,
+      "description": "<STATUS_TEXT>"
+    },
+    "sms_inform": true
+  }
+}

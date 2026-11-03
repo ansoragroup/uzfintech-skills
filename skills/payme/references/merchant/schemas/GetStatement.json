@@ -1,0 +1,142 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-merchant-api/getstatement/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "GetStatement",
+  "endpoint": "POST <your Endpoint URL> (Payme calls you; JSON-RPC 2.0)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "from": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      },
+      "to": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      }
+    },
+    "required": [
+      "from",
+      "to"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "transactions": {
+        "type": "array",
+        "description": "created transactions with from <= time <= to, ascending by time; [] when none",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Payme transaction / receipt id (24-character string)",
+              "minLength": 24,
+              "maxLength": 24
+            },
+            "time": {
+              "type": "integer",
+              "description": "Unix time in milliseconds (13 digits)"
+            },
+            "amount": {
+              "type": "integer",
+              "description": "tiyin (1 UZS = 100 tiyin)",
+              "minimum": 1
+            },
+            "account": {
+              "type": "object",
+              "description": "merchant-defined fields configured in the cashbox, e.g. order_id"
+            },
+            "create_time": {
+              "type": "integer",
+              "description": "Unix time in milliseconds (13 digits)"
+            },
+            "perform_time": {
+              "type": "integer",
+              "description": "Unix time in milliseconds; 0 when the event has not happened"
+            },
+            "cancel_time": {
+              "type": "integer",
+              "description": "Unix time in milliseconds; 0 when the event has not happened"
+            },
+            "transaction": {
+              "type": "string",
+              "description": "your transaction id in your billing, as a string"
+            },
+            "state": {
+              "type": "integer",
+              "description": "1 created, 2 performed, -1 cancelled before perform, -2 cancelled after perform",
+              "enum": [
+                1,
+                2,
+                -1,
+                -2
+              ]
+            },
+            "reason": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "cancel reason; null unless cancelled",
+              "enum": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                10,
+                null
+              ]
+            },
+            "receivers": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "split receivers; null when not used",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "receiver cashbox id"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "tiyin (1 UZS = 100 tiyin)",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "amount"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id",
+            "time",
+            "amount",
+            "account",
+            "create_time",
+            "perform_time",
+            "cancel_time",
+            "transaction",
+            "state",
+            "reason"
+          ]
+        }
+      }
+    },
+    "required": [
+      "transactions"
+    ]
+  }
+}

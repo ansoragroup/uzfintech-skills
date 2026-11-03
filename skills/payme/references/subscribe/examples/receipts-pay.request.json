@@ -1,0 +1,11 @@
+{
+  "id": 5,
+  "method": "receipts.pay",
+  "params": {
+    "id": "<RECEIPT_ID>",
+    "token": "<CARD_TOKEN>",
+    "payer": {
+      "phone": "998901234567"
+    }
+  }
+}

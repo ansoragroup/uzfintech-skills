@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "method": "cards.create",
+  "params": {
+    "card": {
+      "number": "<CARD_PAN_16_DIGITS>",
+      "expire": "0330"
+    },
+    "save": true
+  }
+}

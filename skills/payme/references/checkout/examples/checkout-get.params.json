@@ -1,0 +1,4 @@
+{
+  "decoded": "m=<CASHBOX_ID>;ac.order_id=100001;a=500000;l=ru;c=https://merchant.example.com/payme/return",
+  "url": "https://checkout.paycom.uz/<BASE64_OF_DECODED>"
+}

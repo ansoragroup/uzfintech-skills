@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "data": {
+    "session_id": "<SESSION_ID>",
+    "form_url": "<FORM_URL>"
+  }
+}

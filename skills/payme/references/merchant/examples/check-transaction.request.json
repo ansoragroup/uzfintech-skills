@@ -1,0 +1,7 @@
+{
+  "method": "CheckTransaction",
+  "params": {
+    "id": "<PAYME_TRANSACTION_ID>"
+  },
+  "id": 5
+}

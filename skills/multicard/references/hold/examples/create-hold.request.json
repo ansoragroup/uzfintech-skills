@@ -1,0 +1,9 @@
+{
+  "card": {
+    "token": "<CARD_TOKEN>"
+  },
+  "amount": 5000000,
+  "store_id": 1,
+  "invoice_id": "100001",
+  "expiry": 1440
+}

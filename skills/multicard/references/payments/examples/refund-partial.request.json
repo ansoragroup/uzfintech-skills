@@ -1,0 +1,14 @@
+{
+  "refund_amount": 1000000,
+  "ofd": [
+    {
+      "qty": 1,
+      "vat": 12,
+      "price": 1000000,
+      "mxik": "<IKPU_17_DIGITS>",
+      "total": 1000000,
+      "package_code": "<PACKAGE_CODE>",
+      "name": "Sample item B"
+    }
+  ]
+}

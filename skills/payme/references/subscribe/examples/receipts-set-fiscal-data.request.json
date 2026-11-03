@@ -1,0 +1,16 @@
+{
+  "id": 8,
+  "method": "receipts.set_fiscal_data",
+  "params": {
+    "id": "<RECEIPT_ID>",
+    "fiscal_data": {
+      "receipt_id": 1,
+      "status_code": 0,
+      "message": "accepted",
+      "terminal_id": "<FISCAL_TERMINAL_ID>",
+      "date": "20261103120000",
+      "fiscal_sign": "<FISCAL_SIGN>",
+      "qr_code_url": "<OFD_RECEIPT_URL>"
+    }
+  }
+}

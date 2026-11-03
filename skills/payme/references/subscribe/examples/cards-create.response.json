@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "card": {
+      "number": "860012******0000",
+      "expire": "03/30",
+      "token": "<CARD_TOKEN>",
+      "recurrent": true,
+      "verify": false
+    }
+  }
+}

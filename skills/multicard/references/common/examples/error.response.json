@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_FIELDS",
+    "details": "<FIELD_ERROR_TEXT>"
+  }
+}

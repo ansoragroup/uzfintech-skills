@@ -1,0 +1,51 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/24802978e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "refund-payment-partial",
+  "endpoint": "DELETE https://mesh.multicard.uz/payment/{uuid}/partial",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "payment uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "refund_amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "ofd": {
+        "$ref": "../../common/schemas/ofd.json"
+      },
+      "card_pan": {
+        "type": "string",
+        "description": "full PAN; required only for app payments (Payme, Click, ...)"
+      }
+    },
+    "required": [
+      "refund_amount",
+      "ofd"
+    ]
+  },
+  "result": {
+    "type": [
+      "object",
+      "null"
+    ],
+    "description": "not specified; the vendor example is malformed"
+  },
+  "x-requires": "partial refunds enabled on the terminal by Multicard"
+}

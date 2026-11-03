@@ -1,0 +1,33 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-subscribe-api/cards.remove/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "cards.remove",
+  "endpoint": "POST https://checkout.paycom.uz/api (test: https://checkout.test.paycom.uz/api), JSON-RPC 2.0",
+  "params": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "token"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "success"
+    ]
+  },
+  "x-auth": "X-Auth: <CASHBOX_ID>:<CASHBOX_KEY> (back end only)"
+}

@@ -1,0 +1,40 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729324e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirm-payout",
+  "endpoint": "PUT https://mesh.multicard.uz/payment/credit/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "payout uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "otp": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "otp"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/payment.json"
+  },
+  "x-poll-on": [
+    "ERROR_UNKNOWN",
+    "timeout"
+  ]
+}

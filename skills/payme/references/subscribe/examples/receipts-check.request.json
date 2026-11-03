@@ -1,0 +1,7 @@
+{
+  "id": 6,
+  "method": "receipts.check",
+  "params": {
+    "id": "<RECEIPT_ID>"
+  }
+}
