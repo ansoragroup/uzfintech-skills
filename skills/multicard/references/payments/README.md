@@ -59,8 +59,9 @@ App payments (`payment_system`) need no confirm call: redirect the payer to
 - `account`: a legal entity's bank account; `recipient` is the requisites uuid Multicard
   gives you;
 - `wallet`: your partner wallet (funds can later be paid out to cards or a bank account);
-- the sum of `split[].amount` must not exceed the payment amount minus the commission. With a
-  1 000 UZS payment and a 2 % commission, the split total is at most 980 UZS.
+- the sum of `split[].amount` must not exceed the payment amount minus the commission. The
+  commission is set per merchant contract; take it from `commission_amount` in the answer,
+  never from a hard-coded rate.
 
 ## Fiscal link
 

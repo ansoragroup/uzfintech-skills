@@ -110,5 +110,8 @@ Then compare the real request and response shapes with `schemas/` and `examples/
 - For credentials and merchant data use placeholders: `https://merchant.example.com`,
   `<BASIC_USER>`, `<API_KEY>`, `"100001"`. Never invent or copy a real credential, and never
   copy the pre-filled login, password or key from a vendor Postman collection.
+- Commission rates, payout percentages, settlement terms and fees differ per merchant
+  contract. Do not quote or estimate them; say they come from the merchant's agreement.
+  Fee fields in API answers (`commission`, `fee`, `commission_amount`) are fine to explain.
 - Upstream docs: https://developer.uzumbank.uz/ . Freshness: each README carries `Fetched:`.
   Run `scripts/sync --check` to compare against upstream.

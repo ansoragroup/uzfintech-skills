@@ -24,9 +24,8 @@ Start in test mode. Treat the LIVE token as a secret: keep it in your secret sto
 the repository or the bot's code.
 
 Requirements for LIVE: the merchant is a legal entity or an individual entrepreneur with a
-payment-acceptance agreement with one of the banks connected to Click. The bank takes a
-percentage of turnover; Click charges no connection or subscription fee. The document list
-varies by bank; ask Click or the bank.
+payment-acceptance agreement with one of the banks connected to Click. Fees are set in that
+agreement and differ per merchant. The document list varies by bank; ask Click or the bank.
 
 ## Flow
 

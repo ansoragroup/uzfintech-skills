@@ -112,5 +112,8 @@ Mark each item pass, fail or n.a. with a file:line citation. Then compare the pa
   tokens, the `api-dev` host. Keep it out of production code paths.
 - For credentials and merchant data, use placeholders (`<API_TOKEN>`, `<WEBHOOK_SECRET>`,
   `https://merchant.example.com`). Never invent or copy a real token.
+- Commission rates, payout percentages, settlement terms and fees differ per merchant
+  contract. Do not quote or estimate them; say they come from the merchant's agreement.
+  Fee fields in API answers (`commission`, `fee`, `commission_amount`) are fine to explain.
 - Freshness: each README carries `Fetched:`. Run `scripts/sync --check` to compare against
   upstream.

@@ -44,6 +44,9 @@ first, because they are what keeps this repository publishable.
 6. **English content.** Error descriptions may stay in Russian where the upstream contract
    is Russian.
 7. **SKILL.md stays a router.** Keep it under ~150 lines and move detail into `references/`.
+8. **No commercial terms.** Commission rates, payout percentages, settlement periods (T+1)
+   and tariffs differ per merchant contract, so leave them out, even when a vendor page or
+   an offer prints them. Fee fields in the API contract (`commission`, `fee`) stay.
 
 ## Adding a product to an existing provider
 
