@@ -1,0 +1,112 @@
+---
+name: click
+description: Exact API contracts for Click (CLICK Uzbekistan, click.uz) payment products - SHOP API Prepare/Complete webhooks with the sign_string MD5 signature, Advanced Shop and Split Shop (getinfo/prepare/confirm/check/compare), Merchant API at api.click.uz/v2/merchant (invoice/create, payment/status, status_by_mti, payment/reversal), card tokens (card_token/request, verify, payment), fiscalization (payment/ofd_data submit_items / submit_qrcode), CLICK Pass QR payments, the my.click.uz payment link and button, the pay-by-card checkout.js widget, mobile deeplinks and Telegram Payments via CLICK Terminal. Use when building, reviewing, debugging or testing any Click / my.click.uz / CLICK SuperApp integration - signatures and the Auth header, request/response fields, soum vs tiyin units, error codes, idempotency, reversal rules and the Postman test scenarios - or when validating an implementation against the contract.
+---
+
+# Click integrations
+
+A router. Answer contract questions from the files referenced below, not from memory.
+Each product folder has a `README.md` with hand-written notes, `schemas/` holding trimmed JSON
+Schemas that carry their source URL and fetched date, and `examples/` holding anonymized
+bodies. Examples show **bodies only**; headers and auth are in the README. Start with
+[references/common/](references/common/README.md) for credentials, both auth schemes, units
+and error handling.
+
+## Products
+
+| Product | Who calls whom | Auth | Reference |
+|---|---|---|---|
+| SHOP API | **Click calls you** (Prepare `action=0`, Complete `action=1`), form-urlencoded | `sign_string` MD5 with `SECRET_KEY` | [references/shop-api/](references/shop-api/README.md) |
+| Advanced Shop / Split Shop | **Click calls you** (getinfo, prepare, confirm, check, compare), JSON | `sign_string` MD5 over `params` | [references/advanced-shop/](references/advanced-shop/README.md) |
+| Merchant API | you call Click: invoices, payment status, reversal | `Auth: merchant_user_id:sha1(ts+secret):ts` | [references/merchant-api/](references/merchant-api/README.md) |
+| Card tokens | you call Click: save a card, charge it | same `Auth` header | [references/card-tokens/](references/card-tokens/README.md) |
+| Fiscalization | you call Click: OFD receipt data for a payment | same `Auth` header | [references/fiscalization/](references/fiscalization/README.md) |
+| CLICK Pass | POS calls Click (payer shows a QR in the CLICK app) | same `Auth` header | [references/click-pass/](references/click-pass/README.md) |
+| Payment link / button / widget / deeplink | payer is sent to `my.click.uz`; the result arrives via the SHOP API | none (public parameters) | [references/payment-button/](references/payment-button/README.md) |
+| Telegram Payments | your bot calls the Telegram Bot API; Click is the provider | Telegram `provider_token` | [references/telegram/](references/telegram/README.md) |
+
+## Which product?
+
+| The user wants to... | Product |
+|---|---|
+| be payable from the CLICK app, my.click.uz or USSD by order / account number | SHOP API |
+| collect several payer fields, show details before paying, or let Click reconcile | Advanced Shop |
+| split one payment between several counterparties | Split Shop |
+| send a bill to a payer's phone (the payer confirms in CLICK) | Merchant API `invoice/create` + SHOP API |
+| check, find or refund a payment | Merchant API (`payment/status`, `status_by_mti`, `payment/reversal`) |
+| save a card and charge it later (subscriptions, one-click) | Card tokens |
+| register a fiscal receipt for a Click payment | Fiscalization |
+| charge in a shop by scanning the payer's CLICK app QR | CLICK Pass |
+| put a "Pay with CLICK" link or button on a site, or open CLICK from an app | Payment link / button / deeplink (+ SHOP API) |
+| take card payments in a pop-up on the site | Pay-by-card widget (+ SHOP API) |
+| sell inside a Telegram bot | Telegram Payments |
+
+## Cross-product rules
+
+- Amounts are **soums** (a number that may have decimals) everywhere except fiscalization,
+  which uses integer **tiyin**. The payment link wants `N.NN`. Store integer tiyin and
+  convert at the edge.
+- Two auth schemes: inbound handlers verify `sign_string` (MD5 over raw values with
+  `SECRET_KEY`); outbound calls send `Auth: merchant_user_id:sha1(timestamp + secret_key):timestamp`
+  with the timestamp in **seconds**.
+- Inbound handlers answer `error` and `error_note` as JSON with HTTP 200. Merchant API
+  responses carry `error_code` instead and use HTTP codes for transport and auth failures.
+- `payment_status`: `< 0` error, `0` created, `1` processing, `2` success. Only `2` is paid.
+- Only SHOP API Complete (or a status call) proves a payment. Redirects, widget callbacks and
+  `invoice/create` do not.
+- Refunds go through `payment/reversal`: full amount, current month only (or day 1 of the
+  next month), online cards only.
+- Click repeats inbound requests. Make handlers idempotent on `click_trans_id`
+  (SHOP API) or `click_paydoc_id` (Advanced / Split).
+
+## Top gotchas
+
+1. SHOP API: hash the **raw** `amount` string. Re-formatting it (`1000.0` vs `1000.00`)
+   breaks `sign_string`. Complete adds `merchant_prepare_id` between `merchant_trans_id` and
+   `amount`.
+2. SHOP API: a Complete with `error < 0` always cancels and returns `-9`, even after an
+   earlier success. After Prepare succeeded and money was taken, Complete must not answer
+   any other error; refund with reversal instead.
+3. SHOP API: `merchant_prepare_id` / `merchant_confirm_id` are ints. The Postman page says
+   `error_code`; the JSON key you return is `error`.
+4. Advanced Shop numbers actions differently (0 getinfo, 1 prepare, 2 confirm), and its
+   signature concatenates `params` values in body order. Use an order-preserving parser.
+5. Merchant API: a 200 can carry a non-zero `error_code`. There is no catalogue of those
+   codes. A millisecond timestamp in `Auth` gives 401.
+6. Card tokens: `expire_date` is `MMYY`; the token is usable only after `verify`; the vendor
+   `request` example omits `Auth`, but send it.
+7. Fiscalization: item keys are PascalCase, money is tiyin, `Price` is the line total, and
+   `get-ofd-data` answers in camelCase.
+8. CLICK Pass: with confirmation mode on, confirm within **30 seconds** or Click cancels.
+   `otp_data` is single-use.
+9. Payment link: `card_type` is `uzcard` or `humo`, not the vendor sample's `uzcard/humo`.
+10. Telegram: the Click page misspells `answerPreCheckoutQuery` and `successful_payment`.
+
+## Validate an implementation
+
+Work through the matching checklist and mark each item pass, fail or n.a. with a file:line
+citation:
+
+- [checklists/common.md](checklists/common.md) (every product)
+- [checklists/shop-api.md](checklists/shop-api.md)
+- [checklists/advanced-shop.md](checklists/advanced-shop.md) (Advanced and Split Shop)
+- [checklists/merchant-api.md](checklists/merchant-api.md) (invoices, status, reversal, card tokens)
+- [checklists/fiscalization.md](checklists/fiscalization.md)
+- [checklists/click-pass.md](checklists/click-pass.md)
+- [checklists/payment-button.md](checklists/payment-button.md) (link, button, widget, deeplink)
+- [checklists/telegram.md](checklists/telegram.md)
+
+Then compare the real request and response shapes with `schemas/` and `examples/`. For the
+SHOP API, also run the 15 Postman generator scenarios listed in the shop-api README.
+
+## Answering rules
+
+- Quote field names, types and codes exactly as they appear in the reference files. If a
+  fact is not there, say the contract does not specify it and point to the vendor page
+  listed as `Source:`.
+- Where a README flags a vendor inconsistency, give both readings and say which one is safer.
+- Use only placeholder data in generated code and examples: `https://merchant.example.com`,
+  `<SECRET_KEY>`, `998901234567`, `"100001"`. Never invent credentials, and never copy
+  vendor sample card numbers or phones.
+- Upstream docs: https://docs.click.uz/en/ . Freshness: each README carries `Fetched:`.
+  Run `scripts/sync --check` to compare against upstream.

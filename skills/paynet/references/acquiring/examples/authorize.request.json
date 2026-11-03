@@ -1,0 +1,9 @@
+{
+  "pan": "<CARD_PAN_16_DIGITS>",
+  "expiry": "<YYMM>",
+  "amount": 2500000,
+  "orderId": "100001",
+  "comment": "Order 100001",
+  "currency": "UZS",
+  "merchantId": "<MERCHANT_ID>"
+}

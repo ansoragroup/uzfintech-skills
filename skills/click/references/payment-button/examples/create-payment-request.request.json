@@ -1,0 +1,6 @@
+{
+  "service_id": 100,
+  "merchant_id": 1,
+  "amount": 25000,
+  "transaction_param": "100001"
+}

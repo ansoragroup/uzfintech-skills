@@ -758,3 +758,273 @@ sources:
     sha256: 5f1a8457cafb24f2d89fc23a5f9ef4b70b9a6fd32001aa197840479c65842077
     fetched: 2026-11-03
     status: ok
+  - id: paynet-overview-en
+    provider: paynet
+    product: common
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/
+    refs: [skills/paynet/references/common/README.md]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-general-principles-en
+    provider: paynet
+    product: common
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/general-principles
+    refs: [skills/paynet/references/common/README.md]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-reference-materials-en
+    provider: paynet
+    product: common
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/reference-materials
+    refs: [skills/paynet/references/common/README.md]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-transaction-statuses-en
+    provider: paynet
+    product: common
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/transaction-statuses
+    refs: [skills/paynet/references/common/README.md]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-acquiring-authorize-en
+    provider: paynet
+    product: acquiring
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/acquiring-humo-uzcard
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/authorize.json]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-acquiring-confirm-en
+    provider: paynet
+    product: acquiring
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/online-payment-confirmation
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/confirm.json]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-acquiring-status-en
+    provider: paynet
+    product: acquiring
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/payment-status-check
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/status.json]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: paynet-acquiring-reverse-en
+    provider: paynet
+    product: acquiring
+    kind: html
+    lang: en
+    url: https://pay-docs.paynet.uz/payment-cancellation
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/reverse.json]
+    sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    fetched: 2026-11-03
+    status: ok
+  - id: click-overview-en
+    provider: click
+    product: common
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/
+    refs: [skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-shop-api-en
+    provider: click
+    product: shop-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/shop-api/
+    refs: [skills/click/references/shop-api/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-shop-api-requests-en
+    provider: click
+    product: shop-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/shop-api/requests
+    refs: [skills/click/references/shop-api/README.md, skills/click/references/shop-api/schemas/prepare.json, skills/click/references/shop-api/schemas/complete.json, skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-shop-api-errors-en
+    provider: click
+    product: shop-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/shop-api/errors
+    refs: [skills/click/references/shop-api/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-merchant-api-en
+    provider: click
+    product: merchant-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/merchant-api/
+    refs: [skills/click/references/merchant-api/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-merchant-api-requests-en
+    provider: click
+    product: merchant-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/merchant-api/requests
+    refs: [skills/click/references/merchant-api/README.md, skills/click/references/card-tokens/README.md, skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-merchant-api-errors-en
+    provider: click
+    product: merchant-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/merchant-api/errors
+    refs: [skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-fiscalization-en
+    provider: click
+    product: fiscalization
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/merchant-api/fiscalization
+    refs: [skills/click/references/fiscalization/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-pass-en
+    provider: click
+    product: click-pass
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/merchant-api/click-pass
+    refs: [skills/click/references/click-pass/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-button-en
+    provider: click
+    product: payment-button
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/click-button/
+    refs: [skills/click/references/payment-button/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-pay-by-card-en
+    provider: click
+    product: payment-button
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/click-pay-by-card/
+    refs: [skills/click/references/payment-button/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-mobile-en
+    provider: click
+    product: payment-button
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/additional/mobile
+    refs: [skills/click/references/payment-button/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-advanced-shop-en
+    provider: click
+    product: advanced-shop
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/additional/get-info
+    refs: [skills/click/references/advanced-shop/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-split-shop-en
+    provider: click
+    product: advanced-shop
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/additional/shop-split
+    refs: [skills/click/references/advanced-shop/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-telegram-payments-en
+    provider: click
+    product: telegram
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/additional/telegram-payments
+    refs: [skills/click/references/telegram/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-cms-en
+    provider: click
+    product: common
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/additional/cms
+    refs: [skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-example-en
+    provider: click
+    product: common
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/additional/example
+    refs: [skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-playground-en
+    provider: click
+    product: common
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/testing/playground
+    refs: [skills/click/references/common/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok
+  - id: click-postman-en
+    provider: click
+    product: shop-api
+    kind: html
+    lang: en
+    url: https://docs.click.uz/en/testing/postman
+    refs: [skills/click/references/shop-api/README.md]
+    sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
+    fetched: 2026-11-03
+    status: ok

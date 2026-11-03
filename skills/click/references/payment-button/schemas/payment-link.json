@@ -1,0 +1,53 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/click-button/",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "payment-link",
+  "endpoint": "GET https://my.click.uz/services/pay?<params> (the payer's browser or app opens it)",
+  "params": {
+    "type": "object",
+    "x-in": "query",
+    "properties": {
+      "merchant_id": {
+        "type": "integer"
+      },
+      "service_id": {
+        "type": "integer"
+      },
+      "transaction_param": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d{2}$"
+      },
+      "merchant_user_id": {
+        "type": "string"
+      },
+      "return_url": {
+        "type": "string",
+        "format": "uri"
+      },
+      "card_type": {
+        "type": "string",
+        "enum": [
+          "uzcard",
+          "humo"
+        ]
+      }
+    },
+    "required": [
+      "merchant_id",
+      "service_id",
+      "transaction_param",
+      "amount"
+    ]
+  },
+  "result": {
+    "type": "null",
+    "x-note": "no response to your server; the result arrives through the SHOP API"
+  }
+}

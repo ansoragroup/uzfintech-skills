@@ -1,0 +1,13 @@
+{
+  "click_trans_id": "4100001",
+  "service_id": "100",
+  "click_paydoc_id": "5200001",
+  "merchant_trans_id": "100001",
+  "amount": "25000",
+  "action": "1",
+  "error": "-5017",
+  "error_note": "Payment failed",
+  "sign_time": "2026-11-03 10:15:20",
+  "sign_string": "<MD5_HEX>",
+  "merchant_prepare_id": "1"
+}

@@ -1,0 +1,14 @@
+{
+  "error": 0,
+  "error_note": "Success",
+  "requests": {
+    "5200001": {
+      "click_paydoc_id": 5200001,
+      "params": {
+        "contract": "C-100001",
+        "full_name": "SAMPLE HOLDER",
+        "amount": 25000
+      }
+    }
+  }
+}

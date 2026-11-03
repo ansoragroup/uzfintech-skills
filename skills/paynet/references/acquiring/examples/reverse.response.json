@@ -1,0 +1,11 @@
+{
+  "status": 0,
+  "message": "Success",
+  "data": {
+    "status": "CANCELLED",
+    "transactionId": "6dfb5f7a-c90b-4f68-9367-58c0ca2869ce",
+    "orderId": "100001",
+    "paymentId": "700000000001",
+    "attributes": {}
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "paymentId": 5200001,
+  "qrCodeURL": "https://ofd.soliq.uz/epi?t=<FISCAL_MODULE_ID>&r=<RECEIPT_NUMBER>&c=<YYYYMMDDHHMMSS>&s=<FISCAL_SIGN>"
+}

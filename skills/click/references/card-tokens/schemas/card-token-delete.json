@@ -1,0 +1,41 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/merchant-api/requests",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "card-token-delete",
+  "endpoint": "DELETE https://api.click.uz/v2/merchant/card_token/:service_id/:card_token",
+  "params": {
+    "type": "object",
+    "x-in": "path",
+    "properties": {
+      "service_id": {
+        "type": "integer"
+      },
+      "card_token": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "service_id",
+      "card_token"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "error_code": {
+        "type": "integer"
+      },
+      "error_note": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "error_code",
+      "error_note"
+    ]
+  }
+}

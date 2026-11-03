@@ -1,0 +1,97 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/additional/get-info",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirm",
+  "endpoint": "POST <your Advanced / Split Shop URL> (Click -> merchant, application/json; charset=utf-8)",
+  "x-signature": "md5(click_paydoc_id + attempt_trans_id + service_id + SECRET_KEY + <params values in order> + action + sign_time)",
+  "x-also": "https://docs.click.uz/en/additional/shop-split",
+  "params": {
+    "type": "object",
+    "properties": {
+      "click_paydoc_id": {
+        "type": "integer",
+        "x-note": "int in Advanced Shop, bigint in Split Shop"
+      },
+      "attempt_trans_id": {
+        "type": "integer",
+        "x-note": "int in Advanced Shop, bigint in Split Shop"
+      },
+      "service_id": {
+        "type": "integer"
+      },
+      "action": {
+        "type": "integer",
+        "const": 2
+      },
+      "params": {
+        "type": "object",
+        "additionalProperties": true,
+        "x-note": "key order matters for sign_string"
+      },
+      "sign_time": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+      },
+      "sign_string": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{32}$"
+      },
+      "merchant_prepare_id": {
+        "type": [
+          "string",
+          "integer"
+        ],
+        "x-note": "varchar in Advanced Shop, bigint in Split Shop"
+      }
+    },
+    "required": [
+      "click_paydoc_id",
+      "attempt_trans_id",
+      "service_id",
+      "action",
+      "params",
+      "sign_time",
+      "sign_string",
+      "merchant_prepare_id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "click_paydoc_id": {
+        "type": "integer",
+        "x-note": "int in Advanced Shop, bigint in Split Shop"
+      },
+      "attempt_trans_id": {
+        "type": "integer",
+        "x-note": "int in Advanced Shop, bigint in Split Shop"
+      },
+      "merchant_confirm_id": {
+        "type": [
+          "string",
+          "integer"
+        ]
+      },
+      "params": {
+        "type": "object",
+        "additionalProperties": true,
+        "x-note": "key order matters for sign_string"
+      },
+      "error": {
+        "type": "integer",
+        "x-note": "0, -1 ... -9 as in the SHOP API; custom negative codes appear in the docs"
+      },
+      "error_note": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "error",
+      "error_note"
+    ]
+  }
+}
