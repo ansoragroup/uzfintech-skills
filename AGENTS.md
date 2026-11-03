@@ -6,8 +6,8 @@ directly.
 ## Using the skills
 
 - Read the provider's `skills/<provider>/SKILL.md` first: `uzum` (Uzum Bank), `alif`
-  (alifpay), `click`, `paynet`. Follow the pointers in that file to
-  `references/<product>/README.md`, `schemas/`, `examples/` and `checklists/`.
+  (alifpay), `click`, `paynet`, `payme` (Paycom), `multicard`. Follow the pointers in that
+  file to `references/<product>/README.md`, `schemas/`, `examples/` and `checklists/`.
 - Answer contract questions from those files. When a fact is missing, say so and link the
   `Source:` URL. Do not guess.
 - To validate an implementation, walk through the matching checklist and mark each item

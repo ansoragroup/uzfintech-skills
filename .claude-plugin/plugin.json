@@ -1,12 +1,12 @@
 {
   "name": "uzfintech",
   "version": "0.1.0",
-  "description": "Exact API contracts and implementation checklists for Uzbek payment providers: Uzum Bank (Merchant API, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub), Alif (alifpay), Click (SHOP API, Merchant API, card tokens, fiscalization, CLICK Pass, Telegram Payments) and Paynet (Humo / Uzcard acquiring), with vendor sandbox test data.",
+  "description": "Exact API contracts and implementation checklists for Uzbek payment providers: Uzum Bank (Merchant API, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub), Alif (alifpay), Click (SHOP API, Merchant API, card tokens, fiscalization, CLICK Pass, Telegram Payments), Paynet (Humo / Uzcard acquiring), Payme (Merchant API, Subscribe API, Checkout, fiscalization) and Multicard (invoices, card binding, payments, holds, payouts), with vendor sandbox test data.",
   "author": {
     "name": "uzfintech-skills contributors"
   },
   "homepage": "https://github.com/ansoragroup/uzfintech-skills",
   "repository": "https://github.com/ansoragroup/uzfintech-skills",
   "license": "MIT",
-  "keywords": ["uzbekistan", "payments", "uzum", "alif", "alifpay", "click", "paynet", "fintech", "api-contracts"]
+  "keywords": ["uzbekistan", "payments", "uzum", "alif", "alifpay", "click", "paynet", "payme", "paycom", "multicard", "fintech", "api-contracts"]
 }

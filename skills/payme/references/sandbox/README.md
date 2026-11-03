@@ -169,21 +169,30 @@ test hosts.
 | Subscribe `receipts.create` | `id` `4`, `amount` `500000`, `account` `{"order_id": "test"}`, the fiscal `detail` above -> `_id` `"62da73b0803aced907a52b46"`, `create_time` `1658483632482`, `pay_time` `0`, `state` `0`; discount line `"Скидка 5%"`, `price` `10000` | `metody-subscribe-api/receipts.create` |
 | Subscribe `receipts.pay` / `receipts.check` / `receipts.cancel` | receipt `id` `"2e0b1bc1f1eb50d487ba268d"`; pay -> `state` `4`, `amount` `3500`; check -> `state` `4`; cancel -> `state` `21`, `amount` `2000`; account field `name` `"order_id"`; merchant `name` `"Online Shop LLC"` | `metody-subscribe-api/receipts.pay`, `receipts.check`, `receipts.cancel` |
 | Subscribe `receipts.get_all` | `count` `2`, `from` `1636398000000`, `to` `1636398000000`, `offset` `0` -> `_id` `"618a5b9f1045eb4efde669a4"`, `amount` `100000`, `state` `4`, account fields `loan_id` and `transaction`, card `expire` `"9903"` | `metody-subscribe-api/receipts.get_all` |
+| Subscribe `X-Auth` header | front end (`cards.check`, `cards.create`, `cards.get_verify_code`, `cards.verify`): `100fe486b33784292111b7dc`; back end (`receipts.create`, `receipts.pay`, `cards.remove`): `100fe486b33784292111b7dc:Rw712wMJspZBczFvrG09?bHkSNxnD4PY0n1C`; `receipts.get_all`: `100fe486b33784292111b7dc:mjES8ycLucnvygt4dPwerK2vj45Eensn3ZPr` | `metody-subscribe-api/cards.check`, `receipts.create`, `receipts.pay`, `cards.remove`, `receipts.get_all` |
+| Subscribe card `token` | 380 characters of base64; decoded it starts `584a84d62abb5caa31079914_` (a 24-hex id, `_`, then random bytes). Full value from `cards.create` / `cards.verify` is below | `metody-subscribe-api/cards.create`, `cards.verify` |
 | Checkout GET and payment button | `ac.order_id=197`, `a=500` (`amount` `500`), `lang` `ru`, button `colored` or `white`; URL shape `https://checkout.paycom.uz/base64(m=<MERCHANT_ID>;ac.order_id=197;a=500)` | `initsializatsiya-platezhey/otpravka-cheka-po-metodu-get`, `.../generatsiya-knopki-oplaty-i-qr-koda` |
 
 Sample-specific caveats:
 
 - The page slugs `checkperformtransaction` and `checktransaction` are swapped upstream: each
   serves the other method.
-- The checkout samples carry a concrete merchant id, left out here; put your test cashbox
-  id in `m` / `merchant`.
+- The checkout GET sample uses merchant id `587f72c72cac0d162c722ae2` (`m=587f72c72cac0d162c722ae2`).
+  The `X-Auth` values, the card token and this merchant id are sample strings: the docs do not
+  say they work on any host, and they may belong to real cashboxes. Use them in offline
+  fixtures and parsers only; for sandbox calls use your own test cashbox id and key.
+- Sample card token from `cards.create` (copied exactly):
+
+  ```text
+  NTg0YTg0ZDYyYWJiNWNhYTMxMDc5OTE0X1VnYU02ME92IUttWHVHRThJODRJNWE0Xl9EYUBPQCZjNSlPRlpLIWNWRz1PNFp6VkIpZU0kQjJkayoyVUVtUuKElmt4JTJYWj9VQGNAQyVqT1pOQ3VXZ2NyajBEMSYkYj0kVj9NXikrJE5HNiN3K25pKHRQOEVwOGpOcUYxQ2dtemk9dDUwKDNATjd2XythbibihJYoJispJUtuREhlaClraGlJWTlLMihrLStlRjd6MFI3VCgjVDlpYjQ1ZThaMiojPVNTZylYJlFWSjlEZGFuSjZDNDJLdlhXP3YmV1B2dkRDa3g5X2l4N28oU0pOVEpSeXZKYnkjK0h3ViZfdmlhUHMp
+  ```
 - `amount` `500` in the checkout sample is 5 UZS in tiyin.
 
 ## Do not put in tests or docs
 
-- Live cashbox keys, `TEST_KEY` values and test cashbox keys: they are per account. Load them
-  from configuration.
-- The `X-Auth` keys, card tokens, merchant ids, the Merchant API `account.phone` value and
-  the payer phone numbers shown in the vendor examples: they may belong to real accounts. Use
-  `<TEST_CASHBOX_ID>`, `<CARD_TOKEN>`, `<MERCHANT_ID>` and `998901234567`.
+- Your live cashbox keys, `TEST_KEY` values and test cashbox keys: they are per account. Load
+  them from configuration. The vendor sample `X-Auth` values above may sit in offline
+  fixtures, never in any environment's config.
+- The Merchant API `account.phone` value and the payer phone numbers shown in the vendor
+  examples: they may belong to real people. Use `998901234567`.
 - Payme's source IP list: read it from the vendor page when you configure a firewall.

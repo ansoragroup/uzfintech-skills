@@ -1312,7 +1312,7 @@ sources:
     kind: html
     lang: ru
     url: https://developer.help.paycom.uz/metody-subscribe-api/cards.remove
-    refs: [skills/payme/references/subscribe/README.md]
+    refs: [skills/payme/references/subscribe/README.md, skills/payme/references/sandbox/README.md]
     sha256: 72d8973baa91ed08ff9d5d28f5aa10af1b56c946ef68dca94db821b0957e9250
     fetched: 2026-11-03
     status: ok
@@ -1852,7 +1852,7 @@ sources:
     kind: markdown
     lang: ru
     url: https://docs.multicard.uz/19729308e0.md
-    refs: [skills/multicard/references/cards/README.md]
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
     sha256: 0b87d4515494992096a4e757a205b48c4d66d7e7cb3e8aa0508d232c54c0ea51
     fetched: 2026-11-03
     status: ok
@@ -1872,7 +1872,7 @@ sources:
     kind: markdown
     lang: ru
     url: https://docs.multicard.uz/22557089e0.md
-    refs: [skills/multicard/references/cards/README.md]
+    refs: [skills/multicard/references/cards/README.md, skills/multicard/references/sandbox/README.md]
     sha256: 577713ada540ec924713daf27309c1b4388390b069b2a3103c721a84f1f3f4b4
     fetched: 2026-11-03
     status: ok
@@ -1892,7 +1892,7 @@ sources:
     kind: markdown
     lang: ru
     url: https://docs.multicard.uz/19729311e0.md
-    refs: [skills/multicard/references/payments/README.md]
+    refs: [skills/multicard/references/payments/README.md, skills/multicard/references/sandbox/README.md]
     sha256: 80fcde57dafccab62ea0c653e9ccd6c66c9ecc697f55ddf320a13089b6116c5e
     fetched: 2026-11-03
     status: ok

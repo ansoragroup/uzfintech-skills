@@ -49,8 +49,20 @@ digits the code field must accept.
 4. Production credentials are issued separately after the sandbox integration is accepted
    (derived).
 
-The auth example on the vendor page carries an `application_id` / `secret` pair. Do not reuse
-it; use your own sandbox credentials.
+### Vendor sample credentials
+
+The request example on the auth page (`19729295e0`) carries this pair, copied exactly:
+
+| Field | Value |
+|---|---|
+| `application_id` | `rhmt_test` |
+| `secret` | `Pw18axeBFo8V7NamKHXX` |
+| answer `role` | `dev` |
+
+The docs do not say that this pair works on `dev-mesh`, and Multicard can revoke it at any
+time. Use it only for a first smoke test of `POST https://dev-mesh.multicard.uz/auth` and in
+fixtures; run real sandbox work and every environment on credentials issued to you, loaded
+from configuration. Never send it to the production host.
 
 ## Sandbox scenarios (derived)
 
@@ -113,6 +125,7 @@ replay Multicard's shapes. They are illustrative: none is documented as a live o
 | refund-payment-partial | path `375b518e-b622-11f0-af7c-005056b4367d`; body empty, or `refund_amount` `22244100` with `ofd` item `{name "Бензин марки A80", mxik "02710001003000000", package_code 1282118, price 795000, qty 1, total 1605900}` | `24802978e0` |
 | hold | create `card.token` `"6225f3c93f7a880142782fa4"`, `amount` `10000000`, `store_id` `15`, `invoice_id` `"18177"`, `expiry` `43200` -> `id` `753967`, `status` `"draft"`, `expiry` `"2025-03-08 23:12:15"`, `added_on` `"2025-03-07 23:12:15"`; confirm `otp` `"1122"` -> `"active"`; charge `amount` `100000`; cancel -> `"canceled"`; cancelling a hold that is not active -> `ERROR_PAYMENT_APPLIED` | `19729318e0`, `19729319e0`, `19729320e0`, `19729322e0` |
 | payout | create `amount` `10000`, `store_id` `6`, `invoice_id` `"112233"`, `confirmable` `true` -> `id` `11351395`, `uuid` `"a81b7b62-6d86-11f0-9a1b-00505680eaf6"`, `status` `"draft"`, `commission_type` `"up"`, `total_amount` `10000`; confirm `otp` `"112233"` -> `status` `"success"`, `payment_time` `"2025-07-31 01:51:12"` | `19729323e0`, `19729324e0` |
+| card numbers in samples | `8600303655375959` (check-pinfl, add card by data, payout by card, card lookup `22557089e0`), `8600313260861293` with `expiry` `"2602"` (payment by card data `19729311e0`), `card_pan` `8600010000001234` (partial refund) | `19729306e0`, `19729308e0`, `19729311e0`, `19729323e0`, `22557089e0`, `24802978e0` |
 | get-payment-history | `store_id` `"6"`, `offset` `0`, `limit` `100`, `only_status` `"success"`, `start_date` `"2025-03-01 00:00:00"`, `end_date` `"2025-03-02 00:00:00"` | `19729328e0` |
 
 Sample-specific caveats:
@@ -121,16 +134,20 @@ Sample-specific caveats:
   `111111`.
 - The create-invoice sample breaks `total = qty x price` on its first item, and the partial
   refund sample breaks it too; compute `total` yourself.
-- The samples that carry a full card number, a payer phone, a holder name, KYC data, TINs or
-  split recipient ids are left out here (see below).
+- `8600303655375959` and `8600313260861293` pass the Luhn check, but the docs do not list them
+  as test cards and they may be real cards. Use them only in offline fixtures and parsers;
+  never charge, bind or pay out to them, on any host. `8600010000001234` fails the Luhn check.
+  The only documented sandbox card is `8600533364098829`.
+- The samples that carry a payer phone, a holder name, KYC data, TINs or split recipient ids
+  are left out here (see below).
 
 ## Do not put in tests or docs
 
-- Your `application_id`, `secret` and JWTs, sandbox or production: load them from
-  configuration.
-- The auth sample credentials, merchant TIN, bank account, store data and the person shown
-  in the vendor KYC example: they may be real.
-- The full card numbers, payer phone, card holder name, processing merchant / terminal ids
-  and split recipients in the payment, card and payout samples: they may belong to real
-  people or accounts. Use the test card above, `998901234567` and `<RECIPIENT_UUID>`.
+- Your own `application_id`, `secret` and JWTs, sandbox or production: load them from
+  configuration. The vendor sample pair above may sit in fixtures, never in production config.
+- The merchant TIN, bank account, store data and the person shown in the vendor KYC example:
+  they may be real.
+- The payer phone, card holder name, processing merchant / terminal ids and split recipients
+  in the payment, card and payout samples: they may belong to real people or accounts. Use
+  `998901234567` and `<RECIPIENT_UUID>`.
 - Multicard's callback source IP: read it from the vendor page when you configure a firewall.
