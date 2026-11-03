@@ -1,6 +1,6 @@
 ---
 name: alif
-description: Exact API contracts for Alif (alifpay, Uzbekistan) payments - Checkout invoices and hosted page, direct payments (card + OTP, card token, hold, alif mobi QR), refunds and partial instalment refunds, payouts / split payments, fiscal receipts, card tokenization (Uzcard / Humo), holds, card transaction history and monthly card summary. Use when building, reviewing, debugging or testing an api.alifpay.uz / checkout.alifpay.uz integration - endpoints, Token auth, webhook HMAC Signature verification, request/response schemas, tiyin amounts, error codes 1001-1110, payment statuses - or when validating an implementation against the contract.
+description: Exact API contracts for Alif (alifpay, Uzbekistan) payments - Checkout invoices and hosted page, direct payments (card + OTP, card token, hold, alif mobi QR), refunds and partial instalment refunds, payouts / split payments, fiscal receipts, card tokenization (Uzcard / Humo), holds, card transaction history and monthly card summary, plus a legacy (original-version /purchase, /scoring, /pinfl) to current-API migration map. Use when building, reviewing, debugging or testing an api.alifpay.uz / checkout.alifpay.uz integration - endpoints, Token auth, webhook HMAC Signature verification, request/response schemas, tiyin amounts, error codes 1001-1110, payment statuses - or when validating an implementation against the contract.
 ---
 
 # Alif (alifpay) integrations
@@ -28,6 +28,7 @@ Examples are bodies only. The transport, the `Token` header and the error envelo
 | Hold | `hold`, `dismissHold`, `getHold` | [references/hold/](references/hold/README.md) |
 | Monitoring | `history` | [references/monitoring/](references/monitoring/README.md) |
 | Summary | `getSummary` | [references/summary/](references/summary/README.md) |
+| Legacy (original version) | `purchase`, `confirmChargeOTP`, `getPurchase`, `refundPurchase`, `pinfl`, `scoring`; v1 -> v2 migration map | [references/legacy-v1/](references/legacy-v1/README.md) |
 
 Every method is `POST https://api.alifpay.uz/v2/<method>` with a JSON body and the header
 `Token: <API_TOKEN>`. Branch auth (beta) uses `Store-Token` instead.
@@ -44,6 +45,7 @@ Every method is `POST https://api.alifpay.uz/v2/<method>` with a JSON body and t
 | refund | `refundInvoice` / `refundPayment` (full); `refundPaymentPartial` (instalment only) |
 | register a fiscal receipt made by their own cash register | `registerReceipt`; for invoices, `addInvoiceReceiptURL` |
 | score a card holder | `matchCardPIN`, `history`, `getSummary` |
+| maintain or migrate code using `purchase` / `charge` / `ref` / `scoring` / `pinfl` | [legacy-v1](references/legacy-v1/README.md) migration map |
 
 ## Rules that apply everywhere
 
@@ -80,7 +82,7 @@ Every method is `POST https://api.alifpay.uz/v2/<method>` with a JSON body and t
 7. `history`: Humo returns only the last 3 months, and the range is at most 1 year.
    `getSummary` takes `YYYY-MM` months, and `to` must be before the current month.
 8. The current API replaced `/purchase`, `ref` and `charge` (2024-03-19). Do not build on
-   the old names.
+   the old names. To maintain or migrate old code, use [legacy-v1](references/legacy-v1/README.md).
 9. Vendor docs have known flaws: `registerReceipt` swaps the latitude and longitude
    descriptions, and the `_completeInstallmentRefund` params disagree with its example.
    Sample ids are truncated, so do not validate ids as full UUIDs.

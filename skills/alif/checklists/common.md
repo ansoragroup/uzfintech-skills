@@ -7,6 +7,7 @@ pass / fail / n.a. and cite the file and line that proves it.
 - [ ] Every call is `POST https://api.alifpay.uz/v2/<method>` with a JSON body.
 - [ ] `Token` header (or `Store-Token` for branch auth) comes from secrets; sandbox and production tokens are kept apart.
 - [ ] Amounts are integer tiyin everywhere (no floats, no UZS mix-up).
+- [ ] No legacy methods or fields remain (`purchase`, `confirmChargeOTP`, `getPurchase`, `refundPurchase`, `pinfl`, `scoring`, `ref`, `charge`); if any do, follow [`../references/legacy-v1/README.md`](../references/legacy-v1/README.md).
 - [ ] Phones are sent as `998NNNNNNNNN` (12 digits, no `+`); masked phones in responses are shown as they are and never parsed.
 
 ## Errors
