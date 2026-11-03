@@ -5,8 +5,8 @@ directly.
 
 ## Using the skills
 
-- For Uzum Bank work, read `skills/uzum/SKILL.md`. For Alif (alifpay) work, read
-  `skills/alif/SKILL.md`. Follow the pointers in that file to
+- Read the provider's `skills/<provider>/SKILL.md` first: `uzum` (Uzum Bank), `alif`
+  (alifpay), `click`, `paynet`. Follow the pointers in that file to
   `references/<product>/README.md`, `schemas/`, `examples/` and `checklists/`.
 - Answer contract questions from those files. When a fact is missing, say so and link the
   `Source:` URL. Do not guess.

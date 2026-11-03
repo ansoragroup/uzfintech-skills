@@ -1,6 +1,6 @@
 # Contributing
 
-Contributions are welcome: fixes, new products, and new providers. Payme and Click are the
+Contributions are welcome: fixes, new products, and new providers. Payme and Multicard are the
 next planned providers. Read the content rules first, because they are what keeps this
 repository publishable.
 
@@ -81,7 +81,7 @@ repository publishable.
 7. Add the product to the provider's `SKILL.md` (products table, decision table, gotchas,
    checklist list).
 
-## Adding a provider (for example Payme or Click)
+## Adding a provider (for example Payme or Multicard)
 
 1. Create `skills/<provider>/SKILL.md` with frontmatter:
 
