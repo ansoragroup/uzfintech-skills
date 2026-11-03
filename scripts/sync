@@ -14,7 +14,12 @@ and compares a SHA-256 of the content with the hash recorded last time.
                   primary spec. A change regenerates the same product.
   kind: html      Documentation page without a machine-readable spec. Only the
                   article text is hashed; a change is flagged for human review
-                  (hand-written references listed under `refs`).
+                  (hand-written references listed under `refs`). Client-rendered
+                  sites need `spa:` because their HTML is an empty shell:
+                    spa: docusaurus  the route's content chunk (one page)
+                    spa: bundle      every page script (whole site; any content
+                                     change flags all of the site's sources)
+                  Both hash the string literals of the JavaScript.
   kind: file      Any other upstream asset (test-case PDF, Postman collection).
                   The raw bytes are hashed; a change is flagged for human review
                   like html.
@@ -41,6 +46,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -640,7 +646,7 @@ def yaml_load(text):
 # --------------------------------------------------------------------------
 # sources.yaml (written back in a fixed, simple layout)
 # --------------------------------------------------------------------------
-SOURCE_FIELDS = ("id", "provider", "product", "kind", "lang", "url", "refs", "sha256", "fetched", "status")
+SOURCE_FIELDS = ("id", "provider", "product", "kind", "lang", "url", "spa", "refs", "sha256", "fetched", "status")
 
 
 def load_sources():
@@ -653,7 +659,8 @@ def dump_sources(sources):
     lines = [
         "# Upstream contract sources tracked by scripts/sync.",
         "# Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and",
-        "# status are written by the script. kind: openapi | openapi-labels | html | file.",
+        "# status are written by the script. kind: openapi | openapi-labels | html | file;",
+        "# spa: docusaurus | bundle for client-rendered html pages.",
         "sources:",
     ]
     for src in sources:
@@ -747,6 +754,182 @@ def article_text(raw_html):
     out = re.sub(r" *\n *", "\n", out)
     out = re.sub(r"\n{2,}", "\n", out)
     return out.strip() + "\n"
+
+
+# --------------------------------------------------------------------------
+# client-rendered pages
+# --------------------------------------------------------------------------
+_JS_ESC = re.compile(r"\\(u\{[0-9a-fA-F]+\}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2}|\r\n|[\s\S])")
+_JS_SIMPLE_ESC = {"n": "\n", "t": "\t", "r": "\r", "b": "\b", "f": "\f", "v": "\v", "0": "\0"}
+_JS_REGEX_AFTER = set("(,=:[!&|?{};+-*%<>~^") | {"", "return", "typeof", "case", "do", "else", "in",
+                                                 "of", "new", "delete", "void", "throw",
+                                                 "instanceof", "yield", "await"}
+_JS_WORD = re.compile(r"[\w$]+")
+
+
+def _js_unescape(s):
+    def rep(m):
+        e = m.group(1)
+        if e.startswith("u{"):
+            return chr(int(e[2:-1], 16))
+        if e[0] in "ux" and len(e) > 1:
+            return chr(int(e[1:], 16))
+        if e in ("\n", "\r", "\r\n", "\u2028", "\u2029"):
+            return ""
+        return _JS_SIMPLE_ESC.get(e, e)
+    out = _JS_ESC.sub(rep, s)
+    # join surrogate pairs written as two \u escapes
+    return out.encode("utf-16", "surrogatepass").decode("utf-16", "replace")
+
+
+def _js_template(src, i, out):
+    """Template text from i (just past ` or a closing }). Returns (next index, ended)."""
+    j, n = i, len(src)
+    while j < n:
+        ch = src[j]
+        if ch == "\\":
+            j += 2
+            continue
+        if ch == "`" or (ch == "$" and src.startswith("${", j)):
+            out.append(_js_unescape(src[i:j]))
+            return (j + 1, True) if ch == "`" else (j + 2, False)
+        j += 1
+    out.append(_js_unescape(src[i:]))
+    return n, True
+
+
+def js_strings(src):
+    """String and template-literal texts of a JavaScript file, in source order."""
+    out = []
+    i, n = 0, len(src)
+    prev = ""
+    templates = []  # open-brace depth of each ${...} we are inside
+    while i < n:
+        c = src[i]
+        if c in " \t\r\n":
+            i += 1
+        elif src.startswith("//", i):
+            j = src.find("\n", i)
+            i = n if j < 0 else j
+        elif src.startswith("/*", i):
+            j = src.find("*/", i + 2)
+            i = n if j < 0 else j + 2
+        elif c in "\"'":
+            j = i + 1
+            while j < n and src[j] != c and src[j] != "\n":
+                j += 2 if src[j] == "\\" else 1
+            out.append(_js_unescape(src[i + 1:j]))
+            i, prev = j + 1, "str"
+        elif c == "`" or (c == "}" and templates and templates[-1] == 0):
+            if c == "}":
+                templates.pop()
+            i, ended = _js_template(src, i + 1, out)
+            if ended:
+                prev = "str"
+            else:
+                templates.append(0)
+                prev = "{"
+        elif c == "/" and prev in _JS_REGEX_AFTER:
+            j, in_class = i + 1, False
+            while j < n and src[j] != "\n":
+                ch = src[j]
+                if ch == "\\":
+                    j += 1
+                elif ch == "[":
+                    in_class = True
+                elif ch == "]":
+                    in_class = False
+                elif ch == "/" and not in_class:
+                    break
+                j += 1
+            m = _JS_WORD.match(src, j + 1)
+            i, prev = (m.end() if m else j + 1), "regex"
+        elif c.isalnum() or c in "_$":
+            m = _JS_WORD.match(src, i)
+            i, prev = m.end(), m.group()
+        else:
+            if templates and c == "{":
+                templates[-1] += 1
+            elif templates and c == "}":
+                templates[-1] -= 1
+            i, prev = i + 1, c
+    return [s for s in out if s.strip()]
+
+
+_fetch_memo = {}
+
+
+def fetch_text(url):
+    if url not in _fetch_memo:
+        _fetch_memo[url] = fetch(url)[0].decode("utf-8", "replace")
+    return _fetch_memo[url]
+
+
+def _shell_scripts(page_url, shell):
+    """Same-origin scripts (and module preloads) referenced by an HTML shell."""
+    host = urllib.parse.urlsplit(page_url).netloc
+    urls = []
+    for tag in re.findall(r"<(?:script|link)\b[^>]*>", shell):
+        if tag.startswith("<link") and "modulepreload" not in tag:
+            continue
+        m = re.search(r"""\b(?:src|href)=["']([^"']+\.m?js)["']""", tag)
+        if m:
+            u = urllib.parse.urljoin(page_url, m.group(1))
+            if urllib.parse.urlsplit(u).netloc == host and u not in urls:
+                urls.append(u)
+    if not urls:
+        raise RuntimeError("no same-origin scripts in the page shell")
+    return urls
+
+
+def _docusaurus_chunk(page_url, shell):
+    scripts = _shell_scripts(page_url, shell)
+    runtime = next((u for u in scripts if "/runtime~main." in u), None)
+    main_js = next((u for u in scripts if re.search(r"/main\.[0-9a-f]+\.js$", u)), None)
+    if not (runtime and main_js):
+        raise RuntimeError("no Docusaurus runtime~main / main script in the page shell")
+    rt, mn = fetch_text(runtime), fetch_text(main_js)
+    route = urllib.parse.urlsplit(page_url).path or "/"
+    key = None
+    for r in dict.fromkeys((route, route.rstrip("/") or "/")):
+        m = re.search(r'path:"%s",component:[\w$]+\("%s","(\w+)"\)' % (re.escape(r), re.escape(r)), mn)
+        if m:
+            key = "%s-%s" % (r, m.group(1))
+            break
+    if not key:
+        raise RuntimeError("route %s not found in %s" % (route, main_js))
+    m = re.search(r'"%s":\{[^{}]*"content":"(\w+)"' % re.escape(key), mn)
+    if not m:
+        raise RuntimeError("no content chunk for route %s" % route)
+    name = m.group(1)
+    m = re.search(r'"([^"]*)"\+\(\(\{([^{}]*)\}\)\[\w+\]\|\|\w+\)\+"\."\+\(\{([^{}]*)\}\)\[\w+\]\+"\.js"', rt)
+    if not m:
+        raise RuntimeError("chunk file map not found in %s" % runtime)
+    names = dict(re.findall(r'"?(\w+)"?:"([^"]*)"', m.group(2)))
+    hashes = dict(re.findall(r'"?(\w+)"?:"([^"]*)"', m.group(3)))
+    chunk_id = next((k for k, v in names.items() if v == name), name)
+    if chunk_id not in hashes:
+        raise RuntimeError("chunk %s has no file hash in %s" % (name, runtime))
+    pub = re.search(r'\.p="([^"]*)"', rt)
+    path = (pub.group(1) if pub else "/") + m.group(1) + names.get(chunk_id, chunk_id) + "." + hashes[chunk_id] + ".js"
+    return urllib.parse.urljoin(page_url, path)
+
+
+def spa_text(page_url, shell_raw, mode):
+    """Text of a client-rendered page: the string literals of its JavaScript."""
+    shell = shell_raw.decode("utf-8", "replace")
+    if mode == "docusaurus":
+        scripts = [_docusaurus_chunk(page_url, shell)]
+    elif mode == "bundle":
+        scripts = _shell_scripts(page_url, shell)
+    else:
+        raise RuntimeError("unknown spa mode %r (docusaurus | bundle)" % mode)
+    parts = []
+    for u in scripts:
+        parts += js_strings(fetch_text(u))
+    if not parts:
+        raise RuntimeError("no text in %s" % ", ".join(scripts))
+    return "\n".join(parts).strip() + "\n"
 
 
 # --------------------------------------------------------------------------
@@ -1214,6 +1397,7 @@ def main():
     today = _dt.date.today().isoformat()
     changed, failed, flagged, regenerated = [], [], [], []
     dirty_products = set()
+    page_digests = {}
 
     for src in sources:
         if only and src["id"] not in only:
@@ -1231,13 +1415,24 @@ def main():
                 yaml_load(raw.decode("utf-8"))  # must parse
             elif src["kind"] == "file":
                 content = raw
+            elif src.get("spa"):
+                content = spa_text(final_url, raw, src["spa"]).encode("utf-8")
             else:
-                content = article_text(raw).encode("utf-8")
+                text = article_text(raw)
+                if len(text.strip()) < 40:
+                    raise RuntimeError("almost no article text (client-rendered page? set spa:)")
+                content = text.encode("utf-8")
         except Exception as exc:  # noqa: BLE001
             failed.append((src["id"], str(exc)))
             src["status"] = "fetch-failed %s" % today
             continue
         digest = hashlib.sha256(content).hexdigest()
+        if src["kind"] == "html" and src.get("spa") != "bundle":
+            twin = page_digests.setdefault(digest, src["id"])
+            if twin != src["id"]:
+                failed.append((src["id"], "same text as %s (client-rendered page? set spa:)" % twin))
+                src["status"] = "fetch-failed %s" % today
+                continue
         with open(cp, "wb") as fh:
             fh.write(content)
         if digest != src.get("sha256"):
