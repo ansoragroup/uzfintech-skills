@@ -49,7 +49,7 @@ jobs:
             cat cache/report.md
             echo
             echo "Hand-written references listed above must be re-checked against the vendor page before merging."
-            echo "Before merging, run the anonymization scan from CONTRIBUTING.md."
+            echo "Before merging, run \`scripts/lint\` (it includes the anonymization scan)."
             echo
             echo "Opened by \`.github/workflows/sync.yml\`."
           } > cache/pr-body.md

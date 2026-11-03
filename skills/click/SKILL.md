@@ -25,6 +25,7 @@ and error handling.
 | Payment link / button / widget / deeplink | payer is sent to `my.click.uz`; the result arrives via the SHOP API | none (public parameters) | [references/payment-button/](references/payment-button/README.md) |
 | Telegram Payments | your bot calls the Telegram Bot API; Click is the provider | Telegram `provider_token` | [references/telegram/](references/telegram/README.md) |
 | Sandbox and test data | playground and Postman generator (15 scenarios) call your server; Telegram test mode; vendor sample values | your own service credentials | [references/sandbox/](references/sandbox/README.md) |
+| Lifecycle (all products) | deadlines, cancel / reverse / refund, retries, OTP and hold lifetimes, fiscal receipts | n/a | [references/lifecycle/](references/lifecycle/README.md) |
 
 ## Which product?
 
@@ -59,6 +60,29 @@ and error handling.
   next month), online cards only.
 - Click repeats inbound requests. Make handlers idempotent on `click_trans_id`
   (SHOP API) or `click_paydoc_id` (Advanced / Split).
+
+## Warn without being asked
+
+Raise each item the task touches, even if nobody asked: give its ID, the deadline or
+consequence, and the fix. Every window, refund path and source is in
+[references/lifecycle/](references/lifecycle/README.md).
+
+- `click.complete-after-debit`: after the debit Complete may answer only success, `-4` or
+  `-9`. If you cannot deliver, answer success, then call `payment/reversal`.
+- `click.negative-error-cancels`: Complete with `error < 0` → cancel, answer `-9`, even after
+  an earlier success. Never mark the order paid on it.
+- `click.reversal-month-window`: `payment/reversal` is full only, for the current reporting
+  month; a previous month's payment only on day 1 of the next. Plan another refund path.
+- `click.idempotent-retries`: Click repeats Prepare and Complete after timeouts and errors;
+  key on `click_trans_id` (Advanced Shop: book on `click_paydoc_id`).
+- `click.one-fiscal-receipt`: `submit_items` or `submit_qrcode`, never both, only after the
+  payment; read `payment/ofd_data` before any second submit.
+- `click.no-refund-receipt-api`: no refund-receipt method is documented; ask Click how a
+  reversal is fiscalized before going live.
+- `click.status-1-not-final`: card token and CLICK Pass `payment_status` `1` is not final;
+  poll `payment/status` before charging again.
+- `click.pass-confirm-30s`: CLICK Pass confirmation mode cancels the payment after 30 s;
+  `otp_data` is single-use.
 
 ## Top gotchas
 
@@ -101,8 +125,40 @@ Then compare the real request and response shapes with `schemas/` and `examples/
 SHOP API, also run the 15 Postman generator scenarios. Their exact inputs and run order are
 in [references/sandbox/](references/sandbox/README.md).
 
+## Tools: run them, do not compute by hand
+
+`scripts/` next to this file (`${CLAUDE_SKILL_DIR}/scripts/` in Claude Code) holds two
+python3 scripts, standard library only. Secrets come from environment variables, never from
+arguments, and print as `<SECRET>`.
+
+```sh
+python3 scripts/sign.py --list     # click.prepare, click.complete, click.advanced, click.auth
+python3 scripts/sign.py click.prepare body.txt     # checks sign_string; CLICK_SECRET_KEY
+python3 scripts/validate.py --list [text]
+python3 scripts/validate.py shop-api/prepare body.txt [--part result]
+```
+
+`sign.py` prints the exact string it signed and, given a received value, `MATCH` or
+`MISMATCH`. `validate.py` prints `OK` or `INVALID` with JSON paths; form values
+are coerced to the numbers the schema names. Both exit 1 on a
+mismatch. Run them before you call a signature, header or payload correct, and quote their
+output.
+
 ## Answering rules
 
+- Reply in the user's language, but never translate method names, fields, headers, codes
+  or enum values.
+- Fit the answer to where it goes. In chat, give the conclusion first, in about 100 words
+  unless code is asked for. In a PR or review, write Problem, Change, Validation. Code uses
+  the sandbox values and runs as written.
+- With several providers in one task, work each one from its own SKILL.md, then compare.
+  Never carry a rule (units, auth, retries) over from another provider.
+- Lifecycle: before you finish an answer that creates, confirms, cancels, refunds, retries
+  or fiscalizes a payment, check "Warn without being asked" and
+  [references/lifecycle/](references/lifecycle/README.md). State the deadline, whether the
+  step can be undone and what happens to the fiscal receipt, with the warning ID, even if
+  nobody asked. For an item under "Not documented", say so and send the user to the
+  provider.
 - Quote field names, types and codes exactly as they appear in the reference files. If a
   fact is not there, say the contract does not specify it and point to the vendor page
   listed as `Source:`.

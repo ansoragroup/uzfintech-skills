@@ -31,6 +31,7 @@ test card and the sandbox OTP are in [references/sandbox/](references/sandbox/RE
 | Payouts | create-payout, confirm-payout, get-payout (Uzcard / Humo, `kyc_data` above 10 000 000 UZS) | [references/payouts/](references/payouts/README.md) |
 | Reports | get-application (wallet), get-store (fiscal settings), get-merchant-account, get-payment-history, get-payout-history | [references/reports/](references/reports/README.md) |
 | Sandbox and test data | `dev-mesh` host, the test card and its expiry, OTP `111111`, credential steps, test runs, vendor sample values | [references/sandbox/](references/sandbox/README.md) |
+| Lifecycle (all products) | deadlines, cancel / reverse / refund, retries, OTP and hold lifetimes, fiscal receipts | [references/lifecycle/](references/lifecycle/README.md) |
 
 Every call goes to `https://mesh.multicard.uz/` (sandbox `https://dev-mesh.multicard.uz/`)
 with JSON bodies and `Authorization: Bearer <JWT>` from `POST /auth {application_id, secret}`.
@@ -65,6 +66,29 @@ with JSON bodies and `Authorization: Bearer <JWT>` from `POST /auth {application
   poll the object until a final status. Never resend a money-moving call.
 - `secret` and card data stay on the server. Store the `card_token` and the masked PAN only.
 
+## Warn without being asked
+
+Raise each item the task touches, even if nobody asked: give its ID, the deadline or
+consequence, and the fix. Every window, refund path and source is in
+[references/lifecycle/](references/lifecycle/README.md).
+
+- `multicard.callback-reject-refunds`: answer the success callback HTTP 200
+  `{"success": true}`. Any other answer refunds the payer; a repeat `uuid` gets the same.
+- `multicard.never-resend-money-calls`: confirm, hold charge, scanpay or payout timed out,
+  5xx or `ERROR_DEBIT_UNKNOWN` → poll `GET /payment/{uuid}`, never resend.
+- `multicard.payout-irreversible`: no payout cancel or reversal is documented; above
+  10 000 000 UZS a payout needs `kyc_data`.
+- `multicard.draft-is-not-a-sale`: `POST /payment` and `POST /payment/invoice` move no money;
+  fulfil only on a verified callback or a `success` status.
+- `multicard.hold-expiry-minutes`: hold `expiry` is minutes (max 43200 = 30 days), then the
+  funds return; charge below the held amount and send `ofd` with it.
+- `multicard.partial-refund-new-receipt`: partial refunds must be enabled and need
+  `refund_amount` (tiyin) and `ofd`; `ofd` makes a NEW receipt, the old one is cancelled.
+- `multicard.one-fiscalizer`: `tax_registration` `1` → Multicard fiscalizes, never add your
+  own receipt; `0` → you fiscalize and send the link by `PATCH /payment/{uuid}/fiscal`.
+- `multicard.invoice-ttl`: invoice `ttl` is seconds (default 1 day); an expired one answers
+  `400 ERROR_TRANS_NOT_READY`.
+
 ## Top gotchas
 
 1. Verify the success callback `sign` = md5 of `{store_id}{invoice_id}{amount}{secret}`,
@@ -97,8 +121,40 @@ Run [checklists/common.md](checklists/common.md) first, then the product checkli
 Mark each item pass, fail or n.a. with a file:line citation. Then compare the payloads with
 `schemas/` and `examples/`.
 
+## Tools: run them, do not compute by hand
+
+`scripts/` next to this file (`${CLAUDE_SKILL_DIR}/scripts/` in Claude Code) holds two
+python3 scripts, standard library only. Secrets come from environment variables, never from
+arguments, and print as `<SECRET>`.
+
+```sh
+python3 scripts/sign.py --list     # multicard.callback, multicard.webhook
+python3 scripts/sign.py multicard.webhook body.json   # md5 or sha1 variant; MULTICARD_SECRET
+python3 scripts/validate.py --list [text]
+python3 scripts/validate.py create-invoice body.json [--part result]
+```
+
+`sign.py` prints the exact string it signed and, given a received value, `MATCH` or
+`MISMATCH`. `validate.py` prints `OK` or `INVALID` with JSON paths; a `{success,
+data}` envelope is unwrapped. Both exit 1 on a
+mismatch. Run them before you call a signature, header or payload correct, and quote their
+output.
+
 ## Answering rules
 
+- Reply in the user's language, but never translate method names, fields, headers, codes
+  or enum values.
+- Fit the answer to where it goes. In chat, give the conclusion first, in about 100 words
+  unless code is asked for. In a PR or review, write Problem, Change, Validation. Code uses
+  the sandbox values and runs as written.
+- With several providers in one task, work each one from its own SKILL.md, then compare.
+  Never carry a rule (units, auth, retries) over from another provider.
+- Lifecycle: before you finish an answer that creates, confirms, cancels, refunds, retries
+  or fiscalizes a payment, check "Warn without being asked" and
+  [references/lifecycle/](references/lifecycle/README.md). State the deadline, whether the
+  step can be undone and what happens to the fiscal receipt, with the warning ID, even if
+  nobody asked. For an item under "Not documented", say so and send the user to the
+  provider.
 - Quote endpoints, fields, types and codes exactly as they appear in the references. If a
   fact is not there, say the docs do not specify it and link the `Source:` page.
 - For tests and examples use the sandbox data in

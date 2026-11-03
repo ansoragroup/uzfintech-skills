@@ -31,9 +31,9 @@ Header `X-API-Key: <FISCAL_API_KEY>`. This key is separate from the Checkout key
 
 | Field | Type | Rule |
 |---|---|---|
-| `operation_id` * | uuid | your idempotency key; new per receipt, reuse only for retries |
-| `payment_id` | uuid | payment id; optional on sale, **required** and equal to the sale's on refund |
-| `date_time` * | date-time | Tashkent time of the payment; must be within 24 h of it |
+| `operation_id` * | uuid | your idempotency key: new for every operation (each refund too), the same on a retry |
+| `payment_id` | uuid | card payments: always send it (Checkout `order_id`); cash: optional, Uzum assigns one, so store the returned id; **required** and equal to the sale's on refund |
+| `date_time` * | date-time | payment time, ISO 8601, Tashkent if no zone; sent within 24 h after the confirmed payment and never in the future |
 | `cash_amount` *, `card_amount` * | int | tiyin; sum = receipt total **before** discounts |
 | `card_type` | int | `1` corporate, `2` private, `3` social card |
 | `card_number` | string | required for `card_type` 3: pass the `ofdPan` from Checkout `getOrderStatus` |
@@ -47,8 +47,8 @@ Item fields:
 | Field | Rule |
 |---|---|
 | `product_name` * | up to 63 chars |
-| `price` * | line price in tiyin, before discount |
-| `discount`, `voucher` | tiyin |
+| `price` * | price of **one unit** in tiyin, before discount |
+| `discount`, `voucher` | tiyin, total for all units of the line (`voucher` is not subtracted from the total) |
 | `count` * | number (fractional allowed) |
 | `spic` * | product classification code (IKPU) from tasnif.soliq.uz |
 | `package_code` * | package code for that SPIC |
@@ -63,32 +63,39 @@ Item fields:
 |---|---|---|
 | 200 | `{receipt_id, payment_id, receipt_url}` | registered (`receipt_id` is the tax-committee number) |
 | 202 | `{code, message}` | accepted, not fiscalized yet: `0` OFD timeout, `1` OFD comms error (will retry), `2` still retrying. Poll the receipt URL later |
-| 400 | `{code: 1}` | SPIC or package code invalid |
-| 400 | `{code: 2}` | a receipt with the same `payment_id` and `receipt_type` was already sent |
+| 400 | `{code: 1}` | SPIC or package code invalid; fix it and resend with a new `payment_id` and `operation_id` |
+| 400 | `{code: 2}` | a receipt with the same `payment_id` and `receipt_type` was already sent (one sale receipt per `payment_id`) |
 | 400 (refund) | `{message}` | refund no longer possible (expired) |
 | 403 | `{message}` | auth: header missing, duplicated, or key unknown |
 | 404 (refund, receipt_url) | `{message}` | receipt not found by `payment_id` / `operation_id` |
-| 422 | `{detail[]}` | FastAPI validation; fix the payload |
-| 500 | `{message}` | server error; retry with the same `operation_id` |
+| 422 | `{detail[]}` | validation, for example `date_time should be within 24 hours`; fix the fields in `detail[].loc` |
+| 500 | `{message}` | server error; retry with the same `payment_id` and `operation_id`, with growing pauses (10 s, 15 s, 30 s, 1 min) |
 
 `refund_receipt` 200 returns `{receipt_id, receipt_url}`. `receipt_url` GET returns
 `{receipt_url}` or 202 `{message}` while pending.
 
 ## `/v2/refund_receipt`
 
-Same item shape. `payment_id` must be the sale's `payment_id`; `card_type` only `1` or `2`.
-New `operation_id`.
+Same item shape. `payment_id` must be the sale's `payment_id`, and the sale receipt must
+already be fiscalized. `card_type` only `1` or `2`. Each refund of the same purchase takes a
+new `operation_id`; a retry of one refund reuses its `operation_id`.
 
 ## `/v2/qr_payment`
 
 Required: `payment_id`, `operation_id` (uuid), `paid_sum` (tiyin), `date_time`,
 `commission_info {TIN|PINFL}`, `phone_number`, `receipt_info {terminal_id, receipt_seq}`.
-Optional: `sale_point_address`. 202 semantics as above (`code` 0/1).
+Optional: `sale_point_address`. 202 semantics as above (`code` 0/1). Agree on this method
+with the Uzum development team before you use it.
 
 ## Gotchas
 
 - Amounts are **before discounts**; discounts go in `discount` per item.
-- `date_time` later than 24 h after confirmation is rejected.
+- `date_time` must be within 24 h after the confirmed payment and not in the future; a later
+  receipt fails with 422. Send receipts right after confirmation, not from a daily batch.
+- Results of 202 receipts arrive by polling `receipt_url`, or by callback if you give your
+  Uzum manager a callback URL.
+- Advance (`1`) and credit (`2`) receipts get no fiscal receipt from the tax committee; a
+  non-fiscal receipt link is available on request to your manager.
 - The Testing section mentions `/v2/receipt_url/{operation_id}`; the spec path is
   `/v2/receipt/{operation_id}/receipt_url`. Use the spec path.
 - `commission_info` with both `TIN` and `PINFL` is invalid.

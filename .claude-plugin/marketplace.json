@@ -5,16 +5,25 @@
   },
   "metadata": {
     "description": "Agent skills for Uzbek payment provider APIs.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "uzfintech",
       "source": "./",
-      "description": "Uzum Bank, Alif, Click, Paynet, Payme and Multicard API contracts, schemas, anonymized examples, sandbox test data and validation checklists.",
-      "version": "0.1.0",
+      "description": "Uzum Bank, Alif, Click, Paynet, Payme and Multicard API contracts, schemas, anonymized examples, sandbox test data, lifecycle warnings, checklists, and signature / payload checking tools.",
+      "version": "0.2.0",
       "license": "MIT",
-      "keywords": ["uzum", "alif", "click", "paynet", "payme", "multicard", "payments", "uzbekistan"],
+      "keywords": [
+        "uzum",
+        "alif",
+        "click",
+        "paynet",
+        "payme",
+        "multicard",
+        "payments",
+        "uzbekistan"
+      ],
       "category": "development"
     }
   ]

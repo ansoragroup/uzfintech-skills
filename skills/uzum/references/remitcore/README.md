@@ -41,7 +41,9 @@ Test flow, error cases and the vendor `/v1/register` sample from the Postman col
 CREDIT: register -> process -> code 0 (SUCCESS) | 2000 (async: callback or get_status)
 DEBIT:  register -> process -> 2001 confirmation required
                           OTP: confirm {otp} [resend_otp] ; 3DS: done outside Remit Core
-                   -> SUCCESS / FAILED ; cancel possible while not final
+                   -> SUCCESS / FAILED
+cancel: DEBIT only, from SUCCESS -> CANCELLING -> CANCELLED | CANCELLING_FAILED
+        (CREDIT cancel -> 8003; result may be async: 2000)
 ```
 
 Statuses: `INIT`, `REGISTERED`, `PROCESSING`, `CONFIRMATION`, `CONFIRMING`, `SUCCESS`,

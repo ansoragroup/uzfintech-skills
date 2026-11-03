@@ -28,6 +28,7 @@ Test hosts, cards and scenarios are in [references/sandbox/](references/sandbox/
 | Checkout | GET link, POST form, `Paycom.Button`, `Paycom.QR`, checkout errors `-316xx` | [references/checkout/](references/checkout/README.md) |
 | Fiscalization | `detail` / `items` (`code` IKPU, `package_code`, `vat_percent`), `SetFiscalData`, `receipts.set_fiscal_data` | [references/fiscalization/](references/fiscalization/README.md) |
 | Sandbox and test data | test hosts, test cards and SMS code `666666`, test cabinet login, `TEST_KEY`, Merchant API sandbox scenarios, vendor sample values | [references/sandbox/](references/sandbox/README.md) |
+| Lifecycle (all products) | deadlines, cancel / reverse / refund, retries, OTP and hold lifetimes, fiscal receipts | [references/lifecycle/](references/lifecycle/README.md) |
 
 Merchant API: Payme sends JSON-RPC 2.0 `POST` to your Endpoint URL with
 `Authorization: Basic base64(<login>:<CASHBOX_KEY>)`. Subscribe API: you send JSON-RPC 2.0
@@ -63,6 +64,29 @@ Merchant API: Payme sends JSON-RPC 2.0 `POST` to your Endpoint URL with
   three card-binding methods.
 - Never store raw card numbers or expiry; keep the token and the masked number.
 
+## Warn without being asked
+
+Raise each item the task touches, even if nobody asked: give its ID, the deadline or
+consequence, and the fix. Every window, refund path and source is in
+[references/lifecycle/](references/lifecycle/README.md).
+
+- `payme.create-timeout-12h`: state `1` expires 43 200 000 ms (12 h) after the Payme `time`:
+  cancel it (`-1`, reason `4`), answer `-31008` to Create / Perform, release the order.
+- `payme.idempotent-replays`: Create, Perform and Cancel repeat with the same `id` (the
+  sandbox sends each twice); return the stored answer and fulfil once.
+- `payme.http-200-always`: every Merchant API answer is HTTP 200. A 401 from auth middleware
+  or a 500 from a proxy reads as `-32400`.
+- `payme.check-before-debit`: `CheckPerformTransaction` probes the database, billing and
+  stock and answers `-32400` if one is down, before the payer is debited.
+- `payme.cancel-is-the-refund`: a refund is `CancelTransaction` on state `2` (→ `-2`, reason
+  `5`), always full, no amount; `-31007` refuses. No refund window is documented.
+- `payme.no-second-receipt`: Payme fiscalizes from `detail`; never register your own receipt
+  too. Store `SetFiscalData` `CANCEL` as a separate receipt, never over `PERFORM`.
+- `payme.hold-30-days`: `hold: true` goes in create and pay. Uzcard releases after 30 days;
+  Humo then allows only `receipts.confirm_hold`, which captures the whole amount.
+- `payme.otp-wait-is-validity`: `cards.get_verify_code` `wait` (ms) is how long the SMS code
+  stays valid, not a resend cooldown.
+
 ## Top gotchas
 
 1. The doc site swaps two pages: `/checkperformtransaction/` shows CheckTransaction and
@@ -97,8 +121,41 @@ Run [checklists/common.md](checklists/common.md) first, then the product checkli
 Mark each item pass, fail or n.a. with a file:line citation. Then compare the payloads with
 `schemas/` and `examples/`.
 
+## Tools: run them, do not compute by hand
+
+`scripts/` next to this file (`${CLAUDE_SKILL_DIR}/scripts/` in Claude Code) holds two
+python3 scripts, standard library only. Secrets come from environment variables, never from
+arguments, and print as `<SECRET>`.
+
+```sh
+python3 scripts/sign.py --list     # payme.basic, payme.xauth, payme.checkout
+python3 scripts/sign.py payme.basic -f login=Paycom --expect '<Authorization>'  # PAYME_KEY
+python3 scripts/sign.py payme.checkout -f m=<ID> -f ac.order_id=<ORDER> -f a=<TIYIN>
+python3 scripts/validate.py --list [text]
+python3 scripts/validate.py CreateTransaction body.json [--part result]
+```
+
+`sign.py` prints the exact string it signed and, given a received value, `MATCH` or
+`MISMATCH`. `validate.py` prints `OK` or `INVALID` with JSON paths; the JSON-RPC
+envelope is unwrapped. Both exit 1 on a
+mismatch. Run them before you call a signature, header or payload correct, and quote their
+output.
+
 ## Answering rules
 
+- Reply in the user's language, but never translate method names, fields, headers, codes
+  or enum values.
+- Fit the answer to where it goes. In chat, give the conclusion first, in about 100 words
+  unless code is asked for. In a PR or review, write Problem, Change, Validation. Code uses
+  the sandbox values and runs as written.
+- With several providers in one task, work each one from its own SKILL.md, then compare.
+  Never carry a rule (units, auth, retries) over from another provider.
+- Lifecycle: before you finish an answer that creates, confirms, cancels, refunds, retries
+  or fiscalizes a payment, check "Warn without being asked" and
+  [references/lifecycle/](references/lifecycle/README.md). State the deadline, whether the
+  step can be undone and what happens to the fiscal receipt, with the warning ID, even if
+  nobody asked. For an item under "Not documented", say so and send the user to the
+  provider.
 - Quote method names, fields, types and codes exactly as they appear in the references. If
   a fact is not there, say the docs do not specify it and link the `Source:` page.
 - For tests and examples use the sandbox data in

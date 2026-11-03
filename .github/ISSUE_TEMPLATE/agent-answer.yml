@@ -1,0 +1,30 @@
+name: Bad agent answer
+description: An agent with the skills loaded gave a wrong, invented or unhelpful answer.
+labels: [behaviour]
+body:
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and model
+      placeholder: Claude Code, Opus 5.5
+    validations:
+      required: true
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Your prompt
+    validations:
+      required: true
+  - type: textarea
+    id: answer
+    attributes:
+      label: What the agent answered, and what it should have answered
+      description: Remove credentials and personal data.
+    validations:
+      required: true
+  - type: checkboxes
+    id: eval
+    attributes:
+      label: Eval
+      options:
+        - label: I can turn this into an eval case in evals/

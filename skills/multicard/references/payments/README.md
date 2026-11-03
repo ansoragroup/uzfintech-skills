@@ -75,7 +75,9 @@ read the receipt from `tax.qr_url` / `refund_tax.qr_url` instead.
 - Full refund: `DELETE /payment/{uuid}` with no body. The payment becomes `revert`, and
   `refund_time` is set.
 - Partial refund: `DELETE /payment/{uuid}/partial {refund_amount, ofd}`. Multicard must
-  enable partial refunds on your terminal first. `ofd` lists the refunded items.
+  enable partial refunds on your terminal first. The vendor says `ofd` is the data for a
+  NEW receipt and the old receipt is cancelled; which items it lists is not stated, so ask
+  Multicard.
   `card_pan` (a **full** PAN) is required only for payments made in an app (Payme, Click,
   ...); leave it out for Uzcard, Humo, Visa and Mastercard card payments.
 - A refund that is no longer possible answers `404 ERROR_NOT_FOUND`; the page text calls it

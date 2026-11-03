@@ -1,0 +1,387 @@
+#!/usr/bin/env python3
+"""Repository checks for uzfintech-skills. python3 standard library only.
+
+  scripts/lint          run every check; exit 1 on any failure
+  scripts/lint --fix    first copy scripts/shared/*.py into every skills/<provider>/scripts/
+  scripts/lint --only frontmatter,links
+
+Checks:
+  tools        skills/*/scripts/*.py equal scripts/shared/; sign.py --selftest passes;
+               validate.py runs on every schema without crashing
+  examples     every examples/<op>.request|response.json validates against the schema
+               of the same name (placeholders such as "<CARD_TOKEN>" are not checked)
+  frontmatter  SKILL.md name/description follow the Agent Skills spec; body <= 180 lines
+               and ~5000 tokens (CONTRIBUTING rule 7)
+  json         every JSON file parses
+  links        relative Markdown links resolve
+  scan         the anonymization scan from CONTRIBUTING (sandbox files are exempt from
+               the id, card and phone scans) and the no-commercial-terms rule; hash- or
+               base64-shaped tokens are listed for review, not failed
+  i18n         every translated README and wiki page exists in en, ru, uz, zh-CN; Uzbek
+               text uses U+02BB in oʻ/gʻ
+  versions     plugin.json, marketplace.json and CHANGELOG.md agree
+  lifecycle    every skill has references/lifecycle/README.md with the required sections;
+               SKILL.md has "Warn without being asked" and every warning ID there, in the
+               docs and in evals is defined on the provider's lifecycle page
+"""
+import argparse
+import contextlib
+import filecmp
+import glob
+import importlib.util
+import io
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import traceback
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SHARED = os.path.join(ROOT, "scripts", "shared")
+LANGS = ["ru", "uz", "zh-CN"]
+FAILS = []
+
+
+def fail(check, where, msg):
+    FAILS.append("%s: %s: %s" % (check, os.path.relpath(where, ROOT) if os.path.isabs(where) else where, msg))
+
+
+def skills():
+    return sorted(p for p in glob.glob(os.path.join(ROOT, "skills", "*")) if os.path.isdir(p))
+
+
+def files(*patterns):
+    out = []
+    for pat in patterns:
+        out += glob.glob(os.path.join(ROOT, pat), recursive=True)
+    return sorted(set(p for p in out if os.path.isfile(p) and "/cache/" not in p))
+
+
+def check_tools(fix):
+    for skill in skills():
+        dest = os.path.join(skill, "scripts")
+        for src in sorted(glob.glob(os.path.join(SHARED, "*.py"))):
+            target = os.path.join(dest, os.path.basename(src))
+            if fix:
+                os.makedirs(dest, exist_ok=True)
+                shutil.copyfile(src, target)
+                os.chmod(target, 0o755)
+            elif not os.path.isfile(target) or not filecmp.cmp(src, target, shallow=False):
+                fail("tools", target, "differs from scripts/shared; run scripts/lint --fix")
+        sign = os.path.join(dest, "sign.py")
+        if os.path.isfile(sign):
+            r = subprocess.run([sys.executable, sign, "--selftest"], capture_output=True, text=True)
+            if r.returncode:
+                fail("tools", sign, "--selftest failed:\n" + r.stdout + r.stderr)
+    validator = load_validate()
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
+        fh.write("{}")
+    try:
+        for schema in schemas():
+            for part in ([], ["--part", "result"], ["--part", "response"]):
+                code, out = run_validate(validator, [schema, fh.name] + part)
+                if code > 2:
+                    fail("tools", schema, "validate.py crashed: " + out.strip().splitlines()[-1])
+    finally:
+        os.unlink(fh.name)
+
+
+def load_validate():
+    spec = importlib.util.spec_from_file_location("validate", os.path.join(SHARED, "validate.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def run_validate(mod, args):
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
+        try:
+            code = mod.main(args)
+        except SystemExit as e:
+            code = e.code if isinstance(e.code, int) else 2
+        except Exception:
+            code = 3
+            out.write(traceback.format_exc())
+    return code, out.getvalue()
+
+
+def schemas(product_dir="skills/*/references/*"):
+    return [p for p in files(product_dir + "/schemas/**/*.json") if not p.endswith("openapi.min.json")]
+
+
+def check_examples(_):
+    validator = load_validate()
+    norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
+    for ex in files("skills/*/references/*/examples/*.json"):
+        m = re.match(r"(.+?)\.(request|response)\.json$", os.path.basename(ex))
+        if not m:
+            continue
+        stem, kind = m.groups()
+        product = os.path.relpath(os.path.dirname(os.path.dirname(ex)), ROOT)
+        hits = [p for p in schemas(product)
+                if norm(os.path.basename(p)[:-5]) in (norm(stem), norm("webhook-" + stem))]
+        if len(hits) != 1:
+            continue
+        doc = json.load(open(hits[0], encoding="utf-8"))
+        if "requestBody" in doc or "responses" in doc:
+            part = kind
+        else:
+            part = "params" if kind == "request" else "result"
+            if part not in doc:
+                continue
+        code, out = run_validate(validator, [hits[0], ex, "--part", part])
+        if code:
+            fail("examples", ex, "does not match %s:\n    %s" % (
+                os.path.relpath(hits[0], ROOT), out.strip().replace("\n", "\n    ")))
+
+
+def frontmatter(path):
+    text = open(path, encoding="utf-8").read()
+    m = re.match(r"---\n(.*?)\n---\n(.*)", text, re.S)
+    if not m:
+        return None, text
+    meta, key = {}, None
+    for line in m.group(1).splitlines():
+        km = re.match(r"([A-Za-z0-9_-]+):\s*(.*)", line)
+        if km:
+            key, meta[km.group(1)] = km.group(1), km.group(2).strip()
+        elif key and line.startswith(" "):
+            meta[key] += " " + line.strip()
+    return meta, m.group(2)
+
+
+def check_frontmatter(_):
+    allowed = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
+    for skill in skills():
+        path = os.path.join(skill, "SKILL.md")
+        meta, body = frontmatter(path)
+        if meta is None:
+            fail("frontmatter", path, "no YAML frontmatter")
+            continue
+        name, desc = meta.get("name", ""), meta.get("description", "").strip("\"'")
+        if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", name) or len(name) > 64:
+            fail("frontmatter", path, "name must be 1-64 lowercase letters, digits and single hyphens")
+        if name != os.path.basename(skill):
+            fail("frontmatter", path, "name %r must match the directory" % name)
+        if not desc or len(desc) > 1024:
+            fail("frontmatter", path, "description must be 1-1024 chars, has %d" % len(desc))
+        elif not re.search(r"\bUse when\b", desc):
+            fail("frontmatter", path, "description should say when to use the skill ('Use when ...')")
+        for k in sorted(set(meta) - allowed):
+            fail("frontmatter", path, "unknown frontmatter key %r" % k)
+        lines = body.count("\n")
+        if lines > 180:
+            fail("frontmatter", path, "body has %d lines; keep SKILL.md a router (<= 180)" % lines)
+        if len(body) / 4 > 5000:
+            fail("frontmatter", path, "body is ~%d tokens; the spec asks for < 5000" % (len(body) / 4))
+
+
+def check_json(_):
+    for path in files("skills/**/*.json", ".claude-plugin/*.json", "evals/**/*.json"):
+        try:
+            json.load(open(path, encoding="utf-8"))
+        except ValueError as e:
+            fail("json", path, str(e))
+
+
+LINK = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def check_links(_):
+    for path in files("*.md", "docs/**/*.md", "skills/**/*.md", "evals/**/*.md", ".github/**/*.md"):
+        in_fence = False
+        for n, line in enumerate(open(path, encoding="utf-8"), 1):
+            if line.lstrip().startswith("```"):
+                in_fence = not in_fence
+            if in_fence:
+                continue
+            for target in LINK.findall(line):
+                if re.match(r"[a-z][a-z0-9+.-]*:", target) or target.startswith("#"):
+                    continue
+                target = target.split("#")[0].split("?")[0]
+                base = os.path.dirname(path)
+                if "/docs/wiki/" in path:  # wiki pages link to each other by bare page name
+                    if os.path.exists(os.path.join(base, target + ".md")):
+                        continue
+                if not os.path.exists(os.path.normpath(os.path.join(base, target))):
+                    fail("links", "%s:%d" % (os.path.relpath(path, ROOT), n), "broken link %s" % target)
+
+
+SCANS = [
+    ("secret", r"(?i)(api[_-]?key|secret|token|password|authorization)\"?\s*[:=]\s*\"?[A-Za-z0-9+/=_-]{16,}", False),
+    ("card number", r"(?<!\d)(8600|9860|5614|4\d{3}|5[1-5]\d{2})\d{12}(?!\d)", True),
+    ("phone", r"998(?!901234567)\d{9}", True),
+    ("e-mail", r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}", False),
+    ("IPv4", r"\b\d{1,3}(\.\d{1,3}){3}\b", False),
+]
+TOKEN = re.compile(r"(?<![\w/.:-])[A-Za-z0-9+/]{24,}={0,2}(?![\w/=-])")
+SOURCE_HASH = re.compile(r'"(labels_)?sha(1|256)"\s*:\s*"[0-9a-f]+"')
+REVIEW = []
+
+
+def suspicious(line):
+    """Hash- or base64-looking tokens; paths, identifiers and source hashes are skipped."""
+    for tok in TOKEN.findall(SOURCE_HASH.sub("", line)):
+        if "/" in tok and not tok.endswith("="):
+            continue
+        if re.fullmatch(r"(?:[A-Z][a-z]+|[a-z]{3,}|[A-Z0-9]{1,4})+", tok):
+            continue  # CamelCase identifier such as PaymentB2BRegisterResponse
+        yield tok
+
+
+RATE_WORDS = re.compile(r"(?i)commission|комисс|payout|выплат|tariff|тариф|settlement|komissiya|佣金|费率")
+RATE = re.compile(r"\d+([.,]\d+)?\s?%|\bT\s?\+\s?\d\b")
+
+
+def check_scan(_):
+    for path in files("skills/**/*"):
+        rel = os.path.relpath(path, ROOT)
+        if "/scripts/" in rel or not rel.endswith((".md", ".json", ".yaml", ".yml", ".txt")):
+            continue
+        sandbox = "/references/sandbox/" in rel
+        for n, line in enumerate(open(path, encoding="utf-8"), 1):
+            for label, pattern, sandbox_exempt in SCANS:
+                if sandbox and sandbox_exempt:
+                    continue
+                if label == "secret" and sandbox:
+                    continue  # vendor sample tokens are kept there on purpose (CONTRIBUTING 5)
+                m = re.search(pattern, line)
+                if m:
+                    fail("scan", "%s:%d" % (rel, n), "%s %r; anonymize it" % (label, m.group(0)[:40]))
+            if not sandbox:
+                for tok in sorted(set(suspicious(line))):
+                    REVIEW.append("%s:%d %s" % (rel, n, tok[:48]))
+            if rel.endswith(".md") and RATE_WORDS.search(line) and RATE.search(line):
+                fail("scan", "%s:%d" % (rel, n), "looks like a commercial rate (CONTRIBUTING 8)")
+
+
+def check_i18n(_):
+    if not os.path.isfile(os.path.join(ROOT, "README.md")):
+        return
+    for lang in LANGS:
+        if not os.path.isfile(os.path.join(ROOT, "README.%s.md" % lang)):
+            fail("i18n", "README.%s.md" % lang, "missing translation")
+    wiki = os.path.join(ROOT, "docs", "wiki")
+    if os.path.isdir(wiki):
+        pages = {os.path.basename(p)[:-3] for p in glob.glob(os.path.join(wiki, "*.md"))}
+        base = {p for p in pages if not re.search(r"\.(%s)$" % "|".join(LANGS), p) and not p.startswith("_")}
+        for page in sorted(base):
+            for lang in LANGS:
+                if "%s.%s" % (page, lang) not in pages:
+                    fail("i18n", "docs/wiki/%s.%s.md" % (page, lang), "missing translation of %s" % page)
+    bad = re.compile(r"(?i)(?<=[og])['’‘`]")
+    for path in files("README.uz.md", "docs/wiki/*.uz.md", "docs/wiki/*uz*.md"):
+        in_code = False
+        for n, line in enumerate(open(path, encoding="utf-8"), 1):
+            if line.lstrip().startswith("```"):
+                in_code = not in_code
+            text = re.sub(r"`[^`]*`", "", line)
+            if not in_code and bad.search(text):
+                fail("i18n", "%s:%d" % (os.path.relpath(path, ROOT), n),
+                     "write oʻ/gʻ with U+02BB (ʻ), not an apostrophe")
+
+
+def check_versions(_):
+    plugin = json.load(open(os.path.join(ROOT, ".claude-plugin", "plugin.json")))
+    market = json.load(open(os.path.join(ROOT, ".claude-plugin", "marketplace.json")))
+    want = plugin.get("version")
+    if market.get("metadata", {}).get("version") != want:
+        fail("versions", "marketplace.json", "metadata.version != plugin.json %s" % want)
+    for p in market.get("plugins", []):
+        if p.get("version") not in (None, want):
+            fail("versions", "marketplace.json", "plugin %s version != %s" % (p.get("name"), want))
+    log = os.path.join(ROOT, "CHANGELOG.md")
+    if os.path.isfile(log):
+        m = re.search(r"^## \[?(\d+\.\d+\.\d+)", open(log, encoding="utf-8").read(), re.M)
+        if not m or m.group(1) != want:
+            fail("versions", "CHANGELOG.md", "latest entry is not %s" % want)
+
+
+LIFECYCLE_SECTIONS = ["Warn without being asked", "Deadlines and windows", "Cancel, reverse and refund",
+                      "Retries and idempotency", "Fiscal receipts", "Not documented"]
+WARN_ID = re.compile(r"`([a-z]+)\.([a-z0-9]+(?:-[a-z0-9]+)+)`")
+
+
+def section(text, title):
+    m = re.search(r"^## %s.*?$(.*?)(?=^## |\Z)" % re.escape(title), text, re.M | re.S)
+    return m.group(1) if m else None
+
+
+def check_lifecycle(_):
+    defined = {}
+    for d in skills():
+        provider = os.path.basename(d)
+        page = os.path.join(d, "references", "lifecycle", "README.md")
+        if not os.path.isfile(page):
+            fail("lifecycle", page, "missing")
+            continue
+        text = open(page, encoding="utf-8").read()
+        for title in LIFECYCLE_SECTIONS:
+            if section(text, title) is None:
+                fail("lifecycle", page, "missing section '## %s'" % title)
+        ids = re.findall(r"^\s*\d+\. \*\*`([a-z]+\.[a-z0-9-]+)`\*\*", section(text, LIFECYCLE_SECTIONS[0]) or "", re.M)
+        if not ids:
+            fail("lifecycle", page, "no numbered **`%s.<id>`** warnings" % provider)
+        for wid in ids:
+            if not wid.startswith(provider + "."):
+                fail("lifecycle", page, "%s is not prefixed with %s." % (wid, provider))
+            if wid in defined:
+                fail("lifecycle", page, "duplicate warning ID %s" % wid)
+            defined[wid] = provider
+        skill = os.path.join(d, "SKILL.md")
+        block = section(open(skill, encoding="utf-8").read(), "Warn without being asked")
+        if block is None:
+            fail("lifecycle", skill, "missing '## Warn without being asked'")
+            continue
+        if "references/lifecycle/README.md" not in block:
+            fail("lifecycle", skill, "warn block does not link references/lifecycle/README.md")
+        inlined = re.findall(r"^- `([a-z]+\.[a-z0-9-]+)`:", block, re.M)
+        if not inlined:
+            fail("lifecycle", skill, "warn block has no '- `%s.<id>`:' items" % provider)
+        for wid in inlined:
+            if wid not in ids:
+                fail("lifecycle", skill, "%s is not defined in references/lifecycle/README.md" % wid)
+    providers = {os.path.basename(d) for d in skills()}
+    for path in files("*.md", "docs/**/*.md", "evals/**/*.md", "skills/**/*.md"):
+        for n, line in enumerate(open(path, encoding="utf-8"), 1):
+            for prov, topic in WARN_ID.findall(line):
+                wid = "%s.%s" % (prov, topic)
+                if prov in providers and wid not in defined:
+                    fail("lifecycle", "%s:%d" % (os.path.relpath(path, ROOT), n), "unknown warning ID %s" % wid)
+
+
+CHECKS = {"tools": check_tools, "examples": check_examples, "frontmatter": check_frontmatter, "json": check_json,
+          "links": check_links, "scan": check_scan, "i18n": check_i18n, "versions": check_versions,
+          "lifecycle": check_lifecycle}
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--fix", action="store_true")
+    ap.add_argument("--verbose", action="store_true", help="list every token to review")
+    ap.add_argument("--only", help="comma-separated checks: " + ",".join(CHECKS))
+    a = ap.parse_args()
+    names = a.only.split(",") if a.only else list(CHECKS)
+    for name in names:
+        if name not in CHECKS:
+            ap.error("unknown check %s" % name)
+        before = len(FAILS)
+        CHECKS[name](a.fix)
+        print("%-12s %s" % (name, "ok" if len(FAILS) == before else "%d problem(s)" % (len(FAILS) - before)))
+    for f in FAILS:
+        print("  " + f)
+    if REVIEW:
+        print("review by hand (hash or base64 shaped; made-up ids are fine, vendor values are not):")
+        for r in REVIEW if a.verbose else REVIEW[:5]:
+            print("  " + r)
+        if not a.verbose and len(REVIEW) > 5:
+            print("  ... %d more, run with --verbose" % (len(REVIEW) - 5))
+    return 1 if FAILS else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

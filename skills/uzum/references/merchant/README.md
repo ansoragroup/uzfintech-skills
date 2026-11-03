@@ -93,25 +93,31 @@ Confirm-only fields:
 | 10007 | Payment attribute (`params` value) not found | check, create |
 | 10008 | Already paid | check, create |
 | 10009 | Payment cancelled | check, create |
-| 10010 | `transId` already exists (duplicate create with different data) | create |
+| 10010 | `transId` already created (repeated `/create` with the same `transId`) | create |
 | 10011 | Invalid amount | create |
-| 10012 | Amount below minimum | check, create |
-| 10013 | Amount above maximum | check, create |
+| 10012 | Amount below minimum | create |
+| 10013 | Amount above maximum | create |
 | 10014 | Transaction not found | confirm, reverse, status |
 | 10015 | Transaction cancelled, cannot confirm | confirm |
-| 10016 | Transaction already confirmed | reverse (policy) |
+| 10016 | Transaction already confirmed (repeated `/confirm`) | confirm |
 | 10017 | Transaction cannot be cancelled | reverse |
-| 10018 | Transaction already cancelled | reverse |
+| 10018 | Transaction already cancelled (repeated `/reverse`) | reverse |
 | 99999 | Internal error | all |
 
 ## Idempotency rules (derived)
 
-- `create` with an existing `transId` and identical `params`/`amount`: return the same
-  `CREATED` response (same `transTime`). Different data: `10010`.
-- `confirm` on an already `CONFIRMED` transaction: return `CONFIRMED` with the original
-  `confirmTime` (retries happen after timeouts). On `REVERSED`: `10015`.
-- `reverse` on `REVERSED`: `10018`, or the original `REVERSED` response if you prefer
-  idempotent replies. Decide once and document it.
+The vendor error table names an answer for every repeat:
+
+- `create` again with the same `transId`: `10010`. The vendor does not say whether a
+  repeat with identical data should instead replay `CREATED`; ask Uzum before you rely on
+  either reading.
+- `confirm` on an already `CONFIRMED` transaction: `10016`. On a cancelled one: `10015`.
+- `reverse` on an already `REVERSED` transaction: `10018`.
+- After a lost or failed `/confirm` answer (5xx, timeout) Uzum does not resend `/confirm`;
+  it polls `/status` up to 10 times. `/status` must return the committed state
+  (`CONFIRMED` with the stored `confirmTime`), so the confirm must commit before you answer.
+- Whether Uzum treats `10016` as success or as a failed confirm is not published. Make
+  `/status` correct so the outcome never depends on it.
 - A second `create` for an order that already has a live transaction: decide whether
   to reject (`10008` if paid) or allow; Uzum does not dedupe by `params`.
 

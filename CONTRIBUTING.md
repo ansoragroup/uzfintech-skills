@@ -43,10 +43,21 @@ first, because they are what keeps this repository publishable.
    material the vendor marks confidential.
 6. **English content.** Error descriptions may stay in Russian where the upstream contract
    is Russian.
-7. **SKILL.md stays a router.** Keep it under ~150 lines and move detail into `references/`.
+7. **SKILL.md stays a router.** Keep it under 180 lines and move detail into `references/`.
 8. **No commercial terms.** Commission rates, payout percentages, settlement periods (T+1)
    and tariffs differ per merchant contract, so leave them out, even when a vendor page or
    an offer prints them. Fee fields in the API contract (`commission`, `fee`) stay.
+9. **Lifecycle facts are kept and surfaced.** Every deadline, time window, cancel / reverse /
+   refund rule, retry and idempotency rule, hold expiry, OTP lifetime and fiscal receipt rule
+   goes into `skills/<provider>/references/lifecycle/README.md`, with its source. The ones
+   that cost money or a tax problem when missed also get a line with a stable ID
+   (`<provider>.<topic>`, for example `uzum.fiscal-receipt-24h`) in the `SKILL.md` block
+   "Warn without being asked". Never rename an ID; add a new one instead. When the vendor
+   does not document a window, list it under "Not documented, ask the provider" rather than
+   guessing.
+10. **Tools are shared.** `sign.py` and `validate.py` are edited only in `scripts/shared/`;
+    `scripts/lint --fix` copies them into every skill. A new signature scheme needs a
+    self-test vector.
 
 ## Adding a product to an existing provider
 
@@ -90,9 +101,13 @@ first, because they are what keeps this repository publishable.
    `<operation>.response.json`, and keep bodies only, because headers belong in the README.
 5. Add the product's test hosts, test cards, codes, scenarios and samples to
    `references/sandbox/README.md` (content rule 5).
-6. Add `checklists/<product>.md`.
-7. Add the product to the provider's `SKILL.md` (products table, decision table, gotchas,
+6. Add the product's deadlines, cancel / refund rules, retries and receipt rules to
+   `references/lifecycle/README.md`, and a warning line to `SKILL.md` for each one that is
+   costly to miss (content rule 9).
+7. Add `checklists/<product>.md`.
+8. Add the product to the provider's `SKILL.md` (products table, decision table, gotchas,
    checklist list).
+9. Add an eval case in `evals/` for the most likely mistake (see `evals/README.md`).
 
 ## Adding a provider
 
@@ -108,37 +123,44 @@ first, because they are what keeps this repository publishable.
    The description is what the agent matches on, so name the products, API hosts and tasks.
 2. If the provider has cross-product rules (transport, error envelope, signatures), put them in
    `skills/<provider>/references/common/README.md`.
-3. Create `skills/<provider>/references/sandbox/README.md` (content rule 5) and give it a row
-   in the `SKILL.md` products table.
+3. Create `skills/<provider>/references/sandbox/README.md` (content rule 5) and
+   `skills/<provider>/references/lifecycle/README.md` (content rule 9), and give both a row in
+   the `SKILL.md` products table.
 4. Add each product as described above.
-5. Add a row to the skills table in `README.md`, and update the plugin descriptions in
-   `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
-6. For providers without OpenAPI specs (HTML docs only), hand-write the schemas. Mark each one
+5. Run `scripts/lint --fix` to copy the tools into `skills/<provider>/scripts/`, and add the
+   provider's schemes to `scripts/shared/sign.py`.
+6. Add a row to the skills table in `README.md` and its translations, and update the plugin
+   descriptions in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
+7. For providers without OpenAPI specs (HTML docs only), hand-write the schemas. Mark each one
    with `x-uzfintech-source` and track the pages as `kind: html`.
 
 ## Checks before a PR
 
 ```sh
-scripts/sync --selftest                                   # YAML parser self-test
-find skills .claude-plugin -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null
+scripts/lint --fix          # copy scripts/shared/*.py into every skill, then run every check
+scripts/lint                # must print ok for every check; CI runs the same
+scripts/sync --selftest     # YAML parser self-test, needs PyYAML
 ```
 
-Anonymization scan. Outside `references/sandbox/` every command should print nothing; review
-any hit by hand. Vendor test data is expected in `references/sandbox/`, so the id, card and
-phone scans skip it, and a secrets hit there must be a vendor sample value, never a working
-credential.
+`scripts/lint` runs these checks; pick some with `--only scan,links`:
 
-```sh
-# secrets and tokens (sandbox files included: no pre-filled vendor credentials there either)
-rg -n -i '(api[_-]?key|secret|token|password|authorization)"?\s*[:=]\s*"?[A-Za-z0-9+/=_-]{16,}' skills
-rg -n -P '\b[A-Fa-f0-9]{32,}\b|\b[A-Za-z0-9+/]{24,}={0,2}(?=["\s])' skills -g '!**/references/sandbox/**'
-# card numbers (16 digits) and phones other than the placeholder
-rg -n -P '(?<!\d)(8600|9860|5614|4\d{3}|5[1-5]\d{2})\d{12}(?!\d)' skills -g '!**/references/sandbox/**'
-rg -n -P '998\d{9}' skills -g '!**/references/sandbox/**' | rg -v '998901234567'
-# e-mails and IPv4 addresses
-rg -n -P '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}' skills
-rg -n -P '\b\d{1,3}(\.\d{1,3}){3}\b' skills
-```
+| Check | Fails when |
+|---|---|
+| `tools` | a skill's copy of a tool differs from `scripts/shared/`, `sign.py --selftest` fails, or `validate.py` crashes on a schema |
+| `examples` | an `examples/<op>.request.json` or `<op>.response.json` does not validate against its schema |
+| `frontmatter` | `SKILL.md` breaks the Agent Skills spec (name, description with "Use when") or is over 180 lines |
+| `json` | a JSON file does not parse |
+| `links` | a relative Markdown link is broken |
+| `scan` | the anonymization scan below finds a hit, or a commercial rate appears |
+| `i18n` | a README or wiki translation is missing, or Uzbek uses an apostrophe in oʻ / gʻ |
+| `versions` | `plugin.json`, `marketplace.json` and `CHANGELOG.md` disagree |
+| `lifecycle` | a skill has no `references/lifecycle/README.md` or is missing a section, `SKILL.md` has no "Warn without being asked" block, or a warning ID is used that the provider's lifecycle page does not define |
+
+The `scan` check covers the anonymization rules. Outside `references/sandbox/` it fails on
+secrets, card numbers, phones other than the placeholder, e-mails and IPv4 addresses, and
+lists hash- or base64-shaped tokens for review (`--verbose` prints them all). Vendor test
+data is expected in `references/sandbox/`, so the id, card and phone scans skip it, and a
+secrets hit there must be a vendor sample value, never a working credential.
 
 In `references/sandbox/`, check that every card, phone, id and code appears in the linked
 vendor source. Also search for anything specific to your own company: product names, domains, merchant
@@ -147,5 +169,8 @@ and service ids, and order number ranges.
 ## Commits and PRs
 
 - Use one topic per PR, and give each change a source: link the vendor page it came from.
+- Changed behaviour gets an eval run: `claude plugin eval . --tag <provider>`.
+- Update the README and wiki translations in the same PR, or open an issue for them.
+  Uzbek uses the Latin script with U+02BB in oʻ / gʻ.
 - For sync PRs opened by the workflow, re-read the flagged pages and update the
   hand-written `README.md` and checklists before merging.

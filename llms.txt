@@ -1,0 +1,28 @@
+# uzfintech-skills
+
+> Agent skills with exact API contracts for the payment providers of Uzbekistan: Uzum Bank, Alif, Click, Paynet, Payme and Multicard. Each skill is a SKILL.md router with contract notes, trimmed JSON Schemas, anonymized examples, vendor sandbox data, lifecycle rules (deadlines, cancel / refund, retries, fiscal receipts), checklists, and two python3 tools that compute signatures and validate payloads.
+
+Read the provider's SKILL.md first and follow its pointers. Run scripts/sign.py and scripts/validate.py instead of computing signatures by hand. Amounts: Payme in tiyin, Click in sum; check each provider's SKILL.md. Commission rates and settlement terms are per merchant contract and are not in the skills.
+
+## Skills
+
+- [Uzum Bank](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/uzum/SKILL.md): Merchant API webhooks, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub
+- [Alif](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/alif/SKILL.md): alifpay Checkout, Payments, Cards, Hold, Monitoring, Summary, legacy API map
+- [Click](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/click/SKILL.md): SHOP API, Advanced / Split Shop, Merchant API, card tokens, Fiscalization, CLICK Pass, Telegram Payments
+- [Paynet](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/paynet/SKILL.md): internet acquiring for Humo and Uzcard
+- [Payme](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/payme/SKILL.md): Merchant API, Subscribe API, Checkout, Fiscalization
+- [Multicard](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/multicard/SKILL.md): invoices, card binding, payments, refunds, holds, payouts, reports
+
+## Docs
+
+- [README](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/README.md): install, how it works, tools
+- [Tools](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/docs/wiki/Tools.md): every sign.py scheme and validate.py option
+- [Agent guide](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/docs/wiki/Agent-guide.md): how an agent should use the skills and what a good answer looks like
+- [Lifecycle](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/docs/wiki/Lifecycle.md): deadlines, cancel / refund and receipt rules for every provider
+- [AGENTS.md](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/AGENTS.md): rules for agents that use or change this repository
+
+## Optional
+
+- [Install](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/docs/wiki/Install.md): skills CLI, Claude Code plugin, manual copy, AGENTS.md
+- [Evals](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/docs/wiki/Evals.md): behaviour tests with claude plugin eval
+- [Contributing](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/CONTRIBUTING.md): content rules and checks

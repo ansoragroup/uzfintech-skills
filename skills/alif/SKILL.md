@@ -23,6 +23,7 @@ Examples are bodies only. The transport, the `Token` header and the error envelo
 |---|---|---|
 | Common (all products) | transport, auth, error codes, webhook `Signature`, changelog | [references/common/](references/common/README.md) |
 | Sandbox | `api-dev` / `checkout-dev` hosts, test cards, OTP, PINFL, QR test tokens, `_` methods, vendor samples, test plan | [references/sandbox/](references/sandbox/README.md) |
+| Lifecycle (all products) | deadlines, cancel / reverse / refund, retries, OTP and hold lifetimes, fiscal receipts | [references/lifecycle/](references/lifecycle/README.md) |
 | Checkout | `invoice`, `getInvoice`, `refundInvoice`, `sendInvoice`, `addInvoiceReceiptURL`, `chargeInvoiceHold`, `_payInvoiceWithMobi` | [references/checkout/](references/checkout/README.md) |
 | Payments | `pay`, `confirmPayment`, `getPayment`, `refundPayment`, `applyPayouts`, `refundPaymentPartial`, `getRefund`, `registerReceipt`, `_completeInstallmentRefund` | [references/payments/](references/payments/README.md) |
 | Cards | `getCardToken`, `confirmCardToken`, `matchCardPIN`, `getCardType` | [references/cards/](references/cards/README.md) |
@@ -67,6 +68,29 @@ Every method is `POST https://api.alifpay.uz/v2/<method>` (sandbox:
 - Only `SUCCEEDED` means paid. `OTP_REQUIRED`, `PENDING`, `PENDING_REVERSAL` and `HELD` are
   not final, and `UNKNOWN_ERROR` must be read back.
 
+## Warn without being asked
+
+Raise each item the task touches, even if nobody asked: give its ID, the deadline or
+consequence, and the fix. Every window, refund path and source is in
+[references/lifecycle/](references/lifecycle/README.md).
+
+- `alif.webhook-1h-auto-refund`: Alif retries a webhook for about an hour; with no HTTP 200
+  the payment is cancelled and refunded. Verify, answer 200 at once, process later.
+- `alif.persist-id-first`: you generate `id` for `pay`, `hold`, `refundPaymentPartial`; store
+  it first. After a timeout or `1003` read back before any retry; `1108` needs a new `id`.
+- `alif.error-is-http-200`: errors arrive as HTTP 200 with `{error:{code, message}}`. Only
+  `SUCCEEDED` is paid; `UNKNOWN_ERROR` needs a read back.
+- `alif.hold-expiry-10-30-days`: capture a `hold` before the scheme releases it (10 days Humo,
+  30 days Uzcard). `dismissed: true` does not say why; track it yourself.
+- `alif.refund-full-only`: `refundPayment` and `refundInvoice` return the whole amount.
+  Partial refunds exist only for instalments (`refundPaymentPartial`, reviewed).
+- `alif.refund-receipt-needs-sale-receipt`: Alif registers a refund receipt only if the sale
+  had one (`receipt`, or invoice `receipt: true`).
+- `alif.amount-equals-items`: the total must equal `sum(price x amount - discount)` in tiyin
+  (`price` per unit, `discount` per line), else `1005`.
+- `alif.otp-restart`: on `1100` ask for the code again; on `1101` (expired) or `1106` (no
+  attempts left) start a new `pay` with a new `id`.
+
 ## Top gotchas
 
 1. The `pay` request puts card fields flat in `method` (`{type, pan, exp}`). The response nests
@@ -103,8 +127,40 @@ Run [checklists/common.md](checklists/common.md) first, then the product checkli
 Mark each item pass, fail or n.a. with a file:line citation. Then compare the payloads with
 `schemas/` and `examples/`.
 
+## Tools: run them, do not compute by hand
+
+`scripts/` next to this file (`${CLAUDE_SKILL_DIR}/scripts/` in Claude Code) holds two
+python3 scripts, standard library only. Secrets come from environment variables, never from
+arguments, and print as `<SECRET>`.
+
+```sh
+python3 scripts/sign.py --list     # alif.webhook
+python3 scripts/sign.py alif.webhook body.json --expect '<Signature>'   # ALIF_WEBHOOK_SECRET
+python3 scripts/validate.py --list [text]
+python3 scripts/validate.py confirmPayment body.json [--part result]
+```
+
+`sign.py` prints the exact string it signed and, given a received value, `MATCH` or
+`MISMATCH`. `validate.py` prints `OK` or `INVALID` with JSON paths; a `{success, data}`
+envelope is unwrapped. Both exit 1 on a
+mismatch. Run them before you call a signature, header or payload correct, and quote their
+output.
+
 ## Answering rules
 
+- Reply in the user's language, but never translate method names, fields, headers, codes
+  or enum values.
+- Fit the answer to where it goes. In chat, give the conclusion first, in about 100 words
+  unless code is asked for. In a PR or review, write Problem, Change, Validation. Code uses
+  the sandbox values and runs as written.
+- With several providers in one task, work each one from its own SKILL.md, then compare.
+  Never carry a rule (units, auth, retries) over from another provider.
+- Lifecycle: before you finish an answer that creates, confirms, cancels, refunds, retries
+  or fiscalizes a payment, check "Warn without being asked" and
+  [references/lifecycle/](references/lifecycle/README.md). State the deadline, whether the
+  step can be undone and what happens to the fiscal receipt, with the warning ID, even if
+  nobody asked. For an item under "Not documented", say so and send the user to the
+  provider.
 - Quote field names, types and codes exactly as they appear in the references. If a fact is
   not there, say the docs do not specify it and link the `Source:` page.
 - For tests, fixtures and sandbox examples, use the exact vendor test data in
