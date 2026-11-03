@@ -624,3 +624,73 @@ sources:
     sha256: e62b0b43821c0b32f6df20ed3e9946efa7e33999ceddeebf4ae3d51f4cd718d5
     fetched: 2026-11-03
     status: ok
+  - id: alif-v1-index
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: ce0e8b956a6d2044ae7bb7534b23356f5ebe69a61ca0198583224579f2855af6
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-v1-checkout
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/checkout/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: 43d3da3a7e55467fa8f500ea2f53f53dfed7a8ae95bb125820e6d1ae49199b98
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-v1-purchases
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/purchases/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: 6b93cfebf2fdef64af84c138284d7eab46a76830b9ccccd05f3228e43d75d332
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-v1-cards
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/cards/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: 38f0f3c3edf4f403452897e2c9f16f680683a38f6056a28de9d088163468782f
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-v1-scoring
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/scoring/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: eaa8ae3ee1596de1d2318d880f5f18f10381425d9be328b799724e28e735b4bf
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-v1-hold
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/hold/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: c095a118f46e3c2aee0fa53c11d1b524044d1eb00aa6e566d105ef57409af058
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-v1-monitoring
+    provider: alif
+    product: legacy-v1
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/v1/monitoring/
+    refs: [skills/alif/references/legacy-v1/README.md]
+    sha256: 5f1a8457cafb24f2d89fc23a5f9ef4b70b9a6fd32001aa197840479c65842077
+    fetched: 2026-11-03
+    status: ok
