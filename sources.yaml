@@ -774,7 +774,7 @@ sources:
     kind: html
     lang: en
     url: https://pay-docs.paynet.uz/general-principles
-    refs: [skills/paynet/references/common/README.md]
+    refs: [skills/paynet/references/common/README.md, skills/paynet/references/sandbox/README.md]
     sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     fetched: 2026-11-03
     status: ok
@@ -804,7 +804,7 @@ sources:
     kind: html
     lang: en
     url: https://pay-docs.paynet.uz/acquiring-humo-uzcard
-    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/authorize.json]
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/authorize.json, skills/paynet/references/sandbox/README.md]
     sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     fetched: 2026-11-03
     status: ok
@@ -814,7 +814,7 @@ sources:
     kind: html
     lang: en
     url: https://pay-docs.paynet.uz/online-payment-confirmation
-    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/confirm.json]
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/confirm.json, skills/paynet/references/sandbox/README.md]
     sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     fetched: 2026-11-03
     status: ok
@@ -824,7 +824,7 @@ sources:
     kind: html
     lang: en
     url: https://pay-docs.paynet.uz/payment-status-check
-    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/status.json]
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/status.json, skills/paynet/references/sandbox/README.md]
     sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     fetched: 2026-11-03
     status: ok
@@ -834,7 +834,7 @@ sources:
     kind: html
     lang: en
     url: https://pay-docs.paynet.uz/payment-cancellation
-    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/reverse.json]
+    refs: [skills/paynet/references/acquiring/README.md, skills/paynet/references/acquiring/schemas/reverse.json, skills/paynet/references/sandbox/README.md]
     sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     fetched: 2026-11-03
     status: ok
@@ -894,7 +894,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/merchant-api/requests
-    refs: [skills/click/references/merchant-api/README.md, skills/click/references/card-tokens/README.md, skills/click/references/common/README.md]
+    refs: [skills/click/references/merchant-api/README.md, skills/click/references/card-tokens/README.md, skills/click/references/common/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -914,7 +914,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/merchant-api/fiscalization
-    refs: [skills/click/references/fiscalization/README.md]
+    refs: [skills/click/references/fiscalization/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -924,7 +924,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/merchant-api/click-pass
-    refs: [skills/click/references/click-pass/README.md]
+    refs: [skills/click/references/click-pass/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -934,7 +934,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/click-button/
-    refs: [skills/click/references/payment-button/README.md]
+    refs: [skills/click/references/payment-button/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -964,7 +964,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/additional/get-info
-    refs: [skills/click/references/advanced-shop/README.md]
+    refs: [skills/click/references/advanced-shop/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -974,7 +974,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/additional/shop-split
-    refs: [skills/click/references/advanced-shop/README.md]
+    refs: [skills/click/references/advanced-shop/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -984,7 +984,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/additional/telegram-payments
-    refs: [skills/click/references/telegram/README.md]
+    refs: [skills/click/references/telegram/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -1014,7 +1014,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/testing/playground
-    refs: [skills/click/references/common/README.md]
+    refs: [skills/click/references/common/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok
@@ -1024,7 +1024,7 @@ sources:
     kind: html
     lang: en
     url: https://docs.click.uz/en/testing/postman
-    refs: [skills/click/references/shop-api/README.md]
+    refs: [skills/click/references/shop-api/README.md, skills/click/references/sandbox/README.md]
     sha256: 49cdc0c589975d90c8181295e0ed680e5a99792196a65ab59cf15b6d176fac40
     fetched: 2026-11-03
     status: ok

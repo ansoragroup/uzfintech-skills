@@ -23,6 +23,7 @@ table in [references/common/README.md](references/common/README.md) first.
 |---|---|---|
 | Common | transport, Basic auth, envelope, error codes, transaction statuses, doc gaps | [references/common/](references/common/README.md) |
 | Acquiring (Humo / Uzcard) | `authorize`, `confirm`, `status`, `reverse` | [references/acquiring/](references/acquiring/README.md) |
+| Sandbox and test data | what exists for testing (no test data is published), vendor sample values, mock scenarios, open questions | [references/sandbox/](references/sandbox/README.md) |
 
 Every call goes from your server to Paynet, under
 `<BASE_URL>/api/v1/payment-service/payment/`, with
@@ -60,7 +61,8 @@ Every call goes from your server to Paynet, under
 4. `retryable` means "check the status", not "send again". Never repeat `confirm` blindly.
 5. The docs allow TLS 1.0 / 1.1. Keep your client at TLS 1.2 or higher.
 6. No base URL, sandbox, test cards, webhooks or hosted page are published. Do not invent
-   them; say the docs do not cover them.
+   them; say the docs do not cover them. [references/sandbox/](references/sandbox/README.md)
+   lists what to ask Paynet.
 
 ## Validate an implementation
 
@@ -71,8 +73,12 @@ with a file:line citation, then compare the payloads with `schemas/` and `exampl
 
 - Quote field names, types and codes exactly as they appear in the references. If a fact is
   not there, say the docs do not specify it and link the `Source:` page.
-- Use only placeholder data: `https://merchant.example.com`, `998901234567`,
-  `<CARD_PAN_16_DIGITS>`, `"100001"`. Never copy vendor sample ids or card numbers.
+- For tests, mocks and examples, use the sandbox data and vendor sample values in
+  [references/sandbox/](references/sandbox/README.md). Paynet publishes no test cards or
+  OTPs, so never present the sample PAN or OTP as working test data.
+- Never use real merchant credentials (a real `service_id`, `secret_key`, `merchantId`,
+  login or Basic header), and never invent credentials. Use placeholders such as
+  `<SERVICE_ID>`, `<SECRET_KEY>` and `<MERCHANT_ID>`.
 - Freshness: each README carries `Fetched:`. Run `scripts/sync --check` to compare against
   upstream. pay-docs.paynet.uz is a single-page app, so a hash change may not track content;
   re-read the pages when in doubt.

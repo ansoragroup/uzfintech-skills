@@ -154,6 +154,9 @@ Expected answers:
 Scenario 8 means a cancellation from Click wins over an earlier success: cancel and return
 `-9`, not `-4`. The generator page calls the field `error_code`; your JSON must use `error`.
 
+The exact inputs, signatures, run order and the generator's own inconsistencies are in
+[`../sandbox/README.md`](../sandbox/README.md).
+
 ## Gotchas
 
 1. Hash the **raw** strings from the form. Parsing `amount` to a float and printing it again

@@ -98,7 +98,8 @@ Only `SUCCESS` means paid. Treat the `*_PENDING` and `UNKNOWN` states as "not ye
 
 ## Not covered by the public docs
 
-Ask Paynet at onboarding for these:
+The sample values, mock scenarios and test questions are in
+[`../sandbox/README.md`](../sandbox/README.md). Ask Paynet at onboarding for these:
 - the base URL and any sandbox host;
 - test cards and test OTPs;
 - callbacks or webhooks;

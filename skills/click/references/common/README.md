@@ -104,6 +104,9 @@ any non-zero value as a failure and log `error_note`.
   docs.click.uz for it to work.
 - **Postman generator** (https://docs.click.uz/en/testing/postman): builds a collection
   with 15 SHOP API scenarios. They are listed in the shop-api README.
+- **Sandbox notes**: both tools, Telegram test mode, how to get credentials and the vendor
+  sample values are in [`../sandbox/README.md`](../sandbox/README.md). Click publishes no
+  sandbox host or test cards.
 - **Server examples**: `github.com/click-llc/click-integration-php` and
   `github.com/click-llc/click-integration-django`.
 - **CMS plugins** under `github.com/click-llc`: WooCommerce, OpenCart 3, 1C-Bitrix,

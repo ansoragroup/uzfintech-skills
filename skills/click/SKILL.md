@@ -24,6 +24,7 @@ and error handling.
 | CLICK Pass | POS calls Click (payer shows a QR in the CLICK app) | same `Auth` header | [references/click-pass/](references/click-pass/README.md) |
 | Payment link / button / widget / deeplink | payer is sent to `my.click.uz`; the result arrives via the SHOP API | none (public parameters) | [references/payment-button/](references/payment-button/README.md) |
 | Telegram Payments | your bot calls the Telegram Bot API; Click is the provider | Telegram `provider_token` | [references/telegram/](references/telegram/README.md) |
+| Sandbox and test data | playground and Postman generator (15 scenarios) call your server; Telegram test mode; vendor sample values | your own service credentials | [references/sandbox/](references/sandbox/README.md) |
 
 ## Which product?
 
@@ -97,7 +98,8 @@ citation:
 - [checklists/telegram.md](checklists/telegram.md)
 
 Then compare the real request and response shapes with `schemas/` and `examples/`. For the
-SHOP API, also run the 15 Postman generator scenarios listed in the shop-api README.
+SHOP API, also run the 15 Postman generator scenarios. Their exact inputs and run order are
+in [references/sandbox/](references/sandbox/README.md).
 
 ## Answering rules
 
@@ -105,8 +107,11 @@ SHOP API, also run the 15 Postman generator scenarios listed in the shop-api REA
   fact is not there, say the contract does not specify it and point to the vendor page
   listed as `Source:`.
 - Where a README flags a vendor inconsistency, give both readings and say which one is safer.
-- Use only placeholder data in generated code and examples: `https://merchant.example.com`,
-  `<SECRET_KEY>`, `998901234567`, `"100001"`. Never invent credentials, and never copy
-  vendor sample card numbers or phones.
+- For tests, mocks and examples, use the sandbox data and vendor sample values in
+  [references/sandbox/](references/sandbox/README.md). Click publishes no test cards, OTPs
+  or sandbox host, so never present a sample card or SMS code as working test data.
+- Never use real merchant credentials (a real `merchant_id`, `service_id`,
+  `merchant_user_id`, `secret_key`, cabinet login or live bot token), and never invent
+  credentials. Use placeholders such as `<SERVICE_ID>` and `<SECRET_KEY>`.
 - Upstream docs: https://docs.click.uz/en/ . Freshness: each README carries `Fetched:`.
   Run `scripts/sync --check` to compare against upstream.
