@@ -1,0 +1,63 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/9355028d0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ofdRequest",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "qty": {
+        "type": "integer",
+        "description": "quantity",
+        "minimum": 1
+      },
+      "vat": {
+        "type": "integer",
+        "description": "VAT percent"
+      },
+      "price": {
+        "type": "integer",
+        "description": "unit price, tiyin"
+      },
+      "mxik": {
+        "type": "string",
+        "description": "IKPU (ИКПУ) from tasnif.soliq.uz, 17 digits"
+      },
+      "total": {
+        "type": "integer",
+        "description": "qty x price before discounts, tiyin"
+      },
+      "package_code": {
+        "type": "string",
+        "description": "package code for the IKPU from tasnif.soliq.uz"
+      },
+      "name": {
+        "type": "string",
+        "description": "product or service name"
+      },
+      "tin": {
+        "type": "string",
+        "description": "company TIN (INN)"
+      },
+      "mark": {
+        "type": "array",
+        "description": "one marking code per unit; required for marked goods",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "qty",
+      "price",
+      "mxik",
+      "total",
+      "package_code",
+      "name"
+    ]
+  }
+}

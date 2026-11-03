@@ -15,11 +15,11 @@ The skills give exact contract answers and help validate an integration. They co
 | [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary, legacy (original API) migration map |
 | [`click`](skills/click/SKILL.md) | Click | SHOP API, Advanced / Split Shop, Merchant API, Card tokens, Fiscalization, CLICK Pass, payment link / button / widget, Telegram Payments |
 | [`paynet`](skills/paynet/SKILL.md) | Paynet | Internet acquiring (Humo / Uzcard): authorize, confirm, status, reverse |
+| [`payme`](skills/payme/SKILL.md) | Payme (Paycom) | Merchant API, Subscribe API (cards, receipts, holds), Checkout (GET / POST / button / QR), Fiscalization |
+| [`multicard`](skills/multicard/SKILL.md) | Multicard | Invoice and scanpay, Card binding, Payments (token / card / app / split), Refunds, Hold, Payouts, Reports |
 
 Every skill has a `references/sandbox/` page with the vendor's test hosts, test cards, codes,
 scenarios and samples, or a note that the vendor publishes none.
-
-Payme and Multicard are planned. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Layout
 
@@ -71,7 +71,7 @@ You can also vendor the repository, for example as a git submodule at
 
 ```md
 ## Payment provider contracts
-For any Uzbek payment provider integration work (Uzum Bank, Alif, Click, Paynet), read
+For any Uzbek payment provider integration work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard), read
 `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Answer contract questions from those files, and validate
 changes with the matching `checklists/*.md`.
 ```
@@ -85,6 +85,7 @@ Ask the agent things like:
 - "Validate our Checkout integration against the Uzum checklist."
 - "Build the Click SHOP API Prepare / Complete handlers and check the `sign_string`."
 - "Which test cards and codes does the Uzum CrossBorder sandbox use?"
+- "Implement Payme Merchant API `CreateTransaction` and its `-31008` / `-31050` errors."
 
 The agent loads the matching `SKILL.md` and then reads only the reference files it needs.
 

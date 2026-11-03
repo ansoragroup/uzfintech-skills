@@ -1,0 +1,29 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729316e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "refund-payment",
+  "endpoint": "DELETE https://mesh.multicard.uz/payment/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "payment uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": null,
+  "result": {
+    "$ref": "../../common/schemas/payment.json"
+  },
+  "x-errors": {
+    "404": "ERROR_NOT_FOUND when the payment can no longer be cancelled (the text says 400)"
+  }
+}

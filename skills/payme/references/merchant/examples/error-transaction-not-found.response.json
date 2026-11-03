@@ -1,0 +1,11 @@
+{
+  "error": {
+    "code": -31003,
+    "message": {
+      "ru": "<текст>",
+      "uz": "<matn>",
+      "en": "Transaction not found"
+    }
+  },
+  "id": 3
+}

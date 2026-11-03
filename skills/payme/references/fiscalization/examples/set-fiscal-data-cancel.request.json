@@ -1,0 +1,17 @@
+{
+  "method": "SetFiscalData",
+  "params": {
+    "id": "<PAYME_TRANSACTION_ID>",
+    "type": "CANCEL",
+    "fiscal_data": {
+      "receipt_id": 2,
+      "status_code": 0,
+      "message": "accepted",
+      "terminal_id": "<FISCAL_TERMINAL_ID>",
+      "fiscal_sign": "<FISCAL_SIGN>",
+      "qr_code_url": "<OFD_RECEIPT_URL>",
+      "date": "20261103180000"
+    }
+  },
+  "id": 8
+}

@@ -1,0 +1,10 @@
+{
+  "merchant": "<CASHBOX_ID>",
+  "amount": "500000",
+  "account[order_id]": "100001",
+  "lang": "ru",
+  "callback": "https://merchant.example.com/payme/return/:transaction",
+  "callback_timeout": "15000",
+  "description": "Order 100001",
+  "detail": "<BASE64_OF_DETAIL_JSON>"
+}

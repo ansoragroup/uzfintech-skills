@@ -1,0 +1,169 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729329e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "get-payout-history",
+  "endpoint": "GET https://mesh.multicard.uz/payment/store/{store_id}/credit-history",
+  "path": {
+    "type": "object",
+    "properties": {
+      "store_id": {
+        "type": "string",
+        "description": "cashbox id"
+      }
+    },
+    "required": [
+      "store_id"
+    ]
+  },
+  "query": {
+    "type": "object",
+    "properties": {
+      "offset": {
+        "type": "integer"
+      },
+      "limit": {
+        "type": "integer"
+      },
+      "only_status": {
+        "type": "string",
+        "description": "status filter, e.g. success"
+      },
+      "start_date": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "end_date": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      }
+    },
+    "required": [
+      "offset",
+      "limit",
+      "start_date",
+      "end_date",
+      "only_status"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "pagination": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer"
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "stat": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "ps": {
+              "type": "string"
+            },
+            "payment_amount": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      "list": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "uuid": {
+              "type": "string",
+              "description": "Multicard uuid (36 chars)"
+            },
+            "status": {
+              "type": "string"
+            },
+            "ps": {
+              "type": "string"
+            },
+            "store_invoice_id": {
+              "type": "string"
+            },
+            "billing_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "payment_time": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Y-m-d H:i:s, GMT+5"
+            },
+            "payment_amount": {
+              "type": "integer"
+            },
+            "commission_amount": {
+              "type": "integer"
+            },
+            "card_token": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "card_pan": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ps_uniq_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "refund_time": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Y-m-d H:i:s, GMT+5"
+            },
+            "added_on": {
+              "type": "string",
+              "description": "Y-m-d H:i:s, GMT+5"
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "pagination",
+      "stat",
+      "list"
+    ]
+  }
+}

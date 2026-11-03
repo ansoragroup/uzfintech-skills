@@ -1,0 +1,52 @@
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": {
+    "receipt": {
+      "_id": "<RECEIPT_ID>",
+      "create_time": 1793664000000,
+      "pay_time": 0,
+      "cancel_time": 0,
+      "state": 0,
+      "type": 2,
+      "external": false,
+      "operation": -1,
+      "category": null,
+      "error": null,
+      "description": "Order 100001",
+      "detail": null,
+      "amount": 500000,
+      "currency": 860,
+      "commission": 0,
+      "account": [
+        {
+          "name": "order_id",
+          "title": "Order number",
+          "value": "100001",
+          "main": true
+        }
+      ],
+      "card": null,
+      "merchant": {
+        "_id": "<CASHBOX_ID>",
+        "name": "Merchant Example",
+        "organization": "Merchant Example LLC",
+        "address": "",
+        "business_id": "<BUSINESS_ID>",
+        "epos": {
+          "merchantId": "<EPOS_MERCHANT_ID>",
+          "terminalId": "<EPOS_TERMINAL_ID>"
+        },
+        "date": 1790000000000,
+        "logo": null,
+        "type": "Internet",
+        "terms": null
+      },
+      "meta": {
+        "source": "subscribe",
+        "owner": "<CASHBOX_ID>"
+      },
+      "processing_id": null
+    }
+  }
+}

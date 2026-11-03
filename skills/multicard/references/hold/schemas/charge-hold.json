@@ -1,0 +1,48 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729320e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "charge-hold",
+  "endpoint": "PUT https://mesh.multicard.uz/payment/hold/{uuid}/charge",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "payment uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "integer",
+        "description": "tiyin, below the held amount; omit to charge it all"
+      },
+      "split": {
+        "$ref": "../../common/schemas/split.json"
+      },
+      "ofd": {
+        "$ref": "../../common/schemas/ofd.json"
+      }
+    },
+    "required": [
+      "amount"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/payment.json"
+  },
+  "x-note": "the schema lists only amount (required); the text allows omitting it and adding split and ofd",
+  "x-poll-on": [
+    "ERROR_DEBIT_UNKNOWN",
+    "ERROR_CALLBACK_TIMEOUT"
+  ]
+}

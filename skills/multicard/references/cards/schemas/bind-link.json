@@ -1,0 +1,60 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729302e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "create-bind-link",
+  "endpoint": "POST https://mesh.multicard.uz/payment/card/bind",
+  "params": {
+    "type": "object",
+    "properties": {
+      "redirect_url": {
+        "type": "string"
+      },
+      "redirect_decline_url": {
+        "type": "string"
+      },
+      "store_id": {
+        "type": "integer"
+      },
+      "callback_url": {
+        "type": "string",
+        "description": "marked required; the text says a callback is sent only if it is passed"
+      },
+      "phone": {
+        "type": "string",
+        "description": "998XXXXXXXXX; marked required, the text says required for Humo"
+      },
+      "pinfl": {
+        "type": "string",
+        "description": "14 digits; checks card ownership (Uzcard/Humo)"
+      }
+    },
+    "required": [
+      "redirect_url",
+      "redirect_decline_url",
+      "store_id",
+      "callback_url",
+      "phone"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "session_id": {
+        "type": "string",
+        "description": "store it; comes back as payer_id"
+      },
+      "form_url": {
+        "type": "string",
+        "description": "open in a redirect or WebView; 15 min"
+      }
+    },
+    "required": [
+      "session_id",
+      "form_url"
+    ]
+  }
+}

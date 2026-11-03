@@ -1,0 +1,9 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "sent": true,
+    "phone": "99890*****67",
+    "wait": 60000
+  }
+}

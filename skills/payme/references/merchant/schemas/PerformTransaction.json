@@ -1,0 +1,46 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-merchant-api/performtransaction/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "PerformTransaction",
+  "endpoint": "POST <your Endpoint URL> (Payme calls you; JSON-RPC 2.0)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "transaction": {
+        "type": "string",
+        "description": "your transaction id in your billing, as a string"
+      },
+      "perform_time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      },
+      "state": {
+        "type": "integer",
+        "const": 2
+      }
+    },
+    "required": [
+      "transaction",
+      "perform_time",
+      "state"
+    ]
+  }
+}

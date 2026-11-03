@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -31050,
+    "message": {
+      "ru": "<текст для плательщика>",
+      "uz": "<to'lovchi uchun matn>",
+      "en": "<message for the payer>"
+    },
+    "data": "order_id"
+  },
+  "id": 2
+}

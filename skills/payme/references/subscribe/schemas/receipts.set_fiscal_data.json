@@ -1,0 +1,75 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-subscribe-api/receipts.set_fiscal_data/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "receipts.set_fiscal_data",
+  "endpoint": "POST https://checkout.paycom.uz/api (test: https://checkout.test.paycom.uz/api), JSON-RPC 2.0",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      },
+      "fiscal_data": {
+        "type": "object",
+        "properties": {
+          "receipt_id": {
+            "type": "integer",
+            "description": "sequence number in the virtual fiscal module"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "fiscal status code (the code list is not published)"
+          },
+          "message": {
+            "type": "string",
+            "description": "OFD registration message or error detail"
+          },
+          "terminal_id": {
+            "type": "string",
+            "description": "virtual fiscal module number"
+          },
+          "fiscal_sign": {
+            "type": "string",
+            "description": "fiscal sign of the receipt"
+          },
+          "qr_code_url": {
+            "type": "string",
+            "description": "URL of the fiscal receipt"
+          },
+          "date": {
+            "type": "string",
+            "description": "OFD registration time, YYYYMMDDhhmmss",
+            "pattern": "^\\d{14}$"
+          }
+        },
+        "required": [
+          "receipt_id",
+          "qr_code_url"
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "fiscal_data"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "success"
+    ]
+  },
+  "x-auth": "X-Auth: <CASHBOX_ID>:<CASHBOX_KEY> (back end only)"
+}

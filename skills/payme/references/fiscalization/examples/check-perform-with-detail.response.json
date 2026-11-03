@@ -1,0 +1,33 @@
+{
+  "result": {
+    "allow": true,
+    "detail": {
+      "receipt_type": 0,
+      "shipping": {
+        "title": "Delivery",
+        "price": 2000000
+      },
+      "items": [
+        {
+          "title": "Sample product",
+          "price": 250000,
+          "count": 2,
+          "discount": 20000,
+          "code": "<IKPU_17_DIGITS>",
+          "package_code": "<PACKAGE_CODE>",
+          "vat_percent": 12
+        },
+        {
+          "title": "Sample service",
+          "price": 520000,
+          "count": 1,
+          "code": "<IKPU_17_DIGITS>",
+          "package_code": "<PACKAGE_CODE>",
+          "units": 1,
+          "vat_percent": 0
+        }
+      ]
+    }
+  },
+  "id": 1
+}

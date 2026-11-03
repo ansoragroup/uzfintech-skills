@@ -1,0 +1,33 @@
+{
+  "card": {
+    "token": "<CARD_TOKEN>"
+  },
+  "amount": 5000000,
+  "store_id": 1,
+  "invoice_id": "100001",
+  "callback_url": "https://merchant.example.com/multicard/callback",
+  "device_details": {
+    "ip": "<CLIENT_IP>",
+    "user_agent": "<CLIENT_USER_AGENT>"
+  },
+  "ofd": [
+    {
+      "qty": 2,
+      "vat": 12,
+      "price": 2000000,
+      "mxik": "<IKPU_17_DIGITS>",
+      "total": 4000000,
+      "package_code": "<PACKAGE_CODE>",
+      "name": "Sample item A"
+    },
+    {
+      "qty": 1,
+      "vat": 12,
+      "price": 1000000,
+      "mxik": "<IKPU_17_DIGITS>",
+      "total": 1000000,
+      "package_code": "<PACKAGE_CODE>",
+      "name": "Sample item B"
+    }
+  ]
+}

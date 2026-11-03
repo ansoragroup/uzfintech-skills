@@ -1,0 +1,43 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/9355022d0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "splitRequest",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "account = bank account by requisites uuid, wallet = partner wallet, card = bank card",
+        "enum": [
+          "account",
+          "wallet",
+          "card"
+        ]
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "details": {
+        "type": "string",
+        "description": "payment purpose text"
+      },
+      "recipient": {
+        "type": "string",
+        "description": "type=account: requisites uuid; defaults to the merchant's"
+      }
+    },
+    "required": [
+      "type",
+      "amount",
+      "details"
+    ]
+  },
+  "description": "sum(amount) must not exceed the payment amount minus commission"
+}

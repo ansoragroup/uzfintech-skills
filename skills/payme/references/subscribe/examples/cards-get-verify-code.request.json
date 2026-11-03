@@ -1,0 +1,7 @@
+{
+  "id": 2,
+  "method": "cards.get_verify_code",
+  "params": {
+    "token": "<CARD_TOKEN>"
+  }
+}

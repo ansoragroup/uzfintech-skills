@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_PAYMENT_APPLIED",
+    "details": "<HOLD_NOT_ACTIVE_TEXT>"
+  }
+}

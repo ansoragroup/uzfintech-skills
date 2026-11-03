@@ -1,0 +1,10 @@
+{
+  "id": 7,
+  "method": "receipts.get_all",
+  "params": {
+    "count": 50,
+    "from": 1793577600000,
+    "to": 1793663999999,
+    "offset": 0
+  }
+}

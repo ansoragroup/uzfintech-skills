@@ -1,0 +1,7 @@
+{
+  "id": 9,
+  "method": "receipts.confirm_hold",
+  "params": {
+    "id": "<RECEIPT_ID>"
+  }
+}

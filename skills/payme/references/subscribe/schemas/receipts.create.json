@@ -1,0 +1,343 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-subscribe-api/receipts.create/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "receipts.create",
+  "endpoint": "POST https://checkout.paycom.uz/api (test: https://checkout.test.paycom.uz/api), JSON-RPC 2.0",
+  "params": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "account": {
+        "type": "object",
+        "description": "merchant-defined fields configured in the cashbox, e.g. order_id"
+      },
+      "description": {
+        "type": "string"
+      },
+      "detail": {
+        "type": "object",
+        "properties": {
+          "receipt_type": {
+            "type": "integer",
+            "description": "fiscal receipt type: 0 = sale/return",
+            "enum": [
+              0
+            ]
+          },
+          "shipping": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "price": {
+                "type": "integer",
+                "description": "tiyin",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "title",
+              "price"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "description": "product lines; needed for fiscalization",
+            "items": {
+              "type": "object",
+              "properties": {
+                "discount": {
+                  "type": "integer",
+                  "description": "discount for the whole line (all units), tiyin",
+                  "minimum": 0
+                },
+                "title": {
+                  "type": "string",
+                  "description": "product or service name"
+                },
+                "price": {
+                  "type": "integer",
+                  "description": "unit price, tiyin",
+                  "minimum": 0
+                },
+                "count": {
+                  "type": "number",
+                  "description": "quantity"
+                },
+                "code": {
+                  "type": "string",
+                  "description": "IKPU (ИКПУ) product/service code from tasnif.soliq.uz"
+                },
+                "units": {
+                  "type": "integer",
+                  "description": "unit-of-measure code"
+                },
+                "package_code": {
+                  "type": "string",
+                  "description": "package code shown for the IKPU on tasnif.soliq.uz"
+                },
+                "vat_percent": {
+                  "type": "number",
+                  "description": "VAT percent for the line"
+                }
+              },
+              "required": [
+                "title",
+                "price",
+                "count",
+                "code",
+                "package_code",
+                "vat_percent"
+              ]
+            }
+          }
+        },
+        "required": [
+          "receipt_type",
+          "items"
+        ]
+      },
+      "hold": {
+        "type": "boolean",
+        "description": "create a hold receipt (must also be set on receipts.pay; enabled by Payme staff)"
+      }
+    },
+    "required": [
+      "amount",
+      "account"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "receipt": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Payme transaction / receipt id (24-character string)",
+            "minLength": 24,
+            "maxLength": 24
+          },
+          "create_time": {
+            "type": "integer",
+            "description": "Unix time in milliseconds (13 digits)"
+          },
+          "pay_time": {
+            "type": "integer",
+            "description": "Unix time in milliseconds; 0 when the event has not happened"
+          },
+          "cancel_time": {
+            "type": "integer",
+            "description": "Unix time in milliseconds; 0 when the event has not happened"
+          },
+          "state": {
+            "type": "integer",
+            "description": "receipt state, see the README table",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              20,
+              21,
+              30,
+              50
+            ]
+          },
+          "type": {
+            "type": "integer"
+          },
+          "external": {
+            "type": "boolean"
+          },
+          "operation": {
+            "type": "integer"
+          },
+          "category": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "error": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "detail": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "detail object as sent (may include discount{title, price})"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "tiyin (1 UZS = 100 tiyin)",
+            "minimum": 1
+          },
+          "currency": {
+            "type": "integer",
+            "description": "ISO 4217 numeric, 860 = UZS"
+          },
+          "commission": {
+            "type": "integer",
+            "description": "tiyin"
+          },
+          "account": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": [
+                    "string",
+                    "object"
+                  ],
+                  "description": "plain string or localized {ru, uz, en}"
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ]
+                },
+                "main": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "card": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "number": {
+                "type": "string"
+              },
+              "expire": {
+                "type": "string"
+              }
+            }
+          },
+          "merchant": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "cashbox id"
+              },
+              "name": {
+                "type": "string"
+              },
+              "organization": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "business_id": {
+                "type": "string"
+              },
+              "epos": {
+                "type": "object",
+                "properties": {
+                  "merchantId": {
+                    "type": "string"
+                  },
+                  "terminalId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "date": {
+                "type": "integer",
+                "description": "Unix time in milliseconds (13 digits)"
+              },
+              "logo": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "description": "plain string or localized {ru, uz}"
+              },
+              "terms": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "payer": {
+                "type": "object",
+                "description": "echo of receipts.pay payer (seen in the pay example)"
+              }
+            }
+          },
+          "meta": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "string"
+              }
+            }
+          },
+          "sensitive_data": {
+            "type": "array",
+            "description": "seen in hold examples only"
+          },
+          "processing_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "_id",
+          "create_time",
+          "state",
+          "amount",
+          "account"
+        ]
+      }
+    },
+    "required": [
+      "receipt"
+    ]
+  },
+  "x-auth": "X-Auth: <CASHBOX_ID>:<CASHBOX_KEY> (back end only)"
+}

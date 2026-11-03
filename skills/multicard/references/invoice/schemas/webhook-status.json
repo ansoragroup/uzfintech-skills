@@ -1,0 +1,100 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729301e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "status-webhook",
+  "body": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "Multicard uuid (36 chars)"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "progress",
+          "success",
+          "error",
+          "revert",
+          "hold"
+        ]
+      },
+      "billing_id": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "payment_time": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "refund_time": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "phone": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "card_pan": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "ps": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "card_token": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "receipt_url": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "sign": {
+        "type": "string",
+        "description": "docs disagree: md5 of {uuid}{amount}{secret} (guide) vs sha1 of {uuid}{invoice_id}{amount}{secret} (schema)"
+      }
+    },
+    "required": [
+      "uuid",
+      "amount",
+      "status",
+      "sign"
+    ]
+  },
+  "x-answer": "any 2xx; otherwise retried up to 5 times"
+}

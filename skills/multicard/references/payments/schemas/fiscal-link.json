@@ -1,0 +1,46 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729315e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "send-fiscal-link",
+  "endpoint": "PATCH https://mesh.multicard.uz/payment/{uuid}/fiscal",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "payment uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "description": "fiscal receipt URL"
+      },
+      "is_refund": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "url"
+    ]
+  },
+  "result": {
+    "type": [
+      "object",
+      "array",
+      "null",
+      "boolean"
+    ],
+    "description": "not specified"
+  }
+}

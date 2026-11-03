@@ -1,0 +1,29 @@
+{
+  "store_id": 1,
+  "amount": 5000000,
+  "invoice_id": "100001",
+  "lang": "ru",
+  "return_url": "https://merchant.example.com/orders/100001",
+  "callback_url": "https://merchant.example.com/multicard/callback",
+  "ttl": 3600,
+  "ofd": [
+    {
+      "qty": 2,
+      "vat": 12,
+      "price": 2000000,
+      "mxik": "<IKPU_17_DIGITS>",
+      "total": 4000000,
+      "package_code": "<PACKAGE_CODE>",
+      "name": "Sample item A"
+    },
+    {
+      "qty": 1,
+      "vat": 12,
+      "price": 1000000,
+      "mxik": "<IKPU_17_DIGITS>",
+      "total": 1000000,
+      "package_code": "<PACKAGE_CODE>",
+      "name": "Sample item B"
+    }
+  ]
+}

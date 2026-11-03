@@ -1,0 +1,87 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-merchant-api/createtransaction/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "CreateTransaction",
+  "endpoint": "POST <your Endpoint URL> (Payme calls you; JSON-RPC 2.0)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      },
+      "time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "account": {
+        "type": "object",
+        "description": "merchant-defined fields configured in the cashbox, e.g. order_id"
+      }
+    },
+    "required": [
+      "id",
+      "time",
+      "amount",
+      "account"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "create_time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      },
+      "transaction": {
+        "type": "string",
+        "description": "your transaction id in your billing, as a string"
+      },
+      "state": {
+        "type": "integer",
+        "const": 1
+      },
+      "receivers": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "description": "split receivers; null when not used",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "receiver cashbox id"
+            },
+            "amount": {
+              "type": "integer",
+              "description": "tiyin (1 UZS = 100 tiyin)",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "amount"
+          ]
+        }
+      }
+    },
+    "required": [
+      "create_time",
+      "transaction",
+      "state"
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/9655813d0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "taxReceiptModel",
+  "type": "object",
+  "properties": {
+    "receipt": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "f_num": {
+      "type": "string",
+      "description": "fiscal sign"
+    },
+    "fm_num": {
+      "type": "string",
+      "description": "fiscal module (terminal) number"
+    },
+    "qr_url": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "fiscal receipt URL"
+    },
+    "is_refund": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "f_num",
+    "fm_num",
+    "qr_url",
+    "is_refund"
+  ]
+}

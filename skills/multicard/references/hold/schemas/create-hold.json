@@ -1,0 +1,100 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729318e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "create-hold",
+  "endpoint": "POST https://mesh.multicard.uz/payment/hold",
+  "params": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)",
+        "minimum": 1
+      },
+      "store_id": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "cashbox id (int) or cashbox uuid (string)"
+      },
+      "invoice_id": {
+        "type": "string",
+        "description": "your order id, max 255 chars",
+        "maxLength": 255
+      },
+      "expiry": {
+        "type": "integer",
+        "description": "hold lifetime, minutes (max 30 days)",
+        "minimum": 1,
+        "maximum": 43200
+      },
+      "split": {
+        "$ref": "../../common/schemas/split.json"
+      }
+    },
+    "required": [
+      "card",
+      "amount",
+      "store_id",
+      "invoice_id",
+      "expiry"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "canceled"
+        ]
+      },
+      "expiry": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "added_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "updated_on": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "payment": {
+        "$ref": "../../common/schemas/payment.json"
+      }
+    },
+    "required": [
+      "id",
+      "status",
+      "expiry",
+      "payment"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "uuid": "20d81bff-bdf6-40d2-bfec-d8dec4256893",
+  "amount": 5000000,
+  "invoice_id": "100001",
+  "status": "success",
+  "billing_id": null,
+  "payment_time": "2026-11-03 12:01:00",
+  "refund_time": null,
+  "phone": "998901234567",
+  "card_pan": "860012******0000",
+  "ps": "uzcard",
+  "card_token": "<CARD_TOKEN>",
+  "receipt_url": "<RECEIPT_URL>",
+  "sign": "<SIGN>"
+}

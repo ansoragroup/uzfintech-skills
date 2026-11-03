@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "data": {
+    "uuid": "e97107bd-58ee-41b8-9d98-c8de32b32d7b",
+    "store_id": 1,
+    "amount": 5000000,
+    "invoice_id": "100001",
+    "return_url": "https://merchant.example.com/orders/100001",
+    "return_error_url": "https://merchant.example.com/orders/100001",
+    "callback_url": "https://merchant.example.com/multicard/callback",
+    "ofd": [
+      {
+        "qty": 2,
+        "vat": 12,
+        "price": 2000000,
+        "mxik": "<IKPU_17_DIGITS>",
+        "total": 4000000,
+        "package_code": "<PACKAGE_CODE>",
+        "name": "Sample item A"
+      },
+      {
+        "qty": 1,
+        "vat": 12,
+        "price": 1000000,
+        "mxik": "<IKPU_17_DIGITS>",
+        "total": 1000000,
+        "package_code": "<PACKAGE_CODE>",
+        "name": "Sample item B"
+      }
+    ],
+    "split": null,
+    "sms": null,
+    "payment": null,
+    "checkout_url": "<CHECKOUT_URL>",
+    "short_link": "<SHORT_LINK>",
+    "deeplink": "<DEEPLINK>",
+    "added_on": "2026-11-03 12:00:00",
+    "updated_on": null
+  }
+}

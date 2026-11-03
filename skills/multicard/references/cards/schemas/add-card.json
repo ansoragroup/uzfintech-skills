@@ -1,0 +1,50 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729308e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "add-card",
+  "endpoint": "POST https://mesh.multicard.uz/payment/card",
+  "params": {
+    "type": "object",
+    "properties": {
+      "pan": {
+        "type": "string",
+        "description": "full PAN, Uzcard or Humo"
+      },
+      "expiry": {
+        "type": "string",
+        "description": "yymm",
+        "pattern": "^[0-9]{4}$"
+      },
+      "user_phone": {
+        "type": "string",
+        "description": "998XXXXXXXXX; marked required, the text says required for Humo"
+      },
+      "cvc": {
+        "type": "string"
+      },
+      "holder_name": {
+        "type": "string"
+      },
+      "session_id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "pan",
+      "expiry",
+      "user_phone"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/card.json"
+  },
+  "x-requires": "PCI DSS certificate",
+  "x-errors": {
+    "400": "SMS banking off, bad card data, unsupported card, validation",
+    "429": "SMS already sent"
+  }
+}

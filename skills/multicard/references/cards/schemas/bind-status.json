@@ -1,0 +1,26 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729304e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "get-bind-status",
+  "endpoint": "GET https://mesh.multicard.uz/payment/card/bind/{session_id}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "session_id": {
+        "type": "string",
+        "description": "bind session id"
+      }
+    },
+    "required": [
+      "session_id"
+    ]
+  },
+  "params": null,
+  "result": {
+    "$ref": "../../common/schemas/card.json"
+  }
+}

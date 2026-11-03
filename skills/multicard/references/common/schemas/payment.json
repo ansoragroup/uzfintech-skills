@@ -1,0 +1,297 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/9357883d0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "paymentModel",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "uuid": {
+      "type": "string",
+      "description": "Multicard uuid (36 chars)"
+    },
+    "store_id": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "string",
+      "description": "payment status; final: success, error, revert",
+      "enum": [
+        "draft",
+        "progress",
+        "billing",
+        "hold",
+        "success",
+        "error",
+        "revert"
+      ]
+    },
+    "ps": {
+      "type": "string",
+      "description": "payment system or service",
+      "enum": [
+        "uzcard",
+        "humo",
+        "visa",
+        "mastercard",
+        "account",
+        "payme",
+        "click",
+        "uzum",
+        "anorbank",
+        "oson",
+        "alif",
+        "xazna",
+        "beepul",
+        "trastpay",
+        "sbp"
+      ]
+    },
+    "store_invoice_id": {
+      "type": "string",
+      "description": "your invoice_id"
+    },
+    "billing_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "your transaction id, max 64"
+    },
+    "phone": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "payer phone; the guide shows only the last 4 digits"
+    },
+    "card_token": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "card_pan": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "masked PAN"
+    },
+    "commission_type": {
+      "type": "string",
+      "description": "up = added on top, paid by the payer; down = paid by the merchant",
+      "enum": [
+        "up",
+        "down"
+      ]
+    },
+    "payment_amount": {
+      "type": "integer",
+      "description": "tiyin, without commission"
+    },
+    "total_amount": {
+      "type": "integer",
+      "description": "tiyin, with commission"
+    },
+    "commission_amount": {
+      "type": "integer",
+      "description": "tiyin"
+    },
+    "otp_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "non-null: confirm with an OTP (or 3DS)"
+    },
+    "ps_uniq_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "RRN / RefNum in the payment system"
+    },
+    "ps_response_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ps_response_msg": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "callback_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "callback_message": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "answer text from your billing"
+    },
+    "terminal_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "merchant_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "payment_time": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Y-m-d H:i:s, GMT+5"
+    },
+    "refund_time": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Y-m-d H:i:s, GMT+5"
+    },
+    "receipt_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checkout_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "split": {
+      "anyOf": [
+        {
+          "$ref": "split.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ofd": {
+      "anyOf": [
+        {
+          "$ref": "ofd.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "device_details": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string",
+              "description": "payer device IP"
+            },
+            "user_agent": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "ip",
+            "user_agent"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "kyc_data": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "details": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "billing fields; Paynet / MUNIS services only"
+    },
+    "multicard_user_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "tax": {
+      "anyOf": [
+        {
+          "$ref": "tax-receipt.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "refund_tax": {
+      "anyOf": [
+        {
+          "$ref": "tax-receipt.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "store": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "storeModel"
+    },
+    "clearing": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "clearingModel; status new, sent, done, repeat, postponed, blocked, revert, canceled"
+    },
+    "added_on": {
+      "type": "string",
+      "description": "Y-m-d H:i:s, GMT+5"
+    }
+  },
+  "required": [
+    "id",
+    "uuid",
+    "store_id",
+    "status",
+    "ps",
+    "store_invoice_id",
+    "payment_amount",
+    "total_amount",
+    "commission_amount",
+    "commission_type",
+    "otp_hash"
+  ]
+}

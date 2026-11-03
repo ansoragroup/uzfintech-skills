@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "application_id": "<APPLICATION_ID>",
+    "wallet_sum": 100000000,
+    "wallet_overdraft": 0,
+    "otp_required": 1,
+    "otp_length": 6,
+    "allow_bank_transaction": 0,
+    "official_name": "Merchant Example",
+    "added_on": "2026-11-03 12:00:00",
+    "updated_on": "2026-11-03 12:00:00"
+  }
+}
