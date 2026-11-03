@@ -22,6 +22,10 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) first. The rules that matter most:
 2. Keep raw downloads in `cache/`, which is git-ignored. Never commit cache contents.
 3. Examples use placeholders only. Never use real credentials, merchant or service ids,
    order numbers, phones, card data, names, domains or IPs, and never copy vendor sample
-   values.
-4. Run the anonymization scan in CONTRIBUTING.md before every push.
-5. `scripts/sync` must stay python3 standard library only.
+   values into `examples/`.
+4. Keep every value the vendor publishes for its sandbox (test hosts, test cards, OTP and
+   3-DS codes, test PINFL and phones, scenarios, sample payloads) exactly, in
+   `skills/<provider>/references/sandbox/README.md`. Use it for tests and fixtures. Never
+   copy pre-filled credentials from vendor Postman collections.
+5. Run the anonymization scan in CONTRIBUTING.md before every push.
+6. `scripts/sync` must stay python3 standard library only.

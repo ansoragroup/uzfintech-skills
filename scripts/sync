@@ -15,6 +15,9 @@ and compares a SHA-256 of the content with the hash recorded last time.
   kind: html      Documentation page without a machine-readable spec. Only the
                   article text is hashed; a change is flagged for human review
                   (hand-written references listed under `refs`).
+  kind: file      Any other upstream asset (test-case PDF, Postman collection).
+                  The raw bytes are hashed; a change is flagged for human review
+                  like html.
 
 Usage:
   scripts/sync                 fetch, regenerate changed products, update sources.yaml
@@ -650,7 +653,7 @@ def dump_sources(sources):
     lines = [
         "# Upstream contract sources tracked by scripts/sync.",
         "# Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and",
-        "# status are written by the script. kind: openapi | openapi-labels | html.",
+        "# status are written by the script. kind: openapi | openapi-labels | html | file.",
         "sources:",
     ]
     for src in sources:
@@ -1154,7 +1157,12 @@ def write_json(path, obj, compact=False):
 # main
 # --------------------------------------------------------------------------
 def cache_path(src):
-    ext = ".yaml" if src["kind"].startswith("openapi") else ".txt"
+    if src["kind"].startswith("openapi"):
+        ext = ".yaml"
+    elif src["kind"] == "file":
+        ext = os.path.splitext(src["url"].split("?")[0])[1] or ".bin"
+    else:
+        ext = ".txt"
     return os.path.join(CACHE, src["id"] + ext)
 
 
@@ -1221,6 +1229,8 @@ def main():
                     raise RuntimeError("got an HTML page instead of a spec (source missing upstream?)")
                 content = raw
                 yaml_load(raw.decode("utf-8"))  # must parse
+            elif src["kind"] == "file":
+                content = raw
             else:
                 content = article_text(raw).encode("utf-8")
         except Exception as exc:  # noqa: BLE001
@@ -1233,7 +1243,7 @@ def main():
         if digest != src.get("sha256"):
             changed.append(src["id"])
             if src.get("sha256"):
-                if src["kind"] == "html":
+                if src["kind"] in ("html", "file") or src.get("refs"):
                     flagged.append(src)
             src["sha256"] = digest
             src["fetched"] = today
@@ -1270,7 +1280,7 @@ def main():
         report += ["- `%s`" % r for r in regenerated]
         report.append("")
     if flagged:
-        report.append("Documentation pages changed upstream; review these hand-written references:")
+        report.append("Upstream sources changed; review these hand-written references:")
         for s in flagged:
             refs = s.get("refs") or []
             report.append("- %s (%s) -> %s" % (s["id"], s["url"], ", ".join("`%s`" % r for r in refs) or "no refs listed"))

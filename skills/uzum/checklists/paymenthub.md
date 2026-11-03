@@ -26,3 +26,6 @@ Contract: [`../references/paymenthub/README.md`](../references/paymenthub/README
 ## Reconciliation
 - [ ] Daily `receipt.compare.payment` + `receipt.compare.check` (poll while `-31615`) or `receipt.registry` (page size <= 100).
 - [ ] `bank`, `supplier` and `error` arrays reconciled and alerted.
+
+## Testing
+- [ ] Scenarios ACC2CARD-01 to -06 pass with the receiver test PANs in [`references/sandbox/`](../references/sandbox/README.md#paymenthub-account-to-card); test PANs stay in tests and fixtures.

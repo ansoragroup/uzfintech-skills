@@ -6,7 +6,7 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "method": "_payInvoiceWithMobi",
-  "endpoint": "POST https://api.alifpay.uz/v2/_payInvoiceWithMobi",
+  "endpoint": "POST https://api-dev.alifpay.uz/v2/_payInvoiceWithMobi",
   "params": {
     "type": "object",
     "properties": {

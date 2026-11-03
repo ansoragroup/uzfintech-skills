@@ -93,7 +93,8 @@ Optional: `sale_point_address`. 202 semantics as above (`code` 0/1).
   `/v2/receipt/{operation_id}/receipt_url`. Use the spec path.
 - `commission_info` with both `TIN` and `PINFL` is invalid.
 - 202 is not an error. Store `operation_id` and poll.
-- Test SPIC values and keys come from your Uzum manager.
+- Test SPIC values and keys come from your Uzum manager. Receipts to send on the test host
+  before go-live: [`../sandbox/README.md`](../sandbox/README.md#fiscalization).
 
 ## Examples
 

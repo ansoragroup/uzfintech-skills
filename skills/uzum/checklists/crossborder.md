@@ -6,6 +6,7 @@ Contracts: [`../references/crossborder/README.md`](../references/crossborder/REA
 
 ## CrossBorder
 - [ ] Hosts from config (production over IPSec; test host differs between spec and docs).
+- [ ] Tests run the vendor scenarios in [`references/sandbox/`](../references/sandbox/README.md#crossborder-transfers-to-uzbekistan) (credit, DEBIT with OTP-driven errors, payments with mock `serviceId`s); test PANs and phones stay in tests and fixtures.
 - [ ] Basic auth from secrets.
 - [ ] Optional fields omitted, never sent as `""` or `null` (`10002`).
 - [ ] Amounts integer minor units; currencies from the allowed list.

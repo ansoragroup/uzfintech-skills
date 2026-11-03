@@ -6,7 +6,7 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "method": "_completeInstallmentRefund",
-  "endpoint": "POST https://api.alifpay.uz/v2/_completeInstallmentRefund",
+  "endpoint": "POST https://api-dev.alifpay.uz/v2/_completeInstallmentRefund",
   "params": {
     "type": "object",
     "properties": {

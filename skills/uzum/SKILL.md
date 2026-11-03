@@ -25,6 +25,7 @@ headers and auth are in the product README.
 | Ratekeeper | you call Uzum | `X-API-Key` | [references/ratekeeper/](references/ratekeeper/README.md) |
 | Nasiya (BNPL) | you call Uzum Nasiya; buyer signs in a WebView | Bearer | [references/nasiya/](references/nasiya/README.md) |
 | PaymentHub | you call Uzum (JSON-RPC 2.0) | Basic | [references/paymenthub/](references/paymenthub/README.md), [methods](references/paymenthub/methods.md), [errors](references/paymenthub/errors.md) |
+| Sandbox | test hosts, test cards, 3-DS code, test phones and PANs, scenarios with expected codes, vendor samples | test credentials from your Uzum manager | [references/sandbox/](references/sandbox/README.md) |
 
 ## Which product?
 
@@ -39,6 +40,7 @@ headers and auth are in the product README.
 | get a conversion rate / limits for a transfer | Ratekeeper |
 | sell on installments (buy now, pay later) | Nasiya |
 | pay utilities by card token, pay out to cards, or transfer to accounts by requisites | PaymentHub |
+| test any of the above (test hosts, cards, scenarios, samples) | [sandbox](references/sandbox/README.md) |
 
 ## Cross-product rules
 
@@ -102,8 +104,11 @@ Then compare the real request and response shapes with `schemas/` and `examples/
   fact is not there, say the contract does not specify it and point to the vendor page
   listed as `Source:`.
 - Where a README flags a vendor inconsistency, give both readings and say which one is safer.
-- Use only placeholder data in generated code and examples: `https://merchant.example.com`,
-  `<BASIC_USER>`, `+998901234567`, `"100001"`. Never invent credentials, and never copy
-  vendor test PANs. Link to the vendor testing page instead.
+- For tests, fixtures and sandbox examples use the exact vendor test data in
+  [references/sandbox/](references/sandbox/README.md) (test cards, 3-DS code, test phones,
+  scenario inputs) and keep it out of production code paths.
+- For credentials and merchant data use placeholders: `https://merchant.example.com`,
+  `<BASIC_USER>`, `<API_KEY>`, `"100001"`. Never invent or copy a real credential, and never
+  copy the pre-filled login, password or key from a vendor Postman collection.
 - Upstream docs: https://developer.uzumbank.uz/ . Freshness: each README carries `Fetched:`.
   Run `scripts/sync --check` to compare against upstream.

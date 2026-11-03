@@ -89,10 +89,11 @@ two business days.
 
 ## Testing
 
-Test credentials and the test account come from your Uzum manager. The vendor test page
-lists receiver PANs that force each outcome (success, canceled, pending, not found, not
-active): https://developer.uzumbank.uz/paymenthub/testing/account-to-card/ . Do not send real
-payment or personal data to the test host.
+Test credentials and the test account come from your Uzum manager. Receiver test PANs that
+force each outcome (success, canceled, pending, not found, not active), the ACC2CARD
+scenarios and vendor samples: [`../sandbox/README.md`](../sandbox/README.md#paymenthub-account-to-card).
+Vendor page: https://developer.uzumbank.uz/paymenthub/testing/account-to-card/ . Do not send
+real payment or personal data to the test host.
 
 ## Examples
 

@@ -6,7 +6,8 @@ The skills give exact contract answers and help validate an integration. They co
 - endpoints, auth headers and signatures;
 - request and response schemas, field types and units;
 - error codes and state machines;
-- idempotency rules and anonymized examples.
+- idempotency rules and anonymized examples;
+- vendor sandbox data: test hosts, test cards, OTP codes, scenarios and samples.
 
 | Skill | Provider | Products |
 |---|---|---|
@@ -23,6 +24,7 @@ skills/<provider>/
   references/<product>/README.md   hand-written contract notes (source URL + fetched date)
   references/<product>/schemas/    trimmed JSON Schemas derived from upstream specs
   references/<product>/examples/   anonymized request / response bodies
+  references/sandbox/README.md     vendor test hosts, test cards, codes, scenarios, samples
   checklists/<product>.md          implementation validation checklists
 scripts/sync                       upstream sync (python3, stdlib only)
 sources.yaml                       tracked upstream sources and their hashes
