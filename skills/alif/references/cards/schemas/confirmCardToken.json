@@ -1,0 +1,42 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/cards/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirmCardToken",
+  "endpoint": "POST https://api.alifpay.uz/v2/confirmCardToken",
+  "params": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      },
+      "otp": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "token",
+      "otp"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      },
+      "masked_pan": {
+        "type": "string"
+      },
+      "bank_name": {
+        "type": "string"
+      },
+      "holder_name": {
+        "type": "string"
+      }
+    }
+  }
+}

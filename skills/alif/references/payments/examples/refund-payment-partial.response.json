@@ -1,0 +1,6 @@
+{
+  "id": "5d2c81fe-5614-4fd6-aa73-366e7f7448bb",
+  "status": "PENDING",
+  "amount": 7500000,
+  "webhook_url": "https://merchant.example.com/webhooks/alif-refund"
+}

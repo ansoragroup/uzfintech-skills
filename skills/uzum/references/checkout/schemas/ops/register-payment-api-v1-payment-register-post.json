@@ -1,0 +1,604 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/payment/register",
+  "operationId": "register_payment_api_v1_payment_register_post",
+  "summary": "Payment registration",
+  "callbacks": [
+    "acquiring_merchant_callback",
+    "event_merchant_callback",
+    "receipt_merchant_callback"
+  ],
+  "tags": [
+    "Одностадийный платеж",
+    "Двухстадийный платеж",
+    "Управление и оплата привязками",
+    "Платеж без открытия формы (Back-to-back Payment)",
+    "payment",
+    "merchant"
+  ],
+  "parameters": [
+    {
+      "required": true,
+      "schema": {
+        "allOf": [
+          {
+            "title": "LocaleType",
+            "enum": [
+              "ru-RU",
+              "uz-UZ",
+              "en-EN"
+            ],
+            "type": "string"
+          }
+        ]
+      },
+      "name": "Content-Language",
+      "in": "header"
+    },
+    {
+      "required": true,
+      "schema": {
+        "title": "X-Terminal-Id",
+        "type": "string",
+        "format": "uuid"
+      },
+      "name": "X-Terminal-Id",
+      "in": "header"
+    },
+    {
+      "required": false,
+      "schema": {
+        "title": "X-API-Key",
+        "type": "string"
+      },
+      "name": "X-API-Key",
+      "in": "header"
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "title": "Request",
+      "anyOf": [
+        {
+          "title": "OrderPaymentRequest",
+          "required": [
+            "viewType",
+            "clientId",
+            "currency",
+            "orderNumber",
+            "sessionTimeoutSecs",
+            "amount",
+            "paymentParams"
+          ],
+          "type": "object",
+          "properties": {
+            "successUrl": {
+              "title": "Successurl",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string",
+              "format": "uri"
+            },
+            "failureUrl": {
+              "title": "Failureurl",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string",
+              "format": "uri"
+            },
+            "viewType": {
+              "allOf": [
+                {
+                  "title": "PaymentViewType",
+                  "enum": [
+                    "WEB_VIEW",
+                    "IFRAME",
+                    "REDIRECT"
+                  ],
+                  "type": "string"
+                }
+              ]
+            },
+            "clientId": {
+              "title": "Clientid",
+              "minLength": 1,
+              "type": "string"
+            },
+            "currency": {
+              "allOf": [
+                {
+                  "title": "Currency",
+                  "enum": [
+                    860
+                  ],
+                  "type": "integer"
+                }
+              ]
+            },
+            "paymentDetails": {
+              "title": "Paymentdetails",
+              "maxLength": 1024,
+              "type": "string"
+            },
+            "orderNumber": {
+              "title": "Ordernumber",
+              "maxLength": 36,
+              "minLength": 1,
+              "type": "string"
+            },
+            "sessionTimeoutSecs": {
+              "title": "Sessiontimeoutsecs",
+              "maximum": 1800,
+              "minimum": 600,
+              "type": "integer"
+            },
+            "amount": {
+              "title": "Amount",
+              "exclusiveMaximum": 999999999999,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "merchantParams": {
+              "title": "Merchantparams",
+              "allOf": [
+                {
+                  "title": "MerchantParams",
+                  "type": "object",
+                  "properties": {
+                    "divisionId": {
+                      "title": "Divisionid",
+                      "type": "string"
+                    },
+                    "divisionName": {
+                      "title": "Divisionname",
+                      "type": "string"
+                    },
+                    "cart": {
+                      "title": "Cart",
+                      "allOf": [
+                        {
+                          "title": "Cart",
+                          "required": [
+                            "cartId",
+                            "items",
+                            "total"
+                          ],
+                          "type": "object",
+                          "properties": {
+                            "cartId": {
+                              "title": "Cartid",
+                              "type": "string"
+                            },
+                            "receiptType": {
+                              "allOf": [
+                                {
+                                  "title": "RegisterReceiptType",
+                                  "enum": [
+                                    "PURCHASE",
+                                    "PREPAID"
+                                  ],
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "items": {
+                              "title": "Items",
+                              "type": "array",
+                              "items": {
+                                "title": "CartItemRequest",
+                                "required": [
+                                  "title",
+                                  "productId",
+                                  "quantity",
+                                  "unitPrice",
+                                  "total"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "title": {
+                                    "title": "Title",
+                                    "maxLength": 63,
+                                    "type": "string"
+                                  },
+                                  "productId": {
+                                    "title": "Productid",
+                                    "type": "string"
+                                  },
+                                  "quantity": {
+                                    "title": "Quantity",
+                                    "type": "integer"
+                                  },
+                                  "unitPrice": {
+                                    "title": "Unitprice",
+                                    "type": "integer"
+                                  },
+                                  "total": {
+                                    "title": "Total",
+                                    "type": "integer"
+                                  },
+                                  "receiptParams": {
+                                    "title": "Receiptparams",
+                                    "allOf": [
+                                      {
+                                        "title": "UZReceiptParams",
+                                        "required": [
+                                          "spic",
+                                          "packageCode",
+                                          "vatPercent"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                          "spic": {
+                                            "title": "Spic",
+                                            "maxLength": 17,
+                                            "minLength": 17,
+                                            "type": "string"
+                                          },
+                                          "packageCode": {
+                                            "title": "Packagecode",
+                                            "maxLength": 20,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          "vatPercent": {
+                                            "title": "Vatpercent",
+                                            "exclusiveMaximum": 100,
+                                            "minimum": 0,
+                                            "type": "integer"
+                                          },
+                                          "TIN": {
+                                            "title": "Tin",
+                                            "maxLength": 9,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          "PINFL": {
+                                            "title": "Pinfl",
+                                            "maxLength": 14,
+                                            "minLength": 1,
+                                            "type": "string"
+                                          },
+                                          "discount": {
+                                            "title": "Discount",
+                                            "exclusiveMinimum": 0,
+                                            "type": "integer"
+                                          },
+                                          "voucher": {
+                                            "title": "Voucher",
+                                            "exclusiveMinimum": 0,
+                                            "type": "integer"
+                                          },
+                                          "labels": {
+                                            "title": "Labels",
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "title": "Total",
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "paymentParams": {
+              "title": "Paymentparams",
+              "allOf": [
+                {
+                  "title": "AcquiringPaymentParams",
+                  "required": [
+                    "payType"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "operationType": {
+                      "title": "Operationtype",
+                      "enum": [
+                        "PAYMENT"
+                      ],
+                      "type": "string",
+                      "default": "PAYMENT"
+                    },
+                    "payType": {
+                      "allOf": [
+                        {
+                          "title": "PayType",
+                          "enum": [
+                            "ONE_STEP",
+                            "TWO_STEP"
+                          ],
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "phoneNumber": {
+                      "title": "Phonenumber",
+                      "type": "string"
+                    },
+                    "force3ds": {
+                      "title": "Force3Ds",
+                      "type": "boolean"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "OrderBingingRequest",
+          "required": [
+            "viewType",
+            "clientId",
+            "currency",
+            "orderNumber",
+            "sessionTimeoutSecs",
+            "paymentParams"
+          ],
+          "type": "object",
+          "properties": {
+            "successUrl": {
+              "title": "Successurl",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string",
+              "format": "uri"
+            },
+            "failureUrl": {
+              "title": "Failureurl",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string",
+              "format": "uri"
+            },
+            "viewType": {
+              "allOf": [
+                {
+                  "title": "PaymentViewType",
+                  "enum": [
+                    "WEB_VIEW",
+                    "IFRAME",
+                    "REDIRECT"
+                  ],
+                  "type": "string"
+                }
+              ]
+            },
+            "clientId": {
+              "title": "Clientid",
+              "minLength": 1,
+              "type": "string"
+            },
+            "currency": {
+              "allOf": [
+                {
+                  "title": "Currency",
+                  "enum": [
+                    860
+                  ],
+                  "type": "integer"
+                }
+              ]
+            },
+            "paymentDetails": {
+              "title": "Paymentdetails",
+              "maxLength": 1024,
+              "type": "string"
+            },
+            "orderNumber": {
+              "title": "Ordernumber",
+              "maxLength": 36,
+              "minLength": 1,
+              "type": "string"
+            },
+            "sessionTimeoutSecs": {
+              "title": "Sessiontimeoutsecs",
+              "maximum": 1800,
+              "minimum": 600,
+              "type": "integer"
+            },
+            "paymentParams": {
+              "title": "Paymentparams",
+              "allOf": [
+                {
+                  "title": "BindingPaymentParams",
+                  "required": [
+                    "operationType"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "operationType": {
+                      "title": "Operationtype",
+                      "enum": [
+                        "BINDING"
+                      ],
+                      "type": "string"
+                    },
+                    "phoneNumber": {
+                      "title": "Phonenumber",
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "ApiResponse[Union[PaymentRegisterResponse, PaymentB2BRegisterResponse]]",
+        "required": [
+          "errorCode"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "title": "ErrorCode",
+            "enum": [
+              0,
+              5000,
+              2000,
+              1000,
+              1001,
+              1002,
+              1003,
+              1004,
+              1005,
+              1006,
+              1007,
+              1008,
+              1009,
+              3000,
+              3001,
+              3002,
+              3003,
+              3004,
+              3005,
+              3006,
+              3007,
+              3008,
+              3009,
+              3010,
+              3011,
+              3012,
+              3013,
+              3014,
+              3015,
+              3016,
+              3017,
+              3018,
+              3019,
+              3020,
+              3021,
+              3022,
+              3023,
+              3024,
+              3025,
+              3026,
+              3027,
+              3028,
+              3029,
+              3030,
+              3031,
+              3032,
+              3033,
+              3034,
+              3035,
+              3036,
+              3037,
+              3038,
+              3039,
+              3040,
+              3041,
+              3042,
+              3043,
+              3044,
+              3045,
+              3046,
+              3047,
+              3200,
+              3201,
+              3202,
+              3203,
+              3204,
+              3205,
+              3206,
+              3207,
+              3208,
+              3209,
+              3210,
+              3211,
+              3212,
+              3401,
+              3403,
+              3404,
+              3405
+            ],
+            "type": "integer"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "result": {
+            "title": "Result",
+            "anyOf": [
+              {
+                "title": "PaymentRegisterResponse",
+                "required": [
+                  "orderId",
+                  "paymentRedirectUrl"
+                ],
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "title": "Orderid",
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "paymentRedirectUrl": {
+                    "title": "Paymentredirecturl",
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "title": "PaymentB2BRegisterResponse",
+                "required": [
+                  "orderId"
+                ],
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "title": "Orderid",
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              {
+                "title": "PaymentTechCardRegisterResponse",
+                "required": [
+                  "orderId"
+                ],
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "title": "Orderid",
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

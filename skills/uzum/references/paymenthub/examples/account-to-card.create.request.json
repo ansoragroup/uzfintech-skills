@@ -1,0 +1,21 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "receipt.account.create.transfer",
+  "params": {
+    "amount": 15000000,
+    "ext_id": "payout-100001",
+    "account": {
+      "number": "<YOUR_ACCOUNT_20_DIGITS>",
+      "mfo": "<MFO>"
+    },
+    "sender": {
+      "id": "<BASIC_USER>:sender-0001",
+      "name": "Sample Sender"
+    },
+    "receiver": {
+      "number": "<RECEIVER_PAN_16_DIGITS>"
+    },
+    "description": "Payout for order 100001"
+  }
+}

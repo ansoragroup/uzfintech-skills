@@ -1,0 +1,173 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_nasiya.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/contracts/check-status",
+  "operationId": "checkContractStatus",
+  "summary": "Проверка статуса договора",
+  "tags": [
+    "API MFO"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "contract_id"
+      ],
+      "properties": {
+        "contract_id": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "id",
+              "contract_id",
+              "type",
+              "created_at",
+              "updated_at",
+              "contract_status"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "contract_id": {
+                "type": "integerй"
+              },
+              "type": {
+                "type": "string"
+              },
+              "myid_attempts": {
+                "type": "integer"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "contract_status": {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  9
+                ]
+              },
+              "status": {
+                "type": "integer"
+              },
+              "qr_status": {
+                "type": "integer"
+              },
+              "is_signed": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "text"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

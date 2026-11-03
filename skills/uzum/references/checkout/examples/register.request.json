@@ -1,0 +1,37 @@
+{
+  "successUrl": "https://merchant.example.com/payment/success?order=100001",
+  "failureUrl": "https://merchant.example.com/payment/failure?order=100001",
+  "viewType": "REDIRECT",
+  "clientId": "5ebe3af5-4b4d-4c58-ab63-99706ef5d804",
+  "currency": 860,
+  "paymentDetails": "Order 100001",
+  "orderNumber": "100001",
+  "sessionTimeoutSecs": 1200,
+  "amount": 15000000,
+  "merchantParams": {
+    "cart": {
+      "cartId": "100001",
+      "receiptType": "PURCHASE",
+      "items": [
+        {
+          "title": "Wireless mouse",
+          "productId": "SKU-0001",
+          "quantity": 1,
+          "unitPrice": 15000000,
+          "total": 15000000,
+          "receiptParams": {
+            "spic": "<SPIC_17_DIGITS>",
+            "packageCode": "<PACKAGE_CODE>",
+            "vatPercent": 12
+          }
+        }
+      ],
+      "total": 15000000
+    }
+  },
+  "paymentParams": {
+    "operationType": "PAYMENT",
+    "payType": "ONE_STEP",
+    "phoneNumber": "998901234567"
+  }
+}

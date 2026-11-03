@@ -1,0 +1,84 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_dynamicqr.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/dynamic-qr/merchant/payment/status-by-order",
+  "operationId": "check_order",
+  "summary": "Check Order",
+  "tags": [
+    "Методы"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "order_id",
+        "service_id"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "payment_id": {
+            "type": "string"
+          },
+          "payment_status": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "SUCCESS",
+              "FAILED",
+              "HOLD",
+              "REVERSE_PENDING",
+              "REVERSED",
+              "PARTIAL_CANCELLED",
+              "CANCELLED"
+            ]
+          },
+          "error_code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "client_phone_number": {
+            "type": "string"
+          },
+          "processingReferenceNumber": {
+            "type": "string",
+            "format": "string"
+          },
+          "cardType": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "payment_id",
+          "payment_status",
+          "error_code"
+        ]
+      }
+    },
+    "401": {
+      "contentType": null,
+      "schema": null
+    }
+  }
+}

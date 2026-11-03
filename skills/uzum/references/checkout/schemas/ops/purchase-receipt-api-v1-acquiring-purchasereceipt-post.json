@@ -1,0 +1,298 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/acquiring/purchaseReceipt",
+  "operationId": "purchase_receipt_api_v1_acquiring_purchaseReceipt_post",
+  "summary": "Purchase receipt fiscalization based on a prepaid receipt",
+  "callbacks": [
+    "receipt_merchant_callback"
+  ],
+  "tags": [
+    "Вспомогательные методы"
+  ],
+  "parameters": [
+    {
+      "name": "X-Operation-Id",
+      "in": "header",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "format": "uuid",
+        "title": "X-Operation-Id"
+      }
+    },
+    {
+      "name": "X-Terminal-Id",
+      "in": "header",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "format": "uuid",
+        "title": "X-Terminal-Id"
+      }
+    },
+    {
+      "name": "X-API-Key",
+      "in": "header",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "title": "X-API-KEY"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Orderid"
+        },
+        "cart": {
+          "allOf": [
+            {
+              "properties": {
+                "total": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "title": "Total"
+                },
+                "items": {
+                  "items": {
+                    "title": "FiscalizationCartItemRequest",
+                    "required": [
+                      "productId",
+                      "quantity",
+                      "receiptParams"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "productId": {
+                        "title": "Productid",
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "title": "Quantity",
+                        "exclusiveMinimum": 0,
+                        "type": "integer"
+                      },
+                      "receiptParams": {
+                        "title": "Receiptparams",
+                        "allOf": [
+                          {
+                            "title": "UZReceiptParams",
+                            "required": [
+                              "spic",
+                              "packageCode",
+                              "vatPercent"
+                            ],
+                            "type": "object",
+                            "properties": {
+                              "spic": {
+                                "title": "Spic",
+                                "maxLength": 17,
+                                "minLength": 17,
+                                "type": "string"
+                              },
+                              "packageCode": {
+                                "title": "Packagecode",
+                                "maxLength": 20,
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "vatPercent": {
+                                "title": "Vatpercent",
+                                "exclusiveMaximum": 100,
+                                "minimum": 0,
+                                "type": "integer"
+                              },
+                              "TIN": {
+                                "title": "Tin",
+                                "maxLength": 9,
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "PINFL": {
+                                "title": "Pinfl",
+                                "maxLength": 14,
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "discount": {
+                                "title": "Discount",
+                                "exclusiveMinimum": 0,
+                                "type": "integer"
+                              },
+                              "voucher": {
+                                "title": "Voucher",
+                                "exclusiveMinimum": 0,
+                                "type": "integer"
+                              },
+                              "labels": {
+                                "title": "Labels",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "type": "array",
+                  "minItems": 1,
+                  "title": "Items"
+                }
+              },
+              "type": "object",
+              "required": [
+                "total",
+                "items"
+              ],
+              "title": "PurchaseReceiptCartRequest"
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "orderId",
+        "cart"
+      ],
+      "title": "PurchaseReceiptRequest"
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "properties": {
+          "errorCode": {
+            "title": "ErrorCode",
+            "enum": [
+              0,
+              5000,
+              2000,
+              1000,
+              1001,
+              1002,
+              1003,
+              1004,
+              1005,
+              1006,
+              1007,
+              1008,
+              1009,
+              3000,
+              3001,
+              3002,
+              3003,
+              3004,
+              3005,
+              3006,
+              3007,
+              3008,
+              3009,
+              3010,
+              3011,
+              3012,
+              3013,
+              3014,
+              3015,
+              3016,
+              3017,
+              3018,
+              3019,
+              3020,
+              3021,
+              3022,
+              3023,
+              3024,
+              3025,
+              3026,
+              3027,
+              3028,
+              3029,
+              3030,
+              3031,
+              3032,
+              3033,
+              3034,
+              3035,
+              3036,
+              3037,
+              3038,
+              3039,
+              3040,
+              3041,
+              3042,
+              3043,
+              3044,
+              3045,
+              3046,
+              3047,
+              3200,
+              3201,
+              3202,
+              3203,
+              3204,
+              3205,
+              3206,
+              3207,
+              3208,
+              3209,
+              3210,
+              3211,
+              3212,
+              3401,
+              3403,
+              3404,
+              3405
+            ],
+            "type": "integer"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "result": {
+            "properties": {
+              "operationId": {
+                "type": "string",
+                "format": "uuid",
+                "title": "Operationid"
+              }
+            },
+            "type": "object",
+            "required": [
+              "operationId"
+            ],
+            "title": "PurchaseReceiptResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "errorCode"
+        ],
+        "title": "ApiResponse[PurchaseReceiptResponse]"
+      }
+    }
+  }
+}

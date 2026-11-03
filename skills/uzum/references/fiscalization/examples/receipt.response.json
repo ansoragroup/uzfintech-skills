@@ -1,0 +1,5 @@
+{
+  "receipt_id": 1000001,
+  "payment_id": "d83c7673-07aa-4126-8d04-f1a2a802a6ae",
+  "receipt_url": "<receipt URL returned by the OFD>"
+}

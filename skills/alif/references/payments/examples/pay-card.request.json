@@ -1,0 +1,23 @@
+{
+  "id": "e9c12ea5-be26-435b-a32e-cc6e2f37069d",
+  "amount": 14500000,
+  "method": {
+    "type": "CARD",
+    "pan": "<CARD_PAN_16_DIGITS>",
+    "exp": "<MMYY>"
+  },
+  "receipt": {
+    "type": 0,
+    "phone": "998901234567",
+    "items": [
+      {
+        "name": "Wireless mouse",
+        "spic": "<SPIC_17_DIGITS>",
+        "amount": 2,
+        "price": 7500000,
+        "discount": 500000,
+        "vat_percent": 12
+      }
+    ]
+  }
+}

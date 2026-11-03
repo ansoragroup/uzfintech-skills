@@ -1,0 +1,9 @@
+{
+  "orderId": "d7f1e39e-757c-4520-b0fa-c0865cf966c9",
+  "orderNumber": "100001",
+  "operationType": "COMPLETE",
+  "operationState": "SUCCESS",
+  "merchantOperationId": "c69ee731-34de-4b39-9e44-80dd5952f75f",
+  "cardType": 2,
+  "rrn": "000000000001"
+}

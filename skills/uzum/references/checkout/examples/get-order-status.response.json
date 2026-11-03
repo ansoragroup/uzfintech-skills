@@ -1,0 +1,35 @@
+{
+  "errorCode": 0,
+  "message": null,
+  "result": {
+    "orderId": "d7f1e39e-757c-4520-b0fa-c0865cf966c9",
+    "status": "COMPLETED",
+    "cardType": 2,
+    "actionCode": 0,
+    "merchantOrderId": "100001",
+    "amount": 15000000,
+    "totalAmount": 15000000,
+    "completedAmount": 15000000,
+    "refundedAmount": 0,
+    "reversedAmount": 0,
+    "operations": [
+      {
+        "operationId": "fd873626-bf5e-4079-a6b0-a6f9b2595cee",
+        "startAt": "2026-11-03T10:00:05+05:00",
+        "doneAt": "2026-11-03T10:00:09+05:00",
+        "operationType": "AUTHORIZE",
+        "state": "SUCCESS",
+        "rrn": "000000000001"
+      },
+      {
+        "operationId": "07ab30d5-5913-4824-915e-dceca94833a8",
+        "merchantOperationId": "c69ee731-34de-4b39-9e44-80dd5952f75f",
+        "startAt": "2026-11-03T10:05:00+05:00",
+        "doneAt": "2026-11-03T10:05:02+05:00",
+        "operationType": "COMPLETE",
+        "state": "SUCCESS",
+        "rrn": "000000000001"
+      }
+    ]
+  }
+}

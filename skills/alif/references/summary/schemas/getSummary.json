@@ -1,0 +1,68 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/summary/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "getSummary",
+  "endpoint": "POST https://api.alifpay.uz/v2/getSummary",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "token": {
+        "type": "string"
+      },
+      "from": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}$"
+      },
+      "to": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}$"
+      }
+    },
+    "required": [
+      "id",
+      "token",
+      "from",
+      "to"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "description": "keys are months YYYY-MM",
+    "additionalProperties": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "DEBIT",
+          "CREDIT",
+          "P2P_DEBIT",
+          "P2P_CREDIT",
+          "DEBIT_REVERSAL",
+          "CREDIT_REVERSAL",
+          "P2P_DEBIT_REVERSAL",
+          "P2P_CREDIT_REVERSAL",
+          "CASH_IN",
+          "CASH_OUT",
+          "REFILL_FROM_BANK_ACCOUNT"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer"
+          },
+          "count": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

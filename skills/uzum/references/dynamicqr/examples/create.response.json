@@ -1,0 +1,4 @@
+{
+  "payment_link": "<payment link returned by Uzum; encode it in the QR>",
+  "error_code": 0
+}

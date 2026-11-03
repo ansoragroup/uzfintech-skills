@@ -1,0 +1,67 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_dynamicqr.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/dynamic-qr/merchant/payment/create",
+  "operationId": "create_order",
+  "summary": "Create Order",
+  "tags": [
+    "Методы"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "order_id": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "details": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "amount",
+        "order_id",
+        "service_id"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "payment_link": {
+            "type": "string"
+          },
+          "error_code": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "payment_link",
+          "error_code"
+        ]
+      }
+    },
+    "401": {
+      "contentType": null,
+      "schema": null
+    }
+  }
+}

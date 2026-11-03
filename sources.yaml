@@ -1,0 +1,626 @@
+# Upstream contract sources tracked by scripts/sync.
+# Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and
+# status are written by the script. kind: openapi | openapi-labels | html.
+sources:
+  - id: uzum-merchant-ru
+    provider: uzum
+    product: merchant
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_merchant.yaml
+    sha256: 18f34bfa850ad41ba1fd6e9daa81874820e45efd88da886106117dd6153a3683
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-merchant-en
+    provider: uzum
+    product: merchant
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_merchant.yaml
+    sha256: a8361fd240093bb9d1190a6e8cdcfaa0e63c37fa4fd886715cf42b9d789ec852
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-checkout-ru
+    provider: uzum
+    product: checkout
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml
+    sha256: 040288ddff5e7be91a9c2fa322c31669f38c688dfd60fb80d8380a4f8699c048
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-checkout-en
+    provider: uzum
+    product: checkout
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_checkout.yaml
+    sha256: 7e8519883a4c9ef36db541d4cbc89e0b867168c720466c2c133d3ff6090f1f55
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-fiscalization-ru
+    provider: uzum
+    product: fiscalization
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_fiscalization.yaml
+    sha256: 477fd5240da8fa2db94d79bbc0f834f5532677d9dbcf723635f50809e3aedce7
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-fiscalization-en
+    provider: uzum
+    product: fiscalization
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_fiscalization.yaml
+    sha256: 4715ba4e5027e6f42eb103c2abc49c80434cf674f5ef1899b6444e79bb2546b1
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-fastpay-ru
+    provider: uzum
+    product: fastpay
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_fastpay.yaml
+    sha256: fb5828a1c3631cbaf4d586eb58356f272f154cb1a7e8ea604944002d43457e58
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-fastpay-en
+    provider: uzum
+    product: fastpay
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_fastpay.yaml
+    sha256: c61701050787535b8623f956d22d543fb0bfac3c87562f1e7888e35a63fc44eb
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-dynamicqr-ru
+    provider: uzum
+    product: dynamicqr
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_dynamicqr.yaml
+    sha256: d70aaaab51f1c1e4c8eab64f12497c0b6038f16e0814e9b06050e7fb57fb5c59
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-dynamicqr-en
+    provider: uzum
+    product: dynamicqr
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_dynamicqr.yaml
+    sha256: 4b180ad381002f3d4502ed7ae99c72a922d5a47aa0fbd44c03617b44f77b5eba
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-nasiya-ru
+    provider: uzum
+    product: nasiya
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_nasiya.yaml
+    sha256: b8b24b75be9b4c8c45c8b895fe9b134da3ed5c04dcc525fa989958089bc0462f
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-nasiya-en
+    provider: uzum
+    product: nasiya
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_nasiya.yaml
+    sha256: 53ae77315494af913f349028d1ded4aa1ca46629dd077b61c1505b4bc57684d5
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-ru
+    provider: uzum
+    product: crossborder
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml
+    sha256: 2137b5a28aa25cbcfca15cdf9f16d565d4f5f5816d66869b92a73e80dccf0ca3
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-en
+    provider: uzum
+    product: crossborder
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_crossborder.yaml
+    sha256: e3c415ac441803648ad4b35cdc0d135ba0ca4dd105849e1c95c859bdfe5a191a
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-ratekeeper-ru
+    provider: uzum
+    product: ratekeeper
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_ratekeeper.yaml
+    sha256: cdd5a9beabe2d42b4aeefc610017824df2b8f98c5b154a86203cd2787f7ffd5c
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-ratekeeper-en
+    provider: uzum
+    product: ratekeeper
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_ratekeeper.yaml
+    sha256: 51c6198fcf76062e60e28996b6af7ee248280877de2ac8433282a7915cb90d06
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-remitcore-ru
+    provider: uzum
+    product: remitcore
+    kind: openapi
+    lang: ru
+    url: https://developer.uzumbank.uz/redocusaurus/ru_remitcore.yaml
+    sha256: 4e13a59bdb8904effc5a4912fead1308f64ff5416aa75edd5b6b2084068f2b77
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-remitcore-en
+    provider: uzum
+    product: remitcore
+    kind: openapi-labels
+    lang: en
+    url: https://developer.uzumbank.uz/redocusaurus/en_remitcore.yaml
+    sha256: 97ac0ad570ba2d5729f34a6d6a3a4c15e8c362bcb8f548b43afb5344eaba116d
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-index
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: 72b7c3b02cfc102e9983f6ae333301548d53c06de051f779c29982f8bb1e05c5
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-environments-main
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/7c13bbdd-417d-4ab4-ac33-97fec7410588/main/
+    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md]
+    sha256: 835dbd0802439aadcd2fa3abf79e70e491d952dc8dfbdf6036d2969d679014cb
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-environments-test
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/7c13bbdd-417d-4ab4-ac33-97fec7410588/test/
+    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md]
+    sha256: 530cc95adbc296db6b0d6a75751e51ed3eb03007fa47fde79637142c11498af9
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-account-account-attached-list
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/account/account-attached-list/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: f72eb930b86d5939f6273491eacd38e8857484fea91380c9073314bef73e5f0f
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-account-account-balance
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/account/account-balance/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 247e837041d184380bc22a442ff68ae2d3ecc0d7a03adf405bf39f7d81458627
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-account-account-check
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/account/account-check/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 884a24455257bc7bee0f5ff76ca5bff906f18036ce75f86ebd8650c6e293840e
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-account-account-history
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/account/account-history/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: b28c186fe84c01f5d6bcaf1d8b26de4f4979758275eec2b11fb36f858ea10699
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-account-account-transfer-balance
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/account/account-transfer-balance/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: edefbb385a6b307cf0c3daea1ea822219f5b686a0b16420e51d87eb418b72d53
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-auth
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/auth/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: 2e2717e7d6b17aeb3497664bb9a0613092553e05f0a53fc12cd6299813dc3890
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-auxiliary-methods
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/auxiliary-methods/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 1165ad8d87e1c4459e0f6ba5f75f3f42e982e36a9bf88954cb7fb3b41c48acbd
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-card-bind-card
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/card/bind-card/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: fd73ffc78487cda48d343306f41e90f85bddd7691b87be518b1139b0dabc7ac2
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-card-get-card-info
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/card/get-card-info/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: e315e5bebad491d53df796b771990d79af1dfa33899aa9b3ffc102e07e8fd12d
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-card-get-reciever-card-info
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/card/get-reciever-card-info/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: bea1505bb8a2d681e0b96c06bae49686387d13996173974869dfd2ffdc8c9279
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-category-account
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/category/account/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: e944edc9fd070c64c2eeb4e984bf8123e6f7ab18315a3c153ed29cab5771a1f7
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-category-card
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/category/card/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: 01e3a89226408897ce07c571b210e4c866485639f023555aabed9888552c14a6
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-category-merchant
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/category/merchant/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: 31c3cde1909ffdcab7eb016bc9c768168a71a32eee412aa608150d91377fbe76
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-category-receipt
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/category/receipt/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: 86f12e5933ba574241b406c3fe6234563a2a379b383e6d567c3529e9b46ffe85
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-category-testing
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/category/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/
+    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md]
+    sha256: 4056ab999b659631a73b4f4186febd534cb2d888684f86a3c53c38461a1dd667
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-default-dictionary
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/default/dictionary/
+    refs: [skills/uzum/references/paymenthub/errors.md]
+    sha256: 91a61a678adbb27d663aac1c663656be23a2f046db4eb972dce074ec9a6db980
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-error-codes
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/error-codes/
+    refs: [skills/uzum/references/paymenthub/errors.md]
+    sha256: dab73e49af1f20288717e08f70ed86cc5dd5e90bacc3e349b0dddce98851edf1
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-json-rpc
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/json-rpc/
+    refs: [skills/uzum/references/paymenthub/README.md]
+    sha256: 399f06cdfbc630a936aab1b0b29dd6caf5349ebc033a4aa856de229c60daf32b
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-merchant-merchant-get-all
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/merchant/merchant-get-all/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 3121b3fb4135c1c33566194ef35bb602aa82506ef84076bb71255a473bb3913f
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-merchant-merchant-get-by-category
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/merchant/merchant-get-by-category/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 30beb81b78324c6c47b8f59136de15f458a4601e57377325e586671118b6566f
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-merchant-merchant-get-by-id
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/merchant/merchant-get-by-id/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 19fd1ffc47fc582bcda72e505bea27f1f0a7380e0c8d0e1b6771a9307a14c38b
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-merchant-merchant-get-categories
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/merchant/merchant-get-categories/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 7d1f264d50c7edc005ddbcbb99b76003d6e5a94082a5ce2340fc89763975788e
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-merchant-merchant-info
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/merchant/merchant-info/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: e5d34df016faed7c954f2fb4d711700de770e8982ab00afacf5eb44cd0117153
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-about
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/about/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 4901b3de5a2300040c71b08bffc406c05128028a9acd264be2a7e9a0ef09e97c
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-account-to-account
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/account-to-account/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 7150e7492cdf20b0cbfdaf6b6859867402f1795e4b27c3c2c5c92f744bd9db19
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-account-to-card
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/account-to-card/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 31829f93c656785e6d6f770073a894f65901d05705854c5d62600f3d8c73e4a1
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-receipt-check-by-extId
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/aux/receipt-check-by-extId/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 8ecf1993651511923608ab7b7ee81a0714f7f81a2458f2885ac19f4c81384c78
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-receipt-check-by-id
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/aux/receipt-check-by-id/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: f6ed995be6903348da8f4ec301e3038154c73d698499d0bb4a24d18dba4603cb
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-receipt-compare-payment
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/aux/receipt-compare-payment/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 7b67edbaaf026e11f04a5f281a86fb8323d18991da451c9d8a7392b09acfccbd
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-receipt-registry
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/aux/receipt-registry/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 79623ea1673acc53a7ad69f8835c189a70b0f80cf5d510f845d2bd3a85a57649
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-card-to-account
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/card-to-account/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 9dedca3c136c7d81fc9fb8d01109fa344bcfd941d2b215295be7f98ff197e6dc
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-models
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/models/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: e929e7384c226aa152b27d851e7784f6887b5dccc72dced9ff79967fa5348063
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-receipt-online-card-payment
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/receipt/online-card-payment/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 677868d88f815fb5d73831b5f9500bf1b904a8d645cce6190b48dc7da46d64bf
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-testing-account-to-card
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/testing/account-to-card/
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    sha256: 780b05bd238193ae7facc828b399241909b465e7069cf260d8a423c162ab9388
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-paymenthub-testing-getting-started
+    provider: uzum
+    product: paymenthub
+    kind: html
+    lang: ru
+    url: https://developer.uzumbank.uz/paymenthub/testing/getting-started/
+    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md]
+    sha256: a5d2a49971ae088979781acafa09026df0ed5dd7b170175e248456e4a3b93a9d
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-index
+    provider: alif
+    product: common
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/
+    refs: [skills/alif/references/common/README.md]
+    sha256: 7faa5c9a5648acbaa107a20aeef7284150cac4a190d2c8632748989926d88442
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-checkout
+    provider: alif
+    product: checkout
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/checkout/
+    refs: [skills/alif/references/checkout/README.md]
+    sha256: b7c84e88faf8d981a512837237a8f2afc08e15fd35d9e9a66d132d5fb3a24e79
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-payments
+    provider: alif
+    product: payments
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/payments/
+    refs: [skills/alif/references/payments/README.md]
+    sha256: fa7a9e72bb3789f97011ec562aa77d7b5a11b866b461e9b9f214868d77d50119
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-cards
+    provider: alif
+    product: cards
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/cards/
+    refs: [skills/alif/references/cards/README.md]
+    sha256: a51713934686064932117d3e6c98e166da3ce473c4678a800577aebf3081d4b1
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-hold
+    provider: alif
+    product: hold
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/hold/
+    refs: [skills/alif/references/hold/README.md]
+    sha256: ff92f35a4930460f94c28f36e7c18a4a9b1ea9f646a87468e62e75118a928c9c
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-monitoring
+    provider: alif
+    product: monitoring
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/monitoring/
+    refs: [skills/alif/references/monitoring/README.md]
+    sha256: a19c779e650b549818ff9e80826ba97ed5af1931ae3660eb0e43c5a344dc6a16
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-summary
+    provider: alif
+    product: summary
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/summary/
+    refs: [skills/alif/references/summary/README.md]
+    sha256: 7b1556f1179951f7664fd433468964cabeb74e8f1a7afe4192955f0475912ecd
+    fetched: 2026-11-03
+    status: ok
+  - id: alif-changelog
+    provider: alif
+    product: common
+    kind: html
+    lang: ru
+    url: https://docs.alifpay.uz/changelog/
+    refs: [skills/alif/references/common/README.md]
+    sha256: e62b0b43821c0b32f6df20ed3e9946efa7e33999ceddeebf4ae3d51f4cd718d5
+    fetched: 2026-11-03
+    status: ok

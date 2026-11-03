@@ -1,0 +1,377 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/payments/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "pay",
+  "endpoint": "POST https://api.alifpay.uz/v2/pay",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "integer",
+        "minimum": 50000,
+        "maximum": 20000000000
+      },
+      "method": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "CARD"
+              },
+              "pan": {
+                "type": "string",
+                "pattern": "^\\d{16}$"
+              },
+              "exp": {
+                "type": "string",
+                "pattern": "^(0[1-9]|1[0-2])\\d{2}$"
+              }
+            },
+            "required": [
+              "type",
+              "pan",
+              "exp"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "TOKEN"
+              },
+              "token": {
+                "type": "string"
+              },
+              "force": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "token"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "HOLD"
+              },
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "id"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "MOBI_SHOW_QR"
+              },
+              "token": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "token"
+            ]
+          }
+        ]
+      },
+      "receipt": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "marking_code": {
+                  "type": "string"
+                },
+                "spic": {
+                  "type": "string",
+                  "description": "IKPU; required when receipt is true"
+                },
+                "amount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "quantity"
+                },
+                "price": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "unit price, tiyin"
+                },
+                "discount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "line total, tiyin"
+                },
+                "vat_percent": {
+                  "type": "integer"
+                },
+                "tin": {
+                  "type": "string",
+                  "pattern": "^\\d{9}$"
+                },
+                "pin": {
+                  "type": "string",
+                  "pattern": "^\\d{14}$"
+                }
+              },
+              "required": [
+                "name",
+                "amount",
+                "price",
+                "spic"
+              ]
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "payouts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "integer"
+            },
+            "tin": {
+              "type": "string",
+              "pattern": "^\\d{9}$"
+            },
+            "pin": {
+              "type": "string",
+              "pattern": "^\\d{14}$"
+            }
+          },
+          "required": [
+            "amount"
+          ]
+        }
+      },
+      "skip_payouts": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "id",
+      "amount",
+      "method"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "integer",
+        "minimum": 50000,
+        "maximum": 20000000000
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "SUCCEEDED",
+          "INSUFFICIENT_FUNDS",
+          "INVALID_CARD",
+          "REVERTED",
+          "OTP_REQUIRED",
+          "BLOCKED_CARD",
+          "EXPIRED_CARD",
+          "PIN_TRIES_EXCEEDED",
+          "SMS_NOTIFICATION_IS_OFF",
+          "INCORRECT_OTP",
+          "EXPIRED_OTP",
+          "PENDING",
+          "PENDING_REVERSAL",
+          "DECLINED",
+          "HELD",
+          "UNKNOWN_ERROR",
+          "QR_EXPIRED",
+          "CREDIT_RESTRICTED_BY_CLIENT"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "CARD",
+              "TOKEN",
+              "HOLD",
+              "MOBI",
+              "MOBI_SHOW_QR"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "pan": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "bml": {
+                "type": "boolean"
+              },
+              "txn_id": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "receipt": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "marking_code": {
+                  "type": "string"
+                },
+                "spic": {
+                  "type": "string",
+                  "description": "IKPU; required when receipt is true"
+                },
+                "amount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "quantity"
+                },
+                "price": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "unit price, tiyin"
+                },
+                "discount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "line total, tiyin"
+                },
+                "vat_percent": {
+                  "type": "integer"
+                },
+                "tin": {
+                  "type": "string",
+                  "pattern": "^\\d{9}$"
+                },
+                "pin": {
+                  "type": "string",
+                  "pattern": "^\\d{14}$"
+                }
+              },
+              "required": [
+                "name",
+                "amount",
+                "price",
+                "spic"
+              ]
+            }
+          },
+          "payment_id": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "merchant_id": {
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "refund": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "payouts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "integer"
+            },
+            "tin": {
+              "type": "string",
+              "pattern": "^\\d{9}$"
+            },
+            "pin": {
+              "type": "string",
+              "pattern": "^\\d{14}$"
+            }
+          },
+          "required": [
+            "amount"
+          ]
+        }
+      }
+    }
+  }
+}

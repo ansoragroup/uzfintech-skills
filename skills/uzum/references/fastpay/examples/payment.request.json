@@ -1,0 +1,8 @@
+{
+  "amount": 15000000,
+  "cashbox_code": "POS-01",
+  "otp_data": "<string scanned from the payer QR, 40+ chars>",
+  "order_id": "100001",
+  "transaction_id": "cc691d6b-8f8d-4ff1-8d5a-02e339f899be",
+  "service_id": 101
+}

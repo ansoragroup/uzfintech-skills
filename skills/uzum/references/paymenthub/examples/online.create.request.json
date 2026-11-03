@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "method": "receipt.create",
+  "params": {
+    "merchant_id": 1001,
+    "ext_id": "pay-100001",
+    "accounts": [
+      {
+        "key": "account",
+        "value": "100001"
+      }
+    ],
+    "amount": 15000000
+  }
+}

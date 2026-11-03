@@ -1,0 +1,236 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/payment/status",
+  "operationId": "getPaymentStatus",
+  "summary": "Get Payment Status",
+  "tags": [
+    "Трансграничные платежи"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "externalPaymentId"
+      ],
+      "properties": {
+        "externalPaymentId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "externalPaymentId",
+          "serviceId",
+          "paymentAmount",
+          "paymentCurrency",
+          "payerAmount",
+          "payerCurrency",
+          "serviceParameters",
+          "status",
+          "createdDateTime"
+        ],
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalPaymentId": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "payerAmount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "payerCurrency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "UZS"
+            ]
+          },
+          "paymentAmount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "paymentCurrency": {
+            "type": "string",
+            "enum": [
+              "UZS"
+            ]
+          },
+          "exchangeRate": {
+            "type": "string"
+          },
+          "serviceParameters": {
+            "type": "array",
+            "items": {
+              "required": [
+                "key",
+                "value"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "PENDING",
+              "APPROVED",
+              "SUCCESS",
+              "FAILED"
+            ]
+          },
+          "createdDateTime": {
+            "type": "string"
+          },
+          "completedDateTime": {
+            "type": "string"
+          },
+          "error": {
+            "required": [
+              "errorCode",
+              "errorMessage"
+            ],
+            "type": "object",
+            "properties": {
+              "errorCode": {
+                "type": "integer"
+              },
+              "errorMessage": {
+                "type": "string"
+              },
+              "errorDetails": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "message",
+                    "field"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ofdUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

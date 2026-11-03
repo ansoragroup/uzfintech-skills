@@ -1,0 +1,11 @@
+{
+  "jsonrpc": "2.0",
+  "id": 11,
+  "method": "receipt.pay.by.card",
+  "params": {
+    "id": "e938bc9ba997b5cbf4e413e9306d15ba",
+    "card": {
+      "token": "<CARD_TOKEN>"
+    }
+  }
+}

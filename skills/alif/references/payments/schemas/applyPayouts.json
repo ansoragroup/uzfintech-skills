@@ -1,0 +1,29 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/payments/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "applyPayouts",
+  "endpoint": "POST https://api.alifpay.uz/v2/applyPayouts",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    }
+  }
+}

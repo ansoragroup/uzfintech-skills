@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "name": "Wireless mouse",
+      "spic": "<SPIC_17_DIGITS>",
+      "amount": 2,
+      "price": 7500000,
+      "discount": 500000,
+      "vat_percent": 12
+    },
+    {
+      "name": "USB-C cable",
+      "spic": "<SPIC_17_DIGITS>",
+      "amount": 1,
+      "price": 1000000
+    }
+  ],
+  "receipt": true,
+  "phone": "998901234567",
+  "timeout": 900,
+  "redirect_url": "https://merchant.example.com/orders/100001/success",
+  "cancel_url": "https://merchant.example.com/orders/100001",
+  "webhook_url": "https://merchant.example.com/webhooks/alif",
+  "meta": {
+    "order_number": "100001"
+  },
+  "id": "73b81709-6b38-46cf-ba32-b46e6bcc2699",
+  "price": 15500000,
+  "created_at": "2026-11-03T08:00:00Z",
+  "payment": {
+    "id": "f2d14774-b8b7-4e10-a5c5-98d0457ab11e",
+    "amount": 15500000,
+    "status": "SUCCEEDED",
+    "method": {
+      "type": "CARD",
+      "payload": {
+        "pan": "860012******0000"
+      }
+    },
+    "receipt": {
+      "results": [
+        {
+          "merchant_id": 1,
+          "url": "<FISCAL_RECEIPT_URL on ofd.soliq.uz>",
+          "refund": false
+        }
+      ]
+    }
+  },
+  "merchant": {
+    "id": 1,
+    "name": "Merchant Example"
+  }
+}

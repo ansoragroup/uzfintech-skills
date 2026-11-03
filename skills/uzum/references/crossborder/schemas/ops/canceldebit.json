@@ -1,0 +1,253 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/transfer/cancel_debit",
+  "operationId": "cancelDebit",
+  "summary": "Cancel Transfer",
+  "tags": [
+    "Переводы из РУз"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "required": [
+        "externalTransferId"
+      ],
+      "type": "object",
+      "properties": {
+        "externalTransferId": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "allOf": [
+          {
+            "required": [
+              "completedDateTime",
+              "createdDateTime",
+              "exchangeRate",
+              "externalTransferId",
+              "receiverPaymentSystem",
+              "receiverAmount",
+              "senderAmount",
+              "senderCurrencyCode",
+              "status",
+              "transferId",
+              "transferType"
+            ],
+            "type": "object",
+            "properties": {
+              "rrn": {
+                "type": "string"
+              },
+              "externalTransferId": {
+                "type": "string"
+              },
+              "transferId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "senderAmount": {
+                "type": "integer"
+              },
+              "senderCurrencyCode": {
+                "type": "string",
+                "enum": [
+                  "UZS"
+                ]
+              },
+              "receiverAmount": {
+                "type": "integer"
+              },
+              "receiverCurrencyCode": {
+                "type": "string",
+                "enum": [
+                  "RUB",
+                  "USD",
+                  "EUR",
+                  "TJS"
+                ]
+              },
+              "receiverPaymentSystem": {
+                "type": "string",
+                "enum": [
+                  "MASTERCARD",
+                  "VISA"
+                ]
+              },
+              "exchangeRate": {
+                "type": "string"
+              },
+              "transferType": {
+                "type": "string",
+                "enum": [
+                  "FROM_UZ"
+                ]
+              },
+              "createdDateTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "completedDateTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "REVERSED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "errorCode": {
+                    "type": "integer"
+                  },
+                  "errorMessage": {
+                    "type": "string"
+                  },
+                  "errorDetails": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "payment_id": "540b69fd-b603-4d3e-a769-c514702af210",
+  "payment_status": "SUCCESS",
+  "error_code": 0,
+  "client_phone_number": "998901234567",
+  "processingReferenceNumber": "000000000001",
+  "cardType": 2
+}

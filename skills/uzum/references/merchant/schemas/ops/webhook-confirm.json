@@ -1,0 +1,141 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_merchant.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "webhook",
+  "method": "POST",
+  "path": "/confirm",
+  "operationId": "confirm",
+  "summary": "Confirming Payment Transaction",
+  "tags": [
+    "Вебхуки"
+  ],
+  "security": [
+    {
+      "BasicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "serviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "paymentSource": {
+          "type": "string",
+          "format": "enum"
+        },
+        "tariff": {
+          "type": "string",
+          "format": "string"
+        },
+        "processingReferenceNumber": {
+          "type": "string",
+          "format": "string"
+        },
+        "phone": {
+          "type": "string",
+          "format": "string"
+        },
+        "cardType": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "serviceId",
+        "timestamp",
+        "transId",
+        "paymentSource",
+        "phone"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CONFIRMED"
+            ]
+          },
+          "confirmTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data": {
+            "type": "object"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "serviceId",
+          "transId",
+          "status",
+          "confirmTime",
+          "amount"
+        ]
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "FAILED"
+            ]
+          },
+          "confirmTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "errorCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorCode"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "GET",
+  "path": "/cbt/v1/partner/account/operations",
+  "operationId": "getAccountOperations",
+  "summary": "Get Account Operations",
+  "tags": [
+    "Общие методы"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "parameters": [
+    {
+      "name": "accountNumber",
+      "in": "query",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "startDate",
+      "in": "query",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    {
+      "name": "endDate",
+      "in": "query",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "format": "date"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string"
+          },
+          "accountName": {
+            "type": "string"
+          },
+          "closingBalance": {
+            "type": "integer"
+          },
+          "openingBalance": {
+            "type": "integer"
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "operationsInfo": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "documentNumber": {
+                  "type": "string"
+                },
+                "senderAccount": {
+                  "type": "string"
+                },
+                "senderName": {
+                  "type": "string"
+                },
+                "receiverAccount": {
+                  "type": "string"
+                },
+                "receiverName": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "DEBIT",
+                    "CREDIT"
+                  ]
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "integer"
+                },
+                "details": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "504": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

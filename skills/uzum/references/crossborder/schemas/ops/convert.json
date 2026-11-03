@@ -1,0 +1,190 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/transfer/convert",
+  "operationId": "convert",
+  "summary": "Get Currency Conversion Rates",
+  "tags": [
+    "Общие методы"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "required": [
+        "amount",
+        "currencyFrom",
+        "currencyTo",
+        "direction"
+      ],
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer"
+        },
+        "currencyFrom": {
+          "type": "string"
+        },
+        "currencyTo": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "TO_UZ",
+            "FROM_UZ"
+          ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "amountFrom",
+          "amountTo",
+          "currencyFrom",
+          "currencyTo",
+          "rate"
+        ],
+        "type": "object",
+        "properties": {
+          "amountFrom": {
+            "type": "integer"
+          },
+          "amountTo": {
+            "type": "integer"
+          },
+          "currencyFrom": {
+            "type": "string"
+          },
+          "currencyTo": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

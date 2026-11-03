@@ -1,0 +1,164 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_merchant.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "webhook",
+  "method": "POST",
+  "path": "/status",
+  "operationId": "status",
+  "summary": "Checking Payment Transaction Status",
+  "tags": [
+    "Вебхуки"
+  ],
+  "security": [
+    {
+      "BasicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "serviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "serviceId",
+        "timestamp",
+        "transId"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "CONFIRMED",
+              "REVERSED"
+            ]
+          },
+          "transTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "confirmTime": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "format": "int64"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reverseTime": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "format": "int64"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "data": {
+            "type": "object"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "serviceId",
+          "transId",
+          "status",
+          "transTime"
+        ]
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "FAILED"
+            ]
+          },
+          "transTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "confirmTime": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "format": "int64"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reverseTime": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "format": "int64"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "errorCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorCode"
+        ]
+      }
+    }
+  }
+}

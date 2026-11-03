@@ -1,0 +1,222 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/transfer/card",
+  "operationId": "getReceiverCardsByPAN",
+  "summary": "Retrieve card information by PAN",
+  "tags": [
+    "Переводы в РУз"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "cardPan": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "token",
+          "cardholderName",
+          "paymentSystem",
+          "bankLabel",
+          "currency",
+          "maskedPan"
+        ],
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "cardholderName": {
+            "type": "string"
+          },
+          "paymentSystem": {
+            "type": "string",
+            "enum": [
+              "UZUM_DEBIT_VISA",
+              "VISA",
+              "MASTERCARD",
+              "HUMO",
+              "UZCARD"
+            ]
+          },
+          "bankLabel": {
+            "type": "string",
+            "enum": [
+              "NBU",
+              "SQB",
+              "AGB",
+              "XLQ",
+              "SDG",
+              "QQB",
+              "TRN",
+              "ASK",
+              "IPY",
+              "ZRT",
+              "TTB",
+              "ALQ",
+              "IPT",
+              "KDB",
+              "TRK",
+              "SDT",
+              "UNB",
+              "KPT",
+              "RNQ",
+              "INF",
+              "AAC",
+              "HTK",
+              "OFB",
+              "MDI",
+              "AEB",
+              "PTT",
+              "TNG",
+              "TBC",
+              "ANR",
+              "DVR",
+              "YGB",
+              "HYB",
+              "SMB",
+              "AXB",
+              "HMK",
+              "MKR",
+              "UZB",
+              "TNB"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          },
+          "maskedPan": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

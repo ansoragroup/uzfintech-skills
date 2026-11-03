@@ -1,0 +1,8 @@
+{
+  "status": "success",
+  "error": [],
+  "data": {
+    "client_act_pdf": "<contract PDF URL>"
+  },
+  "response_code": 0
+}

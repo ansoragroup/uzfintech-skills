@@ -1,0 +1,22 @@
+{
+  "id": "f2d14774-b8b7-4e10-a5c5-98d0457ab11e",
+  "amount": 14500000,
+  "method": {
+    "type": "TOKEN",
+    "token": "<CARD_TOKEN>"
+  },
+  "receipt": {
+    "phone": "998901234567",
+    "items": [
+      {
+        "name": "Wireless mouse",
+        "spic": "<SPIC_17_DIGITS>",
+        "amount": 2,
+        "price": 7500000,
+        "discount": 500000,
+        "vat_percent": 12
+      }
+    ]
+  },
+  "skip_payouts": true
+}

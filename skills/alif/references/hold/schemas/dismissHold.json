@@ -1,0 +1,39 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/hold/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "dismissHold",
+  "endpoint": "POST https://api.alifpay.uz/v2/dismissHold",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "amount": {
+        "type": "integer"
+      },
+      "dismissed": {
+        "type": "boolean"
+      }
+    }
+  }
+}

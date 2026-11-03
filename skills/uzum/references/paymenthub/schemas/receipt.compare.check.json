@@ -1,0 +1,68 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/receipt/aux/receipt-compare-payment/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "receipt.compare.check",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "compare": {
+        "type": "object",
+        "properties": {
+          "bank": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CompareItem"
+            }
+          },
+          "supplier": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CompareItem"
+            }
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CompareItem"
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "compare"
+    ]
+  },
+  "$defs": {
+    "CompareItem": {
+      "type": "object",
+      "properties": {
+        "ext_id": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "amount in tiyin (1 UZS = 100 tiyin)"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_ratekeeper.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/partner/limits",
+  "operationId": "limits_api_v1_partner_limits_post",
+  "summary": "Limits",
+  "tags": [
+    "partner"
+  ],
+  "parameters": [
+    {
+      "name": "X-API-Key",
+      "in": "header",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "title": "X-Api-Key"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "title": "Amount"
+        },
+        "currencyTo": {
+          "type": "string",
+          "enum": [
+            "USD",
+            "EUR"
+          ],
+          "title": "Currencyto"
+        },
+        "rateType": {
+          "allOf": [
+            {
+              "type": "string",
+              "enum": [
+                "OFFICIAL",
+                "SELL",
+                "BUY"
+              ],
+              "title": "RateType"
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "amount",
+        "currencyTo",
+        "rateType"
+      ],
+      "title": "LimitsCommand"
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "enum": [
+              0,
+              1000,
+              2000,
+              3000,
+              3001,
+              3002,
+              3003,
+              3004,
+              5000,
+              5001
+            ],
+            "title": "ErrorCode"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "properties": {
+                  "amountFrom": {
+                    "type": "integer",
+                    "title": "Amountfrom"
+                  },
+                  "amountTo": {
+                    "type": "integer",
+                    "title": "Amountto"
+                  },
+                  "currencyTo": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "USD",
+                          "EUR",
+                          "RUB",
+                          "UZS",
+                          "UNKNOWN"
+                        ],
+                        "title": "Currency"
+                      }
+                    ]
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "amountFrom",
+                  "amountTo",
+                  "currencyTo"
+                ],
+                "title": "LimitsResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "result"
+        ],
+        "title": "ApiResponse[LimitsResponse]"
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "properties": {
+          "detail": {
+            "items": {
+              "properties": {
+                "loc": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  },
+                  "type": "array",
+                  "title": "Location"
+                },
+                "msg": {
+                  "type": "string",
+                  "title": "Message"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Error Type"
+                }
+              },
+              "type": "object",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "title": "ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "payment_id": "d83c7673-07aa-4126-8d04-f1a2a802a6ae",
+  "operation_id": "790fe198-1144-4b73-8cca-0943c330050d",
+  "date_time": "2026-11-03T10:00:09+05:00",
+  "cash_amount": 0,
+  "card_amount": 15000000,
+  "phone_number": "998901234567",
+  "card_type": 2,
+  "receipt_type": 0,
+  "items": [
+    {
+      "product_name": "Wireless mouse",
+      "price": 15000000,
+      "discount": 0,
+      "count": 1,
+      "spic": "<SPIC_17_DIGITS>",
+      "package_code": "<PACKAGE_CODE>",
+      "vat_percent": 12,
+      "owner_type": 0
+    }
+  ]
+}

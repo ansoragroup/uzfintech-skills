@@ -1,0 +1,10 @@
+{
+  "serviceId": 101,
+  "timestamp": 1793682005000,
+  "transId": "b60bdcce-cf12-4708-a3fe-c193665e2704",
+  "paymentSource": "UZCARD",
+  "tariff": "<TARIFF>",
+  "processingReferenceNumber": "000000000001",
+  "phone": "998901234567",
+  "cardType": 2
+}

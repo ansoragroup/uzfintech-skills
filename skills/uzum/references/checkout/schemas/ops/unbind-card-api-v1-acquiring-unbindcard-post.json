@@ -1,0 +1,76 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/acquiring/unBindCard",
+  "operationId": "unbind_card_api_v1_acquiring_unBindCard_post",
+  "summary": "Unbinding customer card",
+  "tags": [
+    "Управление и оплата привязками",
+    "acquiring"
+  ],
+  "parameters": [
+    {
+      "required": true,
+      "schema": {
+        "title": "X-Terminal-Id",
+        "type": "string",
+        "format": "uuid"
+      },
+      "name": "X-Terminal-Id",
+      "in": "header"
+    },
+    {
+      "required": false,
+      "schema": {
+        "title": "X-API-Key",
+        "type": "string"
+      },
+      "name": "X-API-Key",
+      "in": "header"
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "title": "UnbindCardCommand",
+      "required": [
+        "bindingId"
+      ],
+      "type": "object",
+      "properties": {
+        "bindingId": {
+          "title": "Binding Id",
+          "maxLength": 255,
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "ApiResponse[UnBindCardResponse]",
+        "required": [
+          "errorCode"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "title": "Error code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

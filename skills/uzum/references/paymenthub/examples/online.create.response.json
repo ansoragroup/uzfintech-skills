@@ -1,0 +1,50 @@
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "result": {
+    "receipt": {
+      "id": "e938bc9ba997b5cbf4e413e9306d15ba",
+      "ext_id": "pay-100001",
+      "state": 0,
+      "create_date": 1793682000000,
+      "pay_date": 0,
+      "type": 1,
+      "amount": 15000000,
+      "currency": 860,
+      "commission": 0,
+      "merchant": {
+        "merchant_id": 1001,
+        "merchant_name": "Example Utility",
+        "gateway_name": "EXAMPLE",
+        "category_id": 1,
+        "logo_url": "https://merchant.example.com/logo.png",
+        "min_amount": 100000,
+        "max_amount": 100000000,
+        "fields": [
+          {
+            "key": "account",
+            "name": "Account number",
+            "regex": "^\\d{6}$",
+            "type": "STRING",
+            "send_on_pay": true,
+            "placeholder": "000000"
+          }
+        ]
+      },
+      "account": [
+        {
+          "key": "account",
+          "value": "100001"
+        }
+      ],
+      "details": [
+        {
+          "title": "Account number",
+          "type": "STRING",
+          "key": "account",
+          "value": "100001"
+        }
+      ]
+    }
+  }
+}

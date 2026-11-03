@@ -1,0 +1,46 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/receipt/account-to-account/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "account.check",
+  "params": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "string"
+      },
+      "mfo": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "number",
+      "mfo"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "account": {
+        "type": "object",
+        "properties": {
+          "inn": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "valid": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "required": [
+      "account"
+    ]
+  }
+}

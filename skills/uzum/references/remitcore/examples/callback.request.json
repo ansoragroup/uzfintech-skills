@@ -1,0 +1,15 @@
+{
+  "transferId": "8af44bd0-2b3f-407e-a806-94f0d5c5941d",
+  "externalTransferId": "tr-100002",
+  "senderAmount": 1000000,
+  "senderCurrencyCode": "RUB",
+  "senderName": "SAMPLE SENDER",
+  "receiverAmount": 14000000,
+  "receiverCurrencyCode": "UZS",
+  "receiverName": "SAMPLE R.",
+  "receiverPaymentSystem": "HUMO",
+  "fee": 0,
+  "exchangeRate": "140.00",
+  "status": "SUCCESS",
+  "rrn": "000000000003"
+}

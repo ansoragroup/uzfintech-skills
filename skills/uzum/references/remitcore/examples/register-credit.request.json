@@ -1,0 +1,34 @@
+{
+  "transferType": "CREDIT",
+  "externalTransferId": "tr-100002",
+  "clientId": "client-0001",
+  "transferData": {
+    "senderAmount": 1000000,
+    "senderCurrencyCode": "RUB",
+    "senderCountry": "RUS",
+    "receiverCountry": "UZB",
+    "receiverCurrencyCode": "UZS",
+    "reason": "family support"
+  },
+  "target": {
+    "paymentInstrumentType": "PHONE",
+    "phoneNumber": "998901234567",
+    "bankLabel": "<BANK_LABEL from get_banks>"
+  },
+  "sender": {
+    "firstName": "Sample",
+    "lastName": "Sender",
+    "nationality": "RUS",
+    "birthday": "1990-01-01",
+    "identityDocument": {
+      "documentType": "PASSPORT",
+      "documentCountry": "RUS",
+      "series": "<SERIES>",
+      "number": "<NUMBER>"
+    }
+  },
+  "receiver": {
+    "firstName": "Sample",
+    "lastName": "Receiver"
+  }
+}

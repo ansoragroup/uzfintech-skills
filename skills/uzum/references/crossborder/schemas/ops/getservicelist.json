@@ -1,0 +1,230 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/payment/service_list",
+  "operationId": "getServiceList",
+  "summary": "Get the List of Services Available for Payment",
+  "tags": [
+    "Трансграничные платежи"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "page",
+        "limit"
+      ],
+      "properties": {
+        "page": {
+          "minimum": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "maximum": 100,
+          "minimum": 1,
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "serviceList",
+          "paginationResponse"
+        ],
+        "properties": {
+          "serviceList": {
+            "type": "array",
+            "items": {
+              "required": [
+                "serviceId",
+                "name",
+                "fields"
+              ],
+              "type": "object",
+              "properties": {
+                "serviceId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "minAmount": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "maxAmount": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "isFixedAmount": {
+                  "type": "boolean",
+                  "default": true,
+                  "nullable": true
+                },
+                "fields": {
+                  "type": "array",
+                  "items": {
+                    "required": [
+                      "key",
+                      "type",
+                      "title"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "S",
+                          "N",
+                          "E"
+                        ]
+                      },
+                      "regex": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "values": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "code"
+                          ],
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "paginationResponse": {
+            "type": "object",
+            "properties": {
+              "totalRecords": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              },
+              "currentPage": {
+                "type": "integer"
+              },
+              "nextPage": {
+                "type": "integer"
+              },
+              "previousPage": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "2026-07": {
+    "DEBIT": {
+      "amount": 31000000,
+      "count": 4
+    },
+    "REFILL_FROM_BANK_ACCOUNT": {
+      "amount": 500000000,
+      "count": 1
+    }
+  },
+  "2026-08": {
+    "DEBIT": {
+      "amount": 15500000,
+      "count": 2
+    },
+    "DEBIT_REVERSAL": {
+      "amount": 1000000,
+      "count": 1
+    }
+  },
+  "2026-09": {}
+}

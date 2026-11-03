@@ -1,0 +1,76 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_fastpay.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "PUT",
+  "path": "/api/apelsin-pay/merchant/v2/payment/reversal/{orderId}",
+  "operationId": "reversal",
+  "summary": "Payment Cancellation",
+  "tags": [
+    "Методы"
+  ],
+  "parameters": [
+    {
+      "name": "orderId",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "service_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "payment_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_id",
+        "payment_id"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "payment_id": {
+            "type": "string"
+          },
+          "payment_status": {
+            "type": "string",
+            "enum": [
+              "REVERSED"
+            ]
+          },
+          "error_code": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "payment_id",
+          "payment_status",
+          "error_code"
+        ]
+      }
+    },
+    "401": {
+      "contentType": null,
+      "schema": null
+    }
+  }
+}

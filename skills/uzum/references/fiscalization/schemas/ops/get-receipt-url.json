@@ -1,0 +1,163 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_fiscalization.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "GET",
+  "path": "/v2/receipt/{operation_id}/receipt_url",
+  "operationId": "get_receipt_url",
+  "summary": "/v2/receipt/{operation_id}/receipt_url",
+  "tags": [
+    "Фискализация чеков"
+  ],
+  "parameters": [
+    {
+      "in": "path",
+      "name": "operation_id",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    {
+      "in": "header",
+      "name": "X-API-Key",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "receipt_url"
+        ],
+        "title": "GetReceiptURLResponse",
+        "type": "object",
+        "properties": {
+          "receipt_url": {
+            "title": "Receipt Url",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "202": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Waiting For Receipt URL Response",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "title": "message",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "No URL For Prepaid/Credit Receipt",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "title": "message",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "AuthErrorResponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "title": "Operation Id",
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "404": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Reciept not found by PAO",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "title": "message",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "title": "ValidationError",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "loc": {
+                  "title": "Location",
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  }
+                },
+                "msg": {
+                  "title": "Message",
+                  "type": "string"
+                },
+                "type": {
+                  "title": "Error Type",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": null,
+      "schema": null
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "callback",
+  "method": "POST",
+  "path": "{$receipt_callback_url}",
+  "callbackName": "receipt_merchant_callback",
+  "sentAfter": [
+    "POST /api/v1/acquiring/purchaseReceipt",
+    "POST /api/v1/payment/register",
+    "POST /api/v1/acquiring/complete",
+    "POST /api/v1/acquiring/refund",
+    "POST /api/v1/acquiring/reverse"
+  ],
+  "operationId": "receipt_merchant_callback__receipt_callback_url__post",
+  "summary": "Receipt Merchant Callback",
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "title": "ReceiptGeneratedCallbackData",
+      "required": [
+        "orderId",
+        "receiptType",
+        "receiptUrl"
+      ],
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "title": "Orderid",
+          "type": "string"
+        },
+        "receiptType": {
+          "allOf": [
+            {
+              "title": "ReceiptType",
+              "enum": [
+                "PURCHASE",
+                "PREPAID",
+                "REFUND"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "receiptUrl": {
+          "title": "Receipturl",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {}
+    }
+  }
+}

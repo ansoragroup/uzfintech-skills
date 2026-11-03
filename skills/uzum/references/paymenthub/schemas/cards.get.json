@@ -1,0 +1,69 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/card/get-card-info/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "cards.get",
+  "params": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "token"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "$ref": "#/$defs/Card"
+      }
+    },
+    "required": [
+      "card"
+    ]
+  },
+  "$defs": {
+    "Card": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "integer",
+          "enum": [
+            0,
+            -1,
+            -2,
+            -4,
+            -10,
+            -20
+          ],
+          "description": "0 active with SMS, -1 no SMS notifications, -2 expired, -4 blocked, -10 PIN tries exceeded, -20 inactive"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "integer",
+          "description": "amount in tiyin (1 UZS = 100 tiyin)"
+        },
+        "masked_pan": {
+          "type": "string"
+        },
+        "holder_name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

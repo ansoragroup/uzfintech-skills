@@ -1,0 +1,98 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/card/bind-card/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "cards.add",
+  "params": {
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "pattern": "^[0-9]{16}$"
+          },
+          "expire": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$",
+            "description": "MMYY"
+          },
+          "sms": {
+            "type": "object",
+            "properties": {
+              "hash": {
+                "type": "string"
+              },
+              "template": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "hash",
+              "template"
+            ]
+          },
+          "requester_phone": {
+            "type": "string"
+          },
+          "merchant_id": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "number",
+          "expire",
+          "sms",
+          "merchant_id"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id from the first cards.add (resend)"
+          },
+          "sms": {
+            "type": "object",
+            "properties": {
+              "hash": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "hash"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "sms"
+        ]
+      }
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "phone_mask": {
+            "type": "string",
+            "description": "last 4 digits"
+          }
+        }
+      }
+    },
+    "required": [
+      "card"
+    ]
+  }
+}

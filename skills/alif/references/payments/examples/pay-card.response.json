@@ -1,0 +1,27 @@
+{
+  "id": "e9c12ea5-be26-435b-a32e-cc6e2f37069d",
+  "amount": 14500000,
+  "status": "OTP_REQUIRED",
+  "method": {
+    "type": "CARD",
+    "payload": {
+      "pan": "860012******0000",
+      "phone": "+998*****4567"
+    }
+  },
+  "receipt": {
+    "type": 0,
+    "phone": "998901234567",
+    "items": [
+      {
+        "name": "Wireless mouse",
+        "spic": "<SPIC_17_DIGITS>",
+        "amount": 2,
+        "price": 7500000,
+        "discount": 500000,
+        "vat_percent": 12
+      }
+    ],
+    "payment_id": "<SOLIQ_PAYMENT_ID>"
+  }
+}

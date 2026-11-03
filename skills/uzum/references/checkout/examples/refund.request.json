@@ -1,0 +1,18 @@
+{
+  "orderId": "d7f1e39e-757c-4520-b0fa-c0865cf966c9",
+  "amount": 5000000,
+  "cart": {
+    "total": 5000000,
+    "items": [
+      {
+        "productId": "SKU-0002",
+        "quantity": 1,
+        "receiptParams": {
+          "spic": "<SPIC_17_DIGITS>",
+          "packageCode": "<PACKAGE_CODE>",
+          "vatPercent": 12
+        }
+      }
+    ]
+  }
+}

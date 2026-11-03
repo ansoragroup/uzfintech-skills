@@ -1,0 +1,10 @@
+{
+  "user_id": 100001,
+  "products": [
+    {
+      "product_id": 1,
+      "price": 1500000,
+      "amount": 1
+    }
+  ]
+}

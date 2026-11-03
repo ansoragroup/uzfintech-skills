@@ -1,0 +1,492 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_remitcore.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/v1/process",
+  "operationId": "processTransfer",
+  "summary": "Initiate transfer processing",
+  "callbacks": [
+    "TransferResultInfo"
+  ],
+  "tags": [
+    "Transfer process"
+  ],
+  "security": [
+    {
+      "XApiKeyAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "transferId"
+      ],
+      "properties": {
+        "transferId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              },
+              "result": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "status"
+                    ],
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "REGISTERED",
+                          "SUCCESS",
+                          "FAILED"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "transferId",
+                      "externalTransferId",
+                      "senderCurrencyCode",
+                      "receiverCurrencyCode"
+                    ],
+                    "properties": {
+                      "transferId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "externalTransferId": {
+                        "type": "string"
+                      },
+                      "senderAmount": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "senderCurrencyCode": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "senderName": {
+                        "type": "string"
+                      },
+                      "receiverAmount": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "receiverCurrencyCode": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "receiverName": {
+                        "type": "string"
+                      },
+                      "receiverPaymentSystem": {
+                        "type": "string"
+                      },
+                      "fee": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "exchangeRate": {
+                        "type": "string"
+                      },
+                      "rrn": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "code",
+              "message",
+              "confirmationData"
+            ],
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              },
+              "confirmationData": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "confirmationType"
+                    ],
+                    "properties": {
+                      "confirmationType": {
+                        "type": "string",
+                        "enum": [
+                          "OTP",
+                          "3DS"
+                        ]
+                      },
+                      "confirmationValue": {
+                        "type": "string"
+                      },
+                      "extraFields": {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "properties": {
+                              "acsUrl": {
+                                "type": "string"
+                              },
+                              "termUrl": {
+                                "type": "string"
+                              },
+                              "paReq": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "result": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "status"
+                    ],
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "CONFIRMATION"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "transferId",
+                      "externalTransferId",
+                      "senderCurrencyCode",
+                      "receiverCurrencyCode"
+                    ],
+                    "properties": {
+                      "transferId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "externalTransferId": {
+                        "type": "string"
+                      },
+                      "senderAmount": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "senderCurrencyCode": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "senderName": {
+                        "type": "string"
+                      },
+                      "receiverAmount": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "receiverCurrencyCode": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "receiverName": {
+                        "type": "string"
+                      },
+                      "receiverPaymentSystem": {
+                        "type": "string"
+                      },
+                      "fee": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "exchangeRate": {
+                        "type": "string"
+                      },
+                      "rrn": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              },
+              "result": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "status"
+                    ],
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "PROCESSING"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "transferId",
+                      "externalTransferId",
+                      "senderCurrencyCode",
+                      "receiverCurrencyCode"
+                    ],
+                    "properties": {
+                      "transferId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "externalTransferId": {
+                        "type": "string"
+                      },
+                      "senderAmount": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "senderCurrencyCode": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "senderName": {
+                        "type": "string"
+                      },
+                      "receiverAmount": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "receiverCurrencyCode": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "receiverName": {
+                        "type": "string"
+                      },
+                      "receiverPaymentSystem": {
+                        "type": "string"
+                      },
+                      "fee": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "exchangeRate": {
+                        "type": "string"
+                      },
+                      "rrn": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

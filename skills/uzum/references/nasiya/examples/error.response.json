@@ -1,0 +1,12 @@
+{
+  "status": "error",
+  "error": [
+    {
+      "type": "<type>",
+      "text": "<text>",
+      "sub_text": "<sub_text>"
+    }
+  ],
+  "data": null,
+  "response_code": 4010
+}

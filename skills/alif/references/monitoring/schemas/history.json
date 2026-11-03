@@ -1,0 +1,89 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/monitoring/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "history",
+  "endpoint": "POST https://api.alifpay.uz/v2/history",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "token": {
+        "type": "string"
+      },
+      "from_date": {
+        "type": "string",
+        "format": "date"
+      },
+      "to_date": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "required": [
+      "id",
+      "token",
+      "from_date",
+      "to_date"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "txns": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "number": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "DEBIT",
+                "CREDIT",
+                "P2P_DEBIT",
+                "P2P_CREDIT",
+                "DEBIT_REVERSAL",
+                "CREDIT_REVERSAL",
+                "P2P_DEBIT_REVERSAL",
+                "P2P_CREDIT_REVERSAL",
+                "CASH_IN",
+                "CASH_OUT",
+                "REFILL_FROM_BANK_ACCOUNT"
+              ]
+            },
+            "time": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "amount": {
+              "type": "integer"
+            },
+            "merchant": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "street": {
+              "type": "string"
+            },
+            "mcc": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

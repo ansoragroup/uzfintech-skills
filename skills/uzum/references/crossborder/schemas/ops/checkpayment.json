@@ -1,0 +1,278 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/payment/check_payment",
+  "operationId": "checkPayment",
+  "summary": "Run Pre-payment Checks and Create a Cross-border Payment",
+  "tags": [
+    "Трансграничные платежи"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "required": [
+        "externalPaymentId",
+        "serviceId",
+        "serviceParameters",
+        "paymentAmount",
+        "paymentCurrency",
+        "payerCurrency",
+        "payerInfo"
+      ],
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "externalPaymentId": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "payerAmount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "payerCurrency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "UZS"
+          ]
+        },
+        "paymentAmount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "paymentCurrency": {
+          "type": "string",
+          "enum": [
+            "UZS"
+          ]
+        },
+        "exchangeRate": {
+          "type": "string"
+        },
+        "serviceParameters": {
+          "type": "array",
+          "items": {
+            "required": [
+              "key",
+              "value"
+            ],
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "key": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "phone": {
+          "type": "string",
+          "pattern": "[0-9]{12}"
+        },
+        "payerInfo": {
+          "required": [
+            "personFullName"
+          ],
+          "type": "object",
+          "properties": {
+            "personFullName": {
+              "type": "string"
+            },
+            "birthday": {
+              "type": "string"
+            },
+            "birthPlace": {
+              "type": "string"
+            },
+            "nationality": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "passport": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "externalPaymentId",
+          "serviceId",
+          "paymentAmount",
+          "paymentCurrency",
+          "payerAmount",
+          "payerCurrency",
+          "serviceParameters",
+          "status"
+        ],
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalPaymentId": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "payerAmount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "payerCurrency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "UZS"
+            ]
+          },
+          "paymentAmount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "paymentCurrency": {
+            "type": "string",
+            "enum": [
+              "UZS"
+            ]
+          },
+          "exchangeRate": {
+            "type": "string"
+          },
+          "serviceParameters": {
+            "type": "array",
+            "items": {
+              "required": [
+                "key",
+                "value"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "APPROVED",
+              "FAILED"
+            ]
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
