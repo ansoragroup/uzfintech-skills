@@ -11,7 +11,7 @@ The skills give exact contract answers and help validate an integration. They co
 | Skill | Provider | Products |
 |---|---|---|
 | [`uzum`](skills/uzum/SKILL.md) | Uzum Bank | Merchant API (webhooks), Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub |
-| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary |
+| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary, legacy (original API) migration map |
 
 Payme and Click are planned. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
