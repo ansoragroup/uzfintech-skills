@@ -1,0 +1,1297 @@
+#!/usr/bin/env python3
+"""Keep skill references in sync with upstream provider contracts.
+
+Stdlib only. Reads sources.yaml, fetches every source with plain GET requests,
+and compares a SHA-256 of the content with the hash recorded last time.
+
+  kind: openapi   OpenAPI YAML. On change, regenerates the product's
+                  references/<product>/schemas/openapi.min.json,
+                  references/<product>/schemas/ops/*.json and
+                  references/<product>/endpoints.md.
+  kind: openapi-labels
+                  Secondary-language copy of an OpenAPI spec. Used for English
+                  operation summaries and for operations missing from the
+                  primary spec. A change regenerates the same product.
+  kind: html      Documentation page without a machine-readable spec. Only the
+                  article text is hashed; a change is flagged for human review
+                  (hand-written references listed under `refs`).
+
+Usage:
+  scripts/sync                 fetch, regenerate changed products, update sources.yaml
+  scripts/sync --check         fetch and report only; exit 1 when anything changed
+  scripts/sync --regen         regenerate every OpenAPI product from cache/ (no fetch
+                               unless the cache file is missing)
+  scripts/sync --only ID[,ID]  limit to some source ids
+  scripts/sync --report FILE   also write a Markdown change report (used for PR bodies)
+  scripts/sync --selftest      compare the bundled YAML parser with PyYAML (if installed)
+
+Raw downloads live in cache/ (git-ignored). Exit codes: 0 ok / no change,
+1 changes detected in --check mode, 2 fetch or parse failure.
+"""
+import argparse
+import datetime as _dt
+import hashlib
+import html.parser
+import json
+import os
+import re
+import sys
+import time
+import urllib.error
+import urllib.request
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CACHE = os.path.join(ROOT, "cache")
+SOURCES = os.path.join(ROOT, "sources.yaml")
+UA = "uzfintech-skills-sync/1.0 (+https://github.com/ansoragroup/uzfintech-skills)"
+DROP_KEYS = {"description", "example", "examples", "externalDocs", "x-logo", "x-tagGroups"}
+HTTP_METHODS = ("get", "post", "put", "patch", "delete", "head", "options")
+# Some specs put sample values (e.g. a person's name) into "format"; keep only
+# format keywords such as int64, uuid, date-time.
+_FORMAT_RE = re.compile(r"^[A-Za-z0-9_.-]{1,32}$")
+
+
+def _drop_key(k, v):
+    if k in DROP_KEYS or k.startswith("x-"):
+        return True
+    return k == "format" and isinstance(v, str) and not _FORMAT_RE.match(v)
+
+
+# --------------------------------------------------------------------------
+# Minimal YAML loader (block + flow style, quoted/plain/block scalars,
+# anchors/aliases). Covers what the tracked OpenAPI specs use; resolves
+# scalars like PyYAML's SafeLoader (YAML 1.1) except dates stay strings.
+# --------------------------------------------------------------------------
+class YAMLError(Exception):
+    pass
+
+
+_INT_RE = re.compile(r"^[-+]?(0|[1-9][0-9_]*)$")
+_HEX_RE = re.compile(r"^[-+]?0x[0-9a-fA-F_]+$")
+_OCT_RE = re.compile(r"^[-+]?0[0-7_]+$")
+_BIN_RE = re.compile(r"^[-+]?0b[01_]+$")
+_FLOAT_RE = re.compile(r"^[-+]?(?:[0-9][0-9_]*)\.[0-9_]*(?:[eE][-+][0-9]+)?$|^[-+]?\.[0-9_]+(?:[eE][-+][0-9]+)?$")
+
+
+def _resolve_plain(s):
+    if s in ("", "~", "null", "Null", "NULL"):
+        return None
+    if s in ("true", "True", "TRUE", "yes", "Yes", "YES", "on", "On", "ON", "y", "Y"):
+        return True if s not in ("y", "Y") else s
+    if s in ("false", "False", "FALSE", "no", "No", "NO", "off", "Off", "OFF", "n", "N"):
+        return False if s not in ("n", "N") else s
+    if _INT_RE.match(s):
+        return int(s.replace("_", ""))
+    if _HEX_RE.match(s):
+        return int(s.replace("_", ""), 16)
+    if _BIN_RE.match(s):
+        sign = -1 if s.startswith("-") else 1
+        return sign * int(s.lstrip("+-")[2:].replace("_", ""), 2)
+    if _OCT_RE.match(s):
+        sign = -1 if s.startswith("-") else 1
+        return sign * int(s.lstrip("+-").replace("_", ""), 8)
+    if _FLOAT_RE.match(s) and s not in (".", "-.", "+."):
+        return float(s.replace("_", ""))
+    low = s.lower()
+    if low in (".inf", "+.inf"):
+        return float("inf")
+    if low == "-.inf":
+        return float("-inf")
+    if low == ".nan":
+        return float("nan")
+    return s
+
+
+_ESC = {"0": "\0", "a": "\a", "b": "\b", "t": "\t", "\t": "\t", "n": "\n", "v": "\v", "f": "\f",
+        "r": "\r", "e": "\x1b", " ": " ", '"': '"', "/": "/", "\\": "\\", "N": "\x85",
+        "_": "\xa0", "L": "\u2028", "P": "\u2029"}
+
+
+def _fold_lines(parts):
+    """Join quoted-scalar continuation lines: single break -> space, empty lines -> newlines."""
+    out = parts[0].rstrip(" \t") if len(parts) > 1 else parts[0]
+    empties = 0
+    for i, raw in enumerate(parts[1:], 1):
+        line = raw.strip(" \t") if i < len(parts) - 1 else raw.lstrip(" \t")
+        if line == "" and i < len(parts) - 1:
+            empties += 1
+            continue
+        out += ("\n" * empties) if empties else " "
+        empties = 0
+        out += line
+    return out
+
+
+class _Loader:
+    def __init__(self, text):
+        text = text.replace("\r\n", "\n").replace("\r", "\n")
+        if text.startswith("\ufeff"):
+            text = text[1:]
+        self.lines = text.split("\n")
+        self.i = 0
+        self.anchors = {}
+
+    # -- helpers ---------------------------------------------------------
+    @staticmethod
+    def _strip_comment(s):
+        """Remove a trailing ' #comment' outside quotes."""
+        q = None
+        for k, ch in enumerate(s):
+            if q:
+                if q == "'" and ch == "'":
+                    q = None
+                elif q == '"' and ch == "\\":
+                    continue
+                elif q == '"' and ch == '"' and (k == 0 or s[k - 1] != "\\"):
+                    q = None
+            elif ch in "'\"" and (k == 0 or s[k - 1] in " \t[{,:"):
+                q = ch
+            elif ch == "#" and (k == 0 or s[k - 1] in " \t"):
+                return s[:k].rstrip()
+        return s.rstrip()
+
+    def _skip_blank(self):
+        while self.i < len(self.lines):
+            s = self.lines[self.i].strip()
+            if s == "" or s.startswith("#") or s in ("---",) or s.startswith("%"):
+                self.i += 1
+                continue
+            if s == "...":
+                self.i = len(self.lines)
+            return
+        return
+
+    def _peek(self):
+        self._skip_blank()
+        if self.i >= len(self.lines):
+            return None, None
+        raw = self.lines[self.i]
+        if "\t" in raw[: len(raw) - len(raw.lstrip())]:
+            raise YAMLError("tab indentation at line %d" % (self.i + 1))
+        return len(raw) - len(raw.lstrip(" ")), raw.strip()
+
+    @staticmethod
+    def _split_key(s):
+        """Return (key, rest) if s starts a mapping entry, else None."""
+        if s.startswith(("- ", "[", "{", "|", ">", "!", "%", "@", "`")) or s == "-":
+            return None
+        if s.startswith(("&", "*")):
+            return None
+        if s[0] in "'\"":
+            q = s[0]
+            k = 1
+            while k < len(s):
+                if q == "'" and s[k] == "'":
+                    if k + 1 < len(s) and s[k + 1] == "'":
+                        k += 2
+                        continue
+                    break
+                if q == '"' and s[k] == "\\":
+                    k += 2
+                    continue
+                if q == '"' and s[k] == '"':
+                    break
+                k += 1
+            rest = s[k + 1:].lstrip(" ")
+            if rest.startswith(":") and (len(rest) == 1 or rest[1] in " \t"):
+                return _Loader._quoted(s[: k + 1]), rest[1:].strip()
+            return None
+        if s.startswith("? "):
+            raise YAMLError("complex keys are not supported")
+        m = re.search(r":(\s|$)", s)
+        if not m:
+            return None
+        key = s[: m.start()].rstrip()
+        if " #" in key:
+            return None
+        return _resolve_key(key), s[m.end():].strip()
+
+    @staticmethod
+    def _quoted(tok):
+        q = tok[0]
+        body = tok[1:-1]
+        if q == "'":
+            return _fold_lines(body.split("\n")).replace("''", "'")
+        segs = body.split("\n")
+        out = segs[0]
+        i = 1
+        while i < len(segs):
+            trail = len(out) - len(out.rstrip("\\"))
+            if trail % 2 == 1:
+                out = out[:-1]
+                sep = ""
+            else:
+                out = out.rstrip(" \t")
+                sep = " "
+            empties = 0
+            while i < len(segs) - 1 and segs[i].strip(" \t") == "":
+                empties += 1
+                i += 1
+            if sep and empties:
+                sep = "\n" * empties
+            out += sep + segs[i].lstrip(" \t")
+            i += 1
+        return _Loader._unescape(out)
+
+    @staticmethod
+    def _unescape(text):
+        out = []
+        k = 0
+        while k < len(text):
+            ch = text[k]
+            if ch == "\\" and k + 1 < len(text):
+                n = text[k + 1]
+                if n in _ESC:
+                    out.append(_ESC[n])
+                    k += 2
+                    continue
+                if n in "xuU":
+                    width = {"x": 2, "u": 4, "U": 8}[n]
+                    out.append(chr(int(text[k + 2:k + 2 + width], 16)))
+                    k += 2 + width
+                    continue
+            out.append(ch)
+            k += 1
+        return "".join(out)
+
+    def _collect_quoted(self, first, col):
+        """Read a (possibly multi-line) quoted scalar starting at `first`."""
+        q = first[0]
+        buf = first
+        while True:
+            k = 1
+            end = -1
+            while k < len(buf):
+                if q == "'" and buf[k] == "'":
+                    if k + 1 < len(buf) and buf[k + 1] == "'":
+                        k += 2
+                        continue
+                    end = k
+                    break
+                if q == '"' and buf[k] == "\\":
+                    k += 2
+                    continue
+                if q == '"' and buf[k] == '"':
+                    end = k
+                    break
+                k += 1
+            if end >= 0:
+                tail = self._strip_comment(buf[end + 1:]).strip()
+                if tail:
+                    raise YAMLError("unexpected text after quoted scalar at line %d" % (self.i + 1))
+                return self._quoted(buf[: end + 1])
+            self.i += 1
+            if self.i >= len(self.lines):
+                raise YAMLError("unterminated quoted scalar")
+            buf += "\n" + self.lines[self.i]
+
+    def _collect_flow(self, first):
+        depth = 0
+        buf = ""
+        text = first
+        while True:
+            q = None
+            for k, ch in enumerate(text):
+                if q:
+                    if ch == q and not (q == '"' and k > 0 and text[k - 1] == "\\"):
+                        q = None
+                    continue
+                if ch in "'\"" and (k == 0 or text[k - 1] in " [{,:"):
+                    q = ch
+                elif ch in "[{":
+                    depth += 1
+                elif ch in "]}":
+                    depth -= 1
+                elif ch == "#" and (k == 0 or text[k - 1] in " \t"):
+                    text = text[:k]
+                    break
+            buf += " " + text
+            if depth <= 0:
+                return _FlowParser(buf.strip(), self.anchors).parse()
+            self.i += 1
+            if self.i >= len(self.lines):
+                raise YAMLError("unterminated flow collection")
+            text = self.lines[self.i].strip()
+
+    def _block_scalar(self, header, parent_indent):
+        m = re.match(r"^([|>])([-+]?)([1-9]?)([-+]?)\s*(#.*)?$", header)
+        if not m:
+            raise YAMLError("bad block scalar header %r at line %d" % (header, self.i + 1))
+        style = m.group(1)
+        chomp = m.group(2) or m.group(4)
+        explicit = m.group(3)
+        self.i += 1
+        lines = []
+        indent = parent_indent + int(explicit) if explicit else None
+        while self.i < len(self.lines):
+            raw = self.lines[self.i]
+            if raw.strip() == "":
+                # whitespace beyond the content indent is content, not an empty line
+                lines.append(raw[indent:] if indent is not None and len(raw) > indent else "")
+                self.i += 1
+                continue
+            cur = len(raw) - len(raw.lstrip(" "))
+            if indent is None:
+                if cur <= parent_indent:
+                    break
+                indent = cur
+            if cur < indent:
+                break
+            lines.append(raw[indent:])
+            self.i += 1
+        # trailing empty lines
+        trail = 0
+        while lines and lines[-1] == "":
+            lines.pop()
+            trail += 1
+        if style == "|":
+            body = "\n".join(lines)
+        else:
+            lead = 0
+            while lead < len(lines) and lines[lead] == "":
+                lead += 1
+            prefix, lines = "\n" * lead, lines[lead:]
+            body = ""
+            prev_more = False
+            for idx, ln in enumerate(lines):
+                more = ln.startswith((" ", "\t"))
+                if idx == 0:
+                    body = ln
+                elif ln == "":
+                    body += "\n"
+                elif lines[idx - 1] == "":
+                    # after empty line(s): the newline(s) already added
+                    if more or prev_more:
+                        body += "\n"
+                    body += ln
+                elif more or prev_more:
+                    body += "\n" + ln
+                else:
+                    body += " " + ln
+                if ln != "":
+                    prev_more = more
+            body = prefix + body
+        if not lines:
+            return "" if chomp != "+" else "\n" * trail
+        if chomp == "-":
+            return body
+        if chomp == "+":
+            return body + "\n" + "\n" * trail
+        return body + "\n"
+
+    def _plain_multiline(self, first, min_indent):
+        """Plain scalar; continuation lines must be indented more than min_indent."""
+        parts = [self._strip_comment(first)]
+        while True:
+            j = self.i + 1
+            empties = 0
+            while j < len(self.lines) and self.lines[j].strip() == "":
+                empties += 1
+                j += 1
+            if j >= len(self.lines):
+                break
+            raw = self.lines[j]
+            cur = len(raw) - len(raw.lstrip(" "))
+            s = raw.strip()
+            if cur <= min_indent or s.startswith("#"):
+                break
+            if self._split_key(s) is not None or s.startswith("- ") or s == "-":
+                break
+            self.i = j
+            parts.append("\n" * empties if empties else None)
+            parts.append(self._strip_comment(s))
+        out = parts[0]
+        k = 1
+        while k < len(parts):
+            sep, txt = parts[k], parts[k + 1]
+            out += sep if sep else " "
+            out += txt
+            k += 2
+        return out
+
+    # -- value parsing --------------------------------------------------
+    def _inline_value(self, rest, indent, col):
+        """Parse a value that begins on the current line after 'key:' or '- '.
+
+        `indent` is the indentation of the owning key (children must be deeper).
+        """
+        anchor = None
+        if rest.startswith("&"):
+            m = re.match(r"&(\S+)\s*(.*)$", rest)
+            anchor, rest = m.group(1), m.group(2)
+        if rest.startswith("!!"):
+            m = re.match(r"!!(\S+)\s*(.*)$", rest)
+            tag, rest = m.group(1), m.group(2)
+        else:
+            tag = None
+        rest = self._strip_comment(rest) if not rest.startswith(("'", '"')) else rest
+        if rest == "":
+            self.i += 1
+            ind, s = self._peek()
+            if s is None or ind < indent or (ind == indent and not (s.startswith("- ") or s == "-")):
+                val = None
+            else:
+                val = self._node(ind)
+        elif rest.startswith("*"):
+            name = rest[1:].strip()
+            if name not in self.anchors:
+                raise YAMLError("unknown alias *%s" % name)
+            val = self.anchors[name]
+            self.i += 1
+        elif rest[0] in "|>":
+            val = self._block_scalar(rest, indent)
+        elif rest[0] in "[{":
+            val = self._collect_flow(rest)
+            self.i += 1
+        elif rest[0] in "'\"":
+            val = self._collect_quoted(rest, col)
+            self.i += 1
+        else:
+            text = self._plain_multiline(rest, indent)
+            val = _resolve_plain(text) if "\n" not in text and tag is None else text
+            if tag == "str":
+                val = text
+            self.i += 1
+        if tag == "str" and val is not None and not isinstance(val, str):
+            val = str(val)
+        if anchor:
+            self.anchors[anchor] = val
+        return val
+
+    def _node(self, indent):
+        ind, s = self._peek()
+        if s is None:
+            return None
+        if s.startswith("- ") or s == "-":
+            return self._seq(ind)
+        if self._split_key(s) is not None:
+            return self._map(ind)
+        return self._inline_value(s, ind - 1, ind)
+
+    def _map(self, indent):
+        out = {}
+        while True:
+            ind, s = self._peek()
+            if s is None or ind < indent:
+                return out
+            if ind > indent:
+                raise YAMLError("bad indentation at line %d" % (self.i + 1))
+            kv = self._split_key(s)
+            if kv is None:
+                raise YAMLError("expected key at line %d: %r" % (self.i + 1, s))
+            key, rest = kv
+            if key == "<<":
+                val = self._inline_value(rest, indent, ind)
+                for src in (val if isinstance(val, list) else [val]):
+                    for k2, v2 in (src or {}).items():
+                        out.setdefault(k2, v2)
+                continue
+            out[key] = self._inline_value(rest, indent, ind)
+
+    def _seq(self, indent):
+        out = []
+        while True:
+            ind, s = self._peek()
+            if s is None or ind != indent or not (s.startswith("- ") or s == "-"):
+                if s is not None and ind > indent:
+                    raise YAMLError("bad indentation at line %d" % (self.i + 1))
+                return out
+            rest = s[1:].lstrip(" ")
+            col = ind + (len(s) - len(rest))
+            if rest == "":
+                out.append(self._inline_value("", indent, col))
+                continue
+            if rest.startswith(("- ", "-")) and (rest == "-" or rest.startswith("- ")):
+                # nested sequence on the same line: rewrite line and recurse
+                self.lines[self.i] = " " * col + rest
+                out.append(self._seq(col))
+                continue
+            kv = self._split_key(rest) if not rest.startswith(("&", "*")) else None
+            if kv is not None:
+                self.lines[self.i] = " " * col + rest
+                out.append(self._map(col))
+            else:
+                if rest.startswith("&"):
+                    m = re.match(r"&(\S+)\s*(.*)$", rest)
+                    if m.group(2) and self._split_key(m.group(2)) is not None:
+                        anchor = m.group(1)
+                        newcol = col + len(rest) - len(m.group(2))
+                        self.lines[self.i] = " " * newcol + m.group(2)
+                        v = self._map(newcol)
+                        self.anchors[anchor] = v
+                        out.append(v)
+                        continue
+                out.append(self._inline_value(rest, indent, col))
+
+    def load(self):
+        ind, s = self._peek()
+        if s is None:
+            return None
+        return self._node(ind)
+
+
+def _resolve_key(key):
+    v = _resolve_plain(key)
+    return v
+
+
+class _FlowParser:
+    def __init__(self, text, anchors):
+        self.s = text
+        self.k = 0
+        self.anchors = anchors
+
+    def _ws(self):
+        while self.k < len(self.s) and self.s[self.k] in " \t\n":
+            self.k += 1
+
+    def parse(self):
+        v = self._value()
+        self._ws()
+        if self.k != len(self.s):
+            raise YAMLError("trailing flow content: %r" % self.s[self.k:])
+        return v
+
+    def _value(self):
+        self._ws()
+        ch = self.s[self.k]
+        if ch == "[":
+            self.k += 1
+            out = []
+            while True:
+                self._ws()
+                if self.s[self.k] == "]":
+                    self.k += 1
+                    return out
+                item = self._value()
+                self._ws()
+                if self.k < len(self.s) and self.s[self.k] == ":":
+                    self.k += 1
+                    item = {item: self._value()}
+                    self._ws()
+                out.append(item)
+                if self.s[self.k] == ",":
+                    self.k += 1
+        if ch == "{":
+            self.k += 1
+            out = {}
+            while True:
+                self._ws()
+                if self.s[self.k] == "}":
+                    self.k += 1
+                    return out
+                key = self._value()
+                self._ws()
+                if self.s[self.k] == ":":
+                    self.k += 1
+                    self._ws()
+                    if self.s[self.k] in ",}":
+                        val = None
+                    else:
+                        val = self._value()
+                else:
+                    val = None
+                out[key] = val
+                self._ws()
+                if self.s[self.k] == ",":
+                    self.k += 1
+        if ch in "'\"":
+            q = ch
+            j = self.k + 1
+            while j < len(self.s):
+                if q == "'" and self.s[j] == "'":
+                    if j + 1 < len(self.s) and self.s[j + 1] == "'":
+                        j += 2
+                        continue
+                    break
+                if q == '"' and self.s[j] == "\\":
+                    j += 2
+                    continue
+                if q == '"' and self.s[j] == '"':
+                    break
+                j += 1
+            tok = self.s[self.k:j + 1]
+            self.k = j + 1
+            return _Loader._quoted(tok)
+        if ch == "*":
+            m = re.match(r"\*([^\s,\]}]+)", self.s[self.k:])
+            self.k += m.end()
+            return self.anchors[m.group(1)]
+        j = self.k
+        while j < len(self.s):
+            c = self.s[j]
+            if c in ",]}":
+                break
+            if c == ":" and (j + 1 == len(self.s) or self.s[j + 1] in " ,]}"):
+                break
+            j += 1
+        tok = self.s[self.k:j].strip()
+        self.k = j
+        return _resolve_plain(tok)
+
+
+def yaml_load(text):
+    return _Loader(text).load()
+
+
+# --------------------------------------------------------------------------
+# sources.yaml (written back in a fixed, simple layout)
+# --------------------------------------------------------------------------
+SOURCE_FIELDS = ("id", "provider", "product", "kind", "lang", "url", "refs", "sha256", "fetched", "status")
+
+
+def load_sources():
+    with open(SOURCES, encoding="utf-8") as fh:
+        data = yaml_load(fh.read()) or {}
+    return data.get("sources") or []
+
+
+def dump_sources(sources):
+    lines = [
+        "# Upstream contract sources tracked by scripts/sync.",
+        "# Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and",
+        "# status are written by the script. kind: openapi | openapi-labels | html.",
+        "sources:",
+    ]
+    for src in sources:
+        first = True
+        for f in SOURCE_FIELDS:
+            if f not in src or src[f] is None:
+                continue
+            v = src[f]
+            if isinstance(v, list):
+                rendered = "[" + ", ".join(v) + "]"
+            else:
+                rendered = str(v)
+                if rendered == "" or re.search(r"[:#'\"\[\]{}]\s|^[&*!|>%@`-]|\s$", rendered):
+                    rendered = json.dumps(rendered, ensure_ascii=False)
+            lines.append(("  - " if first else "    ") + "%s: %s" % (f, rendered))
+            first = False
+    with open(SOURCES, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n")
+
+
+# --------------------------------------------------------------------------
+# fetching
+# --------------------------------------------------------------------------
+def fetch(url, tries=3):
+    last = None
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                body = resp.read()
+                ctype = resp.headers.get("Content-Type", "")
+                return body, ctype, resp.geturl()
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+            last = exc
+            time.sleep(2 * (attempt + 1))
+    raise RuntimeError("GET %s failed: %s" % (url, last))
+
+
+class _ArticleText(html.parser.HTMLParser):
+    """Extract visible text of the first <article> (or <main>) element."""
+
+    SKIP = {"script", "style", "svg", "nav", "noscript", "button"}
+    BLOCK = {"p", "div", "li", "tr", "br", "table", "h1", "h2", "h3", "h4", "h5", "pre", "section"}
+
+    def __init__(self, container):
+        super().__init__(convert_charrefs=True)
+        self.container = container
+        self.depth = 0
+        self.skip = 0
+        self.out = []
+        self.done = False
+
+    def handle_starttag(self, tag, attrs):
+        if self.done:
+            return
+        if tag == self.container:
+            self.depth += 1
+        if not self.depth:
+            return
+        if tag in self.SKIP:
+            self.skip += 1
+        if tag in self.BLOCK:
+            self.out.append("\n")
+        if tag in ("td", "th"):
+            self.out.append(" | ")
+
+    def handle_endtag(self, tag):
+        if self.done or not self.depth:
+            return
+        if tag in self.SKIP:
+            self.skip = max(0, self.skip - 1)
+        if tag == self.container:
+            self.depth -= 1
+            if not self.depth:
+                self.done = True
+
+    def handle_data(self, data):
+        if self.depth and not self.skip and not self.done:
+            self.out.append(data)
+
+
+def article_text(raw_html):
+    text = raw_html.decode("utf-8", "replace")
+    for container in ("article", "main", "body"):
+        p = _ArticleText(container)
+        p.feed(text)
+        out = "".join(p.out)
+        if out.strip():
+            break
+    out = re.sub(r"[ \t\u00a0\u200b]+", " ", out)
+    out = re.sub(r" *\n *", "\n", out)
+    out = re.sub(r"\n{2,}", "\n", out)
+    return out.strip() + "\n"
+
+
+# --------------------------------------------------------------------------
+# OpenAPI trimming and generation
+# --------------------------------------------------------------------------
+def trim(node):
+    if isinstance(node, dict):
+        out = {}
+        for k, v in node.items():
+            if not isinstance(k, str):
+                k = str(k)
+            if _drop_key(k, v):
+                # keep "description"/"example" when they are property *names*
+                continue
+            out[k] = trim(v)
+        return out
+    if isinstance(node, list):
+        return [trim(v) for v in node]
+    return node
+
+
+def trim_schema_tree(node, in_properties=False):
+    """Like trim(), but never drops a key that is a property name."""
+    if isinstance(node, dict):
+        out = {}
+        for k, v in node.items():
+            k = k if isinstance(k, str) else str(k)
+            if not in_properties and _drop_key(k, v):
+                continue
+            out[k] = trim_schema_tree(v, in_properties=(k == "properties" and not in_properties))
+        return out
+    if isinstance(node, list):
+        return [trim_schema_tree(v) for v in node]
+    return node
+
+
+def resolve_ref(spec, ref):
+    if not ref.startswith("#/"):
+        return None
+    cur = spec
+    for part in ref[2:].split("/"):
+        part = part.replace("~1", "/").replace("~0", "~")
+        if not isinstance(cur, dict) or part not in cur:
+            return None
+        cur = cur[part]
+    return cur
+
+
+def inline(spec, node, stack=()):
+    if isinstance(node, dict):
+        if "$ref" in node and isinstance(node["$ref"], str):
+            ref = node["$ref"]
+            if ref in stack:
+                return {"$ref": ref, "$comment": "recursive reference, see schemas/openapi.min.json"}
+            target = resolve_ref(spec, ref)
+            if target is None:
+                return {"$ref": ref, "$comment": "unresolved reference"}
+            merged = inline(spec, target, stack + (ref,))
+            extra = {k: v for k, v in node.items() if k != "$ref"}
+            if extra and isinstance(merged, dict):
+                merged = dict(merged, **inline(spec, extra, stack))
+            return merged
+        return {k: inline(spec, v, stack) for k, v in node.items()}
+    if isinstance(node, list):
+        return [inline(spec, v, stack) for v in node]
+    return node
+
+
+def iter_ops(spec):
+    for path, item in (spec.get("paths") or {}).items():
+        if not isinstance(item, dict):
+            continue
+        shared = item.get("parameters") or []
+        for m in HTTP_METHODS:
+            if m in item:
+                yield "path", path, m, item[m], shared
+    for name, item in (spec.get("webhooks") or {}).items():
+        if not isinstance(item, dict):
+            continue
+        for m in HTTP_METHODS:
+            if m in item:
+                yield "webhook", name, m, item[m], item.get("parameters") or []
+
+
+def all_ops(spec):
+    """Operations, webhooks and (deduplicated) callbacks as dicts."""
+    out = []
+    cbs = {}
+    for kind, path, method, op, shared in iter_ops(spec):
+        out.append({"kind": kind, "path": path, "method": method, "op": op, "shared": shared,
+                    "name": None, "parents": None})
+        for cbname, cbobj in (op.get("callbacks") or {}).items():
+            for expr, item in (cbobj or {}).items():
+                if not isinstance(item, dict):
+                    continue
+                for m in HTTP_METHODS:
+                    if m not in item:
+                        continue
+                    key = (cbname, expr, m)
+                    if key not in cbs:
+                        cbs[key] = {"kind": "callback", "path": expr, "method": m, "op": item[m],
+                                    "shared": item.get("parameters") or [], "name": cbname, "parents": []}
+                    cbs[key]["parents"].append("%s %s" % (method.upper(), path))
+    return out + list(cbs.values())
+
+
+def entry_key(e):
+    return (e["kind"], e["name"] or e["path"], e["method"])
+
+
+def slugify(text):
+    s = re.sub(r"[{}]", "", text)
+    s = re.sub(r"[^A-Za-z0-9]+", "-", s).strip("-").lower()
+    return s or "root"
+
+
+def op_key(kind, path, method):
+    return (kind, path, method)
+
+
+def merge_specs(primary, secondary):
+    """Add operations and components present only in the secondary spec."""
+    added = []
+    if not secondary:
+        return primary, added
+    have = {op_key(k, p, m) for k, p, m, _, _ in iter_ops(primary)}
+    for k, p, m, op, _ in iter_ops(secondary):
+        if op_key(k, p, m) in have:
+            continue
+        bucket = "paths" if k == "path" else "webhooks"
+        primary.setdefault(bucket, {}).setdefault(p, {})
+        src_item = (secondary.get(bucket) or {}).get(p) or {}
+        if "parameters" in src_item and "parameters" not in primary[bucket][p]:
+            primary[bucket][p]["parameters"] = src_item["parameters"]
+        primary[bucket][p][m] = op
+        added.append("%s %s" % (m.upper(), p))
+    for section, items in (secondary.get("components") or {}).items():
+        if not isinstance(items, dict):
+            continue
+        dst = primary.setdefault("components", {}).setdefault(section, {})
+        for name, val in items.items():
+            dst.setdefault(name, val)
+    return primary, added
+
+
+def unwrap(schema):
+    """Collapse single-member allOf wrappers (a common $ref-with-siblings idiom)."""
+    while (isinstance(schema, dict) and isinstance(schema.get("allOf"), list)
+           and len(schema["allOf"]) == 1 and isinstance(schema["allOf"][0], dict)
+           and "type" not in schema and "properties" not in schema):
+        base = dict(schema["allOf"][0])
+        for k, v in schema.items():
+            if k != "allOf":
+                base[k] = v
+        schema = base
+    return schema
+
+
+def type_of(schema):
+    schema = unwrap(schema)
+    if not isinstance(schema, dict):
+        return "any"
+    if "$ref" in schema:
+        return "ref"
+    t = schema.get("type")
+    if isinstance(t, list):
+        t = "|".join(str(x) for x in t)
+    if t == "array":
+        return "array<%s>" % type_of(schema.get("items") or {})
+    if not t:
+        for comb in ("oneOf", "anyOf", "allOf"):
+            if comb in schema:
+                return comb
+        if "properties" in schema:
+            t = "object"
+        else:
+            t = "any"
+    fmt = schema.get("format")
+    return "%s(%s)" % (t, fmt) if fmt else str(t)
+
+
+def flatten_props(schema, prefix="", depth=0, max_depth=2, out=None):
+    """Yield (dotted_name, type, required, constraints) for a resolved schema."""
+    if out is None:
+        out = []
+    schema = unwrap(schema)
+    if not isinstance(schema, dict):
+        return out
+    if schema.get("type") == "array" and isinstance(schema.get("items"), dict) and prefix:
+        schema = schema["items"]
+    for comb in ("allOf",):
+        if comb in schema:
+            for sub in schema[comb]:
+                flatten_props(sub, prefix, depth, max_depth, out)
+    for comb in ("oneOf", "anyOf"):
+        if comb in schema and depth <= max_depth:
+            for idx, sub in enumerate(schema[comb]):
+                flatten_props(sub, prefix + "<%s%d>." % (comb, idx + 1) if prefix else "<%s%d>." % (comb, idx + 1), depth + 1, max_depth, out)
+    req = set(schema.get("required") or []) if isinstance(schema.get("required"), list) else set()
+    for name, sub in (schema.get("properties") or {}).items():
+        sub = unwrap(sub) if isinstance(sub, dict) else {}
+        cons = []
+        for c in ("enum", "const", "pattern", "minLength", "maxLength", "minimum", "maximum", "minItems", "maxItems"):
+            if c in sub:
+                v = sub[c]
+                if c == "enum":
+                    v = "|".join(json.dumps(x, ensure_ascii=False) for x in v)
+                    cons.append("enum " + v)
+                else:
+                    cons.append("%s %s" % (c, json.dumps(v, ensure_ascii=False)))
+        if sub.get("nullable"):
+            cons.append("nullable")
+        if sub.get("readOnly"):
+            cons.append("readOnly")
+        out.append((prefix + str(name), type_of(sub), name in req, ", ".join(cons)))
+        target = sub.get("items") if sub.get("type") == "array" else sub
+        if depth < max_depth and isinstance(target, dict) and (target.get("properties") or target.get("allOf") or target.get("oneOf")):
+            suffix = "[]." if sub.get("type") == "array" else "."
+            flatten_props(target, prefix + str(name) + suffix, depth + 1, max_depth, out)
+    return out
+
+
+def md_escape(s):
+    return str(s).replace("|", "\\|").replace("\n", " ")
+
+
+def build_product(product_dir, primary_src, primary_spec, label_spec, label_src):
+    spec, added = merge_specs(primary_spec, label_spec)
+    labels = {}
+    if label_spec:
+        for e in all_ops(label_spec):
+            labels[entry_key(e)] = (e["op"].get("summary") or "").strip()
+    meta = {
+        "source_url": primary_src["url"],
+        "fetched": primary_src.get("fetched"),
+        "sha256": primary_src.get("sha256"),
+        "generator": "scripts/sync",
+    }
+    if label_src:
+        meta["labels_source_url"] = label_src["url"]
+        meta["labels_sha256"] = label_src.get("sha256")
+    if added:
+        meta["operations_from_labels_source"] = added
+
+    trimmed = trim_schema_tree(spec)
+    trimmed["info"] = {k: v for k, v in (spec.get("info") or {}).items() if k in ("title", "version")}
+    trimmed.pop("tags", None)
+    trimmed = dict({"x-uzfintech-source": meta}, **trimmed)
+
+    schemas_dir = os.path.join(product_dir, "schemas")
+    ops_dir = os.path.join(schemas_dir, "ops")
+    os.makedirs(ops_dir, exist_ok=True)
+    for f in os.listdir(ops_dir):
+        if f.endswith(".json"):
+            os.remove(os.path.join(ops_dir, f))
+    write_json(os.path.join(schemas_dir, "openapi.min.json"), trimmed, compact=True)
+
+    sec_schemes = (trimmed.get("components") or {}).get("securitySchemes") or {}
+    rows = []
+    sections = []
+    used = set()
+    for e in all_ops(trimmed):
+        kind, path, method, op, shared = e["kind"], e["path"], e["method"], e["op"], e["shared"]
+        opid = op.get("operationId") or ""
+        base = slugify(opid) if opid else slugify(method + "-" + path)
+        if kind == "webhook":
+            base = "webhook-" + slugify(path)
+        if kind == "callback":
+            base = "callback-" + slugify(e["name"])
+        slug = base
+        n = 2
+        while slug in used:
+            slug = "%s-%d" % (base, n)
+            n += 1
+        used.add(slug)
+        summary = labels.get(entry_key(e)) or (op.get("summary") or "").strip()
+        params = inline(trimmed, list(shared) + list(op.get("parameters") or []))
+        body = None
+        rb = inline(trimmed, op.get("requestBody")) if op.get("requestBody") else None
+        if isinstance(rb, dict):
+            content = rb.get("content") or {}
+            ctype = next(iter(content), None)
+            body = {"required": bool(rb.get("required")), "contentType": ctype,
+                    "schema": (content.get(ctype) or {}).get("schema") if ctype else None}
+        responses = {}
+        for code, resp in (op.get("responses") or {}).items():
+            resp = inline(trimmed, resp)
+            content = (resp or {}).get("content") or {}
+            ctype = next(iter(content), None)
+            responses[str(code)] = {"contentType": ctype,
+                                    "schema": (content.get(ctype) or {}).get("schema") if ctype else None}
+        security = op.get("security", trimmed.get("security"))
+        doc = {
+            "x-uzfintech-source": {"source_url": primary_src["url"], "fetched": primary_src.get("fetched")},
+            "kind": kind,
+            "method": method.upper(),
+            "path": path,
+            "callbackName": e["name"],
+            "sentAfter": e["parents"],
+            "operationId": opid or None,
+            "summary": summary or None,
+            "callbacks": sorted(op.get("callbacks")) if op.get("callbacks") else None,
+            "tags": op.get("tags"),
+            "security": security,
+            "parameters": params or None,
+            "requestBody": body,
+            "responses": responses,
+        }
+        write_json(os.path.join(ops_dir, slug + ".json"), {k: v for k, v in doc.items() if v is not None})
+        rows.append((kind, method.upper(), path, opid, summary, slug))
+
+        tail = ""
+        if kind == "webhook":
+            tail = " (webhook you implement)"
+        elif kind == "callback":
+            tail = " (callback `%s` you receive; sent after %s)" % (e["name"], ", ".join("`%s`" % x for x in e["parents"]))
+        lines = ["### %s `%s`%s" % (method.upper(), path, tail), ""]
+        if op.get("callbacks"):
+            lines.append("Callbacks: " + ", ".join("`%s`" % c for c in sorted(op["callbacks"])) + " (see the callback sections below)")
+            lines.append("")
+        if opid or summary:
+            lines.append("operationId `%s`. %s" % (opid or "-", md_escape(summary)) if summary else "operationId `%s`." % opid)
+            lines.append("")
+        hdrs = [p for p in params if isinstance(p, dict) and p.get("in") in ("header", "path", "query")]
+        if hdrs:
+            lines.append("Parameters: " + ", ".join(
+                "`%s`%s (%s, %s)" % (p.get("name"), "*" if p.get("required") else "", p.get("in"), type_of(p.get("schema") or {}))
+                for p in hdrs))
+            lines.append("")
+        if body and body.get("schema"):
+            props = flatten_props(body["schema"])
+            if props:
+                lines.append("Request `%s`:" % (body.get("contentType") or "body"))
+                lines.append("")
+                lines.append("| Field | Type | Req | Constraints |")
+                lines.append("|---|---|---|---|")
+                for name, t, r, c in props:
+                    lines.append("| `%s` | %s | %s | %s |" % (md_escape(name), md_escape(t), "yes" if r else "", md_escape(c)))
+                lines.append("")
+        for code, resp in responses.items():
+            props = flatten_props(resp.get("schema")) if resp.get("schema") else []
+            if not props:
+                lines.append("Response %s%s" % (code, ": `%s`" % type_of(resp["schema"]) if resp.get("schema") else ""))
+                lines.append("")
+                continue
+            lines.append("Response %s:" % code)
+            lines.append("")
+            lines.append("| Field | Type | Req | Constraints |")
+            lines.append("|---|---|---|---|")
+            for name, t, r, c in props:
+                lines.append("| `%s` | %s | %s | %s |" % (md_escape(name), md_escape(t), "yes" if r else "", md_escape(c)))
+            lines.append("")
+        lines.append("Full schema: [`schemas/ops/%s.json`](schemas/ops/%s.json)" % (slug, slug))
+        lines.append("")
+        sections.append("\n".join(lines))
+
+    info = spec.get("info") or {}
+    md = [
+        "<!-- GENERATED by scripts/sync. Do not edit; edit README.md for hand-written notes. -->",
+        "# %s %s: endpoints" % (info.get("title", "API"), info.get("version", "")),
+        "",
+        "- Source: %s" % primary_src["url"],
+    ]
+    if label_src:
+        md.append("- English labels: %s" % label_src["url"])
+    md += [
+        "- Fetched: %s, sha256 `%s`" % (primary_src.get("fetched"), (primary_src.get("sha256") or "")[:16]),
+        "- Trimmed spec: [`schemas/openapi.min.json`](schemas/openapi.min.json) (descriptions, examples and vendor extensions removed)",
+        "- `*` / `yes` marks required. Nested fields are shown two levels deep; open the ops JSON for the full tree.",
+        "",
+    ]
+    servers = trimmed.get("servers") or []
+    if servers:
+        md.append("Servers declared by the spec: " + ", ".join("`%s`" % s.get("url") for s in servers if isinstance(s, dict)))
+        md.append("")
+    if sec_schemes:
+        md.append("Security schemes: " + ", ".join(
+            "`%s` (%s%s)" % (n, s.get("type"), (" " + str(s.get("scheme") or s.get("name") or "")).rstrip())
+            for n, s in sec_schemes.items() if isinstance(s, dict)))
+        md.append("")
+    else:
+        md.append("Security schemes: none declared in the spec; see README.md for the real auth.")
+        md.append("")
+    md += ["| | Method | Path | operationId | Summary | Ops file |", "|---|---|---|---|---|---|"]
+    for kind, m, p, opid, summary, slug in rows:
+        md.append("| %s | %s | `%s` | %s | %s | [%s](schemas/ops/%s.json) |" % (
+            kind if kind in ("webhook", "callback") else "", m, md_escape(p), "`%s`" % opid if opid else "",
+            md_escape(summary), slug, slug))
+    md.append("")
+    md.append("## Operations")
+    md.append("")
+    md.extend(sections)
+    with open(os.path.join(product_dir, "endpoints.md"), "w", encoding="utf-8") as fh:
+        fh.write("\n".join(md).rstrip() + "\n")
+    return len(rows), added
+
+
+def write_json(path, obj, compact=False):
+    with open(path, "w", encoding="utf-8") as fh:
+        if compact:
+            json.dump(obj, fh, ensure_ascii=False, separators=(",", ":"), sort_keys=False)
+        else:
+            json.dump(obj, fh, ensure_ascii=False, indent=2)
+        fh.write("\n")
+
+
+# --------------------------------------------------------------------------
+# main
+# --------------------------------------------------------------------------
+def cache_path(src):
+    ext = ".yaml" if src["kind"].startswith("openapi") else ".txt"
+    return os.path.join(CACHE, src["id"] + ext)
+
+
+def product_dir(src):
+    return os.path.join(ROOT, "skills", src["provider"], "references", src["product"])
+
+
+def selftest():
+    try:
+        import yaml  # noqa: F401
+    except ImportError:
+        print("PyYAML not installed; selftest skipped")
+        return 0
+    import yaml
+    bad = 0
+    files = sorted(f for f in os.listdir(CACHE) if f.endswith(".yaml")) if os.path.isdir(CACHE) else []
+    files = [os.path.join(CACHE, f) for f in files] + [SOURCES]
+    for f in files:
+        text = open(f, encoding="utf-8").read()
+        ref = yaml.safe_load(text)
+        got = yaml_load(text)
+        a = json.dumps(ref, sort_keys=True, default=str, ensure_ascii=False)
+        b = json.dumps(got, sort_keys=True, default=str, ensure_ascii=False)
+        status = "ok" if a == b else "MISMATCH"
+        if a != b:
+            bad += 1
+            for k, (x, y) in enumerate(zip(a, b)):
+                if x != y:
+                    print("  first diff near:", a[max(0, k - 120):k + 80], "\n  vs:", b[max(0, k - 120):k + 80])
+                    break
+        print("%-60s %s" % (os.path.relpath(f, ROOT), status))
+    return 1 if bad else 0
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--check", action="store_true")
+    ap.add_argument("--regen", action="store_true")
+    ap.add_argument("--only")
+    ap.add_argument("--report")
+    ap.add_argument("--selftest", action="store_true")
+    args = ap.parse_args()
+    if args.selftest:
+        return selftest()
+
+    os.makedirs(CACHE, exist_ok=True)
+    sources = load_sources()
+    only = set(args.only.split(",")) if args.only else None
+    today = _dt.date.today().isoformat()
+    changed, failed, flagged, regenerated = [], [], [], []
+    dirty_products = set()
+
+    for src in sources:
+        if only and src["id"] not in only:
+            continue
+        cp = cache_path(src)
+        if args.regen and os.path.exists(cp):
+            continue
+        try:
+            raw, ctype, final_url = fetch(src["url"])
+            if src["kind"].startswith("openapi"):
+                head = raw[:200].lstrip().lower()
+                if head.startswith(b"<!doctype") or head.startswith(b"<html"):
+                    raise RuntimeError("got an HTML page instead of a spec (source missing upstream?)")
+                content = raw
+                yaml_load(raw.decode("utf-8"))  # must parse
+            else:
+                content = article_text(raw).encode("utf-8")
+        except Exception as exc:  # noqa: BLE001
+            failed.append((src["id"], str(exc)))
+            src["status"] = "fetch-failed %s" % today
+            continue
+        digest = hashlib.sha256(content).hexdigest()
+        with open(cp, "wb") as fh:
+            fh.write(content)
+        if digest != src.get("sha256"):
+            changed.append(src["id"])
+            if src.get("sha256"):
+                if src["kind"] == "html":
+                    flagged.append(src)
+            src["sha256"] = digest
+            src["fetched"] = today
+            if src["kind"].startswith("openapi"):
+                dirty_products.add((src["provider"], src["product"]))
+        src["status"] = "ok"
+
+    if args.regen:
+        for src in sources:
+            if src["kind"].startswith("openapi") and (not only or src["id"] in only):
+                dirty_products.add((src["provider"], src["product"]))
+
+    if not args.check:
+        for provider, product in sorted(dirty_products):
+            prim = next((s for s in sources if s["provider"] == provider and s["product"] == product
+                         and s["kind"] == "openapi"), None)
+            lab = next((s for s in sources if s["provider"] == provider and s["product"] == product
+                        and s["kind"] == "openapi-labels"), None)
+            if not prim or not os.path.exists(cache_path(prim)):
+                failed.append(("%s/%s" % (provider, product), "primary spec not cached"))
+                continue
+            pspec = yaml_load(open(cache_path(prim), encoding="utf-8").read())
+            lspec = None
+            if lab and os.path.exists(cache_path(lab)):
+                lspec = yaml_load(open(cache_path(lab), encoding="utf-8").read())
+            n, added = build_product(product_dir(prim), prim, pspec, lspec, lab)
+            regenerated.append("%s/%s (%d operations%s)" % (
+                provider, product, n, "; from labels source: " + ", ".join(added) if added else ""))
+        dump_sources(sources)
+
+    report = ["## Upstream contract sync %s" % today, ""]
+    if regenerated:
+        report.append("Regenerated from OpenAPI:")
+        report += ["- `%s`" % r for r in regenerated]
+        report.append("")
+    if flagged:
+        report.append("Documentation pages changed upstream; review these hand-written references:")
+        for s in flagged:
+            refs = s.get("refs") or []
+            report.append("- %s (%s) -> %s" % (s["id"], s["url"], ", ".join("`%s`" % r for r in refs) or "no refs listed"))
+        report.append("")
+    if failed:
+        report.append("Fetch or parse failures:")
+        report += ["- %s: %s" % f for f in failed]
+        report.append("")
+    if not (regenerated or flagged or failed or changed):
+        report.append("No upstream changes.")
+    text = "\n".join(report).rstrip() + "\n"
+    print(text)
+    if args.report:
+        with open(args.report, "w", encoding="utf-8") as fh:
+            fh.write(text)
+    if failed:
+        return 2
+    if args.check and changed:
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

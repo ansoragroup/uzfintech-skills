@@ -1,0 +1,311 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/cbt/v1/transfer/transfer_list",
+  "operationId": "transferList",
+  "summary": "Get Transfer List",
+  "tags": [
+    "Общие методы"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "required": [
+        "createTime",
+        "limit",
+        "page"
+      ],
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "allOf": [
+            {
+              "required": [
+                "from",
+                "to"
+              ],
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "REGISTERED",
+            "PENDING",
+            "APPROVED",
+            "SUCCESS",
+            "FAILED",
+            "REVERSED"
+          ]
+        },
+        "transferType": {
+          "type": "string",
+          "enum": [
+            "FROM_UZ",
+            "TO_UZ"
+          ]
+        },
+        "page": {
+          "type": "integer",
+          "default": 1
+        },
+        "limit": {
+          "type": "integer",
+          "default": 25
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "paginationResponse": {
+            "type": "object",
+            "properties": {
+              "totalRecords": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              },
+              "currentPage": {
+                "type": "integer"
+              },
+              "nextPage": {
+                "type": "integer"
+              },
+              "previousPage": {
+                "type": "integer"
+              }
+            }
+          },
+          "transferList": {
+            "type": "array",
+            "items": {
+              "required": [
+                "completedDateTime",
+                "createdDateTime",
+                "exchangeRate",
+                "externalTransferId",
+                "receiverPaymentSystem",
+                "receiverAmount",
+                "senderAmount",
+                "senderCurrencyCode",
+                "status",
+                "transferId",
+                "transferType"
+              ],
+              "type": "object",
+              "properties": {
+                "rrn": {
+                  "type": "string"
+                },
+                "externalTransferId": {
+                  "type": "string"
+                },
+                "transferId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "senderAmount": {
+                  "type": "integer"
+                },
+                "senderCurrencyCode": {
+                  "type": "string",
+                  "enum": [
+                    "UZS",
+                    "RUB",
+                    "USD",
+                    "EUR",
+                    "TJS"
+                  ]
+                },
+                "receiverAmount": {
+                  "type": "integer"
+                },
+                "receiverCurrencyCode": {
+                  "type": "string",
+                  "enum": [
+                    "UZS",
+                    "RUB",
+                    "USD",
+                    "EUR",
+                    "TJS"
+                  ]
+                },
+                "receiverPaymentSystem": {
+                  "type": "string",
+                  "enum": [
+                    "HUMO",
+                    "UZCARD",
+                    "MASTERCARD",
+                    "VISA"
+                  ]
+                },
+                "exchangeRate": {
+                  "type": "string"
+                },
+                "transferType": {
+                  "type": "string",
+                  "enum": [
+                    "FROM_UZ",
+                    "TO_UZ"
+                  ]
+                },
+                "createdDateTime": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "completedDateTime": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "REGISTERED",
+                    "PENDING",
+                    "APPROVED",
+                    "SUCCESS",
+                    "FAILED",
+                    "REVERSED"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "required": [
+                "message",
+                "field"
+              ],
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

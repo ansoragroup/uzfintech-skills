@@ -1,0 +1,97 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/merchant/merchant-get-by-category/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "merchant.get.by.category",
+  "params": {
+    "type": "object",
+    "properties": {
+      "category_id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "category_id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "merchants": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/Merchant"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Merchant": {
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "integer"
+        },
+        "merchant_name": {
+          "type": "string"
+        },
+        "gateway_name": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "integer"
+        },
+        "logo_url": {
+          "type": "string"
+        },
+        "min_amount": {
+          "type": "integer",
+          "description": "amount in tiyin (1 UZS = 100 tiyin)"
+        },
+        "max_amount": {
+          "type": "integer",
+          "description": "amount in tiyin (1 UZS = 100 tiyin)"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MerchantField"
+          }
+        }
+      }
+    },
+    "MerchantField": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "regex": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "send_on_pay": {
+          "type": "boolean"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "mask_type": {
+          "type": "string"
+        },
+        "masks": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    }
+  }
+}

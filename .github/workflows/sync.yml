@@ -1,0 +1,74 @@
+name: sync
+
+# Weekly: fetch upstream provider contracts, regenerate OpenAPI-derived references,
+# flag changed documentation pages, and open (or update) one PR with the diff.
+
+on:
+  schedule:
+    - cron: "17 4 * * 1" # Mondays 04:17 UTC (09:17 Tashkent)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: upstream-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch upstream and regenerate
+        id: sync
+        run: |
+          set +e
+          python3 scripts/sync --report cache/report.md
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          # 0 = ok, 2 = some sources failed (still open a PR so it is visible)
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then exit "$code"; fi
+          exit 0
+
+      - name: Cross-check the bundled YAML parser against PyYAML
+        run: |
+          python3 -m pip install --quiet pyyaml
+          python3 scripts/sync --selftest
+
+      - name: Build PR body
+        run: |
+          {
+            cat cache/report.md
+            echo
+            echo "Hand-written references listed above must be re-checked against the vendor page before merging."
+            echo "Before merging, run the anonymization scan from CONTRIBUTING.md."
+            echo
+            echo "Opened by \`.github/workflows/sync.yml\`."
+          } > cache/pr-body.md
+
+      - name: Open or update the sync PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: sync/upstream
+          delete-branch: true
+          add-paths: |
+            sources.yaml
+            skills/**
+          commit-message: Sync upstream provider contracts
+          title: Sync upstream provider contracts
+          body-path: cache/pr-body.md
+          labels: upstream-sync
+
+      - name: Fail when sources could not be fetched
+        if: steps.sync.outputs.code == '2'
+        run: |
+          echo "::error::Some upstream sources failed to fetch or parse; see cache/report.md in the log above."
+          exit 1

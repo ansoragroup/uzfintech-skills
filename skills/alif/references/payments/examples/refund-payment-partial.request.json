@@ -1,0 +1,6 @@
+{
+  "id": "5d2c81fe-5614-4fd6-aa73-366e7f7448bb",
+  "payment_id": "f2d14774-b8b7-4e10-a5c5-98d0457ab11e",
+  "amount": 7500000,
+  "webhook_url": "https://merchant.example.com/webhooks/alif-refund"
+}

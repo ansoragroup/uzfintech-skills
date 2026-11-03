@@ -1,0 +1,147 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_nasiya.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/contracts/confirm",
+  "operationId": "confirmContract",
+  "summary": "Подтверждение договора",
+  "tags": [
+    "API MFO"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "contract_id"
+      ],
+      "properties": {
+        "contract_id": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "data",
+          "response_code"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "client_act_pdf"
+            ],
+            "properties": {
+              "client_act_pdf": {
+                "type": "string"
+              }
+            }
+          },
+          "response_code": {
+            "type": "integer",
+            "enum": [
+              0,
+              4004,
+              4009,
+              4010,
+              5003,
+              5005,
+              1000
+            ]
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "data",
+          "response_code"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "sub_text": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {}
+          },
+          "response_code": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

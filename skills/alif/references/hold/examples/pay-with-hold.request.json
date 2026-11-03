@@ -1,0 +1,19 @@
+{
+  "id": "f2d14774-b8b7-4e10-a5c5-98d0457ab11e",
+  "amount": 15000000,
+  "method": {
+    "type": "HOLD",
+    "id": "dee09099-2d13-4c83-8e10-5f0528f2b760"
+  },
+  "receipt": {
+    "phone": "998901234567",
+    "items": [
+      {
+        "name": "Wireless mouse",
+        "spic": "<SPIC_17_DIGITS>",
+        "amount": 2,
+        "price": 7500000
+      }
+    ]
+  }
+}

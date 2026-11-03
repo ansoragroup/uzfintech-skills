@@ -1,0 +1,12 @@
+{
+  "name": "uzfintech",
+  "version": "0.1.0",
+  "description": "Exact API contracts and implementation checklists for Uzbek payment providers: Uzum Bank (Merchant API, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub) and Alif (alifpay).",
+  "author": {
+    "name": "uzfintech-skills contributors"
+  },
+  "homepage": "https://github.com/ansoragroup/uzfintech-skills",
+  "repository": "https://github.com/ansoragroup/uzfintech-skills",
+  "license": "MIT",
+  "keywords": ["uzbekistan", "payments", "uzum", "alif", "alifpay", "fintech", "api-contracts"]
+}

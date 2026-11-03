@@ -1,0 +1,34 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/cards/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "matchCardPIN",
+  "endpoint": "POST https://api.alifpay.uz/v2/matchCardPIN",
+  "params": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      },
+      "pin": {
+        "type": "string",
+        "pattern": "^\\d{14}$"
+      }
+    },
+    "required": [
+      "token",
+      "pin"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "ok": {
+        "type": "boolean"
+      }
+    }
+  }
+}

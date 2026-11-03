@@ -1,0 +1,166 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/account/account-history/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "account.history",
+  "params": {
+    "type": "object",
+    "properties": {
+      "account": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "mfo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "number",
+          "mfo"
+        ]
+      },
+      "page": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "size": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "page",
+          "size"
+        ]
+      },
+      "filter": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "integer",
+            "description": "Unix time, milliseconds"
+          },
+          "to": {
+            "type": "integer",
+            "description": "Unix time, milliseconds"
+          },
+          "type": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "CREDIT",
+              "DEBIT",
+              null
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "type"
+        ]
+      }
+    },
+    "required": [
+      "account",
+      "page",
+      "filter"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "account": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "mfo": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "integer"
+          }
+        }
+      },
+      "page": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "total_elements": {
+            "type": "integer"
+          },
+          "total_pages": {
+            "type": "integer"
+          }
+        }
+      },
+      "total_debit": {
+        "type": "integer"
+      },
+      "total_credit": {
+        "type": "integer"
+      },
+      "open_balance": {
+        "type": "integer"
+      },
+      "close_balance": {
+        "type": "integer"
+      },
+      "documents": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "doc_id": {
+              "type": "integer"
+            },
+            "date_time": {
+              "type": "integer",
+              "description": "Unix time, milliseconds"
+            },
+            "amount": {
+              "type": "integer",
+              "description": "amount in tiyin (1 UZS = 100 tiyin)"
+            },
+            "details": {
+              "type": "string"
+            },
+            "corr_name": {
+              "type": "string"
+            },
+            "corr_mfo": {
+              "type": "string"
+            },
+            "corr_account": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "corr_bank": {
+              "type": "string"
+            },
+            "corr_inn": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

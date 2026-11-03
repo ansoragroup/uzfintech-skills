@@ -1,0 +1,15 @@
+{
+  "serviceId": 101,
+  "transId": "b60bdcce-cf12-4708-a3fe-c193665e2704",
+  "status": "CONFIRMED",
+  "confirmTime": 1793682005100,
+  "data": {
+    "account": {
+      "value": "100001"
+    },
+    "amount_due": {
+      "value": "150000.00 UZS"
+    }
+  },
+  "amount": 15000000
+}

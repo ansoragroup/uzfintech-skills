@@ -1,0 +1,57 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/card/get-reciever-card-info/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "cards.get.receiver",
+  "params": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "string",
+        "description": "16-digit PAN"
+      },
+      "token": {
+        "type": "string"
+      }
+    },
+    "description": "pass the PAN or the card token"
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "holder_name": {
+            "type": "string"
+          },
+          "card_state": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "NOT ACTIVE"
+            ]
+          },
+          "bank": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "MFO"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "card"
+    ]
+  }
+}

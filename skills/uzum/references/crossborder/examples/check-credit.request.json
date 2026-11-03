@@ -1,0 +1,18 @@
+{
+  "externalTransferId": "tr-100001",
+  "identificationType": "PHONE",
+  "identificationValue": "998901234567",
+  "bankLabel": "<BANK_LABEL from receiver_banks>",
+  "senderAmount": 1000000,
+  "senderCurrencyCode": "RUB",
+  "receiverCurrencyCode": "UZS",
+  "senderCountry": "RU",
+  "sender": {
+    "personFullName": "Sample Sender",
+    "birthday": "1990-01-01",
+    "nationality": "RU"
+  },
+  "receiver": {
+    "personFullName": "Sample Receiver"
+  }
+}

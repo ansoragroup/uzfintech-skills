@@ -1,0 +1,314 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_ratekeeper.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/partner/convert",
+  "operationId": "convert_api_v1_partner_convert_post",
+  "summary": "Convert",
+  "tags": [
+    "partner"
+  ],
+  "parameters": [
+    {
+      "name": "X-API-Key",
+      "in": "header",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "title": "X-Api-Key"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "anyOf": [
+        {
+          "properties": {
+            "partnerId": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Partnerid"
+            },
+            "amount": {
+              "type": "integer",
+              "title": "Amount"
+            },
+            "ips": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "HUMO",
+                    "UZCARD"
+                  ],
+                  "title": "IPS"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "currencyFrom": {
+              "type": "string",
+              "enum": [
+                "USD",
+                "RUB",
+                "EUR",
+                "UZS"
+              ],
+              "title": "Currencyfrom"
+            },
+            "currencyTo": {
+              "type": "string",
+              "enum": [
+                "USD",
+                "RUB",
+                "EUR",
+                "UZS"
+              ],
+              "title": "Currencyto"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "TO_UZ"
+              ],
+              "const": "TO_UZ",
+              "title": "Direction"
+            }
+          },
+          "type": "object",
+          "required": [
+            "partnerId",
+            "amount",
+            "currencyFrom",
+            "currencyTo",
+            "direction"
+          ],
+          "title": "ConvertToUzCommand"
+        },
+        {
+          "properties": {
+            "partnerId": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Partnerid"
+            },
+            "amount": {
+              "type": "integer",
+              "title": "Amount"
+            },
+            "ips": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "HUMO",
+                    "UZCARD"
+                  ],
+                  "title": "IPS"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "currencyFrom": {
+              "type": "string",
+              "enum": [
+                "USD",
+                "RUB",
+                "EUR",
+                "UZS"
+              ],
+              "title": "Currencyfrom"
+            },
+            "currencyTo": {
+              "type": "string",
+              "enum": [
+                "USD",
+                "RUB",
+                "EUR",
+                "UZS"
+              ],
+              "title": "Currencyto"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "FROM_UZ"
+              ],
+              "const": "FROM_UZ",
+              "title": "Direction"
+            }
+          },
+          "type": "object",
+          "required": [
+            "partnerId",
+            "amount",
+            "currencyFrom",
+            "currencyTo",
+            "direction"
+          ],
+          "title": "ConvertFromUzCommand"
+        }
+      ],
+      "title": "Command"
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "enum": [
+              0,
+              1000,
+              2000,
+              3000,
+              3001,
+              3002,
+              3003,
+              3004,
+              5000,
+              5001
+            ],
+            "title": "ErrorCode"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "properties": {
+                  "currencyFrom": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "USD",
+                          "EUR",
+                          "RUB",
+                          "UZS",
+                          "UNKNOWN"
+                        ],
+                        "title": "Currency"
+                      }
+                    ]
+                  },
+                  "currencyTo": {
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "USD",
+                          "EUR",
+                          "RUB",
+                          "UZS",
+                          "UNKNOWN"
+                        ],
+                        "title": "Currency"
+                      }
+                    ]
+                  },
+                  "rate": {
+                    "type": "string",
+                    "title": "Rate"
+                  },
+                  "amountFrom": {
+                    "type": "integer",
+                    "title": "Amountfrom"
+                  },
+                  "amountTo": {
+                    "type": "integer",
+                    "title": "Amountto"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "currencyFrom",
+                  "currencyTo",
+                  "rate",
+                  "amountFrom",
+                  "amountTo"
+                ],
+                "title": "ConvertResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "result"
+        ],
+        "title": "ApiResponse[ConvertResponse]"
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "properties": {
+          "detail": {
+            "items": {
+              "properties": {
+                "loc": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  },
+                  "type": "array",
+                  "title": "Location"
+                },
+                "msg": {
+                  "type": "string",
+                  "title": "Message"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Error Type"
+                }
+              },
+              "type": "object",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "title": "ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      }
+    }
+  }
+}

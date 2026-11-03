@@ -1,0 +1,67 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_dynamicqr.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/dynamic-qr/merchant/payment/reversal",
+  "operationId": "reversal",
+  "summary": "Reverse",
+  "tags": [
+    "Методы"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "service_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "payment_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_id",
+        "payment_id"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "payment_id": {
+            "type": "string"
+          },
+          "payment_status": {
+            "type": "string",
+            "enum": [
+              "REVERSE_PENDING",
+              "REVERSED"
+            ]
+          },
+          "error_code": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "payment_id",
+          "payment_status",
+          "error_code"
+        ]
+      }
+    },
+    "401": {
+      "contentType": null,
+      "schema": null
+    }
+  }
+}

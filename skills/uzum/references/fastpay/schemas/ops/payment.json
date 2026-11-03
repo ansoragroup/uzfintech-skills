@@ -1,0 +1,102 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_fastpay.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/apelsin-pay/merchant/v2/payment",
+  "operationId": "payment",
+  "summary": "Payment",
+  "tags": [
+    "Методы"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cashbox_code": {
+          "type": "string"
+        },
+        "otp_data": {
+          "type": "string"
+        },
+        "order_id": {
+          "type": "string"
+        },
+        "transaction_id": {
+          "type": "string",
+          "format": "UUID"
+        },
+        "service_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "amount",
+        "cashbox_code",
+        "otp_data",
+        "order_id",
+        "transaction_id",
+        "service_id"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "payment_id": {
+            "type": "string"
+          },
+          "payment_status": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "FAILED",
+              "DUPLICATED"
+            ]
+          },
+          "error_code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "operation_time": {
+            "type": "string"
+          },
+          "client_phone_number": {
+            "type": "string"
+          },
+          "card_type": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "processing_reference_number": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "payment_id",
+          "payment_status",
+          "error_code",
+          "client_phone_number",
+          "card_type",
+          "processing_reference_number"
+        ]
+      }
+    },
+    "401": {
+      "contentType": null,
+      "schema": null
+    }
+  }
+}

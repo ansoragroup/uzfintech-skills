@@ -1,0 +1,104 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_merchant.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "webhook",
+  "method": "POST",
+  "path": "/check",
+  "operationId": "check",
+  "summary": "Verifying Payment Possibility",
+  "tags": [
+    "Вебхуки"
+  ],
+  "security": [
+    {
+      "BasicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "serviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "params": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "serviceId",
+        "timestamp",
+        "params"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OK"
+            ]
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "serviceId",
+          "timestamp",
+          "status"
+        ]
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "FAILED"
+            ]
+          },
+          "errorCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorCode"
+        ]
+      }
+    }
+  }
+}

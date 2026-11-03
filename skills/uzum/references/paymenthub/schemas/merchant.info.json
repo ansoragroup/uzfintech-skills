@@ -1,0 +1,77 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/merchant/merchant-info/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "merchant.info",
+  "params": {
+    "type": "object",
+    "properties": {
+      "merchant_id": {
+        "type": "integer"
+      },
+      "accounts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/AccountField"
+        }
+      }
+    },
+    "required": [
+      "merchant_id",
+      "accounts"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "info": {
+        "type": "object",
+        "properties": {
+          "merchant_id": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "description": "string for STRING; array of {value, name} for SELECT"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "AccountField": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    }
+  }
+}

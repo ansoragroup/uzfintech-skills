@@ -1,0 +1,31 @@
+{
+  "status": "success",
+  "error": [],
+  "data": {
+    "paymart_client": {
+      "fio": "Sample Buyer",
+      "phone": "998901234567",
+      "order": 200001,
+      "contract_id": 300001,
+      "created_at": "2026-11-03 10:00:00",
+      "price_month": "<per-month amount>",
+      "total": "<total with markup>",
+      "available_balance": "<balance>",
+      "mini_balance": "<balance>"
+    },
+    "cart": [
+      {
+        "amount": 1,
+        "name": "Wireless mouse",
+        "price": 1500000,
+        "category": 1,
+        "unit_id": 1,
+        "product_id": 1,
+        "sum": 1500000,
+        "origin": 1500000
+      }
+    ],
+    "client_act_pdf": "<contract PDF URL>",
+    "webview_path": "<signing WebView URL>"
+  }
+}

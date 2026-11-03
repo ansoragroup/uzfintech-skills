@@ -1,0 +1,128 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_merchant.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "webhook",
+  "method": "POST",
+  "path": "/create",
+  "operationId": "create",
+  "summary": "Creating Payment Transaction",
+  "tags": [
+    "Вебхуки"
+  ],
+  "security": [
+    {
+      "BasicAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "serviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "params": {
+          "type": "object"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "serviceId",
+        "timestamp",
+        "transId",
+        "params",
+        "amount"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CREATED"
+            ]
+          },
+          "transTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data": {
+            "type": "object"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "serviceId",
+          "transId",
+          "status",
+          "transTime",
+          "amount"
+        ]
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "FAILED"
+            ]
+          },
+          "transTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "errorCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "errorCode"
+        ]
+      }
+    }
+  }
+}

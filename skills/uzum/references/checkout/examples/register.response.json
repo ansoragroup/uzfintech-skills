@@ -1,0 +1,8 @@
+{
+  "errorCode": 0,
+  "message": null,
+  "result": {
+    "orderId": "d7f1e39e-757c-4520-b0fa-c0865cf966c9",
+    "paymentRedirectUrl": "<payment form URL returned by Uzum>"
+  }
+}

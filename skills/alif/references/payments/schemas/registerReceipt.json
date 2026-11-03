@@ -1,0 +1,69 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/payments/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "registerReceipt",
+  "endpoint": "POST https://api.alifpay.uz/v2/registerReceipt",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "fiscal_data": {
+        "type": "object",
+        "properties": {
+          "qr_code_url": {
+            "type": "string"
+          },
+          "is_refund": {
+            "type": "boolean"
+          },
+          "phone_number": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "qr_code_url"
+        ]
+      },
+      "location": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          }
+        }
+      },
+      "tin": {
+        "type": "string",
+        "pattern": "^\\d{9}$"
+      },
+      "pinfl": {
+        "type": "string",
+        "pattern": "^\\d{14}$"
+      },
+      "sale_point_address": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "fiscal_data"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "ok": {
+        "type": "boolean"
+      }
+    }
+  }
+}

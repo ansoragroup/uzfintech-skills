@@ -1,0 +1,6 @@
+{
+  "payment_id": null,
+  "payment_status": "FAILED",
+  "error_code": 401,
+  "error_message": "apelsin.pay.authorization.error"
+}

@@ -1,0 +1,264 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_nasiya.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/orders",
+  "operationId": "createOrder",
+  "summary": "Создание договора",
+  "tags": [
+    "API MFO"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "period",
+        "products"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "period": {
+          "type": "string"
+        },
+        "callback": {
+          "type": "string"
+        },
+        "ext_order_id": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "amount",
+              "name",
+              "price",
+              "category",
+              "unit_id"
+            ],
+            "properties": {
+              "amount": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              },
+              "category": {
+                "type": "integer"
+              },
+              "unit_id": {
+                "type": "integer"
+              },
+              "product_id": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "paymart_client",
+              "cart",
+              "client_act_pdf",
+              "webview_path"
+            ],
+            "properties": {
+              "paymart_client": {
+                "type": "object",
+                "required": [
+                  "fio",
+                  "phone",
+                  "order",
+                  "contract_id",
+                  "created_at",
+                  "price_month",
+                  "total",
+                  "available_balance",
+                  "mini_balance"
+                ],
+                "properties": {
+                  "fio": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "order": {
+                    "type": "integer"
+                  },
+                  "contract_id": {
+                    "type": "integer"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "price_month": {
+                    "type": "string"
+                  },
+                  "total": {
+                    "type": "string"
+                  },
+                  "available_balance": {
+                    "type": "string"
+                  },
+                  "mini_balance": {
+                    "type": "string"
+                  }
+                }
+              },
+              "cart": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "name",
+                    "price",
+                    "category",
+                    "unit_id",
+                    "sum",
+                    "origin"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "category": {
+                      "type": "integer"
+                    },
+                    "unit_id": {
+                      "type": "integer"
+                    },
+                    "product_id": {
+                      "type": "integer"
+                    },
+                    "sum": {
+                      "type": "number"
+                    },
+                    "origin": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "client_act_pdf": {
+                "type": "string"
+              },
+              "webview_path": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "text"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/receipt/aux/receipt-compare-payment/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "receipt.compare.payment",
+  "params": {
+    "type": "object",
+    "properties": {
+      "from": {
+        "type": "integer",
+        "description": "Unix time, milliseconds"
+      },
+      "to": {
+        "type": "integer",
+        "description": "Unix time, milliseconds"
+      },
+      "type": {
+        "$ref": "#/$defs/ReceiptType"
+      }
+    },
+    "required": [
+      "from",
+      "to",
+      "type"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "compare": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "from": {
+            "type": "integer"
+          },
+          "to": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "required": [
+      "compare"
+    ]
+  },
+  "$defs": {
+    "ReceiptType": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        5,
+        6,
+        7
+      ],
+      "description": "1 online payment, 2 online payment with hold, 5 card to card, 6 account to card, 7 payment by requisites (account.attached.list also accepts 12 = online payment from account)"
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "callback",
+  "method": "POST",
+  "path": "{$callback_url}",
+  "callbackName": "acquiring_merchant_callback",
+  "sentAfter": [
+    "POST /api/v1/payment/register",
+    "POST /api/v1/acquiring/complete",
+    "POST /api/v1/acquiring/refund",
+    "POST /api/v1/acquiring/reverse"
+  ],
+  "operationId": "acquiring_merchant_callback__callback_url__post",
+  "summary": "Acquiring Merchant Callback",
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "title": "AcquiringCallbackData",
+      "required": [
+        "orderId",
+        "operationState",
+        "operationType",
+        "orderNumber"
+      ],
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "title": "Orderid",
+          "type": "string"
+        },
+        "operationState": {
+          "allOf": [
+            {
+              "title": "CallbackOperationState",
+              "enum": [
+                "SUCCESS",
+                "FAIL"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "operationType": {
+          "title": "Operationtype",
+          "enum": [
+            "AUTHORIZE",
+            "COMPLETE",
+            "REFUND",
+            "REVERSE",
+            "TOP_UP_COMPLETED"
+          ],
+          "type": "string"
+        },
+        "cardType": {
+          "title": "Card Type",
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "merchantOperationId": {
+          "title": "Merchantoperationid",
+          "type": "string"
+        },
+        "orderNumber": {
+          "title": "Ordernumber",
+          "type": "string"
+        },
+        "rrn": {
+          "title": "Rrn",
+          "type": "string"
+        },
+        "bindingId": {
+          "title": "Bindingid",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {}
+    }
+  }
+}

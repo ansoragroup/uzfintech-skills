@@ -1,0 +1,23 @@
+{
+  "status": "success",
+  "error": [],
+  "data": {
+    "phone": "998901234567",
+    "has_limit": true,
+    "status": 4,
+    "buyer_id": 100001,
+    "available_periods": [
+      {
+        "period": "<tariff code>",
+        "title_uz": "12 oy",
+        "title_ru": "12 месяцев",
+        "original_markup": 0,
+        "available_balance": "10000000",
+        "discount_markup": 0
+      }
+    ],
+    "is_in_black_list": false,
+    "webview": "<registration WebView URL>",
+    "has_overdue_contracts": false
+  }
+}

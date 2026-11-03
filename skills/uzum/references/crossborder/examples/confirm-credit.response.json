@@ -1,0 +1,15 @@
+{
+  "rrn": "000000000002",
+  "externalTransferId": "tr-100001",
+  "transferId": "2c3cf375-dafe-44fc-9013-4a3d31a2d2ee",
+  "senderAmount": 1000000,
+  "senderCurrencyCode": "RUB",
+  "receiverAmount": 14000000,
+  "receiverCurrencyCode": "UZS",
+  "receiverPaymentSystem": "HUMO",
+  "exchangeRate": "140.00",
+  "transferType": "TO_UZ",
+  "createdDateTime": "2026-11-03T10:00:00+05:00",
+  "completedDateTime": "2026-11-03T10:00:04+05:00",
+  "status": "SUCCESS"
+}

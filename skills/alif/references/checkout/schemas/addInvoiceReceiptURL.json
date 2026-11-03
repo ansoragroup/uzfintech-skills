@@ -1,0 +1,34 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/checkout/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "addInvoiceReceiptURL",
+  "endpoint": "POST https://api.alifpay.uz/v2/addInvoiceReceiptURL",
+  "params": {
+    "type": "object",
+    "properties": {
+      "invoice_id": {
+        "type": "string"
+      },
+      "url": {
+        "type": "string",
+        "pattern": "^https://ofd\\.soliq\\.uz/"
+      }
+    },
+    "required": [
+      "invoice_id",
+      "url"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "invoice_id": {
+        "type": "string"
+      }
+    }
+  }
+}

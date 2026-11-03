@@ -1,0 +1,8 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "receipt.account.confirm.transfer",
+  "params": {
+    "id": "b6f1ae7d40e939cd823d7fa6b8ab857b"
+  }
+}

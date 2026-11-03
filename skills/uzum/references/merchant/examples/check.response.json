@@ -1,0 +1,13 @@
+{
+  "serviceId": 101,
+  "timestamp": 1793682000000,
+  "status": "OK",
+  "data": {
+    "account": {
+      "value": "100001"
+    },
+    "amount_due": {
+      "value": "150000.00 UZS"
+    }
+  }
+}

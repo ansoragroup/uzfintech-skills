@@ -1,0 +1,339 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_fiscalization.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/v2/receipt",
+  "operationId": "fiscal_receipt_generation_fiscal_receipt_generation_post",
+  "summary": "/v2/receipt",
+  "tags": [
+    "Фискализация чеков"
+  ],
+  "parameters": [
+    {
+      "in": "header",
+      "name": "X-API-Key",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "title": "ReceiptData",
+      "required": [
+        "operation_id",
+        "date_time",
+        "cash_amount",
+        "card_amount",
+        "items"
+      ],
+      "type": "object",
+      "properties": {
+        "payment_id": {
+          "title": "Payment Id",
+          "type": "string",
+          "format": "uuid"
+        },
+        "operation_id": {
+          "title": "Operation Id",
+          "type": "string",
+          "format": "uuid"
+        },
+        "date_time": {
+          "title": "Date Time",
+          "type": "string",
+          "format": "date-time"
+        },
+        "cash_amount": {
+          "title": "Cash Amount",
+          "type": "integer",
+          "minimum": 0
+        },
+        "card_amount": {
+          "title": "Card Amount",
+          "type": "integer",
+          "minimum": 0
+        },
+        "phone_number": {
+          "title": "Phone Number",
+          "type": "string",
+          "maxLength": 12
+        },
+        "ppt_id": {
+          "title": "PPT ID",
+          "type": "string"
+        },
+        "card_type": {
+          "title": "Card Type",
+          "type": "integer",
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        },
+        "card_number": {
+          "title": "Card Number",
+          "type": "string"
+        },
+        "receipt_type": {
+          "title": "Receipt Type",
+          "default": 0,
+          "type": "integer",
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        },
+        "items": {
+          "title": "Items",
+          "type": "array",
+          "items": {
+            "title": "ReceiptDataItem",
+            "required": [
+              "product_name",
+              "price",
+              "count",
+              "spic",
+              "package_code",
+              "vat_percent"
+            ],
+            "type": "object",
+            "properties": {
+              "product_name": {
+                "title": "Product Name",
+                "type": "string",
+                "maxLength": 63
+              },
+              "price": {
+                "title": "Price",
+                "type": "integer",
+                "minimum": 0
+              },
+              "discount": {
+                "title": "Discount",
+                "type": "integer",
+                "minimum": 0
+              },
+              "voucher": {
+                "title": "Voucher",
+                "type": "integer",
+                "minimum": 0
+              },
+              "count": {
+                "title": "Count",
+                "type": "number",
+                "mininum": 0,
+                "format": "double"
+              },
+              "spic": {
+                "title": "Spic",
+                "type": "string"
+              },
+              "package_code": {
+                "title": "Package Code",
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 20
+              },
+              "vat_percent": {
+                "title": "Vat Percent",
+                "type": "integer",
+                "minimum": 0
+              },
+              "commission_info": {
+                "title": "Commission Info",
+                "allOf": [
+                  {
+                    "title": "ReceiptDataCommissionInfo",
+                    "type": "object",
+                    "properties": {
+                      "TIN": {
+                        "title": "Tin",
+                        "type": "string"
+                      },
+                      "PINFL": {
+                        "title": "Pinfl",
+                        "maxLength": 14,
+                        "minLength": 14,
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              },
+              "owner_type": {
+                "title": "Owner Type",
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "ReceiptGenerationResponse",
+        "type": "object",
+        "required": [
+          "payment_id",
+          "receipt_id"
+        ],
+        "properties": {
+          "receipt_id": {
+            "title": "Receipt Id",
+            "type": "integer"
+          },
+          "payment_id": {
+            "title": "Payment Id",
+            "type": "string",
+            "format": "uuid"
+          },
+          "receipt_url": {
+            "title": "Receipt URL",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "202": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Request Accepted",
+        "required": [
+          "message",
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "payment_id": {
+            "title": "Payment Id",
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "title": "Code",
+            "type": "integer"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Bad Request",
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "AuthErrorResponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "title": "Operation Id",
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "title": "ValidationError",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "loc": {
+                  "title": "Location",
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  }
+                },
+                "msg": {
+                  "title": "Message",
+                  "type": "string"
+                },
+                "type": {
+                  "title": "Error Type",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Internal Server Error",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

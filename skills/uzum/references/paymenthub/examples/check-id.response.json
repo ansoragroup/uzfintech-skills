@@ -1,0 +1,32 @@
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "receipt": {
+      "id": "b6f1ae7d40e939cd823d7fa6b8ab857b",
+      "ext_id": "payout-100001",
+      "state": 4,
+      "create_date": 1793682000000,
+      "pay_date": 1793682004000,
+      "type": 6,
+      "description": "Payout for order 100001",
+      "amount": 15000000,
+      "currency": 860,
+      "commission": 0,
+      "sender": {
+        "account": "<YOUR_ACCOUNT_20_DIGITS>",
+        "mfo": "<MFO>",
+        "amount": 15000000,
+        "currency": 860,
+        "commission": 0
+      },
+      "receiver": {
+        "masked_pan": "860012******0000",
+        "holder_name": "SAMPLE HOLDER",
+        "amount": 15000000,
+        "currency": 860,
+        "commission": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "uzfintech-skills",
+  "owner": {
+    "name": "uzfintech-skills contributors"
+  },
+  "metadata": {
+    "description": "Agent skills for Uzbek payment provider APIs.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "uzfintech",
+      "source": "./",
+      "description": "Uzum Bank and Alif API contracts, schemas, anonymized examples and validation checklists.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "keywords": ["uzum", "alif", "payments", "uzbekistan"],
+      "category": "development"
+    }
+  ]
+}

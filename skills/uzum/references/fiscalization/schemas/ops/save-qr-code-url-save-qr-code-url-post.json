@@ -1,0 +1,231 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_fiscalization.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/v2/qr_payment",
+  "operationId": "save_qr_code_url_save_qr_code_url_post",
+  "summary": "/v2/qr_payment",
+  "tags": [
+    "Передача чека  оплаты по QR-коду в налоговую"
+  ],
+  "parameters": [
+    {
+      "in": "header",
+      "name": "X-API-Key",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "title": "QR Payment Request",
+      "required": [
+        "payment_id",
+        "operation_id",
+        "paid_sum",
+        "date_time",
+        "commission_info",
+        "phone_number",
+        "receipt_info"
+      ],
+      "type": "object",
+      "properties": {
+        "payment_id": {
+          "title": "QR Payment Id",
+          "type": "string",
+          "maxLength": 36
+        },
+        "operation_id": {
+          "title": "QR Operation Id",
+          "type": "string",
+          "format": "uuid"
+        },
+        "paid_sum": {
+          "title": "Paid Sum",
+          "type": "integer",
+          "min": 1
+        },
+        "date_time": {
+          "title": "Date Time",
+          "type": "string",
+          "format": "date-time"
+        },
+        "commission_info": {
+          "title": "Commission Info",
+          "allOf": [
+            {
+              "title": "ReceiptDataCommissionInfo",
+              "type": "object",
+              "properties": {
+                "TIN": {
+                  "title": "Tin",
+                  "type": "string"
+                },
+                "PINFL": {
+                  "title": "Pinfl",
+                  "maxLength": 14,
+                  "minLength": 14,
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "phone_number": {
+          "title": "Phone Number",
+          "type": "string",
+          "maxLength": 12
+        },
+        "sale_point_address": {
+          "title": "Sale Point Address",
+          "type": "string",
+          "maxLength": 128
+        },
+        "receipt_info": {
+          "title": "Receipt Info",
+          "type": "object",
+          "required": [
+            "terminal_id",
+            "receipt_seq"
+          ],
+          "properties": {
+            "terminal_id": {
+              "type": "string",
+              "maxLength": 14
+            },
+            "receipt_seq": {
+              "type": "string",
+              "maxLength": 16
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object"
+      }
+    },
+    "202": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "QR Payment Request Accepted",
+        "required": [
+          "message",
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "integer"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Bad QR Payment Request",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "AuthErrorResponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "title": "Operation Id",
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "title": "ValidationError",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "loc": {
+                  "title": "Location",
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  }
+                },
+                "msg": {
+                  "title": "Message",
+                  "type": "string"
+                },
+                "type": {
+                  "title": "Error Type",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "Internal Server Error",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

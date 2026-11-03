@@ -1,0 +1,42 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.alifpay.uz/cards/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "getCardToken",
+  "endpoint": "POST https://api.alifpay.uz/v2/getCardToken",
+  "params": {
+    "type": "object",
+    "properties": {
+      "pan": {
+        "type": "string",
+        "pattern": "^\\d{16}$"
+      },
+      "exp": {
+        "type": "string",
+        "pattern": "^(0[1-9]|1[0-2])\\d{2}$"
+      },
+      "phone": {
+        "type": "string",
+        "pattern": "^998\\d{9}$"
+      }
+    },
+    "required": [
+      "pan",
+      "exp"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      },
+      "masked_phone": {
+        "type": "string"
+      }
+    }
+  }
+}

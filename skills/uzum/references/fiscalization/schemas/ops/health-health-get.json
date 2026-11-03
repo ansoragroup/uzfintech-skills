@@ -1,0 +1,32 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_fiscalization.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "GET",
+  "path": "/health/",
+  "operationId": "health_health_get",
+  "summary": "/health",
+  "tags": [
+    "Проверка состояния сервиса"
+  ],
+  "parameters": [
+    {
+      "in": "header",
+      "name": "X-API-Key",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "contentType": "text/plain",
+      "schema": {
+        "type": "string"
+      }
+    }
+  }
+}

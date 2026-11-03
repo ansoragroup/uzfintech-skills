@@ -1,0 +1,265 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_nasiya.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/orders/calculate",
+  "operationId": "calculateOrder",
+  "summary": "Калькуляция товаров",
+  "tags": [
+    "API MFO"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "products"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "price",
+              "amount",
+              "product_id"
+            ],
+            "properties": {
+              "product_id": {
+                "type": "integer"
+              },
+              "price": {
+                "type": "number"
+              },
+              "amount": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "tariff",
+                "period_months",
+                "total",
+                "origin",
+                "month",
+                "is_available",
+                "status",
+                "is_promo",
+                "is_mini_loan",
+                "client_photo_upload",
+                "first_payment_date",
+                "deposit",
+                "balance"
+              ],
+              "properties": {
+                "tariff": {
+                  "type": "string"
+                },
+                "tariff_name": {
+                  "type": "string"
+                },
+                "period_months": {
+                  "type": "integer"
+                },
+                "title_ru": {
+                  "type": "string"
+                },
+                "title_uz": {
+                  "type": "string"
+                },
+                "is_promo": {
+                  "type": "boolean"
+                },
+                "is_mini_loan": {
+                  "type": "boolean"
+                },
+                "client_photo_upload": {
+                  "type": "boolean"
+                },
+                "first_payment_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "total": {
+                  "type": "number"
+                },
+                "origin": {
+                  "type": "number"
+                },
+                "total_without_promo": {
+                  "type": "number"
+                },
+                "origin_promo": {
+                  "type": "number"
+                },
+                "deposit": {
+                  "type": "number"
+                },
+                "month": {
+                  "type": "number"
+                },
+                "balance": {
+                  "type": "number"
+                },
+                "is_available": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ]
+                },
+                "custom_discount": {
+                  "type": "number"
+                },
+                "error_message": {
+                  "type": "string"
+                },
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "product_id",
+                      "price",
+                      "amount",
+                      "sum",
+                      "origin",
+                      "origin_promo"
+                    ],
+                    "properties": {
+                      "product_id": {
+                        "type": "integer"
+                      },
+                      "price": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "integer"
+                      },
+                      "sum": {
+                        "type": "number"
+                      },
+                      "origin": {
+                        "type": "number"
+                      },
+                      "origin_promo": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "text"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

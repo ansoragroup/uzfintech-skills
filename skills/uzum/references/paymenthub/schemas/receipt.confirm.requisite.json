@@ -1,0 +1,184 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/receipt/card-to-account/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "receipt.confirm.requisite",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "allOf": [
+      {
+        "$ref": "#/$defs/ReceiptBase"
+      },
+      {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "integer"
+              },
+              "commission": {
+                "type": "integer"
+              },
+              "currency": {
+                "type": "integer"
+              }
+            }
+          },
+          "receiver": {
+            "$ref": "#/$defs/RequisiteAccountInfo"
+          },
+          "details": {
+            "$ref": "#/$defs/RequisiteDetails"
+          }
+        }
+      }
+    ]
+  },
+  "$defs": {
+    "ReceiptBase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "ext_id": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/ReceiptState"
+        },
+        "create_date": {
+          "type": "integer",
+          "description": "Unix time, milliseconds"
+        },
+        "pay_date": {
+          "type": "integer",
+          "description": "Unix time, milliseconds; 0 until paid"
+        },
+        "error": {
+          "type": "string",
+          "description": "processing failure reason; diagnostic only, branch on state"
+        },
+        "type": {
+          "$ref": "#/$defs/ReceiptType"
+        },
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "amount in tiyin (1 UZS = 100 tiyin)"
+        },
+        "currency": {
+          "type": "integer",
+          "description": "ISO 4217 numeric, 860 = UZS"
+        },
+        "commission": {
+          "type": "integer"
+        }
+      }
+    },
+    "ReceiptState": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        20,
+        21,
+        22,
+        23,
+        30,
+        50,
+        51,
+        52,
+        53,
+        54,
+        56,
+        57,
+        58,
+        59
+      ],
+      "description": "0 CREATED, 1 CHECK, 2 DEBIT, 3 CONFIRMATION, 4 SUCCESS, 5 HOLD, 6 WAITING_SMS_CONFIRMATION, 20 STOPPED, 21 REVERSE, 22 INSUFFICIENT_FUNDS, 23 HOLD_CANCELED, 30 WAITING, 50 CANCELED, 51 FAILED, 52 PARTIAL_CANCELED, 53 CUSTOMER_NOT_VALID, 54 CURRENCY_RATE_CHANGED, 56 PROCESSING_NOT_AVAILABLE, 57 PENDING, 58 VERIFICATION_FAILED, 59 LIMIT_PASSED"
+    },
+    "ReceiptType": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        5,
+        6,
+        7
+      ],
+      "description": "1 online payment, 2 online payment with hold, 5 card to card, 6 account to card, 7 payment by requisites (account.attached.list also accepts 12 = online payment from account)"
+    },
+    "RequisiteAccountInfo": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "mfo": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "amount in tiyin (1 UZS = 100 tiyin)"
+        },
+        "currency": {
+          "type": "integer"
+        },
+        "commission": {
+          "type": "integer"
+        }
+      }
+    },
+    "RequisiteDetails": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "sender_name": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "memorial": {
+          "type": "string",
+          "description": "memorial order PDF link"
+        },
+        "account_type": {
+          "type": "string",
+          "enum": [
+            "UZCARD",
+            "HUMO"
+          ]
+        }
+      }
+    }
+  }
+}

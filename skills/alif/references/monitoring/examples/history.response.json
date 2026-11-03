@@ -1,0 +1,26 @@
+{
+  "txns": [
+    {
+      "number": "000000000001",
+      "type": "DEBIT",
+      "time": "2026-10-02T00:00:00Z",
+      "amount": 15500000,
+      "merchant": "SAMPLE MERCHANT",
+      "city": "Tashkent",
+      "street": "",
+      "mcc": "5732",
+      "currency": "UZS"
+    },
+    {
+      "number": "000000000002",
+      "type": "P2P_CREDIT",
+      "time": "2026-10-05T00:00:00Z",
+      "amount": 50000000,
+      "merchant": "SAMPLE P2P",
+      "city": "Tashkent",
+      "street": "",
+      "mcc": "6012",
+      "currency": "UZS"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_nasiya.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/api/v1/buyers/check-status",
+  "operationId": "checkBuyerStatus",
+  "summary": "Проверка статуса пользователя",
+  "tags": [
+    "API MFO"
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "required": [
+        "phone"
+      ],
+      "properties": {
+        "phone": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "title": "МФО",
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "phone",
+              "has_limit",
+              "status",
+              "buyer_id",
+              "available_periods",
+              "is_in_black_list",
+              "webview"
+            ],
+            "properties": {
+              "phone": {
+                "type": "string"
+              },
+              "has_limit": {
+                "type": "boolean"
+              },
+              "status": {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  4,
+                  5,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  403
+                ]
+              },
+              "buyer_id": {
+                "type": "integer"
+              },
+              "custom_discount": {
+                "type": "number",
+                "nullable": true
+              },
+              "verified_at": {
+                "type": "string",
+                "nullable": true
+              },
+              "available_periods": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "period",
+                    "title_uz",
+                    "title_ru",
+                    "original_markup",
+                    "available_balance",
+                    "discount_markup"
+                  ],
+                  "properties": {
+                    "period": {
+                      "type": "string"
+                    },
+                    "title_uz": {
+                      "type": "string"
+                    },
+                    "title_ru": {
+                      "type": "string"
+                    },
+                    "original_markup": {
+                      "type": "integer"
+                    },
+                    "available_balance": {
+                      "type": "string"
+                    },
+                    "discount_markup": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "is_in_black_list": {
+                "type": "boolean"
+              },
+              "webview": {
+                "type": "string"
+              },
+              "balance": {
+                "type": "string"
+              },
+              "has_overdue_contracts": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "status",
+          "error",
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "text"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

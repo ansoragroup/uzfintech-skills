@@ -1,0 +1,1234 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/redocusaurus/ru_remitcore.yaml",
+    "fetched": "2026-11-03"
+  },
+  "kind": "path",
+  "method": "POST",
+  "path": "/v1/register",
+  "operationId": "registerTransfer",
+  "summary": "Transfer registration",
+  "tags": [
+    "Transfer process"
+  ],
+  "security": [
+    {
+      "XApiKeyAuth": []
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "transferType",
+                "externalTransferId",
+                "clientId",
+                "transferData",
+                "target"
+              ],
+              "properties": {
+                "transferType": {
+                  "type": "string",
+                  "enum": [
+                    "CREDIT",
+                    "DEBIT"
+                  ]
+                },
+                "externalTransferId": {
+                  "type": "string"
+                },
+                "clientId": {
+                  "type": "string"
+                },
+                "transferData": {
+                  "type": "object",
+                  "required": [
+                    "senderCurrencyCode",
+                    "senderCountry",
+                    "receiverCountry",
+                    "receiverCurrencyCode"
+                  ],
+                  "properties": {
+                    "senderAmount": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "senderCurrencyCode": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "senderCountry": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "receiverCountry": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "receiverAmount": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "receiverCurrencyCode": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "target": {
+                  "type": "object"
+                },
+                "source": {
+                  "type": "object"
+                },
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "middleName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "nationality": {
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 3
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "birthPlace": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "identityDocument": {
+                      "type": "object",
+                      "properties": {
+                        "documentType": {
+                          "enum": [
+                            "ID",
+                            "PASSPORT",
+                            "FOREIGN_PASSPORT",
+                            "RESIDENT_CARD",
+                            "MILITARY_ID",
+                            "DRIVER_LICENSE",
+                            "OTHER"
+                          ],
+                          "type": "string"
+                        },
+                        "documentCountry": {
+                          "type": "string",
+                          "pattern": "^[A-Z]{3}$"
+                        },
+                        "series": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "string"
+                        },
+                        "issuedDate": {
+                          "type": "string"
+                        },
+                        "issuedBy": {
+                          "type": "string"
+                        },
+                        "extraFields": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "extraFields": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "receiver": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "middleName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "nationality": {
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 3
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "birthPlace": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "identityDocument": {
+                      "type": "object",
+                      "properties": {
+                        "documentType": {
+                          "enum": [
+                            "ID",
+                            "PASSPORT",
+                            "FOREIGN_PASSPORT",
+                            "RESIDENT_CARD",
+                            "MILITARY_ID",
+                            "DRIVER_LICENSE",
+                            "OTHER"
+                          ],
+                          "type": "string"
+                        },
+                        "documentCountry": {
+                          "type": "string",
+                          "pattern": "^[A-Z]{3}$"
+                        },
+                        "series": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "string"
+                        },
+                        "issuedDate": {
+                          "type": "string"
+                        },
+                        "issuedBy": {
+                          "type": "string"
+                        },
+                        "extraFields": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "extraFields": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "sender"
+              ],
+              "properties": {
+                "source": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "accountNumber"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "ACCOUNT"
+                          ]
+                        },
+                        "accountNumber": {
+                          "type": "string",
+                          "pattern": "^\\d*$"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "maskedPan"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "MASKED_CARD"
+                          ]
+                        },
+                        "maskedPan": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "target": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "cardPan"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "CARD_PAN"
+                          ]
+                        },
+                        "cardPan": {
+                          "type": "string",
+                          "minLength": 16,
+                          "maxLength": 19,
+                          "pattern": "^\\d{16,19}$"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "phoneNumber",
+                        "bankLabel"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "PHONE"
+                          ]
+                        },
+                        "phoneNumber": {
+                          "type": "string",
+                          "pattern": "^\\+[1-9]\\d{1,14}$"
+                        },
+                        "bankLabel": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3
+                        }
+                      }
+                    }
+                  ]
+                },
+                "sender": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "firstName": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "middleName": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "nationality": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3
+                        },
+                        "birthday": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "birthPlace": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "identityDocument": {
+                          "type": "object",
+                          "properties": {
+                            "documentType": {
+                              "enum": [
+                                "ID",
+                                "PASSPORT",
+                                "FOREIGN_PASSPORT",
+                                "RESIDENT_CARD",
+                                "MILITARY_ID",
+                                "DRIVER_LICENSE",
+                                "OTHER"
+                              ],
+                              "type": "string"
+                            },
+                            "documentCountry": {
+                              "type": "string",
+                              "pattern": "^[A-Z]{3}$"
+                            },
+                            "series": {
+                              "type": "string"
+                            },
+                            "number": {
+                              "type": "string"
+                            },
+                            "issuedDate": {
+                              "type": "string"
+                            },
+                            "issuedBy": {
+                              "type": "string"
+                            },
+                            "extraFields": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "extraFields": {
+                          "type": "object"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "firstName",
+                        "lastName"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "transferType",
+                "externalTransferId",
+                "clientId",
+                "transferData",
+                "target"
+              ],
+              "properties": {
+                "transferType": {
+                  "type": "string",
+                  "enum": [
+                    "CREDIT",
+                    "DEBIT"
+                  ]
+                },
+                "externalTransferId": {
+                  "type": "string"
+                },
+                "clientId": {
+                  "type": "string"
+                },
+                "transferData": {
+                  "type": "object",
+                  "required": [
+                    "senderCurrencyCode",
+                    "senderCountry",
+                    "receiverCountry",
+                    "receiverCurrencyCode"
+                  ],
+                  "properties": {
+                    "senderAmount": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "senderCurrencyCode": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "senderCountry": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "receiverCountry": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "receiverAmount": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "receiverCurrencyCode": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "target": {
+                  "type": "object"
+                },
+                "source": {
+                  "type": "object"
+                },
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "middleName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "nationality": {
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 3
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "birthPlace": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "identityDocument": {
+                      "type": "object",
+                      "properties": {
+                        "documentType": {
+                          "enum": [
+                            "ID",
+                            "PASSPORT",
+                            "FOREIGN_PASSPORT",
+                            "RESIDENT_CARD",
+                            "MILITARY_ID",
+                            "DRIVER_LICENSE",
+                            "OTHER"
+                          ],
+                          "type": "string"
+                        },
+                        "documentCountry": {
+                          "type": "string",
+                          "pattern": "^[A-Z]{3}$"
+                        },
+                        "series": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "string"
+                        },
+                        "issuedDate": {
+                          "type": "string"
+                        },
+                        "issuedBy": {
+                          "type": "string"
+                        },
+                        "extraFields": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "extraFields": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "receiver": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "middleName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "nationality": {
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 3
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "birthPlace": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 2
+                    },
+                    "identityDocument": {
+                      "type": "object",
+                      "properties": {
+                        "documentType": {
+                          "enum": [
+                            "ID",
+                            "PASSPORT",
+                            "FOREIGN_PASSPORT",
+                            "RESIDENT_CARD",
+                            "MILITARY_ID",
+                            "DRIVER_LICENSE",
+                            "OTHER"
+                          ],
+                          "type": "string"
+                        },
+                        "documentCountry": {
+                          "type": "string",
+                          "pattern": "^[A-Z]{3}$"
+                        },
+                        "series": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "string"
+                        },
+                        "issuedDate": {
+                          "type": "string"
+                        },
+                        "issuedBy": {
+                          "type": "string"
+                        },
+                        "extraFields": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "extraFields": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "sender",
+                "receiver",
+                "source"
+              ],
+              "properties": {
+                "source": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "pan",
+                        "expiryDate",
+                        "phoneNumber"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "CARD"
+                          ]
+                        },
+                        "pan": {
+                          "type": "string",
+                          "minLength": 16,
+                          "maxLength": 19,
+                          "pattern": "^\\d{16,19}$"
+                        },
+                        "expiryDate": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 4,
+                          "pattern": "^\\d{4}$"
+                        },
+                        "securityCode": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 4,
+                          "pattern": "^\\d{3,4}$"
+                        },
+                        "phoneNumber": {
+                          "type": "string",
+                          "pattern": "^\\+[1-9]\\d{1,14}$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "target": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "accountNumber"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "ACCOUNT"
+                          ]
+                        },
+                        "accountNumber": {
+                          "type": "string",
+                          "pattern": "^\\d*$"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "paymentInstrumentType",
+                        "maskedPan"
+                      ],
+                      "properties": {
+                        "paymentInstrumentType": {
+                          "type": "string",
+                          "enum": [
+                            "MASKED_CARD"
+                          ]
+                        },
+                        "maskedPan": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "sender": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "firstName": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "middleName": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "nationality": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3
+                        },
+                        "birthday": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "birthPlace": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "identityDocument": {
+                          "type": "object",
+                          "properties": {
+                            "documentType": {
+                              "enum": [
+                                "ID",
+                                "PASSPORT",
+                                "FOREIGN_PASSPORT",
+                                "RESIDENT_CARD",
+                                "MILITARY_ID",
+                                "DRIVER_LICENSE",
+                                "OTHER"
+                              ],
+                              "type": "string"
+                            },
+                            "documentCountry": {
+                              "type": "string",
+                              "pattern": "^[A-Z]{3}$"
+                            },
+                            "series": {
+                              "type": "string"
+                            },
+                            "number": {
+                              "type": "string"
+                            },
+                            "issuedDate": {
+                              "type": "string"
+                            },
+                            "issuedBy": {
+                              "type": "string"
+                            },
+                            "extraFields": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "extraFields": {
+                          "type": "object"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "firstName",
+                        "lastName",
+                        "birthday",
+                        "birthPlace",
+                        "identityDocument"
+                      ],
+                      "properties": {
+                        "identityDocument": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "documentType": {
+                                  "enum": [
+                                    "ID",
+                                    "PASSPORT",
+                                    "FOREIGN_PASSPORT",
+                                    "RESIDENT_CARD",
+                                    "MILITARY_ID",
+                                    "DRIVER_LICENSE",
+                                    "OTHER"
+                                  ],
+                                  "type": "string"
+                                },
+                                "documentCountry": {
+                                  "type": "string",
+                                  "pattern": "^[A-Z]{3}$"
+                                },
+                                "series": {
+                                  "type": "string"
+                                },
+                                "number": {
+                                  "type": "string"
+                                },
+                                "issuedDate": {
+                                  "type": "string"
+                                },
+                                "issuedBy": {
+                                  "type": "string"
+                                },
+                                "extraFields": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "required": [
+                                "documentType",
+                                "documentCountry",
+                                "number",
+                                "issuedDate",
+                                "issuedBy"
+                              ]
+                            }
+                          ]
+                        },
+                        "extraFields": {
+                          "type": "object",
+                          "properties": {
+                            "pinfl": {
+                              "type": "string"
+                            },
+                            "residencyCode": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "receiver": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "firstName": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "middleName": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "nationality": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3
+                        },
+                        "birthday": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "birthPlace": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string",
+                          "minLength": 2
+                        },
+                        "identityDocument": {
+                          "type": "object",
+                          "properties": {
+                            "documentType": {
+                              "enum": [
+                                "ID",
+                                "PASSPORT",
+                                "FOREIGN_PASSPORT",
+                                "RESIDENT_CARD",
+                                "MILITARY_ID",
+                                "DRIVER_LICENSE",
+                                "OTHER"
+                              ],
+                              "type": "string"
+                            },
+                            "documentCountry": {
+                              "type": "string",
+                              "pattern": "^[A-Z]{3}$"
+                            },
+                            "series": {
+                              "type": "string"
+                            },
+                            "number": {
+                              "type": "string"
+                            },
+                            "issuedDate": {
+                              "type": "string"
+                            },
+                            "issuedBy": {
+                              "type": "string"
+                            },
+                            "extraFields": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "extraFields": {
+                          "type": "object"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "firstName",
+                        "lastName"
+                      ],
+                      "properties": {
+                        "extraFields": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "REGISTERED",
+                      "FAILED"
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "transferId",
+                  "externalTransferId",
+                  "senderCurrencyCode",
+                  "receiverCurrencyCode"
+                ],
+                "properties": {
+                  "transferId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "externalTransferId": {
+                    "type": "string"
+                  },
+                  "senderAmount": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "senderCurrencyCode": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "senderName": {
+                    "type": "string"
+                  },
+                  "receiverAmount": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "receiverCurrencyCode": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "receiverName": {
+                    "type": "string"
+                  },
+                  "receiverPaymentSystem": {
+                    "type": "string"
+                  },
+                  "fee": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "exchangeRate": {
+                    "type": "string"
+                  },
+                  "rrn": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "401": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "403": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "500": {
+      "contentType": "application/json",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

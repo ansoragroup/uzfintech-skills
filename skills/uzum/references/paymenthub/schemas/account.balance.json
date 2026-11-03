@@ -1,0 +1,47 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.uzumbank.uz/paymenthub/account/account-balance/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; JSON-RPC 2.0 params/result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "account.balance",
+  "params": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "string"
+      },
+      "mfo": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "number",
+      "mfo"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "account": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "mfo": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "integer",
+            "description": "amount in tiyin (1 UZS = 100 tiyin)"
+          }
+        }
+      }
+    },
+    "required": [
+      "account"
+    ]
+  }
+}
