@@ -1,0 +1,12 @@
+{
+  "method": "CreateTransaction",
+  "params": {
+    "id": "<PAYME_TRANSACTION_ID>",
+    "time": 1793664000000,
+    "amount": 500000,
+    "account": {
+      "order_id": "100001"
+    }
+  },
+  "id": 2
+}

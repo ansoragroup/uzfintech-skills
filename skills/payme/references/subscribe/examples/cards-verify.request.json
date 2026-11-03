@@ -1,0 +1,8 @@
+{
+  "id": 3,
+  "method": "cards.verify",
+  "params": {
+    "token": "<CARD_TOKEN>",
+    "code": "<SMS_CODE>"
+  }
+}

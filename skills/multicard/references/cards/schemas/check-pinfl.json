@@ -1,0 +1,35 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729306e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "check-pinfl",
+  "endpoint": "POST https://mesh.multicard.uz/payment/card/check-pinfl",
+  "params": {
+    "type": "object",
+    "properties": {
+      "pan": {
+        "type": "string",
+        "description": "full PAN, Uzcard or Humo"
+      },
+      "pinfl": {
+        "type": "string",
+        "minLength": 14,
+        "maxLength": 14
+      }
+    },
+    "required": [
+      "pan",
+      "pinfl"
+    ]
+  },
+  "result": {
+    "type": [
+      "boolean",
+      "null"
+    ],
+    "description": "true match, false no match, null unknown"
+  }
+}

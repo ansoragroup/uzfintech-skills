@@ -1,0 +1,62 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-subscribe-api/cards.check/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "cards.check",
+  "endpoint": "POST https://checkout.paycom.uz/api (test: https://checkout.test.paycom.uz/api), JSON-RPC 2.0",
+  "params": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "token"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "card": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "masked card number; safe to store"
+          },
+          "expire": {
+            "type": "string",
+            "description": "expiry as returned (format varies, e.g. MM/YY)"
+          },
+          "token": {
+            "type": "string",
+            "description": "card token for later calls"
+          },
+          "recurrent": {
+            "type": "boolean",
+            "description": "token can be reused for later payments"
+          },
+          "verify": {
+            "type": "boolean",
+            "description": "card was verified by SMS OTP"
+          }
+        },
+        "required": [
+          "number",
+          "expire",
+          "token",
+          "recurrent",
+          "verify"
+        ]
+      }
+    },
+    "required": [
+      "card"
+    ]
+  },
+  "x-auth": "X-Auth: <CASHBOX_ID>:<CASHBOX_KEY> (back end only)"
+}

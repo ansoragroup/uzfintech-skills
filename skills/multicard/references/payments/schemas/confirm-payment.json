@@ -1,0 +1,49 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729314e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirm-payment",
+  "endpoint": "PUT https://mesh.multicard.uz/payment/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "payment uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "otp": {
+        "type": "string",
+        "description": "SMS code; omit the body when otp_hash is null"
+      },
+      "debit_available": {
+        "type": "boolean",
+        "description": "true allows debiting less than the amount when funds are short"
+      }
+    },
+    "required": [
+      "otp",
+      "debit_available"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/payment.json"
+  },
+  "x-poll-on": [
+    "ERROR_DEBIT_UNKNOWN",
+    "ERROR_CALLBACK_TIMEOUT"
+  ],
+  "x-errors": {
+    "400": "ERROR_WRONG_OTP, or ERROR_FIELDS when already confirmed"
+  }
+}

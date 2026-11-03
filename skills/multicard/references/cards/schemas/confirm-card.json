@@ -1,0 +1,47 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729309e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirm-card",
+  "endpoint": "PUT https://mesh.multicard.uz/payment/card/{card_token}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "card_token": {
+        "type": "string",
+        "description": "token from add-card"
+      }
+    },
+    "required": [
+      "card_token"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "otp": {
+        "type": "string"
+      },
+      "pinfl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 14
+      }
+    },
+    "required": [
+      "otp"
+    ]
+  },
+  "result": {
+    "$ref": "../../common/schemas/card.json"
+  },
+  "x-errors": {
+    "400": "ERROR_WRONG_OTP",
+    "423": "OTP expired"
+  }
+}

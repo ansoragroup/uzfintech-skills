@@ -1,0 +1,79 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-merchant-api/checkperformtransaction/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "CheckTransaction",
+  "endpoint": "POST <your Endpoint URL> (Payme calls you; JSON-RPC 2.0)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "create_time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      },
+      "perform_time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds; 0 when the event has not happened"
+      },
+      "cancel_time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds; 0 when the event has not happened"
+      },
+      "transaction": {
+        "type": "string",
+        "description": "your transaction id in your billing, as a string"
+      },
+      "state": {
+        "type": "integer",
+        "description": "1 created, 2 performed, -1 cancelled before perform, -2 cancelled after perform",
+        "enum": [
+          1,
+          2,
+          -1,
+          -2
+        ]
+      },
+      "reason": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "description": "cancel reason; null unless cancelled",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          10,
+          null
+        ]
+      }
+    },
+    "required": [
+      "create_time",
+      "perform_time",
+      "cancel_time",
+      "transaction",
+      "state",
+      "reason"
+    ]
+  }
+}

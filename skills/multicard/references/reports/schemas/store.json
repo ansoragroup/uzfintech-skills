@@ -1,0 +1,92 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/41406205e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "get-store",
+  "endpoint": "GET https://mesh.multicard.uz/payment/store/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "store uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "uuid": {
+        "type": "string",
+        "description": "Multicard uuid (36 chars)"
+      },
+      "title": {
+        "type": "string"
+      },
+      "tax_registration": {
+        "type": "integer",
+        "description": "0 off, 1 on, 2 fiscalize only the on-top (up) commission, 3 only the merchant-paid (down) commission",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "tax_mxik": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "default IKPU"
+      },
+      "tax_package_code": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "default package code"
+      },
+      "tax_commission_recipient_tin": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "commissioner TIN; null = merchant TIN"
+      },
+      "qr_url": {
+        "type": "string"
+      },
+      "merchant": {
+        "type": "object"
+      },
+      "contract": {
+        "type": [
+          "object",
+          "null"
+        ]
+      },
+      "merchant_account": {
+        "type": [
+          "object",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "uuid",
+      "tax_registration"
+    ]
+  }
+}

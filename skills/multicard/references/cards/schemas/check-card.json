@@ -1,0 +1,86 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/22557089e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "check-card-by-pan",
+  "endpoint": "GET https://mesh.multicard.uz/payment/card/check/{pan}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "pan": {
+        "type": "string",
+        "description": "full PAN"
+      }
+    },
+    "required": [
+      "pan"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "masked_pan": {
+        "type": "string"
+      },
+      "bank": {
+        "type": "object",
+        "properties": {
+          "bin": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "logo": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ps_bank_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "country": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "ps": {
+        "type": "string",
+        "enum": [
+          "uzcard",
+          "humo",
+          "visa",
+          "mastercard"
+        ]
+      },
+      "holder_name": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "masked_pan",
+      "ps"
+    ]
+  },
+  "x-requires": "PCI DSS certificate"
+}

@@ -1,0 +1,62 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-merchant-api/canceltransaction/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "CancelTransaction",
+  "endpoint": "POST <your Endpoint URL> (Payme calls you; JSON-RPC 2.0)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      },
+      "reason": {
+        "type": "integer",
+        "description": "1 receiver not found/inactive, 2 debit error, 3 execution error, 4 timeout, 5 refund, 10 unknown",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          10
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "reason"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "transaction": {
+        "type": "string",
+        "description": "your transaction id in your billing, as a string"
+      },
+      "cancel_time": {
+        "type": "integer",
+        "description": "Unix time in milliseconds (13 digits)"
+      },
+      "state": {
+        "type": "integer",
+        "enum": [
+          -1,
+          -2
+        ]
+      }
+    },
+    "required": [
+      "transaction",
+      "cancel_time",
+      "state"
+    ]
+  }
+}

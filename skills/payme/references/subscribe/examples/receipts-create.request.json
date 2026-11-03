@@ -1,0 +1,24 @@
+{
+  "id": 4,
+  "method": "receipts.create",
+  "params": {
+    "amount": 500000,
+    "account": {
+      "order_id": "100001"
+    },
+    "description": "Order 100001",
+    "detail": {
+      "receipt_type": 0,
+      "items": [
+        {
+          "title": "Sample product",
+          "price": 250000,
+          "count": 2,
+          "code": "<IKPU_17_DIGITS>",
+          "package_code": "<PACKAGE_CODE>",
+          "vat_percent": 12
+        }
+      ]
+    }
+  }
+}

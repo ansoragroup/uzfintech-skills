@@ -1,0 +1,17 @@
+{
+  "method": "SetFiscalData",
+  "params": {
+    "id": "<PAYME_TRANSACTION_ID>",
+    "type": "PERFORM",
+    "fiscal_data": {
+      "receipt_id": 1,
+      "status_code": 0,
+      "message": "accepted",
+      "terminal_id": "<FISCAL_TERMINAL_ID>",
+      "fiscal_sign": "<FISCAL_SIGN>",
+      "qr_code_url": "<OFD_RECEIPT_URL>",
+      "date": "20261103120000"
+    }
+  },
+  "id": 7
+}

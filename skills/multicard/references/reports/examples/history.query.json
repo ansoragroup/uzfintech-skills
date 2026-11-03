@@ -1,0 +1,7 @@
+{
+  "offset": 0,
+  "limit": 100,
+  "only_status": "success",
+  "start_date": "2026-11-01 00:00:00",
+  "end_date": "2026-11-02 00:00:00"
+}

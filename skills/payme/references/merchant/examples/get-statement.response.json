@@ -1,0 +1,21 @@
+{
+  "result": {
+    "transactions": [
+      {
+        "id": "<PAYME_TRANSACTION_ID>",
+        "time": 1793664000000,
+        "amount": 500000,
+        "account": {
+          "order_id": "100001"
+        },
+        "create_time": 1793664000420,
+        "perform_time": 1793664031250,
+        "cancel_time": 0,
+        "transaction": "100",
+        "state": 2,
+        "reason": null
+      }
+    ]
+  },
+  "id": 6
+}

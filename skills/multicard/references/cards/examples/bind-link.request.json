@@ -1,0 +1,7 @@
+{
+  "redirect_url": "https://merchant.example.com/cards/added",
+  "redirect_decline_url": "https://merchant.example.com/cards/declined",
+  "store_id": 1,
+  "callback_url": "https://merchant.example.com/multicard/card-callback",
+  "phone": "998901234567"
+}

@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": {
+    "pagination": {
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "stat": [
+      {
+        "status": "success",
+        "ps": "uzcard",
+        "payment_amount": 5000000
+      }
+    ],
+    "list": [
+      {
+        "id": 1001,
+        "uuid": "20d81bff-bdf6-40d2-bfec-d8dec4256893",
+        "status": "success",
+        "ps": "uzcard",
+        "store_invoice_id": "100001",
+        "billing_id": null,
+        "payment_time": "2026-11-03 12:01:00",
+        "payment_amount": 5000000,
+        "commission_amount": 50000,
+        "card_token": "<CARD_TOKEN>",
+        "card_pan": "860012******0000",
+        "ps_uniq_id": "<RRN>",
+        "refund_time": null,
+        "added_on": "2026-11-03 12:00:00"
+      }
+    ]
+  }
+}

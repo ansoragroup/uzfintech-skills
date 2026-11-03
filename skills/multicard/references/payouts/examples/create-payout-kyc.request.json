@@ -1,0 +1,22 @@
+{
+  "card": {
+    "pan": "<CARD_PAN_16_DIGITS>"
+  },
+  "amount": 1500000000,
+  "store_id": "1",
+  "invoice_id": "100002",
+  "confirmable": false,
+  "device_details": {
+    "ip": "<CLIENT_IP>",
+    "user_agent": "<CLIENT_USER_AGENT>"
+  },
+  "kyc_data": {
+    "last_name": "HOLDER",
+    "first_name": "SAMPLE",
+    "middle_name": "EXAMPLE",
+    "passport": "<PASSPORT>",
+    "pinfl": "<PINFL_14_DIGITS>",
+    "dob": "1990-01-01",
+    "passport_expiry_date": "2030-01-01"
+  }
+}

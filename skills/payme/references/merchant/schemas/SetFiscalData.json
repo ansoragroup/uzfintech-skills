@@ -1,0 +1,87 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-merchant-api/setfiscaldata/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "SetFiscalData",
+  "endpoint": "POST <your Endpoint URL> (Payme calls you; JSON-RPC 2.0)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "PERFORM",
+          "CANCEL"
+        ]
+      },
+      "fiscal_data": {
+        "type": "object",
+        "properties": {
+          "receipt_id": {
+            "type": [
+              "string",
+              "integer"
+            ],
+            "description": "sequence number in the virtual fiscal module (table says String, example sends a number)"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "fiscal status code (the code list is not published)"
+          },
+          "message": {
+            "type": "string",
+            "description": "OFD registration message or error detail"
+          },
+          "terminal_id": {
+            "type": "string",
+            "description": "virtual fiscal module number"
+          },
+          "fiscal_sign": {
+            "type": "string",
+            "description": "fiscal sign of the receipt"
+          },
+          "qr_code_url": {
+            "type": "string",
+            "description": "URL of the fiscal receipt"
+          },
+          "date": {
+            "type": "string",
+            "description": "OFD registration time, YYYYMMDDhhmmss",
+            "pattern": "^\\d{14}$"
+          }
+        }
+      }
+    },
+    "required": [
+      "id",
+      "type",
+      "fiscal_data"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean",
+        "const": true
+      }
+    },
+    "required": [
+      "success"
+    ]
+  },
+  "errors": {
+    "-32001": "receipt with this id not found",
+    "-32700": "invalid JSON",
+    "-32602": "invalid params (name the field in message)"
+  }
+}

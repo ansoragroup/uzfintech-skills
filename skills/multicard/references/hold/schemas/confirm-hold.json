@@ -1,0 +1,74 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729319e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirm-hold",
+  "endpoint": "PUT https://mesh.multicard.uz/payment/hold/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "data.payment.uuid from create-hold"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "otp": {
+        "type": "string",
+        "description": "empty body when acceptless debit is on and the card is bound"
+      }
+    },
+    "required": [
+      "otp"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "canceled"
+        ]
+      },
+      "expiry": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "added_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "updated_on": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "payment": {
+        "$ref": "../../common/schemas/payment.json"
+      }
+    },
+    "required": [
+      "id",
+      "status",
+      "expiry",
+      "payment"
+    ]
+  }
+}

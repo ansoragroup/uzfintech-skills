@@ -1,0 +1,8 @@
+{
+  "method": "GetStatement",
+  "params": {
+    "from": 1793577600000,
+    "to": 1793750399999
+  },
+  "id": 6
+}

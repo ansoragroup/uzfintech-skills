@@ -1,0 +1,50 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/metody-subscribe-api/receipts.check/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "receipts.check",
+  "endpoint": "POST https://checkout.paycom.uz/api (test: https://checkout.test.paycom.uz/api), JSON-RPC 2.0",
+  "params": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Payme transaction / receipt id (24-character string)",
+        "minLength": 24,
+        "maxLength": 24
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "state": {
+        "type": "integer",
+        "description": "receipt state, see the README table",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          20,
+          21,
+          30,
+          50
+        ]
+      }
+    },
+    "required": [
+      "state"
+    ]
+  },
+  "x-auth": "X-Auth: <CASHBOX_ID>:<CASHBOX_KEY> (back end only)"
+}

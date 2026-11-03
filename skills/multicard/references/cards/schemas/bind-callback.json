@@ -1,0 +1,116 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729303e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "bind-callback",
+  "body": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "application_id": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      },
+      "payer_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "the bind session_id"
+      },
+      "card_pan": {
+        "type": "string",
+        "description": "masked PAN",
+        "maxLength": 16
+      },
+      "card_token": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "phone": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "998XXXXXXXXX; Uzcard and Humo only",
+        "maxLength": 12
+      },
+      "holder_name": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100
+      },
+      "pinfl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "returned when passed at bind; Uzcard and Humo",
+        "maxLength": 14
+      },
+      "ps": {
+        "type": "string",
+        "enum": [
+          "uzcard",
+          "humo",
+          "visa",
+          "mastercard",
+          "unionpay"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "draft",
+          "deleted"
+        ]
+      },
+      "added_on": {
+        "type": "string",
+        "description": "Y-m-d H:i:s, GMT+5"
+      },
+      "card_status": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "description": "0 = active"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "sms_inform": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "card_pan",
+      "card_token",
+      "ps",
+      "status"
+    ]
+  },
+  "x-answer": "HTTP 200; otherwise resent every 60 s, 5 attempts in total. Unsigned: confirm with get-bind-status before trusting it"
+}

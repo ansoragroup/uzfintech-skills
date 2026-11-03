@@ -1,0 +1,96 @@
+{
+  "success": true,
+  "data": {
+    "uuid": "e97107bd-58ee-41b8-9d98-c8de32b32d7b",
+    "store_id": 1,
+    "amount": 5000000,
+    "invoice_id": "100001",
+    "return_url": "https://merchant.example.com/orders/100001",
+    "return_error_url": "https://merchant.example.com/orders/100001",
+    "callback_url": "https://merchant.example.com/multicard/callback",
+    "ofd": [
+      {
+        "qty": 2,
+        "vat": 12,
+        "price": 2000000,
+        "mxik": "<IKPU_17_DIGITS>",
+        "total": 4000000,
+        "package_code": "<PACKAGE_CODE>",
+        "name": "Sample item A"
+      },
+      {
+        "qty": 1,
+        "vat": 12,
+        "price": 1000000,
+        "mxik": "<IKPU_17_DIGITS>",
+        "total": 1000000,
+        "package_code": "<PACKAGE_CODE>",
+        "name": "Sample item B"
+      }
+    ],
+    "split": null,
+    "sms": null,
+    "payment": {
+      "id": 1001,
+      "uuid": "20d81bff-bdf6-40d2-bfec-d8dec4256893",
+      "store_id": 1,
+      "status": "success",
+      "ps": "uzcard",
+      "store_invoice_id": "100001",
+      "billing_id": null,
+      "phone": "*4567",
+      "card_token": "<CARD_TOKEN>",
+      "card_pan": "860012******0000",
+      "commission_type": "down",
+      "payment_amount": 5000000,
+      "total_amount": 5000000,
+      "commission_amount": 50000,
+      "otp_hash": null,
+      "ps_uniq_id": "<RRN>",
+      "ps_response_code": null,
+      "ps_response_msg": null,
+      "callback_url": "https://merchant.example.com/multicard/callback",
+      "callback_message": null,
+      "terminal_id": "<TERMINAL_ID>",
+      "merchant_id": "<PS_MERCHANT_ID>",
+      "payment_time": "2026-11-03 12:01:00",
+      "refund_time": null,
+      "receipt_url": "<RECEIPT_URL>",
+      "checkout_url": "<CHECKOUT_URL>",
+      "split": null,
+      "ofd": [
+        {
+          "qty": 2,
+          "vat": 12,
+          "price": 2000000,
+          "mxik": "<IKPU_17_DIGITS>",
+          "total": 4000000,
+          "package_code": "<PACKAGE_CODE>",
+          "name": "Sample item A"
+        },
+        {
+          "qty": 1,
+          "vat": 12,
+          "price": 1000000,
+          "mxik": "<IKPU_17_DIGITS>",
+          "total": 1000000,
+          "package_code": "<PACKAGE_CODE>",
+          "name": "Sample item B"
+        }
+      ],
+      "device_details": null,
+      "kyc_data": null,
+      "multicard_user_id": null,
+      "tax": null,
+      "refund_tax": null,
+      "store": null,
+      "clearing": null,
+      "added_on": "2026-11-03 12:00:00"
+    },
+    "checkout_url": "<CHECKOUT_URL>",
+    "short_link": "<SHORT_LINK>",
+    "deeplink": "<DEEPLINK>",
+    "added_on": "2026-11-03 12:00:00",
+    "updated_on": "2026-11-03 12:01:00"
+  }
+}

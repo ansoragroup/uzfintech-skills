@@ -1,0 +1,90 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729327e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "get-merchant-account",
+  "endpoint": "GET https://mesh.multicard.uz/payment/merchant-account/{recipient}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "recipient": {
+        "type": "string",
+        "description": "requisites uuid"
+      }
+    },
+    "required": [
+      "recipient"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "uuid": {
+        "type": "string",
+        "description": "Multicard uuid (36 chars)"
+      },
+      "tin": {
+        "type": "string"
+      },
+      "official_name": {
+        "type": "string"
+      },
+      "mfo": {
+        "type": "string"
+      },
+      "account_no": {
+        "type": "string"
+      },
+      "address": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "director": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "director_pinfl": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "vat_payer": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "is_commitent": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "active": {
+        "type": [
+          "integer",
+          "boolean"
+        ],
+        "description": "1 / true = active"
+      }
+    },
+    "required": [
+      "uuid",
+      "tin",
+      "mfo",
+      "account_no"
+    ]
+  }
+}

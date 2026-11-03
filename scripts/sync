@@ -23,6 +23,11 @@ and compares a SHA-256 of the content with the hash recorded last time.
   kind: file      Any other upstream asset (test-case PDF, Postman collection).
                   The raw bytes are hashed; a change is flagged for human review
                   like html.
+  kind: markdown  Plain Markdown documentation page (for example the .md pages
+                  an llms.txt index lists). The text is hashed after newline and
+                  trailing-whitespace normalization; a change is flagged for
+                  human review like html. An HTML answer, almost no text or
+                  the same text as another page fails the run.
 
 Usage:
   scripts/sync                 fetch, regenerate changed products, update sources.yaml
@@ -659,8 +664,8 @@ def dump_sources(sources):
     lines = [
         "# Upstream contract sources tracked by scripts/sync.",
         "# Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and",
-        "# status are written by the script. kind: openapi | openapi-labels | html | file;",
-        "# spa: docusaurus | bundle for client-rendered html pages.",
+        "# status are written by the script. kind: openapi | openapi-labels | html | file |",
+        "# markdown; spa: docusaurus | bundle for client-rendered html pages.",
         "sources:",
     ]
     for src in sources:
@@ -1339,6 +1344,13 @@ def write_json(path, obj, compact=False):
 # --------------------------------------------------------------------------
 # main
 # --------------------------------------------------------------------------
+def markdown_text(raw):
+    """Normalized Markdown text: LF newlines, no trailing spaces, one final newline."""
+    text = raw.decode("utf-8", "replace").replace("\r\n", "\n").replace("\r", "\n")
+    lines = [ln.rstrip() for ln in text.split("\n")]
+    return "\n".join(lines).strip("\n") + "\n"
+
+
 def cache_path(src):
     if src["kind"].startswith("openapi"):
         ext = ".yaml"
@@ -1415,6 +1427,14 @@ def main():
                 yaml_load(raw.decode("utf-8"))  # must parse
             elif src["kind"] == "file":
                 content = raw
+            elif src["kind"] == "markdown":
+                head = raw[:200].lstrip().lower()
+                if head.startswith(b"<!doctype") or head.startswith(b"<html"):
+                    raise RuntimeError("got an HTML page instead of Markdown (source missing upstream?)")
+                text = markdown_text(raw)
+                if len(text.strip()) < 40:
+                    raise RuntimeError("almost no Markdown text (source missing upstream?)")
+                content = text.encode("utf-8")
             elif src.get("spa"):
                 content = spa_text(final_url, raw, src["spa"]).encode("utf-8")
             else:
@@ -1427,10 +1447,11 @@ def main():
             src["status"] = "fetch-failed %s" % today
             continue
         digest = hashlib.sha256(content).hexdigest()
-        if src["kind"] == "html" and src.get("spa") != "bundle":
+        if src["kind"] in ("html", "markdown") and src.get("spa") != "bundle":
             twin = page_digests.setdefault(digest, src["id"])
             if twin != src["id"]:
-                failed.append((src["id"], "same text as %s (client-rendered page? set spa:)" % twin))
+                hint = "client-rendered page? set spa:" if src["kind"] == "html" else "source missing upstream?"
+                failed.append((src["id"], "same text as %s (%s)" % (twin, hint)))
                 src["status"] = "fetch-failed %s" % today
                 continue
         with open(cp, "wb") as fh:
@@ -1438,7 +1459,7 @@ def main():
         if digest != src.get("sha256"):
             changed.append(src["id"])
             if src.get("sha256"):
-                if src["kind"] in ("html", "file") or src.get("refs"):
+                if src["kind"] in ("html", "file", "markdown") or src.get("refs"):
                     flagged.append(src)
             src["sha256"] = digest
             src["fetched"] = today

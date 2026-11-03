@@ -1,0 +1,63 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://developer.help.paycom.uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-post/",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the HTML reference; request body and result only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "checkout POST",
+  "endpoint": "POST https://checkout.paycom.uz (sandbox: https://test.paycom.uz), HTML form",
+  "params": {
+    "type": "object",
+    "properties": {
+      "merchant": {
+        "type": "string",
+        "description": "cashbox id"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin",
+        "minimum": 1
+      },
+      "account[<field>]": {
+        "type": "string",
+        "description": "one input per Account field"
+      },
+      "lang": {
+        "type": "string",
+        "description": "default ru; other values ignored",
+        "enum": [
+          "ru",
+          "uz",
+          "en"
+        ]
+      },
+      "callback": {
+        "type": "string",
+        "description": "return URL; defaults to the Referer; may contain :transaction and :account.<field>"
+      },
+      "callback_timeout": {
+        "type": "integer",
+        "description": "milliseconds before redirecting after success"
+      },
+      "description": {
+        "type": "string",
+        "description": "or description[ru|uz|en] for per-language text"
+      },
+      "detail": {
+        "type": "string",
+        "description": "base64 of the detail JSON (see fiscalization)"
+      }
+    },
+    "required": [
+      "merchant",
+      "amount",
+      "account[<field>]"
+    ],
+    "description": "form field names; all inputs are hidden fields of one <form method=POST>"
+  },
+  "result": {
+    "type": "string",
+    "description": "Payme checkout page (HTML)"
+  }
+}

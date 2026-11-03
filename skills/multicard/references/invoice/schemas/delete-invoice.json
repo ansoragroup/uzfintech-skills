@@ -1,0 +1,29 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.multicard.uz/19729298e0",
+    "fetched": "2026-11-03",
+    "note": "hand-trimmed from the Markdown/OpenAPI reference; request body and data only"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "delete-invoice",
+  "endpoint": "DELETE https://mesh.multicard.uz/payment/invoice/{uuid}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "invoice uuid"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "null"
+  },
+  "x-errors": {
+    "400": "invoice already paid"
+  }
+}

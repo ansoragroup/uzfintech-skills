@@ -1,8 +1,7 @@
 # Contributing
 
-Contributions are welcome: fixes, new products, and new providers. Payme and Multicard are the
-next planned providers. Read the content rules first, because they are what keeps this
-repository publishable.
+Contributions are welcome: fixes, new products, and new providers. Read the content rules
+first, because they are what keeps this repository publishable.
 
 ## Content rules
 
@@ -37,9 +36,11 @@ repository publishable.
    phones, scenario inputs with expected results, test-only methods and sample payloads. Copy
    the values exactly and link the source page or file. They are test data, not secrets, and
    integrations cannot be tested without them. Say so when the vendor publishes none, and
-   note stale data (an expired test card) instead of dropping it. Never copy real merchant
-   credentials, pre-filled logins, passwords or keys from vendor Postman collections, real
-   people's data, or material the vendor marks confidential.
+   note stale data (an expired test card) instead of dropping it. Sample credentials, tokens
+   and card numbers printed in the request / response samples of public docs pages are kept
+   there too, labeled as samples that the vendor does not document as working. Never copy
+   logins, passwords or keys pre-filled in vendor Postman collections, real people's data, or
+   material the vendor marks confidential.
 6. **English content.** Error descriptions may stay in Russian where the upstream contract
    is Russian.
 7. **SKILL.md stays a router.** Keep it under ~150 lines and move detail into `references/`.
@@ -52,7 +53,7 @@ repository publishable.
    - id: <provider>-<product>-<lang>
      provider: <provider>          # folder under skills/
      product: <product>            # folder under references/
-     kind: openapi | openapi-labels | html | file
+     kind: openapi | openapi-labels | html | file | markdown
      lang: ru | en | uz
      url: https://...
      spa: docusaurus | bundle      # html only, when the page is rendered client-side
@@ -70,6 +71,8 @@ repository publishable.
      page, so one content change flags all of that site's sources (Paynet). `scripts/sync`
      fails a page that has almost no text, or the same text as another page, so a missing
      `spa` shows up on the first run.
+   - `markdown` is a plain `.md` docs page (for example one listed in an `llms.txt`). The
+     normalized text is hashed, and a change flags `refs` like `html`.
    - `file` is any other upstream asset (test-case PDF, Postman collection). Its raw bytes are
      hashed, and a change flags `refs` like `html`.
    - A changed source of any kind that lists `refs` is flagged, so list the sandbox README on
@@ -88,7 +91,7 @@ repository publishable.
 7. Add the product to the provider's `SKILL.md` (products table, decision table, gotchas,
    checklist list).
 
-## Adding a provider (for example Payme or Multicard)
+## Adding a provider
 
 1. Create `skills/<provider>/SKILL.md` with frontmatter:
 
