@@ -1,0 +1,53 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/additional/get-info",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "getinfo",
+  "endpoint": "POST <your Advanced / Split Shop URL> (Click -> merchant, application/json; charset=utf-8)",
+  "params": {
+    "type": "object",
+    "properties": {
+      "service_id": {
+        "type": "integer"
+      },
+      "action": {
+        "type": "integer",
+        "const": 0
+      },
+      "params": {
+        "type": "object",
+        "additionalProperties": true,
+        "x-note": "key order matters for sign_string"
+      }
+    },
+    "required": [
+      "service_id",
+      "action",
+      "params"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "params": {
+        "type": "object",
+        "additionalProperties": true,
+        "x-note": "key order matters for sign_string"
+      },
+      "error": {
+        "type": "integer",
+        "x-note": "0, -1 ... -9 as in the SHOP API; custom negative codes appear in the docs"
+      },
+      "error_note": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "error",
+      "error_note"
+    ]
+  }
+}

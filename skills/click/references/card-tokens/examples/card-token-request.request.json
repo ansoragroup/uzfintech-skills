@@ -1,0 +1,6 @@
+{
+  "service_id": 100,
+  "card_number": "<CARD_PAN_16_DIGITS>",
+  "expire_date": "<MMYY>",
+  "temporary": 0
+}

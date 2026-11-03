@@ -1,0 +1,7 @@
+{
+  "service_id": 100,
+  "action": 0,
+  "params": {
+    "contract": "C-100001"
+  }
+}

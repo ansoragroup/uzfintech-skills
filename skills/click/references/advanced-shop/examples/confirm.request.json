@@ -1,0 +1,14 @@
+{
+  "click_paydoc_id": 5200001,
+  "attempt_trans_id": 6300001,
+  "service_id": 100,
+  "action": 2,
+  "params": {
+    "contract": "C-100001",
+    "full_name": "SAMPLE HOLDER",
+    "amount": 25000
+  },
+  "sign_time": "2026-11-03 10:15:20",
+  "sign_string": "<MD5_HEX>",
+  "merchant_prepare_id": "1"
+}

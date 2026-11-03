@@ -1,0 +1,45 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/merchant-api/fiscalization",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "submit-qrcode",
+  "endpoint": "POST https://api.click.uz/v2/merchant/payment/ofd_data/submit_qrcode",
+  "params": {
+    "type": "object",
+    "properties": {
+      "service_id": {
+        "type": "integer"
+      },
+      "payment_id": {
+        "type": "integer"
+      },
+      "qrcode": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "required": [
+      "service_id",
+      "payment_id",
+      "qrcode"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "error_code": {
+        "type": "integer"
+      },
+      "error_note": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "error_code",
+      "error_note"
+    ]
+  }
+}

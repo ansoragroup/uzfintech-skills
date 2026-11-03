@@ -1,0 +1,14 @@
+{
+  "status": 1007,
+  "message": "Invalid OTP",
+  "data": null,
+  "error": {
+    "code": "OTP_INVALID",
+    "message": "The confirmation code is incorrect",
+    "provider": null,
+    "providerCode": null,
+    "providerMessage": null,
+    "retryable": false,
+    "details": null
+  }
+}

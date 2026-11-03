@@ -1,0 +1,44 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/merchant-api/requests",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "payment-reversal",
+  "endpoint": "DELETE https://api.click.uz/v2/merchant/payment/reversal/:service_id/:payment_id",
+  "params": {
+    "type": "object",
+    "x-in": "path",
+    "properties": {
+      "service_id": {
+        "type": "integer"
+      },
+      "payment_id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "service_id",
+      "payment_id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "error_code": {
+        "type": "integer"
+      },
+      "error_note": {
+        "type": "string"
+      },
+      "payment_id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "error_code",
+      "error_note"
+    ]
+  }
+}

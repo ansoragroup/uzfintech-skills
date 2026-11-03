@@ -13,8 +13,13 @@ The skills give exact contract answers and help validate an integration. They co
 |---|---|---|
 | [`uzum`](skills/uzum/SKILL.md) | Uzum Bank | Merchant API (webhooks), Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub |
 | [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary, legacy (original API) migration map |
+| [`click`](skills/click/SKILL.md) | Click | SHOP API, Advanced / Split Shop, Merchant API, Card tokens, Fiscalization, CLICK Pass, payment link / button / widget, Telegram Payments |
+| [`paynet`](skills/paynet/SKILL.md) | Paynet | Internet acquiring (Humo / Uzcard): authorize, confirm, status, reverse |
 
-Payme and Click are planned. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Every skill has a `references/sandbox/` page with the vendor's test hosts, test cards, codes,
+scenarios and samples, or a note that the vendor publishes none.
+
+Payme and Multicard are planned. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Layout
 
@@ -46,7 +51,7 @@ Update it later with `/plugin marketplace update uzfintech-skills`.
 ```sh
 git clone https://github.com/ansoragroup/uzfintech-skills
 mkdir -p ~/.claude/skills
-cp -R uzfintech-skills/skills/uzum uzfintech-skills/skills/alif ~/.claude/skills/
+cp -R uzfintech-skills/skills/* ~/.claude/skills/
 ```
 
 To install for one project only, use `<project>/.claude/skills/` instead.
@@ -56,7 +61,7 @@ To install for one project only, use `<project>/.claude/skills/` instead.
 ```sh
 git clone https://github.com/ansoragroup/uzfintech-skills
 mkdir -p ~/.codex/skills
-cp -R uzfintech-skills/skills/uzum uzfintech-skills/skills/alif ~/.codex/skills/
+cp -R uzfintech-skills/skills/* ~/.codex/skills/
 ```
 
 ### Codex (or any agent): AGENTS.md
@@ -66,9 +71,8 @@ You can also vendor the repository, for example as a git submodule at
 
 ```md
 ## Payment provider contracts
-For any Uzum Bank or Alif (alifpay) integration work, read
-`vendor/uzfintech-skills/skills/uzum/SKILL.md` or `vendor/uzfintech-skills/skills/alif/SKILL.md`
-first and follow its pointers. Answer contract questions from those files, and validate
+For any Uzbek payment provider integration work (Uzum Bank, Alif, Click, Paynet), read
+`vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Answer contract questions from those files, and validate
 changes with the matching `checklists/*.md`.
 ```
 
@@ -79,6 +83,8 @@ Ask the agent things like:
 - "What does Uzum Merchant `/confirm` send, and what must I answer on a retry?"
 - "Verify an Alif webhook signature in Go."
 - "Validate our Checkout integration against the Uzum checklist."
+- "Build the Click SHOP API Prepare / Complete handlers and check the `sign_string`."
+- "Which test cards and codes does the Uzum CrossBorder sandbox use?"
 
 The agent loads the matching `SKILL.md` and then reads only the reference files it needs.
 
@@ -98,7 +104,7 @@ Raw downloads go to `cache/`, which is git-ignored.
 
 ## Disclaimer
 
-This project is not affiliated with Uzum Bank or Alif. The notes are derived from the
+This project is not affiliated with any of the payment providers it covers. The notes are derived from the
 public developer documentation. Vendor documentation is the authority, so confirm
 production behaviour with your provider manager. Never commit real credentials or customer
 data to this repository.

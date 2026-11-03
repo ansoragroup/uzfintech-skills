@@ -1,0 +1,14 @@
+{
+  "status": -10012,
+  "message": "Payment status is unknown",
+  "data": null,
+  "error": {
+    "code": "UNKNOWN_TRANSACTION_STATE",
+    "message": "Check the transaction status",
+    "provider": null,
+    "providerCode": null,
+    "providerMessage": null,
+    "retryable": true,
+    "details": null
+  }
+}

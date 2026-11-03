@@ -1,0 +1,14 @@
+{
+  "click_paydoc_id": 5200001,
+  "attempt_trans_id": 6300001,
+  "merchant_prepare_id": "1",
+  "params": {
+    "branch_id": 1,
+    "payment_account": "<SETTLEMENT_ACCOUNT>",
+    "payment_mfo": "<MFO>",
+    "transit_account": "<TRANSIT_ACCOUNT>",
+    "transit_mfo": "<MFO>"
+  },
+  "error": 0,
+  "error_note": "Success"
+}

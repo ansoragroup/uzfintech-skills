@@ -1,0 +1,102 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.click.uz/en/shop-api/requests",
+    "fetched": "2026-11-03",
+    "note": "hand-written from the HTML reference; request and data only, vendor descriptions removed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "complete",
+  "endpoint": "POST <your Complete URL> (Click -> merchant, application/x-www-form-urlencoded; every value arrives as a string)",
+  "x-signature": "md5(click_trans_id + service_id + SECRET_KEY + merchant_trans_id + merchant_prepare_id + amount + action + sign_time)",
+  "params": {
+    "type": "object",
+    "x-in": "form",
+    "properties": {
+      "click_trans_id": {
+        "type": "integer"
+      },
+      "service_id": {
+        "type": "integer"
+      },
+      "click_paydoc_id": {
+        "type": "integer"
+      },
+      "merchant_trans_id": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "number"
+      },
+      "action": {
+        "type": "integer",
+        "const": 1
+      },
+      "error": {
+        "type": "integer"
+      },
+      "error_note": {
+        "type": "string"
+      },
+      "sign_time": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+      },
+      "sign_string": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{32}$"
+      },
+      "merchant_prepare_id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "click_trans_id",
+      "service_id",
+      "click_paydoc_id",
+      "merchant_trans_id",
+      "amount",
+      "action",
+      "error",
+      "error_note",
+      "sign_time",
+      "sign_string",
+      "merchant_prepare_id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "click_trans_id": {
+        "type": "integer"
+      },
+      "merchant_trans_id": {
+        "type": "string"
+      },
+      "merchant_confirm_id": {
+        "type": "integer"
+      },
+      "error": {
+        "type": "integer",
+        "enum": [
+          0,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9
+        ]
+      },
+      "error_note": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "error",
+      "error_note"
+    ]
+  }
+}

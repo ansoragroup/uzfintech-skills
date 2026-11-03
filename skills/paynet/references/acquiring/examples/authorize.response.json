@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "message": "Success",
+  "data": {
+    "transactionId": "6dfb5f7a-c90b-4f68-9367-58c0ca2869ce",
+    "orderId": "100001",
+    "ttlSeconds": 120,
+    "phoneMask": "+998*****4567"
+  }
+}
