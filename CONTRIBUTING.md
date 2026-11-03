@@ -55,6 +55,7 @@ repository publishable.
      kind: openapi | openapi-labels | html | file
      lang: ru | en | uz
      url: https://...
+     spa: docusaurus | bundle      # html only, when the page is rendered client-side
      refs: [skills/<provider>/references/<product>/README.md]   # files to re-review on change
    ```
 
@@ -63,6 +64,12 @@ repository publishable.
    - `openapi-labels` is a second-language copy of the same spec, used for English summaries.
    - `html` is a documentation page. Only its text hash is tracked, and a change flags `refs`
      for human review.
+   - `spa` is needed when the server returns the same empty shell for every page and the
+     text is loaded by JavaScript. `docusaurus` hashes the route's content chunk, so each
+     page is tracked on its own (Click). `bundle` hashes the text of every script on the
+     page, so one content change flags all of that site's sources (Paynet). `scripts/sync`
+     fails a page that has almost no text, or the same text as another page, so a missing
+     `spa` shows up on the first run.
    - `file` is any other upstream asset (test-case PDF, Postman collection). Its raw bytes are
      hashed, and a change flags `refs` like `html`.
    - A changed source of any kind that lists `refs` is flagged, so list the sandbox README on
