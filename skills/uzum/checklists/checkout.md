@@ -4,6 +4,7 @@ Contract: [`../references/checkout/README.md`](../references/checkout/README.md)
 
 ## Requests
 - [ ] Base URL from config (test and production differ; production is not in the spec).
+- [ ] Tests cover the sandbox cards (HUMO, UzCard, 3-DS `777777`) and the test plan in [`references/sandbox/`](../references/sandbox/README.md#checkout); test cards stay in tests and fixtures.
 - [ ] `X-Terminal-Id` and `X-API-Key` on every call, from secrets.
 - [ ] Fresh UUID `X-Operation-Id` per `merchantPay` / `complete` / `refund` / `reverse` / `purchaseReceipt`; reused only to retry the same request; persisted.
 - [ ] `register`: `amount` in tiyin, `currency` `860` (number), `orderNumber` unique per attempt (`3027` handled), `sessionTimeoutSecs` 600..1800.

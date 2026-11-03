@@ -21,7 +21,8 @@ Examples are bodies only. The transport, the `Token` header and the error envelo
 
 | Product | Methods | Reference |
 |---|---|---|
-| Common (all products) | transport, auth, error codes, webhook `Signature`, sandbox, changelog | [references/common/](references/common/README.md) |
+| Common (all products) | transport, auth, error codes, webhook `Signature`, changelog | [references/common/](references/common/README.md) |
+| Sandbox | `api-dev` / `checkout-dev` hosts, test cards, OTP, PINFL, QR test tokens, `_` methods, vendor samples, test plan | [references/sandbox/](references/sandbox/README.md) |
 | Checkout | `invoice`, `getInvoice`, `refundInvoice`, `sendInvoice`, `addInvoiceReceiptURL`, `chargeInvoiceHold`, `_payInvoiceWithMobi` | [references/checkout/](references/checkout/README.md) |
 | Payments | `pay`, `confirmPayment`, `getPayment`, `refundPayment`, `applyPayouts`, `refundPaymentPartial`, `getRefund`, `registerReceipt`, `_completeInstallmentRefund` | [references/payments/](references/payments/README.md) |
 | Cards | `getCardToken`, `confirmCardToken`, `matchCardPIN`, `getCardType` | [references/cards/](references/cards/README.md) |
@@ -30,7 +31,8 @@ Examples are bodies only. The transport, the `Token` header and the error envelo
 | Summary | `getSummary` | [references/summary/](references/summary/README.md) |
 | Legacy (original version) | `purchase`, `confirmChargeOTP`, `getPurchase`, `refundPurchase`, `pinfl`, `scoring`; v1 -> v2 migration map | [references/legacy-v1/](references/legacy-v1/README.md) |
 
-Every method is `POST https://api.alifpay.uz/v2/<method>` with a JSON body and the header
+Every method is `POST https://api.alifpay.uz/v2/<method>` (sandbox:
+`https://api-dev.alifpay.uz/v2/<method>`) with a JSON body and the header
 `Token: <API_TOKEN>`. Branch auth (beta) uses `Store-Token` instead.
 
 ## Which product?
@@ -46,6 +48,7 @@ Every method is `POST https://api.alifpay.uz/v2/<method>` with a JSON body and t
 | register a fiscal receipt made by their own cash register | `registerReceipt`; for invoices, `addInvoiceReceiptURL` |
 | score a card holder | `matchCardPIN`, `history`, `getSummary` |
 | maintain or migrate code using `purchase` / `charge` / `ref` / `scoring` / `pinfl` | [legacy-v1](references/legacy-v1/README.md) migration map |
+| test against the sandbox (cards, OTP, PINFL, QR tokens, simulated mobi / refund outcomes) | [sandbox](references/sandbox/README.md) |
 
 ## Rules that apply everywhere
 
@@ -86,6 +89,8 @@ Every method is `POST https://api.alifpay.uz/v2/<method>` with a JSON body and t
 9. Vendor docs have known flaws: `registerReceipt` swaps the latitude and longitude
    descriptions, and the `_completeInstallmentRefund` params disagree with its example.
    Sample ids are truncated, so do not validate ids as full UUIDs.
+10. The sandbox is a **separate host** (`api-dev.alifpay.uz`, `checkout-dev.alifpay.uz`) with
+    its own token. The docs say the two tokens are separate; keep host and token paired in config.
 
 ## Validate an implementation
 
@@ -102,8 +107,10 @@ Mark each item pass, fail or n.a. with a file:line citation. Then compare the pa
 
 - Quote field names, types and codes exactly as they appear in the references. If a fact is
   not there, say the docs do not specify it and link the `Source:` page.
-- Use only placeholder data: `https://merchant.example.com`, `998901234567`, `<CARD_TOKEN>`.
-  Never copy the sandbox test cards, OTP or PINFL; link https://docs.alifpay.uz/ (section
-  "Песочница") instead.
+- For tests, fixtures and sandbox examples, use the exact vendor test data in
+  [references/sandbox/](references/sandbox/README.md): cards, OTP `111111`, PINFL, QR test
+  tokens, the `api-dev` host. Keep it out of production code paths.
+- For credentials and merchant data, use placeholders (`<API_TOKEN>`, `<WEBHOOK_SECRET>`,
+  `https://merchant.example.com`). Never invent or copy a real token.
 - Freshness: each README carries `Fetched:`. Run `scripts/sync --check` to compare against
   upstream.

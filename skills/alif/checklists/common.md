@@ -29,5 +29,6 @@ pass / fail / n.a. and cite the file and line that proves it.
 - [ ] The webhook endpoint is monitored: about an hour of failed deliveries **cancels and refunds** the payment.
 
 ## Sandbox and logging
-- [ ] Test cards, test OTP and test PINFL are not hard-coded in production paths; `_` methods are called only in tests.
+- [ ] The base URL is configurable: `https://api-dev.alifpay.uz/v2` with the sandbox token, `https://api.alifpay.uz/v2` with the production token.
+- [ ] Tests cover the sandbox cards and scenarios in [`references/sandbox/`](../references/sandbox/README.md). Test cards, test OTP and test PINFL stay in tests and fixtures, not production paths; `_` methods are called only in tests.
 - [ ] Logs never contain the token, PAN, expiry, OTP, PINFL or webhook secret.

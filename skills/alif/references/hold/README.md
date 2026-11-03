@@ -35,7 +35,7 @@ The struct does not say which; track that yourself.
 - `1108` insufficient funds: retry only with a **new** hold `id`.
 - Charge the hold before the scheme's expiry (Humo 10 days, Uzcard 30 days).
 - The hold `id` and the payment `id` are different identifiers.
-- Sandbox cap: 5,000,000,000 tiyin per hold.
+- Sandbox cap: 5,000,000,000 tiyin per hold. Test cards and OTP: [`../sandbox/README.md`](../sandbox/README.md).
 
 ## Examples
 

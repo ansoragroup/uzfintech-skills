@@ -18,6 +18,9 @@ Hand-written notes. Generated tables: [`endpoints.md`](endpoints.md); schemas:
 Header `X-Api-Key: <uuid>` on every call. Ignore unknown response fields (the API adds
 fields without versioning).
 
+Test flow, error cases and the vendor `/v1/register` sample from the Postman collection:
+[`../sandbox/README.md`](../sandbox/README.md#remit-core-credit-transfers).
+
 ## Operations (all `POST`)
 
 | Path | Purpose |

@@ -3,6 +3,7 @@
 Contract: [`../references/fiscalization/README.md`](../references/fiscalization/README.md).
 
 - [ ] Base URL and `X-API-Key` from config (test vs production hosts differ; key separate from Checkout).
+- [ ] The test-host receipt and refund variants in [`references/sandbox/`](../references/sandbox/README.md#fiscalization) pass before the production key is requested; production fiscalization is never used for tests.
 - [ ] `operation_id` is a new UUID per receipt, persisted, and reused only for retries of that receipt.
 - [ ] `payment_id` stored on sale; refund sends the **same** `payment_id`.
 - [ ] `date_time` is Tashkent time of the payment and sent within 24 h.
