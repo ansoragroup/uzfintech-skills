@@ -36,7 +36,7 @@ wrong / expired / attempts exhausted.
 - `matchCardPIN` can return `false` for some Humo cards simply because the scheme has no
   PINFL on file; do not treat that as fraud by itself.
 - Never log or store the PAN or expiry after tokenization; keep `token` and `masked_pan`.
-- Sandbox test cards, OTP and PINFL: https://docs.alifpay.uz/ (section "Песочница").
+- Sandbox test cards, OTP `111111` and PINFL `11111111111111`: [`../sandbox/README.md`](../sandbox/README.md).
 
 ## Examples
 

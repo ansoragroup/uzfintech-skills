@@ -101,6 +101,10 @@ limit can be raised on request.
   onward credit failed on your side.
 - Cache `service_list`; it changes rarely. `minAmount` / `maxAmount` are tiyin.
 - Test host in the Testing text differs from the `servers` block; keep both in config.
+- Test scenarios (transfers to and from Uzbekistan, payments), test PANs and phones, OTP codes
+  that trigger each debit error, mock `serviceId`s and the vendor sample:
+  [`../sandbox/README.md`](../sandbox/README.md#crossborder-transfers-to-uzbekistan), DEBIT in
+  [`../sandbox/README.md`](../sandbox/README.md#crossborder-transfers-from-uzbekistan-debit).
 
 ## Examples
 

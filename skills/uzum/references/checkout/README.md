@@ -23,7 +23,8 @@ Headers on every call:
 | `Content-Language` | `ru-RU`, `uz-UZ` or `en-EN` (payment form language; register only) |
 | `X-Operation-Id` | **your** fresh UUID per money-moving call: `merchantPay`, `complete`, `refund`, `reverse`, `purchaseReceipt`. Idempotency key. |
 
-Test cards are listed on the vendor "Testing" tag. Do not hard-code them.
+Test cards (HUMO, UzCard, 3-DS `777777`) and a test plan: [`../sandbox/README.md`](../sandbox/README.md#checkout).
+Keep them in tests and fixtures only.
 
 ## Operations
 

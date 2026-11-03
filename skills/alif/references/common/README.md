@@ -11,7 +11,8 @@ Hand-written notes. Applies to every Alif product in this skill.
 
 | Item | Value |
 |---|---|
-| Base URL | `https://api.alifpay.uz/v2` (same host for sandbox and production; the token decides) |
+| Base URL (production) | `https://api.alifpay.uz/v2` |
+| Base URL (sandbox) | `https://api-dev.alifpay.uz/v2` (hosted page: `https://checkout-dev.alifpay.uz`) |
 | Style | HTTP RPC: method name in the path (`POST /v2/pay`), JSON body, always `POST` |
 | Auth | header `Token: <API_TOKEN>`; separate tokens for sandbox and production |
 | Branch auth (beta) | header `Store-Token: <STORE_TOKEN>` instead of `Token` |
@@ -75,10 +76,10 @@ def valid(raw_body: bytes, signature_header: str, secret: bytes) -> bool:
 
 ## Sandbox
 
-- Isolated replica, not connected to processing; no real money.
-- Test cards (valid, insufficient funds, SMS off, blocked), the fixed test OTP and a test
-  PINFL are published on the vendor page: https://docs.alifpay.uz/ (section "Песочница").
-  Do not hard-code them in production code paths.
+- Isolated replica on its own host (`https://api-dev.alifpay.uz/v2`), not connected to
+  processing; no real money. It needs a sandbox `Token`.
+- Test cards, the test OTP `111111`, the test PINFL, alif mobi QR test tokens, vendor samples
+  and a minimum test plan: [`../sandbox/README.md`](../sandbox/README.md).
 - A single charge or hold in the sandbox is capped at 5,000,000,000 tiyin; above that you get
   the insufficient-funds behaviour of the method used.
 - Methods prefixed with `_` (`_payInvoiceWithMobi`, `_completeInstallmentRefund`) exist only

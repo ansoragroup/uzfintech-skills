@@ -1,6 +1,6 @@
 # Upstream contract sources tracked by scripts/sync.
 # Edit id/provider/product/kind/lang/url/refs by hand; sha256, fetched and
-# status are written by the script. kind: openapi | openapi-labels | html.
+# status are written by the script. kind: openapi | openapi-labels | html | file.
 sources:
   - id: uzum-merchant-ru
     provider: uzum
@@ -26,6 +26,7 @@ sources:
     kind: openapi
     lang: ru
     url: https://developer.uzumbank.uz/redocusaurus/ru_checkout.yaml
+    refs: [skills/uzum/references/sandbox/README.md]
     sha256: 040288ddff5e7be91a9c2fa322c31669f38c688dfd60fb80d8380a4f8699c048
     fetched: 2026-11-03
     status: ok
@@ -44,6 +45,7 @@ sources:
     kind: openapi
     lang: ru
     url: https://developer.uzumbank.uz/redocusaurus/ru_fiscalization.yaml
+    refs: [skills/uzum/references/sandbox/README.md]
     sha256: 477fd5240da8fa2db94d79bbc0f834f5532677d9dbcf723635f50809e3aedce7
     fetched: 2026-11-03
     status: ok
@@ -116,6 +118,7 @@ sources:
     kind: openapi
     lang: ru
     url: https://developer.uzumbank.uz/redocusaurus/ru_crossborder.yaml
+    refs: [skills/uzum/references/sandbox/README.md]
     sha256: 2137b5a28aa25cbcfca15cdf9f16d565d4f5f5816d66869b92a73e80dccf0ca3
     fetched: 2026-11-03
     status: ok
@@ -152,6 +155,7 @@ sources:
     kind: openapi
     lang: ru
     url: https://developer.uzumbank.uz/redocusaurus/ru_remitcore.yaml
+    refs: [skills/uzum/references/sandbox/README.md]
     sha256: 4e13a59bdb8904effc5a4912fead1308f64ff5416aa75edd5b6b2084068f2b77
     fetched: 2026-11-03
     status: ok
@@ -340,7 +344,7 @@ sources:
     kind: html
     lang: ru
     url: https://developer.uzumbank.uz/paymenthub/category/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/
-    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md]
+    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md, skills/uzum/references/sandbox/README.md]
     sha256: 4056ab999b659631a73b4f4186febd534cb2d888684f86a3c53c38461a1dd667
     fetched: 2026-11-03
     status: ok
@@ -530,7 +534,7 @@ sources:
     kind: html
     lang: ru
     url: https://developer.uzumbank.uz/paymenthub/testing/account-to-card/
-    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/]
+    refs: [skills/uzum/references/paymenthub/methods.md, skills/uzum/references/paymenthub/schemas/, skills/uzum/references/sandbox/README.md]
     sha256: 780b05bd238193ae7facc828b399241909b465e7069cf260d8a423c162ab9388
     fetched: 2026-11-03
     status: ok
@@ -540,8 +544,68 @@ sources:
     kind: html
     lang: ru
     url: https://developer.uzumbank.uz/paymenthub/testing/getting-started/
-    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md]
+    refs: [skills/uzum/references/paymenthub/README.md, skills/uzum/checklists/paymenthub.md, skills/uzum/references/sandbox/README.md]
     sha256: a5d2a49971ae088979781acafa09026df0ed5dd7b170175e248456e4a3b93a9d
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-testcases-credit-en
+    provider: uzum
+    product: crossborder
+    kind: file
+    lang: en
+    url: https://developer.uzumbank.uz/crossborder/en_cbt_test_cases_partners.pdf
+    refs: [skills/uzum/references/sandbox/README.md]
+    sha256: d28fbe641cac890a5d4d12aad9e5047bc886b2e10205e6ea00b11cf2577fc185
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-testcases-debit-ru
+    provider: uzum
+    product: crossborder
+    kind: file
+    lang: ru
+    url: https://developer.uzumbank.uz/crossborder/ru-cbt-test-cases-from-uz.pdf
+    refs: [skills/uzum/references/sandbox/README.md]
+    sha256: 5a5dbc6f4b9205f545941f97ae624a038de02e940096067d77976c3cd8c32ac9
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-testcases-payments-integration-en
+    provider: uzum
+    product: crossborder
+    kind: file
+    lang: en
+    url: https://developer.uzumbank.uz/crossborder/en_cbt_payment_test_cases_integration.pdf
+    refs: [skills/uzum/references/sandbox/README.md]
+    sha256: 06e4150b3e4c60eef7f5795ac31439b4374343c4a66bd9608be13dde53caa504
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-testcases-payments-mocks-en
+    provider: uzum
+    product: crossborder
+    kind: file
+    lang: en
+    url: https://developer.uzumbank.uz/crossborder/en_cbt_payment_test_cases_mocks.pdf
+    refs: [skills/uzum/references/sandbox/README.md]
+    sha256: fd72d169149e7bd94313d2e6b8e6246fc43ca2951e9bcb1d26ec27a248e13f0b
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-crossborder-postman-credit-ru
+    provider: uzum
+    product: crossborder
+    kind: file
+    lang: ru
+    url: https://developer.uzumbank.uz/crossborder/ru_cbt_test_cases_partners_postman_collection.json
+    refs: [skills/uzum/references/sandbox/README.md]
+    sha256: 7ffc56e3290c23c1cb2fe52396aa4f2ab20d210a18addf63cd0a1d9bcfe6206a
+    fetched: 2026-11-03
+    status: ok
+  - id: uzum-remitcore-postman-credit
+    provider: uzum
+    product: remitcore
+    kind: file
+    lang: en
+    url: https://developer.uzumbank.uz/remitcore/remitcore_postman_collection_credit.json
+    refs: [skills/uzum/references/sandbox/README.md]
+    sha256: 025f3aadcf26a4b903124de35c9f7fdfa2f29b246255995ad12fb8667ad93736
     fetched: 2026-11-03
     status: ok
   - id: alif-index
@@ -550,7 +614,7 @@ sources:
     kind: html
     lang: ru
     url: https://docs.alifpay.uz/
-    refs: [skills/alif/references/common/README.md]
+    refs: [skills/alif/references/common/README.md, skills/alif/references/sandbox/README.md]
     sha256: 7faa5c9a5648acbaa107a20aeef7284150cac4a190d2c8632748989926d88442
     fetched: 2026-11-03
     status: ok
@@ -560,7 +624,7 @@ sources:
     kind: html
     lang: ru
     url: https://docs.alifpay.uz/checkout/
-    refs: [skills/alif/references/checkout/README.md]
+    refs: [skills/alif/references/checkout/README.md, skills/alif/references/sandbox/README.md]
     sha256: b7c84e88faf8d981a512837237a8f2afc08e15fd35d9e9a66d132d5fb3a24e79
     fetched: 2026-11-03
     status: ok
@@ -570,7 +634,7 @@ sources:
     kind: html
     lang: ru
     url: https://docs.alifpay.uz/payments/
-    refs: [skills/alif/references/payments/README.md]
+    refs: [skills/alif/references/payments/README.md, skills/alif/references/sandbox/README.md]
     sha256: fa7a9e72bb3789f97011ec562aa77d7b5a11b866b461e9b9f214868d77d50119
     fetched: 2026-11-03
     status: ok
@@ -580,7 +644,7 @@ sources:
     kind: html
     lang: ru
     url: https://docs.alifpay.uz/cards/
-    refs: [skills/alif/references/cards/README.md]
+    refs: [skills/alif/references/cards/README.md, skills/alif/references/sandbox/README.md]
     sha256: a51713934686064932117d3e6c98e166da3ce473c4678a800577aebf3081d4b1
     fetched: 2026-11-03
     status: ok
