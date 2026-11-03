@@ -79,6 +79,9 @@ with a file:line citation, then compare the payloads with `schemas/` and `exampl
 - Never use real merchant credentials (a real `service_id`, `secret_key`, `merchantId`,
   login or Basic header), and never invent credentials. Use placeholders such as
   `<SERVICE_ID>`, `<SECRET_KEY>` and `<MERCHANT_ID>`.
+- Commission rates, payout percentages, settlement terms and fees differ per merchant
+  contract. Do not quote or estimate them; say they come from the merchant's agreement.
+  Fee fields in API answers (`commission`, `fee`, `commission_amount`) are fine to explain.
 - Freshness: each README carries `Fetched:`. Run `scripts/sync --check` to compare against
   upstream. pay-docs.paynet.uz is a single-page app, so a hash change may not track content;
   re-read the pages when in doubt.

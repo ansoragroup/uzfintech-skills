@@ -113,5 +113,8 @@ in [references/sandbox/](references/sandbox/README.md).
 - Never use real merchant credentials (a real `merchant_id`, `service_id`,
   `merchant_user_id`, `secret_key`, cabinet login or live bot token), and never invent
   credentials. Use placeholders such as `<SERVICE_ID>` and `<SECRET_KEY>`.
+- Commission rates, payout percentages, settlement terms and fees differ per merchant
+  contract. Do not quote or estimate them; say they come from the merchant's agreement.
+  Fee fields in API answers (`commission`, `fee`, `commission_amount`) are fine to explain.
 - Upstream docs: https://docs.click.uz/en/ . Freshness: each README carries `Fetched:`.
   Run `scripts/sync --check` to compare against upstream.
