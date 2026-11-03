@@ -105,5 +105,8 @@ Mark each item pass, fail or n.a. with a file:line citation. Then compare the pa
   [references/sandbox/](references/sandbox/README.md) (test card, OTP, sandbox host, vendor
   sample values). Never use real merchant credentials, keys, tokens or real people's data;
   use placeholders such as `<APPLICATION_ID>`, `<SECRET>` and `<CARD_TOKEN>` for those.
+- Commission rates, payout percentages, settlement terms and fees differ per merchant
+  contract. Do not quote or estimate them; say they come from the merchant's agreement.
+  Fee fields in API answers (`commission`, `fee`, `commission_amount`) are fine to explain.
 - Freshness: each README carries `Fetched:`. Run `scripts/sync --check` to compare against
   upstream.
