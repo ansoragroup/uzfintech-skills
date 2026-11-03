@@ -75,8 +75,8 @@ the `payment_id`.
 
 `DELETE payment/reversal/:service_id/:payment_id` refunds a payment in full. Conditions:
 - the payment completed successfully;
-- it belongs to the **current calendar month**. A previous month's payment can be reversed
-  only on the **first day** of the following month;
+- it belongs to the **current reporting month**. A previous month's payment can be
+  reversed only on the **first day** of the following month;
 - it was made with an online card;
 - UZCARD may still reject the reversal.
 

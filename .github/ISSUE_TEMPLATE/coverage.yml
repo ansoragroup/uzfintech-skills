@@ -1,0 +1,21 @@
+name: New product or provider
+description: Ask for a product, method or provider that the skills do not cover yet.
+labels: [coverage]
+body:
+  - type: input
+    id: what
+    attributes:
+      label: Provider and product
+      placeholder: Click, Merchant API invoices
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Public documentation URL
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What you are building and what the agent got wrong without it

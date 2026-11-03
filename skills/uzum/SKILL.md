@@ -26,6 +26,7 @@ headers and auth are in the product README.
 | Nasiya (BNPL) | you call Uzum Nasiya; buyer signs in a WebView | Bearer | [references/nasiya/](references/nasiya/README.md) |
 | PaymentHub | you call Uzum (JSON-RPC 2.0) | Basic | [references/paymenthub/](references/paymenthub/README.md), [methods](references/paymenthub/methods.md), [errors](references/paymenthub/errors.md) |
 | Sandbox | test hosts, test cards, 3-DS code, test phones and PANs, scenarios with expected codes, vendor samples | test credentials from your Uzum manager | [references/sandbox/](references/sandbox/README.md) |
+| Lifecycle (all products) | deadlines, cancel / reverse / refund, retries, OTP and hold lifetimes, fiscal receipts | n/a | [references/lifecycle/](references/lifecycle/README.md) |
 
 ## Which product?
 
@@ -59,6 +60,30 @@ headers and auth are in the product README.
   (`getOrderStatus`, `get_status`, `receipt.check.id`) before fulfilling.
 - Production hosts for Checkout, PaymentHub, Remit Core and Ratekeeper are issued at
   onboarding. Keep every host in config.
+
+## Warn without being asked
+
+Raise each item the task touches, even if nobody asked: give its ID, the deadline or
+consequence, and the fix. Every window, refund path and source is in
+[references/lifecycle/](references/lifecycle/README.md).
+
+- `uzum.merchant-lost-confirm`: after a 5xx or timeout on `/confirm`, Uzum polls `/status` up
+  to 10 times. Commit before you answer, so `/status` says `CONFIRMED`; a repeated `/confirm`
+  gets `10016`. `CREATED` expires after 30 minutes.
+- `uzum.fiscal-receipt-24h`: a Fiscalization `date_time` must be within 24 h after the paid
+  confirm and not in the future (422). Send it at payment time, not from a nightly batch.
+- `uzum.fiscal-refund-needs-sale`: `/v2/refund_receipt` needs the sale `payment_id` and an
+  already fiscalized sale receipt; each refund takes a new `operation_id`.
+- `uzum.checkout-operation-id`: one `X-Operation-Id` per Checkout money call, stored first. On
+  `3028` read `getOperationState`; a fresh id can refund twice.
+- `uzum.checkout-stale-authorized`: TWO_STEP `AUTHORIZED` needs `complete` or `reverse`;
+  ONE_STEP cannot be reversed (`3036`), only refunded. Hold expiry is not published.
+- `uzum.merchant-no-refund-api`: Merchant API has no outbound refund. Uzum calls `/reverse`
+  for the whole transaction; repeats get `10018`.
+- `uzum.paymenthub-never-recreate`: a PaymentHub timeout, `30`, `57` or `-31615` means poll
+  `receipt.check.id`. Never recreate or re-confirm; only `state 4` is paid.
+- `uzum.crossborder-no-refund`: a credited CrossBorder transfer cannot be returned;
+  `cancel_debit` only undoes a FROM_UZ debit whose onward credit failed.
 
 ## Top gotchas
 
@@ -98,8 +123,39 @@ citation:
 
 Then compare the real request and response shapes with `schemas/` and `examples/`.
 
+## Tools: run them, do not compute by hand
+
+`scripts/` next to this file (`${CLAUDE_SKILL_DIR}/scripts/` in Claude Code) holds two
+python3 scripts, standard library only. Secrets come from environment variables, never from
+arguments, and print as `<SECRET>`.
+
+```sh
+python3 scripts/sign.py --list     # uzum.fastpay (FastPay, Dynamic QR), uzum.basic
+python3 scripts/sign.py uzum.fastpay -f merchant_service_user_id=<USER> --expect '<Authorization>'  # UZUM_SECRET_KEY
+python3 scripts/validate.py --list [text]
+python3 scripts/validate.py webhook-confirm body.json [--part response]
+```
+
+`sign.py` prints the exact string it signed and, given a received value, `MATCH` or
+`MISMATCH`. `validate.py` prints `OK` or `INVALID` with JSON paths. Both exit 1 on a
+mismatch. Run them before you call a signature, header or payload correct, and quote their
+output.
+
 ## Answering rules
 
+- Reply in the user's language, but never translate method names, fields, headers, codes
+  or enum values.
+- Fit the answer to where it goes. In chat, give the conclusion first, in about 100 words
+  unless code is asked for. In a PR or review, write Problem, Change, Validation. Code uses
+  the sandbox values and runs as written.
+- With several providers in one task, work each one from its own SKILL.md, then compare.
+  Never carry a rule (units, auth, retries) over from another provider.
+- Lifecycle: before you finish an answer that creates, confirms, cancels, refunds, retries
+  or fiscalizes a payment, check "Warn without being asked" and
+  [references/lifecycle/](references/lifecycle/README.md). State the deadline, whether the
+  step can be undone and what happens to the fiscal receipt, with the warning ID, even if
+  nobody asked. For an item under "Not documented", say so and send the user to the
+  provider.
 - Quote field names, types and codes exactly as they appear in the reference files. If a
   fact is not there, say the contract does not specify it and point to the vendor page
   listed as `Source:`.

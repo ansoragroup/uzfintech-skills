@@ -1,0 +1,48 @@
+# 智能体指南
+
+[English](Agent-guide.md) · [Русский](Agent-guide.ru.md) · [Oʻzbekcha](Agent-guide.uz.md) · **简体中文**
+
+本页面向两类读者：把这些技能接入智能体的人，以及直接读取本仓库的智能体。它说明这些技能是怎样构建的，以及好的回答是什么样。
+
+## 设计
+
+目录结构借鉴了 [DeepSeek 超级智能体设计](https://offloop.org/learn/exploring-deepseek-super-agent-design)中的路由器 / 工作者（router / worker）划分。
+
+| 理念 | 技能如何落实 |
+|---|---|
+| 由小巧的路由器挑选工作者 | `SKILL.md` 就是路由器。它的 description 决定技能何时加载；正文包含产品表、“选哪个产品？”对照表、规则和警告。它保持在 180 行以内。 |
+| 工作者只拿到所需的上下文 | `references/` 下的每个产品文件夹都有笔记、Schema 和示例。智能体只打开任务需要的那个文件夹。 |
+| 快路径交给代码，慢路径交给模型 | 签名、鉴权头、收银台 URL 和报文结构都通过 `sign.py` 和 `validate.py` 处理。只有代码无法判断的地方，才由模型阅读和推理。 |
+| 内联与外置 | 每个任务都需要的内容内联在 `SKILL.md` 中。接口契约、沙箱数据和检查清单外置到文件里，按需读取。 |
+| 稳定的 ID | 签名方案名（`click.prepare`）、Schema 名（`merchant/CreateTransaction`）、警告 ID（`uzum.fiscal-receipt-24h`）和错误码从不改变，也从不翻译。 |
+| 输出适配渠道 | 聊天、PR 审查和代码各有各的形式（见下文）。 |
+| 用评测保证真实可靠 | `evals/` 中的每个用例检查的是行为，而不是措辞。参见[评测](Evals.zh-CN.md)。 |
+
+## 智能体应如何处理任务
+
+1. **一次只加载一个服务商。** 对于同时涉及 Payme 和 Click 的任务，先打开 `payme/SKILL.md`，完成 Payme 部分，再打开 `click/SKILL.md`。最后再做对比。金额单位、鉴权和重试规则绝不互相套用：Payme 以 tiyin 计，Click 以 sum 计。
+2. **根据决策表选定产品**，然后打开对应的 `references/<product>/README.md`。如果该技能有 `references/common/README.md`，先读它：传输方式、鉴权和错误信封都在那里。
+3. **先运行工具**，再判断签名、请求头或报文是否正确。引用工具的输出。
+4. **检查生命周期。** 如果任务会创建、确认、取消、退款、重试任何东西，或对其进行税务登记（fiscalize），请阅读技能中的“Warn without being asked”一节和 `references/lifecycle/README.md`。即使没人问，也要说明截止时间、这一步能否撤销，以及税务小票（fiscal receipt，经 OFD 登记）会受到什么影响。参见[生命周期](Lifecycle.zh-CN.md)。
+5. **使用 `references/sandbox/` 中的沙箱数据**编写测试和示例：测试主机、测试卡、OTP 验证码和测试场景，都与服务商公布的完全一致。绝不编造测试卡；服务商没有公布时（Paynet），就直接说明。
+6. **说明哪些内容没有文档。** 参考资料没有覆盖某个事实时，说明文档未作规定，并给出 `Source:` 页面的链接。不要凭记忆填补空白。
+7. **不谈商务条款。** 手续费率、分成比例和结算天数取决于每个商户的合同。API 响应中的费用字段可以正常解释。
+
+## 好的回答是什么样
+
+**在聊天中。** 先给结论，约 100 个词，除非用户要的是代码。准确的名称和错误码放在反引号中。每个适用的生命周期事项给出一行警告。
+
+> Payme 拒绝它，是因为这笔交易已超过 12 小时。对它的 `CreateTransaction` 和 `PerformTransaction` 都回复 `-31008`，并以 `reason: 4` 取消它。不要履行订单。使用同一个 Payme `id` 的重试必须返回已存储的应答。警告：一旦执行（performed），退款就是一次完整的 `CancelTransaction`（state `-2`，reason `5`）。如果 Payme 随后发送 `type: CANCEL` 的 `SetFiscalData`，请把它作为单独的小票存储，并保留 `PERFORM` 那张。
+
+**在 PR 或审查中。** 按 Problem、Change、Validation（问题、改动、验证）来写。做检查清单审查时，把每一项标记为 pass、fail 或 n.a.，并附上 `file:line` 引用。
+
+**在代码中。** 能按原样在沙箱中运行，把密钥放在环境变量里，用常量时间比较对原始请求体校验签名，并把服务商的交易 id 作为幂等键存储。
+
+**用用户的语言。** 俄语、乌兹别克语、中文或英语都可以，但方法名、字段、请求头、错误码和枚举值都要与 API 的拼写完全一致。
+
+## 怎样写出能得到好回答的提示词
+
+- 写明服务商和产品：“Uzum Merchant API”“Click SHOP API”“Payme Subscribe”。
+- 出错时，粘贴原始的请求体和请求头。工具需要的是发送时的原样内容。
+- 说明答案用在哪里：“用于 PR 描述”“写成 Go handler”“简短，用于聊天”。
+- 需要审查时，要求对照检查清单：“对照检查清单审查我们的 Multicard 集成”。

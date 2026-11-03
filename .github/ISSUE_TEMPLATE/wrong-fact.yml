@@ -1,0 +1,37 @@
+name: Wrong contract fact
+description: A field, code, URL, limit, deadline or rule in a skill does not match the vendor documentation.
+labels: [fact]
+body:
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options: [Uzum Bank, Alif, Click, Paynet, Payme, Multicard]
+    validations:
+      required: true
+  - type: input
+    id: file
+    attributes:
+      label: File and line in this repository
+      placeholder: skills/payme/references/merchant/README.md:42
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What the skill says, and what is right
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Vendor page that shows the right fact
+      placeholder: https://developer.example.uz/...
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Request / response that shows it (anonymized)
+      description: Replace credentials, card numbers, phones, names and ids with placeholders.
+      render: json

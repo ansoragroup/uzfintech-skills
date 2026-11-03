@@ -1,0 +1,59 @@
+name: wiki
+
+# Publish docs/wiki/*.md to the GitHub wiki. The pages live in the repository so that they
+# are reviewed in PRs and checked by scripts/lint; this job only copies them.
+# The wiki must exist first: create any page once in the GitHub UI. Until then, or while
+# the wiki is disabled, the job skips with a notice.
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/wiki/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wiki
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone the wiki
+        id: clone
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git clone --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" wiki; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No wiki repository yet (or the wiki is disabled); skipping."
+          fi
+
+      - name: Copy pages and rewrite links
+        if: steps.clone.outputs.ok == 'true'
+        run: |
+          find wiki -maxdepth 1 -name '*.md' -delete
+          cp docs/wiki/*.md wiki/
+          # In the repository pages link to Page.md; the wiki serves them as Page.
+          sed -i -E 's/\]\(([A-Za-z0-9_.-]+)\.md(#[^)]*)?\)/](\1\2)/g' wiki/*.md
+
+      - name: Push
+        if: steps.clone.outputs.ok == 'true'
+        run: |
+          cd wiki
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Wiki is up to date."
+            exit 0
+          fi
+          git commit -m "Sync wiki from ${GITHUB_SHA::7}"
+          git push

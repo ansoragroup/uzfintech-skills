@@ -24,6 +24,7 @@ table in [references/common/README.md](references/common/README.md) first.
 | Common | transport, Basic auth, envelope, error codes, transaction statuses, doc gaps | [references/common/](references/common/README.md) |
 | Acquiring (Humo / Uzcard) | `authorize`, `confirm`, `status`, `reverse` | [references/acquiring/](references/acquiring/README.md) |
 | Sandbox and test data | what exists for testing (no test data is published), vendor sample values, mock scenarios, open questions | [references/sandbox/](references/sandbox/README.md) |
+| Lifecycle (all products) | deadlines, cancel / reverse / refund, retries, OTP and hold lifetimes, fiscal receipts | [references/lifecycle/](references/lifecycle/README.md) |
 
 Every call goes from your server to Paynet, under
 `<BASE_URL>/api/v1/payment-service/payment/`, with
@@ -50,6 +51,29 @@ Every call goes from your server to Paynet, under
 - The server sees the raw PAN, which puts it in PCI DSS scope. Never log or store the PAN,
   expiry, OTP or `secret_key`.
 
+## Warn without being asked
+
+Raise each item the task touches, even if nobody asked: give its ID, the deadline or
+consequence, and the fix. Every window, refund path and source is in
+[references/lifecycle/](references/lifecycle/README.md).
+
+- `paynet.reverse-1-month`: `reverse` works only within 1 month of the payment and cancels the
+  whole amount. No refund method exists after that.
+- `paynet.unknown-state-poll`: a `confirm` timeout, `-10012` or an unknown `error.code` is not
+  a failure. Poll `status` to a final state; never repeat `confirm`.
+- `paynet.retryable-means-status`: `retryable: true` means "read `status`", not "send it
+  again". A repeated `confirm` can act twice.
+- `paynet.no-webhooks-poll`: no callbacks are published. Later `CANCELLED` or `RETURNED` show
+  up only through `status`, so reconcile on a schedule.
+- `paynet.success-only-paid`: only `data.status` `SUCCESS` is paid. Top-level `status: 0`
+  only means the call worked.
+- `paynet.otp-ttl-from-response`: count the OTP down from `ttlSeconds` in the `authorize`
+  response; never hardcode it. Expiry gives `1008`.
+- `paynet.new-orderid-after-expiry`: after `1008`, `1009` or `1010` start a new `authorize`
+  with a new `orderId` that maps back to your order.
+- `paynet.fiscal-owner-unknown`: the docs do not say who issues the sale or reversal fiscal
+  receipt. Store `confirm` `attributes` raw and ask Paynet before go-live.
+
 ## Top gotchas
 
 1. The `status` and `reverse` paths are inconsistent on the public page (`/status/value=id`
@@ -69,8 +93,39 @@ Every call goes from your server to Paynet, under
 Run [checklists/acquiring.md](checklists/acquiring.md). Mark each item pass, fail or n.a.
 with a file:line citation, then compare the payloads with `schemas/` and `examples/`.
 
+## Tools: run them, do not compute by hand
+
+`scripts/` next to this file (`${CLAUDE_SKILL_DIR}/scripts/` in Claude Code) holds two
+python3 scripts, standard library only. Secrets come from environment variables, never from
+arguments, and print as `<SECRET>`.
+
+```sh
+python3 scripts/sign.py --list     # paynet.basic
+python3 scripts/sign.py paynet.basic -f service_id=<ID> --expect '<Authorization>'  # PAYNET_SECRET_KEY
+python3 scripts/validate.py --list [text]
+python3 scripts/validate.py authorize body.json [--part result]
+```
+
+`sign.py` prints the exact string it signed and, given a received value, `MATCH` or
+`MISMATCH`. `validate.py` prints `OK` or `INVALID` with JSON paths. Both exit 1 on a
+mismatch. Run them before you call a signature, header or payload correct, and quote their
+output.
+
 ## Answering rules
 
+- Reply in the user's language, but never translate method names, fields, headers, codes
+  or enum values.
+- Fit the answer to where it goes. In chat, give the conclusion first, in about 100 words
+  unless code is asked for. In a PR or review, write Problem, Change, Validation. Code uses
+  the sandbox values and runs as written.
+- With several providers in one task, work each one from its own SKILL.md, then compare.
+  Never carry a rule (units, auth, retries) over from another provider.
+- Lifecycle: before you finish an answer that creates, confirms, cancels, refunds, retries
+  or fiscalizes a payment, check "Warn without being asked" and
+  [references/lifecycle/](references/lifecycle/README.md). State the deadline, whether the
+  step can be undone and what happens to the fiscal receipt, with the warning ID, even if
+  nobody asked. For an item under "Not documented", say so and send the user to the
+  provider.
 - Quote field names, types and codes exactly as they appear in the references. If a fact is
   not there, say the docs do not specify it and link the `Source:` page.
 - For tests, mocks and examples, use the sandbox data and vendor sample values in

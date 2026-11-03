@@ -6,7 +6,7 @@ Contract: [`../references/subscribe/README.md`](../references/subscribe/README.m
 ## Cards
 - [ ] Card entry uses `cards.create` from the front end with `X-Auth: <CASHBOX_ID>` only; `expire` is sent as `MMYY`.
 - [ ] Card form inputs have no `name` attribute and the `<form>` has no `action`; the form shows the Payme logo, the offer link and the card-data note.
-- [ ] A token is used only after `cards.verify` returns `verify: true`; `cards.get_verify_code` `wait` is respected before resending.
+- [ ] A token is used only after `cards.verify` returns `verify: true`; `cards.get_verify_code` `wait` (ms) is treated as how long the code stays valid, and a new code is requested after it.
 - [ ] Only the token and masked `number` are stored; raw PAN and expiry never reach your server logs or database.
 - [ ] `save: true` is used only for recurring or one-click flows; one-time tokens are not reused.
 - [ ] `cards.check` and `cards.remove` run from the back end with `id:key`.

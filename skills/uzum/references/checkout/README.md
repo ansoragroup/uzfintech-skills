@@ -176,10 +176,13 @@ The response enum also lists `1000-1009` and `3200-3212` without published meani
 - `cart.total` must equal the sum of item `total`s and `amount` (`3059` otherwise).
 - ONE_STEP cannot be reversed; refund it. TWO_STEP authorizations must be completed
   or reversed; `complete.amount` may be lower than the authorized amount.
-- A fresh `X-Operation-Id` per attempt; reuse it only to retry the *same* request.
+- `X-Operation-Id` is unique per operation. Persist it before the call; if a retry gets
+  `3028` (operation already exists), read the result with `getOperationState` instead of
+  sending a new id, which would start a second operation.
 - Refund with auto-fiscalization requires the `cart` of returned items (`3045`).
-- Auto-fiscalization is off by default and enabled by your Uzum manager. When it is
-  off, fiscalize yourself via [Fiscalization](../fiscalization/README.md).
+- Auto-fiscalization works for ONE_STEP payments only, is off by default and is enabled
+  by your Uzum manager. For TWO_STEP, or when it is off, fiscalize yourself via
+  [Fiscalization](../fiscalization/README.md).
 - Production host is not in the spec; keep it in config.
 
 ## Examples

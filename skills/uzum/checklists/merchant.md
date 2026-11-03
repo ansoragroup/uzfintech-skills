@@ -18,14 +18,14 @@ pass / fail / n.a. and cite the file and line that proves it.
 - [ ] Business errors use HTTP 400 with `status: "FAILED"`; success uses HTTP 200.
 
 ## State machine and idempotency
-- [ ] `/check` creates nothing and returns `OK` or the right error (`10007`, `10008`, `10009`, `10012`, `10013`).
+- [ ] `/check` creates nothing and returns `OK` or the right error (`10006`, `10007`, `10008`, `10009`).
 - [ ] `/create` persists a row keyed by `transId` (unique constraint) and returns `CREATED` + `transTime`.
-- [ ] Repeated `/create` with same data returns the original response; different data -> `10010`.
+- [ ] Repeated `/create` with the same `transId` -> `10010`; amount outside limits -> `10012` / `10013`.
 - [ ] Amount mismatch with the order -> `10011`.
 - [ ] `/confirm` is atomic (row lock / transaction), marks paid once, returns `CONFIRMED` + `confirmTime`.
-- [ ] Repeated `/confirm` returns the original `confirmTime`; confirm after reverse -> `10015`.
+- [ ] Repeated `/confirm` -> `10016`; confirm after reverse -> `10015`; repeated `/reverse` -> `10018`.
 - [ ] Unknown `transId` on confirm / reverse / status -> `10014`.
-- [ ] `/reverse` handles `CREATED` and (policy) `CONFIRMED`; repeated reverse -> `10018` or idempotent reply, consistently.
+- [ ] `/reverse` handles `CREATED` and (policy) `CONFIRMED`; repeated reverse -> `10018`.
 - [ ] `/status` returns the stored state with matching times, including a confirm whose HTTP response was lost.
 - [ ] Transactions left `CREATED` for 30+ minutes are expired on your side.
 - [ ] Confirm-only fields (`paymentSource`, `phone`, `tariff`, `processingReferenceNumber`, `cardType`) are stored.
