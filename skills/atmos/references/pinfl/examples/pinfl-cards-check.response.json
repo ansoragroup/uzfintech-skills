@@ -1,0 +1,10 @@
+{
+  "code": 200,
+  "message": null,
+  "payload": {
+    "ext_id": "33cce280-f300-4435-84e4-80982209abcd",
+    "masked_pinfl": "1234xxxxxxx234",
+    "status": "SUCCESSFUL",
+    "request_date": "2026-11-04 12:00:00"
+  }
+}

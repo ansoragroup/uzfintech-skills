@@ -1,0 +1,11 @@
+{
+  "store_id": 100,
+  "payment_id": 1,
+  "token": "<BIND_TOKEN>",
+  "url": "https://checkout.atmos.uz/bind?id=<BIND_TOKEN>",
+  "status": {
+    "code": "OK",
+    "description": "Success",
+    "trace_id": "<TRACE_ID>"
+  }
+}

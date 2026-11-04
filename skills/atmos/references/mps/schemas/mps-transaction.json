@@ -1,0 +1,108 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#transaction-status-status",
+    "fetched": "2026-11-04",
+    "note": "hand-written shared model; trimmed to the documented fields"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "payload (transaction)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "transaction id: pass it to apply, get, cancel and return"
+    },
+    "status": {
+      "type": "integer",
+      "description": "0 NEW, 1 OPEN, 2 PENDING_OPEN, 3 PENDING_CONFIRM, 4 SUCCESS, 5 FAILED, 6 CANCELLED, 7 REVERTED, 8 PENDING_CANCELLED, 9 PENDING_REVERTED",
+      "minimum": 0,
+      "maximum": 9
+    },
+    "rrn": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "description": "DEFAULT or TEMPLATE"
+    },
+    "amount": {
+      "type": "integer",
+      "description": "tiyin (1 UZS = 100 tiyin)"
+    },
+    "card": {
+      "$ref": "mps-card.json"
+    },
+    "api_id": {
+      "type": "integer"
+    },
+    "card_id": {
+      "type": "integer"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "your ext_id"
+    },
+    "mps_ext_id": {
+      "type": "string"
+    },
+    "status_ps": {
+      "type": "string",
+      "description": "processor status text, e.g. Approved"
+    },
+    "status_3ds": {
+      "type": "string"
+    },
+    "result_code": {
+      "type": "string"
+    },
+    "app_code": {
+      "type": "string"
+    },
+    "masked_pan": {
+      "type": "string"
+    },
+    "client_ip_addr": {
+      "type": "string",
+      "description": "payer IP address"
+    },
+    "date_created": {
+      "type": "string"
+    },
+    "date_updated": {
+      "type": "string"
+    },
+    "redirect_uri": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "bank 3DS page: send the payer there"
+    },
+    "ofd_redirect_uri": {
+      "type": "string",
+      "description": "fiscal receipt"
+    },
+    "ofd_commission_uri": {
+      "type": "string",
+      "description": "fee receipt"
+    },
+    "store_id": {
+      "type": "integer"
+    },
+    "upper_commission": {
+      "type": "integer",
+      "description": "fee on top, tiyin"
+    },
+    "lower_commission": {
+      "type": "integer",
+      "description": "fee inside, tiyin"
+    },
+    "invoice_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "status"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "amount": 500000,
+  "account": "100001",
+  "store_id": 100,
+  "lang": "en",
+  "ofd_items": [
+    {
+      "ofd_code": "<IKPU_CODE>",
+      "name": "Sample item",
+      "amount": 500000,
+      "details": [
+        {
+          "key": "quantity",
+          "value": "1",
+          "status": 0,
+          "type": 0
+        },
+        {
+          "key": "package_code",
+          "value": "<PACKAGE_CODE>",
+          "status": 0,
+          "type": 0
+        }
+      ]
+    }
+  ]
+}

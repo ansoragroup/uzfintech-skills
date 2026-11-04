@@ -1,0 +1,24 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#transaction-errors",
+    "fetched": "2026-11-04",
+    "note": "hand-written shared model; trimmed to the documented fields"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "result",
+  "description": "status object in every /merchant, /partner and /hold answer; code OK = success, otherwise an STPIMS-ERR-* code (see common/README.md)",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "OK or STPIMS-ERR-NNN"
+    },
+    "description": {
+      "type": "string",
+      "description": "text in the requested lang"
+    }
+  },
+  "required": [
+    "code"
+  ]
+}

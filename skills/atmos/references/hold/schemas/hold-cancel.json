@@ -1,0 +1,54 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#holding-cancellation",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "hold-cancel",
+  "endpoint": "DELETE https://apigw.atmos.uz/hold/{id}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "hold_id"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "params": {
+    "type": "object",
+    "properties": {
+      "send_cancel_sms": {
+        "type": "boolean",
+        "description": "send the cardholder an SMS about the release"
+      }
+    },
+    "required": [
+      "send_cancel_sms"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "result": {
+        "$ref": "../../common/schemas/status.json"
+      },
+      "status": {
+        "type": "integer",
+        "description": "processing status, e.g. -242"
+      },
+      "processing": {
+        "type": "string",
+        "description": "UZCARD or HUMO"
+      }
+    },
+    "required": [
+      "result"
+    ]
+  },
+  "x-note": "the vendor sample answers STPIMS-ERR-145 (hold cancelled) on success; that code is not in the error table"
+}

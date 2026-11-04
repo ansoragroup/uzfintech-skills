@@ -1,0 +1,9 @@
+{
+  "payload": {
+    "transaction_id": 100,
+    "ext_id": 100001,
+    "transaction_status": "CANCELED"
+  },
+  "code": "200",
+  "message": null
+}

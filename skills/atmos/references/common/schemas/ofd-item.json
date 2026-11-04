@@ -1,0 +1,59 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#transaction-creating",
+    "fetched": "2026-11-04",
+    "note": "hand-written shared model; trimmed to the documented fields"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ofd_items[]",
+  "description": "fiscal line for pay/create; hold capture and partial reversal use the same keys",
+  "type": "object",
+  "properties": {
+    "ofd_code": {
+      "type": "string",
+      "description": "IKPU (MXIK) code of the product or service"
+    },
+    "name": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "integer",
+      "description": "line amount, tiyin"
+    },
+    "details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "quantity, package_code, mxik_code, mark_code"
+          },
+          "value": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "description": "always 0 on create, 1 in the partial-reversal sample"
+          },
+          "type": {
+            "type": "integer",
+            "description": "always 0"
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ofd_code",
+    "name",
+    "amount"
+  ]
+}

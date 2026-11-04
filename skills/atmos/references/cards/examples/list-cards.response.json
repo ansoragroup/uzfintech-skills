@@ -1,0 +1,14 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "cardDataSmallList": [
+    {
+      "card_id": 1,
+      "card_token": "<CARD_TOKEN>",
+      "pan": "986009******0000",
+      "expiry": "2903"
+    }
+  ]
+}

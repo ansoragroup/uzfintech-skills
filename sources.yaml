@@ -2446,3 +2446,33 @@ sources:
     sha256: 25015860543a60e8351a7235c76f649e960b55bdafd0df75f048d0149e31cbab
     fetched: 2026-11-04
     status: ok
+  - id: atmos-docs-en
+    provider: atmos
+    product: common
+    kind: html
+    lang: en
+    url: https://docs.atmos.uz/en/
+    refs: [skills/atmos/SKILL.md, skills/atmos/references/common/README.md, skills/atmos/references/payments/README.md, skills/atmos/references/cards/README.md, skills/atmos/references/hold/README.md, skills/atmos/references/pinfl/README.md, skills/atmos/references/mps/README.md, skills/atmos/references/sandbox/README.md, skills/atmos/references/lifecycle/README.md]
+    sha256: 103b77d86952364f480e1a9c74151eed0e6817d32415194404b407c00a1c988d
+    fetched: 2026-11-04
+    status: ok
+  - id: atmos-docs-ru
+    provider: atmos
+    product: common
+    kind: html
+    lang: ru
+    url: https://docs.atmos.uz/ru/
+    refs: [skills/atmos/SKILL.md, skills/atmos/references/common/README.md, skills/atmos/references/payments/README.md, skills/atmos/references/cards/README.md, skills/atmos/references/hold/README.md, skills/atmos/references/pinfl/README.md, skills/atmos/references/mps/README.md, skills/atmos/references/sandbox/README.md, skills/atmos/references/lifecycle/README.md]
+    sha256: 946c0e60cc862f3d7f16422ba0de17e78f43e6184ab6d1e73635f9a94ac7517a
+    fetched: 2026-11-04
+    status: ok
+  - id: atmos-docs-uz
+    provider: atmos
+    product: common
+    kind: html
+    lang: uz
+    url: https://docs.atmos.uz/uz/
+    refs: [skills/atmos/SKILL.md, skills/atmos/references/common/README.md, skills/atmos/references/payments/README.md, skills/atmos/references/cards/README.md, skills/atmos/references/hold/README.md, skills/atmos/references/pinfl/README.md, skills/atmos/references/mps/README.md, skills/atmos/references/sandbox/README.md, skills/atmos/references/lifecycle/README.md]
+    sha256: a8b9415d092241207c68325ad7b741d5290b81aed499051732a9698ec1ee75a5
+    fetched: 2026-11-04
+    status: ok

@@ -1,0 +1,36 @@
+{
+  "result": {
+    "code": "STPIMS-ERR-092",
+    "description": "Транзакция закрыта"
+  },
+  "store_transaction": {
+    "success_trans_id": 200,
+    "trans_id": 100,
+    "store": {
+      "id": 100,
+      "name": "Merchant Example",
+      "desc": "",
+      "logo": null,
+      "ga_id": null
+    },
+    "terminal_id": "<TERMINAL_ID>",
+    "account": "100001",
+    "amount": 500000,
+    "confirmed": true,
+    "prepay_time": 1793775600000,
+    "confirm_time": 1793775630000,
+    "label": {
+      "type_id": 64,
+      "label_ru": "Номер инвойса",
+      "label_uz": "Invoys raqami",
+      "label_en": "Number of Invoice"
+    },
+    "details": null,
+    "commission_value": "0",
+    "commission_type": "0",
+    "total": 500000,
+    "card_id": null,
+    "status_code": "0",
+    "status_message": "Success"
+  }
+}

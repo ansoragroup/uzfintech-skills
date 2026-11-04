@@ -1,0 +1,8 @@
+{
+  "ext_id": "100001",
+  "pinfl": "<PINFL_14_DIGITS>",
+  "passport_series": "AA",
+  "passport_number": "<PASSPORT_NUMBER>",
+  "contract_number": "<CONTRACT_NUMBER>",
+  "amount": 500000
+}

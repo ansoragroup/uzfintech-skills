@@ -1,0 +1,15 @@
+{
+  "store_id": 100,
+  "params": [
+    {
+      "account": "100001",
+      "amount": 300000,
+      "details": "Order 100001"
+    },
+    {
+      "account": "100002",
+      "amount": 200000,
+      "details": "Order 100002"
+    }
+  ]
+}

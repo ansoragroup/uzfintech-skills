@@ -1,0 +1,10 @@
+{
+  "store_id": 100,
+  "payment_id": 1,
+  "token": "<INVOICE_TOKEN>",
+  "url": "https://checkout.atmos.uz/ru/invoice?id=<INVOICE_TOKEN>",
+  "status": {
+    "code": "OK",
+    "description": "Success"
+  }
+}

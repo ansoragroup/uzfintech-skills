@@ -1,0 +1,8 @@
+{
+  "transaction_id": 100,
+  "store_id": 100,
+  "amount": 100000,
+  "reason": "One item returned",
+  "request_id": "e66a1580-13f3-4c9d-814d-2b4eaff408bc",
+  "lang": "EN"
+}

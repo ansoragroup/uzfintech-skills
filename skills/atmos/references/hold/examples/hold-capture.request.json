@@ -1,0 +1,17 @@
+{
+  "amount": 450000,
+  "ofd_items": [
+    {
+      "name": "Sample item",
+      "ofd_code": "<IKPU_CODE>",
+      "amount": 450000,
+      "details": [
+        {
+          "key": "quantity",
+          "value": "1",
+          "description": "quantity"
+        }
+      ]
+    }
+  ]
+}

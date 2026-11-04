@@ -1,0 +1,10 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "hold_id": 100,
+  "card_token": "<CARD_TOKEN>",
+  "card_pan": "986009******0000",
+  "hold_till": "2026-11-04T13:00:00.000"
+}

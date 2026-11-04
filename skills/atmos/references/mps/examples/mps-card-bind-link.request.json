@@ -1,0 +1,6 @@
+{
+  "request_id": "914bd19c-5e3d-44bf-8479-bcecb920bb9b",
+  "store_id": 100,
+  "account": "100001",
+  "success_url": "https://merchant.example.com/cards/done"
+}

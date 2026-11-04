@@ -1,0 +1,156 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#transaction-verification",
+    "fetched": "2026-11-04",
+    "note": "hand-written shared model; trimmed to the documented fields"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "store_transaction",
+  "type": "object",
+  "properties": {
+    "success_trans_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "permanent id of the successful debit; null until apply succeeds; pay/reverse takes THIS id"
+    },
+    "trans_id": {
+      "type": "integer",
+      "description": "transaction number; the id pay/pre-apply, pay/apply and pay/get take"
+    },
+    "store": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "logo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ga_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "terminal_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "account": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "your payment identifier (sent as account)"
+    },
+    "amount": {
+      "type": "integer",
+      "description": "tiyin (1 UZS = 100 tiyin)"
+    },
+    "confirmed": {
+      "type": "boolean",
+      "description": "true once the debit went through"
+    },
+    "prepay_time": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "epoch milliseconds"
+    },
+    "confirm_time": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "epoch milliseconds"
+    },
+    "label": {
+      "type": "object",
+      "properties": {
+        "type_id": {
+          "type": "integer"
+        },
+        "label_ru": {
+          "type": "string"
+        },
+        "label_uz": {
+          "type": "string"
+        },
+        "label_en": {
+          "type": "string"
+        }
+      }
+    },
+    "details": {
+      "type": [
+        "string",
+        "object",
+        "array",
+        "null"
+      ]
+    },
+    "commission_value": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "fee in tiyin, as a string"
+    },
+    "commission_type": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "service field"
+    },
+    "total": {
+      "type": "integer",
+      "description": "amount plus fee, tiyin"
+    },
+    "card_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "card token of the paying card after apply"
+    },
+    "status_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "service field; \"0\" after a successful apply"
+    },
+    "status_message": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "transaction status text, e.g. Success"
+    }
+  },
+  "required": [
+    "trans_id",
+    "amount",
+    "confirmed"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#updating-cards-by-pinfl",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "pinfl-update-cards",
+  "endpoint": "POST https://apigw.atmos.uz/ppa/cards/update-cards-list",
+  "params": {
+    "type": "object",
+    "properties": {
+      "pinfl": {
+        "type": "string"
+      },
+      "ext_id": {
+        "type": "string",
+        "description": "your request id; poll /ppa/cards/check/{ext_id} with it"
+      },
+      "epos": {
+        "type": "object",
+        "properties": {
+          "branch_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "terminal_group_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "branch_id",
+          "terminal_group_id"
+        ]
+      }
+    },
+    "required": [
+      "pinfl",
+      "epos"
+    ]
+  },
+  "x-note": "response parameters: 'not available' in the docs; the call may be billed - check access conditions with Atmos"
+}

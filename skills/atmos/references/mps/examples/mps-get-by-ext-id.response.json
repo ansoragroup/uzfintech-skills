@@ -1,0 +1,38 @@
+{
+  "payload": {
+    "id": 100,
+    "status": 1,
+    "rrn": "<RRN>",
+    "type": "DEFAULT",
+    "amount": 500000,
+    "card": {
+      "id": 1,
+      "status": true,
+      "masked_pan": "427831******0000",
+      "masked_card_holder": "SAMPLE HOLDER",
+      "card_type": "VISA",
+      "date_created": "2026-11-04 12:00:00",
+      "date_updated": "2026-11-04 12:00:00",
+      "verified_state": "PENDING",
+      "card_region": "DOMESTIC"
+    },
+    "api_id": 1,
+    "card_id": 1,
+    "external_id": "e40909f5-9ec6-4c11-b591-d0c14c511d9a",
+    "mps_ext_id": "<MPS_EXT_ID>",
+    "status_ps": "Approved",
+    "result_code": "Approved",
+    "masked_pan": "427831******0000",
+    "client_ip_addr": "<CLIENT_IP>",
+    "date_created": "2026-11-04 12:00:00",
+    "date_updated": "2026-11-04 12:00:00",
+    "store_id": 100,
+    "upper_commission": 0,
+    "lower_commission": 0
+  },
+  "status": {
+    "code": 0,
+    "message": "Success",
+    "trace_id": "<TRACE_ID>"
+  }
+}
