@@ -4,7 +4,8 @@
 
 Agent skills for the payment APIs of Uzbekistan: **Uzum Bank, Alif, Click, Paynet, Payme,
 Multicard, Atmos, Octo, Oson and Kapitalbank**, plus a fiscal receipt skill shared by all of
-them and a router skill for choosing and comparing providers. An agent that loads them
+them, a Tasnif catalogue skill for looking up and re-checking MXIK codes, and a router skill
+for choosing and comparing providers. An agent that loads them
 answers from exact contract notes, checks signatures and payloads with two small scripts,
 and warns about deadlines, reversals and fiscal receipts before they turn into production
 incidents.
@@ -36,6 +37,7 @@ incidents.
 | [`oson`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/oson/SKILL.md) | Oson | Invoice API and signed payment notification, rebuilt from Oson's open-source shop plugins |
 | [`kapitalbank`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/kapitalbank/SKILL.md) | Kapitalbank | Kapital API for legal entities (payment orders, status, statements, account checks, exchange rates, invoices), CBU payment purpose codes |
 | [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/fiscal/SKILL.md) | All providers | MXIK (IKPU) and package codes, VAT and benefit fields, marking, receipt types, per-provider receipt fields |
+| [`tasnif`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/tasnif/SKILL.md) | Tasnif (tax committee catalogue) | MXIK (IKPU) catalogue lookups on tasnif.soliq.uz: text and barcode (GTIN) search, code card with package codes, history for re-checks, pictures, class lists, point-of-sale `cl-api` check, txkm VAT-payer check; undocumented public endpoints, saved replies instead of a test host |
 | [`uzfintech`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/uzfintech/SKILL.md) | All providers | Router: choose and compare providers, cross-provider cheatsheet (units, auth, callbacks, refunds, holds, fiscalization, test hosts), UzQR notes |
 
 Start with `uzfintech` when the task is to choose or compare providers.
@@ -54,4 +56,6 @@ skills/<provider>/
 ```
 
 The notes are written from public developer documentation. Every reference names its source
-page and the date it was fetched. The vendor documentation stays the authority.
+page and the date it was fetched. The vendor documentation stays the authority. Tasnif
+publishes no API reference, so the `tasnif` skill describes the endpoints the
+tasnif.soliq.uz site itself calls, as observed on the fetched date.

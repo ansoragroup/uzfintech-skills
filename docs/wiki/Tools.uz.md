@@ -27,8 +27,8 @@ sign.py --selftest                      check the implementation against fixed v
 `PAYLOAD` — fayl yoki stdin uchun `-`, JSON yoki form-urlencoded formatda. `alif.webhook` esa
 buning oʻrniga soʻrov tanasining xom baytlarini imzolaydi. `-f key=value` maydon qoʻshadi yoki
 mavjud maydonni almashtiradi. Skill ichidagi nusxa faqat oʻsha provayderning sxemalarini
-koʻrsatadi; oʻz sxemasi boʻlmagan skill (`kapitalbank`, `fiscal`, `uzfintech`) hammasini
-koʻrsatadi.
+koʻrsatadi; oʻz sxemasi boʻlmagan skill (`kapitalbank`, `fiscal`, `tasnif`, `uzfintech`)
+hammasini koʻrsatadi.
 
 ### Sxemalar
 
@@ -146,16 +146,19 @@ crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_paymen
 
 ## Alohida skillarning vositalari
 
-Ikki skillda umumiy juftlik yonida oʻz oflayn skripti bor:
+Uch skillda umumiy juftlik yonida oʻz oflayn skripti bor:
 
 | Skript | Nima qiladi |
 |---|---|
 | `skills/kapitalbank/scripts/purpose_codes.py` | Istalgan bankdagi soʻmli toʻlov topshiriqnomalari uchun Markaziy bank toʻlov maqsadi kodlari: `check` kodni tekshiradi (`--date` bilan), `old` eski kodni yangilariga moslaydi, `search` matn boʻyicha qidiradi, `details` "Детали платежа" ni yigʻadi va tekshiradi, `account` hisob raqamini MFO bilan birga tekshiradi |
 | `skills/fiscal/scripts/mxik.py` | `check` 17 xonali MXIK (IKPU) kodlarini oflayn tekshiradi; `lookup` Tasnif URL manzilini chiqaradi va tasnif.soliq.uz ga faqat `--online` bilan murojaat qiladi; `--selftest` |
+| `skills/tasnif/scripts/tasnif.py` | Tasnif katalogidan qidirish: `search` matn boʻyicha, `gtin` shtrix-kod boʻyicha, `code` qadoq kodlari bilan kod kartasi, `history` qayta tekshirish uchun, `info` savdo nuqtasi tekshiruvi (`--tin <TIN>`, `--terminal-id`), `classes`, `pictures`, `vat <TIN>`; URL manzilini chiqaradi va Tasnifga faqat `--online` bilan murojaat qiladi; `--file` saqlangan javobni tahlil qiladi; `--selftest` |
 
 `purpose_codes.py` `OK`, `NO ...` yoki `INVALID` chiqaradi va kiritilgan qiymat rad etilgan,
 nomaʼlum yoki notoʻgʻri boʻlsa, `1` kodi bilan chiqadi. `mxik.py check` notoʻgʻri kod uchun
-`1` kodi bilan chiqadi.
+`1` kodi bilan chiqadi. `tasnif.py` javobda moslik boʻlsa `0`, hech narsa topilmasa yoki
+kiritilgan qiymat notoʻgʻri boʻlsa `1`, foydalanish xatosi, tarmoq xatosi yoki kutilmagan
+javobda `2` kodi bilan chiqadi (natijani nomaʼlum deb hisoblang va keyinroq qayta urining).
 
 ```console
 $ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
@@ -171,6 +174,11 @@ $ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
   OK: 17 digits
   ...
   confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
+
+$ python3 skills/tasnif/scripts/tasnif.py gtin --file skills/tasnif/references/sandbox/by-params-gtin.ru.json
+page: 1 shown of 1 (page 0, last True)
+  00901001004004005  Сублимированный кофе: Jacobs, Jacobs monarch 190 гр.  barcode=4607001771555
+next: load the card (code MXIK) for package codes; a person confirms the choice
 ```
 
 ## CI jarayonida

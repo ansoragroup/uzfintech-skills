@@ -9,14 +9,17 @@ CLI, GitHub Copilot and others. For the rest, point `AGENTS.md` at the skills. S
 
 **Is this official?**
 No. The project is not affiliated with any provider. The notes come from public developer
-documentation, and that documentation is the authority.
+documentation, and that documentation is the authority. The `tasnif` skill is the exception:
+the tax committee publishes no API reference for tasnif.soliq.uz, so it describes the
+endpoints the site itself calls, as observed, and says so.
 
 **Can I use it in a commercial project?**
 Yes, under the MIT license.
 
 **Does the agent need internet access?**
 No. The contract notes, schemas, sandbox data and tools are all in the repository. Internet
-is needed only for `scripts/sync`, which maintainers run to compare with upstream.
+is needed only for `scripts/sync`, which maintainers run to compare with upstream, and for
+`mxik.py lookup` or `tasnif.py` when you add `--online` to call Tasnif.
 
 **Why does the agent refuse to tell me the commission?**
 Commission rates, payout shares and settlement days differ per merchant contract. A number
@@ -31,12 +34,14 @@ the funds. The warnings are short and have stable IDs. See [Lifecycle](Lifecycle
 **Where are the test cards?**
 In `skills/<provider>/references/sandbox/README.md`, exactly as each vendor publishes them.
 Paynet publishes none, Octo publishes no test cards or OTP (only a `test` flag on the
-production host), and Oson and Kapitalbank publish no test host or test data at all. Each
-skill says so instead of inventing one.
+production host), and Oson and Kapitalbank publish no test host or test data at all. Tasnif
+has no test host either; the `tasnif` skill keeps saved replies instead. Each skill says so
+instead of inventing one.
 
 **Are my secrets safe with the tools?**
 The tools read secrets only from environment variables, print them as `<SECRET>`, and send
-nothing over the network. Never paste production keys into a chat with an agent.
+nothing over the network. The only exception is `--online` in `mxik.py` and `tasnif.py`: one
+`GET` to Tasnif, with no secret in it. Never paste production keys into a chat with an agent.
 
 **How fresh is the information?**
 Every reference carries its source URL and fetched date. A weekly workflow compares the

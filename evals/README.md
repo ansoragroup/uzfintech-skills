@@ -56,6 +56,7 @@ A full run of every case once costs about $2.
 | `kapitalbank-no-sandbox-host` | says no sandbox host is published and does not invent one |
 | `kapitalbank-old-code-00545` | old code `00545` split by material: aluminium goods now take `00076` |
 | `fiscal-payme-basket-code` | IKPU is 17 digits from tasnif.soliq.uz, as a string, plus `package_code` |
+| `tasnif-barcode-to-mxik` | `by-params?gtin=`, codes resolved before checkout, hit confirmed by a person, package code from the card |
 | `router-octo-multicard-units` | Multicard in tiyin, Octo `total_sum` in major units, each skill loaded |
 
 ## Writing a case

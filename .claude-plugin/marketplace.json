@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Agent skills for Uzbek payment provider APIs.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
       "name": "uzfintech",
       "source": "./",
-      "description": "Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos, Octo, Oson and Kapitalbank API contracts, a cross-provider fiscal receipt skill, a router for choosing and comparing providers, schemas, anonymized examples, sandbox test data, lifecycle warnings, checklists, and signature / payload checking tools.",
-      "version": "0.3.0",
+      "description": "Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos, Octo, Oson and Kapitalbank API contracts, a cross-provider fiscal receipt skill, a Tasnif catalogue skill (MXIK search by name and barcode, package codes, re-checks, point-of-sale and VAT-payer checks), a router for choosing and comparing providers, schemas, anonymized examples, sandbox test data, lifecycle warnings, checklists, and signature / payload checking tools.",
+      "version": "0.4.0",
       "license": "MIT",
       "keywords": [
         "uzum",
@@ -26,6 +26,7 @@
         "oson",
         "kapitalbank",
         "fiscal",
+        "tasnif",
         "payments",
         "uzbekistan"
       ],

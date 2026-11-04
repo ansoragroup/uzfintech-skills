@@ -9,8 +9,9 @@
 
 Agent skills for Uzbek payment provider APIs: **Uzum Bank, Alif, Click, Paynet, Payme,
 Multicard, Atmos, Octo, Oson and Kapitalbank**, plus a fiscal receipt skill shared by all of
-them and a router skill for choosing and comparing providers. They work in Claude Code,
-Codex, Cursor and any other agent that reads `SKILL.md` files.
+them, a Tasnif catalogue skill for looking up and re-checking MXIK codes and a router skill
+for choosing and comparing providers. They work in Claude Code, Codex, Cursor and any other
+agent that reads `SKILL.md` files.
 
 Models know these APIs only roughly. They mix up tiyin and sum, sign the wrong string and
 invent error codes or sandbox cards. With these skills the agent answers from exact contract
@@ -38,6 +39,7 @@ notes and checks signatures and payloads with scripts instead of guessing. Each 
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (invoice/create with a pay_url, invoice/status) and the signed payment notification, rebuilt from Oson's open-source shop plugins |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Kapital API for legal entities: APILogin, SendPaymentIBK payment orders, CheckPayments2, statements (GetDoc1C, GetMT940), account and payee checks, exchange rates, invoices; CBU payment purpose codes for UZS payment orders in any bank |
 | [`fiscal`](skills/fiscal/SKILL.md) | All providers | Fiscal receipts: MXIK (IKPU) codes from Tasnif, package codes, VAT and benefit fields, Asl Belgisi marking, receipt types, who registers the receipt and in which field at each provider |
+| [`tasnif`](skills/tasnif/SKILL.md) | Tasnif (tax committee catalogue) | MXIK (IKPU) catalogue lookups on tasnif.soliq.uz: text and barcode (GTIN) search, code card with package codes, history for re-checks, pictures, class lists, point-of-sale `cl-api` check, txkm VAT-payer check; undocumented public endpoints, saved replies instead of a test host |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | All providers | Router: choose a provider for a task, compare providers, cross-provider cheatsheet (units, auth, callbacks, refunds, holds, fiscalization, test hosts), UzQR notes |
 
 Start with `uzfintech` when the task is to choose or compare providers. It points to the
@@ -87,7 +89,8 @@ Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
-review changes against the matching `checklists/*.md`.
+review changes against the matching `checklists/*.md`. To look up or re-check MXIK codes in
+the Tasnif catalogue, read `vendor/uzfintech-skills/skills/tasnif/SKILL.md`.
 ```
 
 The [Install wiki page](docs/wiki/Install.md) covers updates, pinning a version and
@@ -117,7 +120,8 @@ work happens in focused places with only the context they need.
   afterwards. A rule such as units, auth or retries never carries over from one provider to
   another. The `uzfintech` router helps choose and compare, then hands over to the provider
   skill. Receipt codes that every provider shares (MXIK, package codes, marking) live in the
-  `fiscal` skill.
+  `fiscal` skill. Searching and re-checking those codes in the Tasnif catalogue is the
+  `tasnif` skill.
 - **Fast path first.** Signatures, auth headers, checkout URLs and payload shapes are
   computed by code, never by the model. The agent runs the tool and quotes its output.
 - **Inline and spill.** `SKILL.md` inlines only what is needed on every task. Contracts,
@@ -184,9 +188,11 @@ bodies and skips `<PLACEHOLDER>` values. Both tools exit `0` on success, `1` on 
 and `2` on a usage error, so you can use them in CI. See the
 [Tools wiki page](docs/wiki/Tools.md) for every scheme.
 
-Two skills add an offline tool of their own: `skills/kapitalbank/scripts/purpose_codes.py`
-looks up and checks CBU payment purpose codes, and `skills/fiscal/scripts/mxik.py` checks
-MXIK codes, with an opt-in Tasnif lookup.
+Three skills add an offline tool of their own: `skills/kapitalbank/scripts/purpose_codes.py`
+looks up and checks CBU payment purpose codes, `skills/fiscal/scripts/mxik.py` checks MXIK
+codes, with an opt-in Tasnif lookup, and `skills/tasnif/scripts/tasnif.py` builds Tasnif
+catalogue requests (search by text or barcode, code card, history, point-of-sale and VAT-payer
+checks), sends them only with `--online` and summarizes saved replies.
 
 ## Try it
 
@@ -198,6 +204,7 @@ MXIK codes, with an opt-in Tasnif lookup.
 - "Review our Multicard integration against the checklist."
 - "Which providers can hold funds and capture later? Compare Atmos and Octo."
 - "Our payment order still uses purpose code 00545. What replaces it?"
+- "Find the MXIK code and package code for the product with barcode 4607001771555."
 - "Payme sandboxida qaysi test kartalardan foydalanish mumkin?"
 
 ## Quality
@@ -208,7 +215,7 @@ MXIK codes, with an opt-in Tasnif lookup.
 | Parser self-test | `scripts/sync --selftest` | the bundled YAML parser agrees with PyYAML |
 | Behaviour evals | `claude plugin eval . --runs 3` | an agent with the skill loads the right provider, quotes exact codes, runs the tools and refuses to invent sandbox data or commercial terms |
 
-The 21 eval cases are in [`evals/`](evals/README.md). CI runs the lint on every PR.
+The 22 eval cases are in [`evals/`](evals/README.md). CI runs the lint on every PR.
 
 ## Freshness
 
@@ -240,9 +247,10 @@ as described in [SECURITY.md](SECURITY.md).
 
 This project is not affiliated with any of the payment providers it covers. The notes are
 derived from public developer documentation, and that documentation is the authority.
-Confirm production behaviour with your provider. Commission rates and settlement terms
-depend on each merchant's contract, so the skills do not state them. Never commit real
-credentials or customer data.
+Confirm production behaviour with your provider. The Tasnif endpoints in the `tasnif` skill
+have no published API reference; they are described as observed and can change without
+notice. Commission rates and settlement terms depend on each merchant's contract, so the
+skills do not state them. Never commit real credentials or customer data.
 
 ## License
 

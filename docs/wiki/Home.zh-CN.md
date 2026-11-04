@@ -2,7 +2,7 @@
 
 [English](Home.md) · [Русский](Home.ru.md) · [Oʻzbekcha](Home.uz.md) · **简体中文**
 
-面向乌兹别克斯坦支付 API 的智能体技能：**Uzum Bank、Alif、Click、Paynet、Payme、Multicard、Atmos、Octo、Oson 和 Kapitalbank**，外加一个所有服务商共用的税务小票技能，以及一个用于选择和比较服务商的路由技能。加载了这些技能的智能体会依据精确的接口契约笔记作答，用两个小脚本校验签名和报文，并在截止时间、冲正和税务小票（fiscal receipt，经 OFD 登记）的问题演变成生产事故之前发出警告。
+面向乌兹别克斯坦支付 API 的智能体技能：**Uzum Bank、Alif、Click、Paynet、Payme、Multicard、Atmos、Octo、Oson 和 Kapitalbank**，外加一个所有服务商共用的税务小票技能、一个用于查询和复核 MXIK 代码的 Tasnif 目录技能，以及一个用于选择和比较服务商的路由技能。加载了这些技能的智能体会依据精确的接口契约笔记作答，用两个小脚本校验签名和报文，并在截止时间、冲正和税务小票（fiscal receipt，经 OFD 登记）的问题演变成生产事故之前发出警告。
 
 ## 从这里开始
 
@@ -31,6 +31,7 @@
 | [`oson`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/oson/SKILL.md) | Oson | Invoice API 与带签名的支付通知，依据 Oson 开源的商店插件整理 |
 | [`kapitalbank`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/kapitalbank/SKILL.md) | Kapitalbank | 面向法人的 Kapital API（付款指令、状态、对账单、账户核验、汇率、发票）、中央银行付款用途代码 |
 | [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/fiscal/SKILL.md) | 所有服务商 | MXIK（IKPU）与包装代码、增值税与优惠字段、标识、小票类型、各服务商的小票字段 |
+| [`tasnif`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/tasnif/SKILL.md) | Tasnif（税务委员会目录） | 在 tasnif.soliq.uz 上查询 MXIK（IKPU）目录：按文本和条形码（GTIN）搜索、带包装代码的代码卡片、用于复核的历史记录、图片、类别列表、收银端 `cl-api` 检查、txkm 增值税纳税人检查；未公开文档的公共端点，用保存的响应代替测试主机 |
 | [`uzfintech`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/uzfintech/SKILL.md) | 所有服务商 | 路由：选择和比较服务商、跨服务商速查表（金额单位、鉴权、回调、退款、预授权、税务登记、测试主机）、UzQR 说明 |
 
 如果任务是选择或比较服务商，请从 `uzfintech` 开始。
@@ -48,4 +49,4 @@ skills/<provider>/
   scripts/validate.py      JSON Schema check of request and response bodies
 ```
 
-这些笔记依据公开的开发者文档编写。每条参考资料都注明了来源页面和抓取日期。一切以服务商文档为准。
+这些笔记依据公开的开发者文档编写。每条参考资料都注明了来源页面和抓取日期。一切以服务商文档为准。Tasnif 没有公布 API 参考，所以 `tasnif` 技能描述的是 tasnif.soliq.uz 网站自身调用的端点，以抓取日期当天的观察为准。

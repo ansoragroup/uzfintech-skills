@@ -68,6 +68,10 @@ not a documented integration API, and may change without notice. Confirm codes i
 UI before you rely on them**, and do not hammer them from production code; cache the
 result per product.
 
+Every endpoint (barcode search, history, pictures, the point-of-sale `cl-api` check, the
+VAT-payer check), their reply and error shapes and the caching rules are in the
+[tasnif skill](../../../tasnif/SKILL.md). This page keeps only what the receipt needs.
+
 | Purpose | Request |
 |---|---|
 | Full-text search | `GET https://tasnif.soliq.uz/api/cls-api/elasticsearch/search?search=<text>&size=<n>&lang=ru` |

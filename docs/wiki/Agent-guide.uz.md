@@ -43,7 +43,7 @@ worker esa faqat oʻziga kerakli kontekstni oladi.
    foydalaning**: test hostlar, kartalar, OTP kodlar va ssenariylar provayder qanday eʼlon
    qilgan boʻlsa, aynan shunday. Test kartani hech qachon oʻylab topmang. Provayder test karta
    eʼlon qilmagan boʻlsa (Paynet, Oson, Kapitalbank; Octoda test kartalar yoʻq), buni ochiq
-   ayting.
+   ayting. Tasnifda test host yoʻq; `tasnif` skillidagi saqlangan javoblardan foydalaning.
 6. **Hujjatlarda yoʻq narsani ochiq ayting.** Reference fayllarda biror fakt boʻlmasa,
    hujjatlarda bu koʻrsatilmaganini ayting va `Source:` sahifasiga havola bering. Boʻshliqni
    xotiradan toʻldirmang.

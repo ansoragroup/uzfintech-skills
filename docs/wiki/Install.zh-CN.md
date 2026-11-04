@@ -47,7 +47,7 @@ cp -R uzfintech-skills/skills/* ~/.codex/skills/     # Codex
 
 ```sh
 git submodule add https://github.com/ansoragroup/uzfintech-skills vendor/uzfintech-skills
-git -C vendor/uzfintech-skills checkout v0.3.0
+git -C vendor/uzfintech-skills checkout v0.4.0
 ```
 
 [CHANGELOG.md](https://github.com/ansoragroup/uzfintech-skills/blob/main/CHANGELOG.md) 列出了每个版本的改动。
@@ -63,7 +63,8 @@ Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
-review changes against the matching `checklists/*.md`.
+review changes against the matching `checklists/*.md`. To look up or re-check MXIK codes in
+the Tasnif catalogue, read `vendor/uzfintech-skills/skills/tasnif/SKILL.md`.
 ```
 
 ## 环境要求

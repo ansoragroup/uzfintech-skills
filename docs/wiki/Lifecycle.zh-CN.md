@@ -24,6 +24,8 @@
 [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/fiscal/references/lifecycle/README.md) 技能对比各服务商的小票规则。只有 Uzum Fiscalization
 公布了截止时间（24 小时）；Payme、Alif、Multicard、Octo 和 Atmos 都没有公布，所以请在支付确认后立即登记小票。
 
+[`tasnif`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/tasnif/references/lifecycle/README.md) 技能涵盖在 Tasnif 目录中查询 MXIK 代码。这些调用只读：没有可取消或退款的东西，也不需要登记小票。风险在于：非官方 API 没有 SLA，各端点的“未找到”应答形式不同，代码会在没有通知的情况下变更。
+
 ## 代价最高的警告
 
 | ID | 适用场景 | 会出什么问题 |
@@ -48,6 +50,11 @@
 | `kapitalbank.old-purpose-codes-rejected` | 任何银行的 UZS 付款指令 | 26.05.2026 之后使用旧的用途代码，付款指令会被拒绝或延迟 |
 | `kapitalbank.poll-status-not-resend` | 丢失或不明确的 `SendPaymentIBK` 应答 | 重发会产生第二笔真实的付款指令 |
 | `fiscal.one-receipt-per-payment` | 由服务商自己登记小票的情况 | 在你自己的税务模块上为同一笔销售再开一张小票 |
+| `tasnif.not-official-api` | 基于 Tasnif 端点编写的代码 | 没有 API 参考、使用条款或 SLA；端点可能不经通知就变更或关闭，所以要保留手动录入代码的方式 |
+| `tasnif.no-checkout-calls` | 销售、支付和小票流程 | Tasnif 网站变慢或关闭会让销售停下；应在创建或编辑商品时确定代码 |
+| `tasnif.check-body-not-status` | 判断“未找到” | 未知代码视端点不同，可能是 HTTP 403 文本、HTTP 200 `success: false`，或 HTTP 200 加空列表 |
+| `tasnif.barcode-hit-needs-review` | 条形码到代码的映射 | GTIN 命中只是目录里的关联，不是裁定；没有命中也不代表商品没有代码 |
+| `tasnif.codes-change` | 已保存的代码 | 代码会在没有通知的情况下被修改和停用；请按计划用 `history` 复核 |
 
 每个 ID 都在其服务商的生命周期页面中定义；如果某个页面、`SKILL.md` 或本 wiki 提到了未定义的 ID，`scripts/lint` 就会失败。ID 从不重命名，也从不翻译。
 
@@ -65,6 +72,7 @@
 - **Octo：** `shop_transaction_id` 和 `shop_refund_id` 每次尝试唯一，并在调用前保存。应答丢失后，用三字段的 `prepare_payment` 调用查询状态。
 - **Oson：** 每次尝试使用新的 `transaction_id`。应答丢失后，先用同一个 id 调用 `invoice/status`，再决定是否创建新账单。
 - **Kapitalbank：** 在 `SendPaymentIBK` 之前保存 `uniq`。应答丢失后，按 `uniq` 查询 `CheckPayments2`，只有找不到该付款指令时才重发。没有 webhook，所以要轮询。
+- **Tasnif：** 只读，可以安全重复。遇到超时、5xx 或意外的响应体时退避（1 分钟、5 分钟、30 分钟），并保留上一次有效的值。复核以 `mxikCode` 为键，绝不使用 `history` 的 `id`。
 
 ## 规则没有公开时
 

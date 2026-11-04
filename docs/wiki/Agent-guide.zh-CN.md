@@ -24,7 +24,7 @@
 2. **根据决策表选定产品**，然后打开对应的 `references/<product>/README.md`。如果该技能有 `references/common/README.md`，先读它：传输方式、鉴权和错误信封都在那里。
 3. **先运行工具**，再判断签名、请求头或报文是否正确。引用工具的输出。
 4. **检查生命周期。** 如果任务会创建、确认、取消、退款、重试任何东西，或对其进行税务登记（fiscalize），请阅读技能中的“Warn without being asked”一节和 `references/lifecycle/README.md`。即使没人问，也要说明截止时间、这一步能否撤销，以及税务小票（fiscal receipt，经 OFD 登记）会受到什么影响。参见[生命周期](Lifecycle.zh-CN.md)。
-5. **使用 `references/sandbox/` 中的沙箱数据**编写测试和示例：测试主机、测试卡、OTP 验证码和测试场景，都与服务商公布的完全一致。绝不编造测试卡；服务商没有公布时（Paynet、Oson、Kapitalbank；Octo 没有测试卡），就直接说明。
+5. **使用 `references/sandbox/` 中的沙箱数据**编写测试和示例：测试主机、测试卡、OTP 验证码和测试场景，都与服务商公布的完全一致。绝不编造测试卡；服务商没有公布时（Paynet、Oson、Kapitalbank；Octo 没有测试卡），就直接说明。Tasnif 没有测试主机，请使用 `tasnif` 技能中保存的响应。
 6. **说明哪些内容没有文档。** 参考资料没有覆盖某个事实时，说明文档未作规定，并给出 `Source:` 页面的链接。不要凭记忆填补空白。
 7. **不谈商务条款。** 手续费率、分成比例和结算天数取决于每个商户的合同。API 响应中的费用字段可以正常解释。
 
