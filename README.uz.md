@@ -217,7 +217,7 @@ kodlarini tekshiradi, Tasnifda qidirish faqat alohida flag bilan yoqiladi.
 | Parser self-test | `scripts/sync --selftest` | ichki YAML parser PyYAML bilan bir xil natija beradi |
 | Xatti-harakat evallari | `claude plugin eval . --runs 3` | skill ulangan agent toʻgʻri provayderni yuklaydi, aniq kodlarni keltiradi, vositalarni ishga tushiradi va sandbox maʼlumotlari yoki tijorat shartlarini oʻylab topmaydi |
 
-20 ta eval holati [`evals/`](evals/README.md) papkasida. CI har bir PR uchun lintni ishga
+21 ta eval holati [`evals/`](evals/README.md) papkasida. CI har bir PR uchun lintni ishga
 tushiradi.
 
 ## Dolzarblik

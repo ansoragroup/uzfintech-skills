@@ -208,7 +208,7 @@ MXIK codes, with an opt-in Tasnif lookup.
 | Parser self-test | `scripts/sync --selftest` | the bundled YAML parser agrees with PyYAML |
 | Behaviour evals | `claude plugin eval . --runs 3` | an agent with the skill loads the right provider, quotes exact codes, runs the tools and refuses to invent sandbox data or commercial terms |
 
-The 20 eval cases are in [`evals/`](evals/README.md). CI runs the lint on every PR.
+The 21 eval cases are in [`evals/`](evals/README.md). CI runs the lint on every PR.
 
 ## Freshness
 

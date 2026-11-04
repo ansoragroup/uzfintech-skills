@@ -48,6 +48,15 @@ A full run of every case once costs about $2.
 | `multicard-callback-stock` | unprompted warning: a non-success callback answer refunds the payer |
 | `uzum-fiscal-nightly-job` | unprompted warning: receipt `date_time` within 24 h, else 422 |
 | `paynet-refund-button` | unprompted warning: `reverse` works only within 1 month |
+| `atmos-apply-timeout` | unprompted warning: never resend `pay/apply` after a timeout; read the state with `pay/get` |
+| `atmos-refund-id` | `pay/reverse` takes `success_trans_id` from the apply reply, not the create `transaction_id` |
+| `octo-two-stage-capture` | `auto_capture: false`, `set_accept`, and the 30-minute hold window |
+| `octo-notify-handler` | verifies the SHA1 `signature` with `unique_key`, re-checks via `/prepare_payment` |
+| `oson-notify-handler` | double SHA-256 `signature`, `hash_equals`, fulfils only on `PAID` |
+| `kapitalbank-no-sandbox-host` | says no sandbox host is published and does not invent one |
+| `kapitalbank-old-code-00545` | old code `00545` split by material: aluminium goods now take `00076` |
+| `fiscal-payme-basket-code` | IKPU is 17 digits from tasnif.soliq.uz, as a string, plus `package_code` |
+| `router-octo-multicard-units` | Multicard in tiyin, Octo `total_sum` in major units, each skill loaded |
 
 ## Writing a case
 

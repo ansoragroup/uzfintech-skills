@@ -168,7 +168,7 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 | 解析器自检 | `scripts/sync --selftest` | 内置的 YAML 解析器与 PyYAML 结果一致 |
 | 行为评测 | `claude plugin eval . --runs 3` | 加载了技能的智能体会选对服务商、引用准确的错误码、运行工具，并拒绝编造沙箱数据或商务条款 |
 
-20 个评测用例在 [`evals/`](evals/README.md) 中。CI 会在每个 PR 上运行 lint。
+21 个评测用例在 [`evals/`](evals/README.md) 中。CI 会在每个 PR 上运行 lint。
 
 ## 内容时效
 
