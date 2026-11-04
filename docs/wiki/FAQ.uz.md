@@ -31,8 +31,9 @@ qilish. Ogohlantirishlar qisqa va oʻzgarmas IDʼlarga ega. Qarang: [Toʻlov hay
 
 **Test kartalar qayerda?**
 `skills/<provider>/references/sandbox/README.md` faylida, har bir provayder qanday eʼlon qilgan
-boʻlsa, aynan shunday. Paynet test karta eʼlon qilmaydi; skill karta oʻylab topish oʻrniga buni
-ochiq aytadi.
+boʻlsa, aynan shunday. Paynet test karta eʼlon qilmaydi, Octo test karta va OTP eʼlon qilmaydi
+(production hostida faqat `test` flagi bor), Oson va Kapitalbank esa test host ham, test
+maʼlumotlari ham eʼlon qilmaydi. Har bir skill karta oʻylab topish oʻrniga buni ochiq aytadi.
 
 **Vositalar maxfiy kalitlarimni xavfsiz saqlaydimi?**
 Vositalar maxfiy kalitlarni faqat muhit oʻzgaruvchilaridan oʻqiydi, ularni `<SECRET>` deb

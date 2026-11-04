@@ -4,6 +4,42 @@ All notable changes to this project. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-11-04
+
+### Added
+
+- `atmos` skill: Atmos payments for Uzcard / Humo (pay-create, pre-apply, apply,
+  multi-payments, full and partial reversals, payment page, HTML widget), card linking,
+  holds, withdrawal by PINFL, Visa / Mastercard (MPS / IPS), fiscal `ofd_items` and the
+  Callback API, with the published test cards and OTP.
+- `octo` skill: Octo acquiring for Visa / Mastercard / UnionPay and Uzcard / Humo, one-stage
+  and two-stage payments (`prepare_payment`, `set_accept`), own card form, card tokens, full
+  and partial refunds, fiscalization with registered basket items, `notify_url` signatures
+  and the `test` flag.
+- `oson` skill: Oson invoice API (`invoice/create`, `invoice/status`) and the signed payment
+  notification, rebuilt from Oson's open-source shop plugins because Oson publishes no API
+  reference, with the gaps listed (no sandbox, no test flag, no refund method).
+- `kapitalbank` skill: the Kapital API for legal entities (APILogin, SendPaymentIBK,
+  CheckPayments2, statements, account and payee checks, exchange rates, invoices) and the
+  CBU payment purpose codes and "Детали платежа" rules for UZS payment orders in any bank.
+- `fiscal` skill: provider-neutral fiscal receipt rules (MXIK / IKPU from Tasnif, package
+  codes, VAT and benefit fields, Asl Belgisi marking, receipt types) and one table of who
+  registers the receipt and in which field at each provider.
+- `uzfintech` router skill: choosing a provider for a task, comparing providers, a
+  cross-provider cheatsheet (units, auth, callbacks, refunds, holds, fiscalization, test
+  hosts) and UzQR notes.
+- `sign.py` schemes `atmos.basic`, `atmos.callback`, `octo.notify` and `oson.notify` with
+  self-test vectors, 17 schemes in all.
+- `skills/kapitalbank/scripts/purpose_codes.py` for offline purpose code lookups and checks,
+  and `skills/fiscal/scripts/mxik.py` for MXIK checks with an opt-in Tasnif lookup.
+- Eval cases for Atmos, Octo, Oson, Kapitalbank and the fiscal skill, 20 in all.
+
+### Changed
+
+- The Alif skill description mentions Alif Nasiya instalments.
+- README, wiki, `AGENTS.md`, `llms.txt` and the plugin descriptions list the new providers
+  and the router skill.
+
 ## [0.2.0] - 2026-11-03
 
 ### Added
@@ -46,5 +82,6 @@ All notable changes to this project. The format follows
 - `scripts/sync` and a weekly workflow that tracks upstream specs and pages.
 - Claude Code plugin and marketplace manifests.
 
+[0.3.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ansoragroup/uzfintech-skills/releases/tag/v0.1.0

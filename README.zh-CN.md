@@ -3,11 +3,11 @@
 [English](README.md) · [Русский](README.ru.md) · [Oʻzbekcha](README.uz.md) · **简体中文**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-6%20providers-0a7c66.svg)](#支付服务商)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#支付服务商)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#安装)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#工具)
 
-面向乌兹别克斯坦支付服务商 API 的智能体技能（Agent Skills）：**Uzum Bank、Alif、Click、Paynet、Payme 和 Multicard**。可在 Claude Code、Codex、Cursor 以及任何读取 `SKILL.md` 文件的智能体中使用。
+面向乌兹别克斯坦支付服务商 API 的智能体技能（Agent Skills）：**Uzum Bank、Alif、Click、Paynet、Payme、Multicard、Atmos、Octo、Oson 和 Kapitalbank**，外加一个所有服务商共用的税务小票技能，以及一个用于选择和比较服务商的路由技能。可在 Claude Code、Codex、Cursor 以及任何读取 `SKILL.md` 文件的智能体中使用。
 
 大模型对这些 API 只是一知半解。它们会把 tiyin 和 sum 搞混，对错误的字符串签名，还会编造错误码或沙箱测试卡。有了这些技能，智能体会依据精确的接口契约笔记作答，并用脚本校验签名和报文，而不是靠猜。每个技能包含：
 
@@ -23,11 +23,19 @@
 | 技能 | 服务商 | 产品 |
 |---|---|---|
 | [`uzum`](skills/uzum/SKILL.md) | Uzum Bank | Merchant API（webhook）、Checkout、Fiscalization、FastPay、Dynamic QR、CrossBorder、Remit Core、Ratekeeper、Nasiya、PaymentHub |
-| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout、Payments、Cards、Hold、Monitoring、Summary、旧版 API 迁移对照表 |
+| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout、Alif Nasiya 分期付款、Payments、Cards、Hold、Monitoring、Summary、旧版 API 迁移对照表 |
 | [`click`](skills/click/SKILL.md) | Click | SHOP API、Advanced / Split Shop、Merchant API、卡令牌（card token）、Fiscalization、CLICK Pass、支付链接 / 按钮 / 小组件、Telegram Payments |
 | [`paynet`](skills/paynet/SKILL.md) | Paynet | 互联网收单（Humo / Uzcard）：authorize、confirm、status、reverse |
 | [`payme`](skills/payme/SKILL.md) | Payme (Paycom) | Merchant API、Subscribe API（卡片、收款单 receipts、预授权）、Checkout（GET / POST / 按钮 / 二维码）、Fiscalization |
 | [`multicard`](skills/multicard/SKILL.md) | Multicard | 账单（invoice）与 scanpay、绑卡、支付（token / 卡 / app / 分账 split）、退款、预授权、代付（payout）、报表 |
+| [`atmos`](skills/atmos/SKILL.md) | Atmos | 支付（Uzcard / Humo：pay-create / pre-apply / apply、合并支付 multi-payments、全额和部分冲正、支付页面、HTML 小组件）、绑卡、预授权、按 PINFL 扣款、Visa / Mastercard（MPS / IPS）、Callback API |
+| [`octo`](skills/octo/SKILL.md) | Octo | Visa / Mastercard / UnionPay 与 Uzcard / Humo 收单：支付页面（一步式 / 两步式）、自有卡表单（PCI DSS）、卡令牌、全额和部分退款、税务登记（basket、fiscal-data） |
+| [`oson`](skills/oson/SKILL.md) | Oson | Invoice API（返回 pay_url 的 invoice/create、invoice/status）以及带签名的支付通知，依据 Oson 开源的商店插件整理 |
+| [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | 面向法人的 Kapital API：APILogin、SendPaymentIBK 付款指令、CheckPayments2、对账单（GetDoc1C、GetMT940）、账户与收款人核验、汇率、发票；适用于任何银行苏姆付款指令的中央银行付款用途代码 |
+| [`fiscal`](skills/fiscal/SKILL.md) | 所有服务商 | 税务小票：来自 Tasnif 的 MXIK（IKPU）代码、包装代码、增值税与优惠字段、Asl Belgisi 标识、小票类型，以及各服务商由谁、在哪个字段登记小票 |
+| [`uzfintech`](skills/uzfintech/SKILL.md) | 所有服务商 | 路由：为任务选择服务商、比较服务商、跨服务商速查表（金额单位、鉴权、回调、退款、预授权、税务登记、测试主机）、UzQR 说明 |
+
+如果任务是选择或比较服务商，请从 `uzfintech` 开始。它会指向保存接口契约的服务商技能。
 
 ## 安装
 
@@ -64,8 +72,10 @@ cp -R uzfintech-skills/skills/* ~/.codex/skills/     # Codex
 
 ```md
 ## Payment provider contracts
-For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard), read
-`vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Run its
+For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
+Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+follow its pointers. To choose or compare providers, start with
+`vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
 review changes against the matching `checklists/*.md`.
 ```
@@ -91,7 +101,7 @@ review changes against the matching `checklists/*.md`.
      └─────────────┘  └──────────────────────┘
 ```
 
-- **每个技能只对应一个服务商。** 涉及多个服务商的任务会分别加载各自的技能，最后再做对比。金额单位、鉴权、重试这类规则绝不会从一个服务商套用到另一个。
+- **每个技能只对应一个服务商。** 涉及多个服务商的任务会分别加载各自的技能，最后再做对比。金额单位、鉴权、重试这类规则绝不会从一个服务商套用到另一个。`uzfintech` 路由技能帮助选择和比较，然后把工作交给服务商技能。所有服务商共用的小票代码（MXIK、包装代码、标识）放在 `fiscal` 技能中。
 - **优先走快路径。** 签名、鉴权头、收银台 URL 和报文结构都由代码计算，绝不交给模型。智能体运行工具，并引用工具的输出。
 - **内联与外置（inline and spill）。** `SKILL.md` 只内联每个任务都需要的内容。接口契约、Schema、示例、沙箱数据和检查清单都放在文件里，由智能体按需读取。
 - **稳定的 ID。** 签名方案（`payme.basic`、`click.prepare`）、Schema 名称（`uzum/webhook-confirm`）和错误码在所有语言中都一样，绝不翻译。
@@ -136,6 +146,8 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 
 `validate.py` 会拆开 JSON-RPC 和 `{success, data}` 信封，能读取 form-urlencoded 请求体，并跳过 `<PLACEHOLDER>` 占位值。两个工具成功时退出码为 `0`，不匹配时为 `1`，用法错误时为 `2`，因此可以直接用在 CI 中。所有签名方案见[工具 wiki 页面](docs/wiki/Tools.zh-CN.md)。
 
+有两个技能还带有各自的离线工具：`skills/kapitalbank/scripts/purpose_codes.py` 查询并校验中央银行付款用途代码，`skills/fiscal/scripts/mxik.py` 校验 MXIK 代码，并可按需开启 Tasnif 在线查询。
+
 ## 试一试
 
 - “Click 说我们 Prepare 的 `sign_string` 不对。这是请求体。”
@@ -144,6 +156,8 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 - “用 Go 验证 Alif webhook 的签名。”
 - “Uzum Checkout 沙箱使用哪些测试卡和 OTP 验证码？”
 - “对照检查清单审查我们的 Multicard 集成。”
+- “哪些服务商可以先冻结资金、之后再扣款？比较一下 Atmos 和 Octo。”
+- “我们的付款指令还在用用途代码 00545。应该换成什么？”
 - “Payme sandboxida qaysi test kartalardan foydalanish mumkin?”
 
 ## 质量保证
@@ -154,7 +168,7 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 | 解析器自检 | `scripts/sync --selftest` | 内置的 YAML 解析器与 PyYAML 结果一致 |
 | 行为评测 | `claude plugin eval . --runs 3` | 加载了技能的智能体会选对服务商、引用准确的错误码、运行工具，并拒绝编造沙箱数据或商务条款 |
 
-12 个评测用例在 [`evals/`](evals/README.md) 中。CI 会在每个 PR 上运行 lint。
+20 个评测用例在 [`evals/`](evals/README.md) 中。CI 会在每个 PR 上运行 lint。
 
 ## 内容时效
 

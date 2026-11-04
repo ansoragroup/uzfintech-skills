@@ -5,9 +5,15 @@ directly.
 
 ## Using the skills
 
+- To choose a provider for a task or compare providers, start with
+  [`skills/uzfintech/SKILL.md`](skills/uzfintech/SKILL.md). It routes to the provider skill
+  and does not replace it.
 - Read the provider's `skills/<provider>/SKILL.md` first: `uzum` (Uzum Bank), `alif`
-  (alifpay), `click`, `paynet`, `payme` (Paycom), `multicard`. Follow the pointers in that
-  file to `references/<product>/README.md`, `schemas/`, `examples/` and `checklists/`.
+  (alifpay), `click`, `paynet`, `payme` (Paycom), `multicard`, `atmos`, `octo`, `oson`,
+  `kapitalbank` (Kapital API and CBU payment purpose codes). For fiscal receipt codes shared
+  by every provider (MXIK, package codes, marking, receipt types), read `skills/fiscal/SKILL.md`.
+  Follow the pointers in that file to `references/<product>/README.md`, `schemas/`,
+  `examples/` and `checklists/`.
 - With several providers in one task, work each from its own `SKILL.md`, then compare. Never
   carry units, auth or retry rules from one provider to another.
 - Answer contract questions from those files. When a fact is missing, say so and link the

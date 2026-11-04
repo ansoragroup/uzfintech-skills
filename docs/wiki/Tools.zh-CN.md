@@ -20,25 +20,31 @@ sign.py SCHEME ... --expect VALUE       verify a received signature or header
 sign.py --selftest                      check the implementation against fixed vectors
 ```
 
-`PAYLOAD` 是一个文件，或用 `-` 表示 stdin，格式为 JSON 或 form-urlencoded。`alif.webhook` 则对原始请求体字节签名。`-f key=value` 用于添加或覆盖字段。技能内附带的副本只列出该服务商的签名方案。
+`PAYLOAD` 是一个文件，或用 `-` 表示 stdin，格式为 JSON 或 form-urlencoded。`alif.webhook` 则对原始请求体字节签名。`-f key=value` 用于添加或覆盖字段。技能内附带的副本只列出该服务商的签名方案；没有自有方案的技能（`kapitalbank`、`fiscal`、`uzfintech`）会列出全部方案。
 
 ### 签名方案
 
 | 方案 | 计算内容 | 密钥变量 |
 |---|---|---|
 | `alif.webhook` | `Signature` 请求头 = base64(HMAC-SHA256(secret, raw body)) | `ALIF_WEBHOOK_SECRET` |
+| `atmos.basic` | `POST /token` 的 `Authorization: Basic base64(consumer_key:consumer_secret)` | `ATMOS_CONSUMER_SECRET` |
+| `atmos.callback` | Callback API 的 `sign`，基于 store_id transaction_id invoice amount api_key；文档未说明哈希算法，因此会尝试 MD5、SHA1 和 SHA256，并指出匹配的是哪一种 | `ATMOS_API_KEY` |
 | `click.prepare` | SHOP API Prepare 的 `sign_string`（MD5） | `CLICK_SECRET_KEY` |
 | `click.complete` | SHOP API Complete 的 `sign_string`（MD5） | `CLICK_SECRET_KEY` |
 | `click.advanced` | Advanced / Split Shop 的 `sign_string`，`params` 的值按请求体中的顺序排列 | `CLICK_SECRET_KEY` |
 | `click.auth` | Merchant API 的 `Auth` 请求头：`merchant_user_id:sha1(ts+secret):ts`，单位为秒 | `CLICK_SECRET_KEY` |
 | `multicard.callback` | 成功回调的 `sign` = md5(store_id invoice_id amount secret) | `MULTICARD_SECRET` |
 | `multicard.webhook` | 状态 webhook 的 `sign`；会尝试 MD5 和 SHA1 两种形式，并指出匹配的是哪一种 | `MULTICARD_SECRET` |
+| `octo.notify` | `notify_url` 的 `signature` = upper(sha1(unique_key octo_payment_UUID status))；分隔符未写明，按直接拼接处理 | `OCTO_UNIQUE_KEY` |
+| `oson.notify` | 通知的 `signature` = sha256(sha256(token:merchant_id):transaction_id:bill_id:status)，小写 hex，与服务商插件的计算方式一致；用 `-f` 传入 `merchant_id` | `OSON_TOKEN` |
 | `payme.basic` | Merchant API 的 `Authorization: Basic base64(login:KEY)` | `PAYME_KEY` |
 | `payme.xauth` | Subscribe API 的 `X-Auth`：`CASHBOX_ID`，加 `--backend` 时为 `CASHBOX_ID:KEY` | `PAYME_KEY` |
 | `payme.checkout` | 收银台 GET URL = host + base64(`m=..;ac.<field>=..;a=..;l=..`) | 无 |
 | `paynet.basic` | `Authorization: Basic base64(service_id:secret_key)` | `PAYNET_SECRET_KEY` |
 | `uzum.fastpay` | FastPay / Dynamic QR 的 `Authorization`：`user:sha1(ts+secret):ts`，单位为毫秒 | `UZUM_SECRET_KEY` |
 | `uzum.basic` | Merchant API webhook、CrossBorder、PaymentHub：Basic `login:password` | `UZUM_PASSWORD` |
+
+Kapitalbank 没有签名方案：`SendPaymentIBK` 中 `signs[]` 所需的电子数字签名（ЭЦП）未公开。
 
 ### 密钥
 
@@ -119,6 +125,33 @@ $ python3 skills/uzum/scripts/validate.py --list crossborder/confirm
 crossborder/confirmcredit                    POST /cbt/v1/transfer/confirm_credit Confirm Transfer to Uzbekistan
 crossborder/confirmdebit                     POST /cbt/v1/transfer/confirm_debit Confirm Transfer from Uzbekistan
 crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_payment Confirm a Cross-border Payment
+```
+
+## 技能专用工具
+
+有两个技能在共用的两个工具之外，还带有各自的离线脚本：
+
+| 脚本 | 用途 |
+|---|---|
+| `skills/kapitalbank/scripts/purpose_codes.py` | 适用于任何银行苏姆付款指令的中央银行付款用途代码：`check` 校验代码（可加 `--date`），`old` 把旧代码映射到新代码，`search` 按文本搜索，`details` 组装并校验“Детали платежа”，`account` 结合 MFO 校验账号 |
+| `skills/fiscal/scripts/mxik.py` | `check` 离线校验 17 位 MXIK（IKPU）代码；`lookup` 打印 Tasnif 链接，只有加 `--online` 才会访问 tasnif.soliq.uz；`--selftest` |
+
+`purpose_codes.py` 输出 `OK`、`NO ...` 或 `INVALID`，输入被拒绝、未知或无效时退出码为 `1`。`mxik.py check` 遇到无效代码时退出码为 `1`。
+
+```console
+$ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
+old 00545  Сантехнические товары | Сантехника товарлари
+  -> 00039  ПЛАСТМАССЫ И ИЗДЕЛИЯ ИЗ НИХ | ...   [note: изготовленные из пластмассы / ...]
+  -> 00068  ...
+  -> 00069  ...
+  -> 00076  ...
+  several new codes: pick the one whose note or name fits the goods
+
+$ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
+04016001002000000
+  OK: 17 digits
+  ...
+  confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
 ```
 
 ## 在你的 CI 中使用

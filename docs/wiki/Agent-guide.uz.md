@@ -27,6 +27,8 @@ worker esa faqat oʻziga kerakli kontekstni oladi.
    `payme/SKILL.md` faylini oching, Payme qismini tugating, keyin `click/SKILL.md` faylini
    oching. Solishtirishni oxirida qiling. Pul birligi, auth va takroriy soʻrov qoidalari bir
    provayderdan boshqasiga koʻchmaydi: Payme tiyinda hisoblaydi, Click esa soʻmda.
+   Provayder tanlash yoki solishtirish uchun `uzfintech` router skillidan boshlang; u
+   kontrakt saqlanadigan provayder skilliga yoʻl koʻrsatadi.
 2. **Mahsulotni qaror jadvalidan tanlang**, keyin uning `references/<product>/README.md` faylini
    oching. Skillda `references/common/README.md` boʻlsa, avval uni oʻqing: transport, auth va
    xato qobigʻi oʻsha yerda yozilgan.
@@ -40,7 +42,8 @@ worker esa faqat oʻziga kerakli kontekstni oladi.
 5. **Test va namunalar uchun `references/sandbox/` papkasidagi sandbox maʼlumotlaridan
    foydalaning**: test hostlar, kartalar, OTP kodlar va ssenariylar provayder qanday eʼlon
    qilgan boʻlsa, aynan shunday. Test kartani hech qachon oʻylab topmang. Provayder test karta
-   eʼlon qilmagan boʻlsa (Paynet), buni ochiq ayting.
+   eʼlon qilmagan boʻlsa (Paynet, Oson, Kapitalbank; Octoda test kartalar yoʻq), buni ochiq
+   ayting.
 6. **Hujjatlarda yoʻq narsani ochiq ayting.** Reference fayllarda biror fakt boʻlmasa,
    hujjatlarda bu koʻrsatilmaganini ayting va `Source:` sahifasiga havola bering. Boʻshliqni
    xotiradan toʻldirmang.
