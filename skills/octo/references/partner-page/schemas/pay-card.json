@@ -1,0 +1,88 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-confirm-pay.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the Russian page; result = data (the transaction object, trimmed: tariff, fee, audit and split fields left out)"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "pay-card",
+  "endpoint": "POST https://secure.octo.uz/pay/{octo_payment_UUID}",
+  "params": {
+    "type": "object",
+    "properties": {
+      "pan": {"type": "string", "pattern": "^[0-9]{16,19}$"},
+      "exp": {"type": "string", "pattern": "^[0-9]{4}$", "description": "YYMM"},
+      "method": {"type": "string", "enum": ["bank_card", "uzcard", "humo"]},
+      "cvc2": {"type": "string", "description": "marked required; the Uzcard sample sends an empty string"},
+      "cardHolderName": {"type": "string"},
+      "email": {"type": "string", "description": "required when user_data was sent in prepare_payment"}
+    },
+    "required": ["pan", "exp", "method", "cvc2", "cardHolderName"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "id": {"type": "integer", "description": "paymentId for check_sms_key and check_pan"},
+      "uuid": {"type": "string", "description": "octo_payment_UUID"},
+      "merchantId": {"type": "integer"},
+      "merchantTransId": {"type": "string", "description": "your shop_transaction_id"},
+      "processorKey": {"type": ["string", "null"]},
+      "initialSum": {"type": "number"},
+      "totalSum": {"type": "number"},
+      "transferSum": {"type": ["number", "null"]},
+      "refundedSum": {"type": "number"},
+      "currency": {"type": "string"},
+      "selectedMethod": {"type": ["string", "null"]},
+      "createTime": {"type": "integer", "description": "epoch milliseconds (the table says UNIX timestamp)"},
+      "expireTime": {"type": "integer", "description": "epoch milliseconds"},
+      "peyedTime": {"type": ["integer", "null"], "description": "paid time, epoch milliseconds (vendor spelling)"},
+      "description": {"type": "string"},
+      "autoCapture": {"type": "boolean"},
+      "isTest": {"type": "boolean"},
+      "returnUrl": {"type": "string"},
+      "redirectUrl": {"type": ["string", "null"], "description": "OTP form (Uzcard/Humo SMS page, Visa/Mastercard issuer form) or, after payment, the status page"},
+      "details": {
+        "type": ["object", "null"],
+        "properties": {
+          "cardInfo": {
+            "type": ["object", "null"],
+            "properties": {
+              "first6": {"type": "string"},
+              "last4": {"type": "string"},
+              "issuerCountryCode": {"type": "string"},
+              "cardHolder": {"type": "string"}
+            }
+          },
+          "transType": {"type": "string"}
+        }
+      },
+      "payMethods": {
+        "type": "array",
+        "items": {"type": "object", "properties": {"method": {"type": "string"}}}
+      },
+      "status": {"type": "string"},
+      "user": {
+        "type": ["object", "null"],
+        "properties": {
+          "user_id": {"type": "string"},
+          "phone": {"type": "string"},
+          "email": {"type": "string"}
+        }
+      },
+      "language": {"type": "string"},
+      "riskLevel": {"type": "integer"},
+      "bankCode": {"type": "string"},
+      "cardInputType": {"type": "string", "enum": ["merchant_site", "octo_page"]},
+      "fiscalDetails": {
+        "type": ["object", "null"],
+        "properties": {
+          "status": {"type": "string"},
+          "errorCode": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      },
+      "test": {"type": "boolean"}
+    },
+    "required": ["id", "uuid", "status"]
+  }
+}

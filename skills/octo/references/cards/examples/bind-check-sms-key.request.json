@@ -1,0 +1,7 @@
+{
+  "octo_shop_id": 123,
+  "octo_secret": "<OCTO_SECRET>",
+  "smsKey": "<OTP>",
+  "paymentUUID": "2f1c9a40-7b3e-4d8a-9e51-6c0d2b7a8e13",
+  "verifyId": 819
+}

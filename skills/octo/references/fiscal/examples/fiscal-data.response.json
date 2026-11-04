@@ -1,0 +1,13 @@
+{
+  "error": 0,
+  "data": {
+    "phone": "998901234567",
+    "code": 0,
+    "message": "accepted",
+    "terminalID": "<TERMINAL_ID>",
+    "receiptId": 2121,
+    "dateTime": "20261104100500",
+    "fiscalSign": "<FISCAL_SIGN>",
+    "qrCodeURL": "https://ofd.soliq.uz/epi?t=<TERMINAL_ID>&r=2121&c=20261104100500&s=<FISCAL_SIGN>"
+  }
+}

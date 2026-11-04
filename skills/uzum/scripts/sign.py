@@ -107,6 +107,9 @@ SCHEMES = {
                        "m a ac.<field>... [l] [c] [host]", None),
     "paynet.basic": ("paynet", "Authorization: Basic base64(service_id:secret_key)",
                      "service_id", "PAYNET_SECRET_KEY"),
+    "octo.notify": ("octo", "notify_url signature = upper(sha1(unique_key octo_payment_UUID status)); "
+                    "separator undocumented, plain concatenation assumed",
+                    "octo_payment_UUID status", "OCTO_UNIQUE_KEY"),
 }
 
 
@@ -141,6 +144,9 @@ def compute(scheme, f, secret, body, backend=False):
         order = ["m"] + sorted(k for k in f if k.startswith("ac.")) + ["a", "l", "c", "ct", "cr"]
         pairs = ";".join("%s=%s" % (k, f[k]) for k in order if k in f)
         return host + "/" + base64.b64encode(pairs.encode()).decode(), pairs, None
+    if scheme == "octo.notify":
+        head = "%s%s" % (f["octo_payment_UUID"], f["status"])
+        return hexdigest("sha1", secret + head).upper(), "sha1(%s%s)" % (MASK, head), "signature"
     raise KeyError(scheme)
 
 
@@ -274,6 +280,8 @@ VECTORS = [
     ("payme.checkout", {"m": "5e730e8e0b852a417aa49ceb", "ac.order_id": "100001", "a": "500000",
                         "l": "ru"}, b"", "",
      "https://checkout.paycom.uz/bT01ZTczMGU4ZTBiODUyYTQxN2FhNDljZWI7YWMub3JkZXJfaWQ9MTAwMDAxO2E9NTAwMDAwO2w9cnU="),
+    ("octo.notify", {"octo_payment_UUID": "53684ec6-2794-43e1-a3e1-43e368604bae", "status": "succeeded"},
+     b"", "octo_test", "0FCDF61B1F6B0C5FE8255E3E6B527F52CB10E794"),
 ]
 
 

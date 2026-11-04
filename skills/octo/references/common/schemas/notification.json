@@ -1,0 +1,80 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/notifications.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the callback table; params = the body Octo posts to notify_url. The expected answer is not documented"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "notification",
+  "endpoint": "POST <notify_url>",
+  "params": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {
+        "type": "string",
+        "description": "your payment id"
+      },
+      "octo_payment_UUID": {
+        "type": "string",
+        "description": "Octo payment id (36-char UUID)"
+      },
+      "status": {
+        "type": "string",
+        "description": "payment status: created, wait_user_action, waiting_for_capture, succeeded, canceled"
+      },
+      "signature": {
+        "type": "string",
+        "description": "upper-case hex sha1(unique_key, octo_payment_UUID, status); see scripts/sign.py octo.notify",
+        "pattern": "^[0-9A-Fa-f]{40}$"
+      },
+      "hash_key": {
+        "type": "string",
+        "description": "UUID; its role in the check is not documented"
+      },
+      "total_sum": {
+        "type": "number"
+      },
+      "transfer_sum": {
+        "type": "number",
+        "description": "amount credited to you after fees"
+      },
+      "refunded_sum": {
+        "type": "number"
+      },
+      "card_country": {
+        "type": "string"
+      },
+      "maskedPan": {
+        "type": "string"
+      },
+      "rrn": {
+        "type": "string"
+      },
+      "riskLevel": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 5
+      },
+      "payed_time": {
+        "type": "string",
+        "description": "yyyy-MM-dd HH:mm:ss"
+      },
+      "card_type": {
+        "type": "string"
+      },
+      "currency": {
+        "type": "string",
+        "description": "actual currency: UZS or USD"
+      },
+      "card_vendor": {
+        "type": "string",
+        "description": "documented Mastercard, Uzcard, Humo, UnionPay; the sample sends Visa"
+      },
+      "is_physical_card": {
+        "type": "boolean"
+      }
+    },
+    "required": ["shop_transaction_id", "octo_payment_UUID", "status", "signature", "hash_key", "currency", "card_vendor"]
+  },
+  "x-answer": "not documented; answer HTTP 200 and re-check the status before acting (derived)"
+}

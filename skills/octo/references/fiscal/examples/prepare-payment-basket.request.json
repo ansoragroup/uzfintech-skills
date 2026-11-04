@@ -1,0 +1,26 @@
+{
+  "octo_shop_id": 123,
+  "octo_secret": "<OCTO_SECRET>",
+  "shop_transaction_id": "100001",
+  "auto_capture": true,
+  "test": true,
+  "init_time": "2026-11-04 10:00:00",
+  "user_data": {"user_id": "user-100001", "phone": "998901234567", "email": "<EMAIL>"},
+  "total_sum": 1000.0,
+  "currency": "UZS",
+  "description": "Order 100001",
+  "basket": [
+    {
+      "position_desc": "Sample item",
+      "count": 2,
+      "price": 500.0,
+      "spic": "<SPIC>",
+      "inn": "<INN>",
+      "package_code": "<PACKAGE_CODE>",
+      "nds": 1
+    }
+  ],
+  "return_url": "https://merchant.example.com/orders/100001/return",
+  "notify_url": "https://merchant.example.com/octo/notify",
+  "ttl": 15
+}

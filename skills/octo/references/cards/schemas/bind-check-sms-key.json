@@ -1,0 +1,39 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/tokenization.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; the flow list names it /bind_card/check_sms, the method section /bind_card/check_sms_key; the reply carries no card_token; result = data"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "bind-check-sms-key",
+  "endpoint": "POST https://secure.octo.uz/bind_card/check_sms_key",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "smsKey": {"type": "string"},
+      "paymentUUID": {"type": "string", "description": "octo_payment_UUID from bind_card"},
+      "verifyId": {"type": "integer", "description": "from verificationInfo"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "smsKey", "paymentUUID", "verifyId"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {"type": "string"},
+      "octo_payment_UUID": {"type": "string"},
+      "status": {"type": "string", "description": "succeeded, failed, created"},
+      "octo_pay_url": {"type": "string", "description": "status page"},
+      "processor_key": {"type": "string"},
+      "processing_reference": {"type": "string"},
+      "transfer_sum": {"type": "number"},
+      "refunded_sum": {"type": "number"},
+      "total_sum": {"type": "number"},
+      "payed_time": {"type": "string"},
+      "first6": {"type": "string"},
+      "last4": {"type": "string"}
+    },
+    "required": ["shop_transaction_id", "octo_payment_UUID", "status", "total_sum"]
+  }
+}
