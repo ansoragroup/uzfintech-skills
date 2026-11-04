@@ -1,0 +1,5 @@
+{
+  "card_token": "<CARD_TOKEN>",
+  "method": "uzcard",
+  "email": "<EMAIL>"
+}

@@ -1,0 +1,37 @@
+{
+  "error": 0,
+  "data": {
+    "id": 5520,
+    "uuid": "53684ec6-2794-43e1-a3e1-43e368604bae",
+    "merchantId": 123,
+    "merchantTransId": "100001",
+    "processorKey": null,
+    "initialSum": 1000.0,
+    "totalSum": 1000.0,
+    "transferSum": null,
+    "refundedSum": 0.0,
+    "currency": "UZS",
+    "selectedMethod": null,
+    "createTime": 1793768400000,
+    "expireTime": 1793769300000,
+    "peyedTime": null,
+    "description": "Order 100001",
+    "autoCapture": true,
+    "isTest": true,
+    "returnUrl": "https://merchant.example.com/orders/100001",
+    "redirectUrl": "https://pay2.octo.uz/uzcard/sms/53684ec6-2794-43e1-a3e1-43e368604bae",
+    "details": {
+      "cardInfo": {"first6": "860000", "last4": "0001", "issuerCountryCode": "UZ", "cardHolder": "SAMPLE HOLDER"},
+      "transType": "SMS"
+    },
+    "payMethods": [{"method": "bank_card"}, {"method": "uzcard"}, {"method": "humo"}],
+    "status": "created",
+    "user": {"user_id": "100001", "phone": "998901234567", "email": "<EMAIL>"},
+    "language": "uz",
+    "riskLevel": -1,
+    "bankCode": "<BANK_CODE>",
+    "cardInputType": "merchant_site",
+    "fiscalDetails": null,
+    "test": true
+  }
+}

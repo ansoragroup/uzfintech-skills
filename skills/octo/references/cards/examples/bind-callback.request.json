@@ -1,0 +1,8 @@
+{
+  "shop_transaction_id": "bind-100001",
+  "pan": "<PAN>",
+  "exp": "3012",
+  "cardHolderName": "SAMPLE HOLDER",
+  "card_token": "<CARD_TOKEN>",
+  "status": "active"
+}

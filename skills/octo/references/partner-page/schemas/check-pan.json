@@ -1,0 +1,28 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/otp-resend.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; resends the OTP; error 17 = resend limit reached; result = data"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "check-pan",
+  "endpoint": "POST https://secure.octo.uz/check_pan",
+  "params": {
+    "type": "object",
+    "properties": {
+      "pan": {"type": "string", "pattern": "^[0-9]{16,19}$"},
+      "expDate": {"type": "string", "pattern": "^[0-9]{4}$", "description": "YYMM"},
+      "paymentId": {"type": "integer"}
+    },
+    "required": ["pan", "expDate", "paymentId"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "verifyId": {"type": "integer"},
+      "phone": {"type": "string"},
+      "secondsLeft": {"type": "integer", "minimum": 0}
+    },
+    "required": ["verifyId", "phone", "secondsLeft"]
+  }
+}

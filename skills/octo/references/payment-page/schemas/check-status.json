@@ -1,0 +1,31 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/check-status.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; the status check is prepare_payment called with only the shop pair and shop_transaction_id; result = data; trimmed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "check-status",
+  "endpoint": "POST https://secure.octo.uz/prepare_payment",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "shop_transaction_id": {"type": "string"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "shop_transaction_id"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {"type": "string"},
+      "octo_payment_UUID": {"type": "string"},
+      "status": {"type": "string", "description": "created, wait_user_action, waiting_for_capture, succeeded, canceled"},
+      "octo_pay_url": {"type": "string"},
+      "total_sum": {"type": "number"},
+      "refunded_sum": {"type": "number"}
+    },
+    "required": ["shop_transaction_id", "octo_payment_UUID", "status"]
+  }
+}

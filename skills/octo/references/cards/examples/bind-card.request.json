@@ -1,0 +1,14 @@
+{
+  "octo_shop_id": 123,
+  "octo_secret": "<OCTO_SECRET>",
+  "shop_transaction_id": "bind-100001",
+  "pan": "<PAN>",
+  "exp": "3012",
+  "phone": "998901234567",
+  "cardHolderName": "SAMPLE HOLDER",
+  "cvc2": "",
+  "method": "humo",
+  "return_url": "https://merchant.example.com/cards/bound",
+  "notify_url": "https://merchant.example.com/octo/notify",
+  "bind_notify_url": "https://merchant.example.com/octo/bind"
+}

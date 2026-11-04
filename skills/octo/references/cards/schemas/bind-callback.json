@@ -1,0 +1,29 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/tokenization.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; params = the body Octo posts to bind_notify_url (it includes the raw PAN), result = your answer with HTTP 200; any other answer is retried up to three times, then the token is cancelled"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "bind-callback",
+  "endpoint": "POST <bind_notify_url>",
+  "params": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {"type": "string"},
+      "pan": {"type": "string", "description": "raw card number"},
+      "exp": {"type": "string", "description": "YYMM"},
+      "cardHolderName": {"type": "string"},
+      "card_token": {"type": "string"},
+      "status": {"type": "string", "enum": ["active", "failed"]}
+    },
+    "required": ["shop_transaction_id", "pan", "exp", "cardHolderName", "card_token", "status"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {"type": "string", "description": "success with HTTP 200; error with HTTP 400 or higher"},
+      "message": {"type": "string"}
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/tokenization.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; this reply has no data object, so result is the whole body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "block-card-token",
+  "endpoint": "POST https://secure.octo.uz/block_card_token",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "card_token": {"type": "string"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "card_token"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "error": {"type": "integer", "enum": [0, 1, 2, 4, 5, 6], "description": "0 ok, 1 format, 2 auth, 4 internal, 5 token not found, 6 token not active"},
+      "errMessage": {"type": ["string", "null"]},
+      "status": {"type": "string", "description": "blocked on success; token statuses: active, blocked, init, failed"}
+    },
+    "required": ["error"]
+  }
+}

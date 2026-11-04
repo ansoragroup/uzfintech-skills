@@ -1,0 +1,59 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-via-web/methods/prepare-payment.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the Russian parameter tables; result = data; trimmed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "prepare-payment",
+  "endpoint": "POST https://secure.octo.uz/prepare_payment",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "shop_transaction_id": {"type": "string", "description": "your unique payment id; a repeat is rejected as a duplicate"},
+      "auto_capture": {"type": "boolean", "description": "false = two-stage (hold, then set_accept); the default is printed both as false and as true, so always send it"},
+      "test": {"type": "boolean", "description": "true = test payment; omitted = real payment"},
+      "init_time": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$", "description": "yyyy-MM-dd HH:mm:ss"},
+      "user_data": {
+        "type": "object",
+        "properties": {
+          "user_id": {"type": "string"},
+          "phone": {"type": "string"},
+          "email": {"type": "string"}
+        },
+        "required": ["user_id", "phone", "email"]
+      },
+      "total_sum": {"type": "number", "minimum": 0, "description": "major units of currency"},
+      "currency": {"type": "string", "enum": ["UZS", "USD", "RUB"]},
+      "description": {"type": "string"},
+      "basket": {"type": "array", "items": {"$ref": "../../common/schemas/basket-item.json"}},
+      "payment_methods": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {"method": {"type": "string", "enum": ["bank_card", "uzcard", "humo"]}},
+          "required": ["method"]
+        }
+      },
+      "return_url": {"type": "string", "description": "payer lands here; put your own payment id in it"},
+      "notify_url": {"type": "string", "description": "marked required; without it the cabinet URL is used"},
+      "language": {"type": "string", "enum": ["oz", "uz", "en", "ru"]},
+      "ttl": {"type": "integer", "minimum": 1, "description": "payment lifetime in minutes from creation"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "shop_transaction_id", "init_time", "total_sum", "currency", "description"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {"type": "string"},
+      "octo_payment_UUID": {"type": "string"},
+      "status": {"type": "string", "description": "created for a new payment"},
+      "octo_pay_url": {"type": "string"},
+      "refunded_sum": {"type": "number"},
+      "total_sum": {"type": "number"}
+    },
+    "required": ["shop_transaction_id", "octo_payment_UUID", "status", "octo_pay_url"]
+  }
+}

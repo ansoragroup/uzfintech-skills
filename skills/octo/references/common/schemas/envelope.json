@@ -1,0 +1,32 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-via-web/methods/prepare-payment.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the unsuccessful-response tables; the same shape is printed on every method page"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "error envelope",
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "integer",
+      "description": "0 = success; anything else is an error code"
+    },
+    "errMessage": {
+      "type": ["string", "null"],
+      "description": "error text; read this, not errorMessage"
+    },
+    "data": {
+      "type": ["object", "null"],
+      "description": "null on error"
+    },
+    "errorMessage": {
+      "type": ["string", "null"],
+      "description": "deprecated copy of errMessage"
+    },
+    "apiMessageForDevelopers": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": ["error", "errMessage"]
+}

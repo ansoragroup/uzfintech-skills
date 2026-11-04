@@ -1,0 +1,5 @@
+{
+  "error": 403,
+  "errMessage": "Fiscal object with merchant ID 123 spic : <SPIC> package code : <PACKAGE_CODE> nds : 1 inn : <INN> pinfl : null not contains in system",
+  "data": null
+}

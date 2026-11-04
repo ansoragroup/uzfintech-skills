@@ -1,0 +1,28 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-via-web/methods/callback.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; params = the amount-confirmation request Octo sends for a waiting_for_capture payment, result = your answer. The page prints the URL as https://secure.octo.uz/callback; where your endpoint is configured is not documented"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "capture-callback",
+  "endpoint": "POST <your capture callback URL>",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_secret": {"type": "string", "description": "printed masked as ***"},
+      "octo_payment_UUID": {"type": "string"},
+      "accept_status": {"type": "string", "enum": ["capture", "cancel"]},
+      "final_amount": {"type": "number"}
+    },
+    "required": ["octo_secret", "octo_payment_UUID", "accept_status"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "accept_status": {"type": "string", "enum": ["capture", "cancel", "waiting_user_action"], "description": "capture or waiting_user_action stops the resends"},
+      "final_amount": {"type": "number"}
+    },
+    "required": ["accept_status"]
+  }
+}

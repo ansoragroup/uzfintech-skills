@@ -1,0 +1,40 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/tokenization.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the Russian bind_card table; cardHolderName appears only in the sample; result = data; trimmed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "bind-card",
+  "endpoint": "POST https://secure.octo.uz/bind_card",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "shop_transaction_id": {"type": "string", "description": "unique id of this binding attempt"},
+      "pan": {"type": "string", "pattern": "^[0-9]{16,19}$"},
+      "exp": {"type": "string", "pattern": "^[0-9]{4}$", "description": "YYMM"},
+      "phone": {"type": "string", "description": "phone linked to the card"},
+      "cardHolderName": {"type": "string"},
+      "cvc2": {"type": "string"},
+      "method": {"type": "string", "enum": ["humo", "uzcard", "bank_card"]},
+      "return_url": {"type": "string"},
+      "notify_url": {"type": "string"},
+      "bind_notify_url": {"type": "string", "description": "marked optional, but the token is delivered only here"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "shop_transaction_id", "pan", "exp", "phone", "method", "return_url"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {"type": "string"},
+      "octo_payment_UUID": {"type": "string", "description": "paymentUUID for bind_card/check_sms_key and verificationInfo"},
+      "status": {"type": "string"},
+      "octo_pay_url": {"type": "string", "description": "OTP page (Visa/Mastercard: issuer form)"},
+      "refunded_sum": {"type": "number"},
+      "total_sum": {"type": "number", "description": "the verification debit, refunded after binding"}
+    },
+    "required": ["shop_transaction_id", "octo_payment_UUID", "status", "octo_pay_url"]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/fiscal-data.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the fiscal-data page; the request uses payment_uuid (not octo_payment_UUID); result = data; trimmed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "fiscal-data",
+  "endpoint": "POST https://secure.octo.uz/fiscal-data",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "payment_uuid": {"type": "string", "description": "octo_payment_UUID of the payment"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "payment_uuid"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "phone": {"type": "string", "description": "payer phone the receipt is registered to"},
+      "code": {"type": "integer", "description": "fiscal module answer code; 0 in the sample"},
+      "message": {"type": "string", "description": "fiscal module answer, accepted in the sample"},
+      "terminalID": {"type": "string", "description": "fiscal module id"},
+      "receiptId": {"type": "integer"},
+      "dateTime": {"type": "string", "pattern": "^[0-9]{14}$", "description": "YYYYMMDDHHMMSS"},
+      "fiscalSign": {"type": "string"},
+      "qrCodeURL": {"type": "string", "description": "receipt check link on ofd.soliq.uz"}
+    },
+    "required": ["phone", "code", "message", "terminalID", "receiptId", "dateTime", "fiscalSign", "qrCodeURL"]
+  }
+}

@@ -2226,3 +2226,223 @@ sources:
     sha256: 1e3454019fcb7ecccde6df0436c0c835341c7699f11ad2a3692f081fc900dfec
     fetched: 2026-11-03
     status: ok
+  - id: octo-get-started-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/get-started.html
+    refs: [skills/octo/references/common/README.md, skills/octo/references/sandbox/README.md]
+    sha256: 47b88fe6c262be2660c566831ddbae37a614bb99238eaeee166d215a680dd800
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-statuses-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/statuses.html
+    refs: [skills/octo/references/common/README.md]
+    sha256: 23db00e5a3ae137cb1de58ed5210acd5c8cc551f9f1bfe8cc25e400e09d070c3
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-notifications-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/notifications.html
+    refs: [skills/octo/references/common/README.md, skills/octo/checklists/common.md, skills/octo/references/lifecycle/README.md]
+    sha256: 2568be92e663c0cf412b841c21f8a9cc255735d6d61065e32b6cfe649d546e7c
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-error-codes-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/error-codes.html
+    refs: [skills/octo/references/common/README.md]
+    sha256: c163d9f713ba4a699172ab122b37b85057740a4452576a34f8fdf3c88fe18065
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-web-one-stage-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/one-stage.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/partner-page/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 50ce18df8f57d65896c3be9f4377e7ebc0c7171e91cfe0ee7a499d446aa66d67
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-web-two-stage-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/two-stage.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 36e412deff71782d6b6843e3a51a374a1e4bf3f0e27bdcab54f221f81abed5a7
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-prepare-payment-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/methods/prepare-payment.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/common/README.md, skills/octo/references/fiscal/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 2903245dc53f396c915858aa9ffb4b57a5a53850d00af51eb05b161817def003
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-set-accept-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/methods/set-accept.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 5160636224ebd6f7782f75080a57a98a24a88b7951ad563e7767085cc8204745
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-callback-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/methods/callback.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: c7aa3909bcd19b0840c29c3fc649dfc42900e7a07c0d8be9f7ef24ecfebee01b
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-check-status-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/check-status.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: f9a4146ede689536b3b180299908c9ee652fcc823ce8107f066429d4a0953d09
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-cancel-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/cancel.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/refunds/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 6cdb47c11f63bdf54be7b3b00b5aef14055ee2f0cee714150b73e82b756ad2b2
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-partner-overview-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web.html
+    refs: [skills/octo/references/partner-page/README.md]
+    sha256: 9d255cc3641186565a59627d4104af3f9dc1b58efe789a9d10f77a73db513221
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-partner-one-stage-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/one-stage.html
+    refs: [skills/octo/references/partner-page/README.md]
+    sha256: 50b9dabce16f7e1c5238a0157a09d6cf19d086d4a6b3d8147c96cab7ba6c6ae7
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-partner-two-stage-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/two-stage.html
+    refs: [skills/octo/references/partner-page/README.md]
+    sha256: 481c3d2197af6bdc6f555ddd60a29832a4cdd2714196100d081e02d0a1d97425
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-pay-card-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-confirm-pay.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md]
+    sha256: b2a5eb825a58f439642740e17654c6585d2a5572551374104a0a2e7d0ab3dbc9
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-pay-token-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/confirm-pay/token.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/cards/README.md]
+    sha256: e95ea33225f5a8d164b7127c6fc27f90de08b8b6e7a1d468a79c7a9c8c678d86
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-verification-info-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/methods/verification-info.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md]
+    sha256: e73dea54ad3545001b2f080f09155d012143ad0dfa75807068add3ea84a6f969
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-check-sms-key-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/methods/check-sms-key.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md]
+    sha256: f3c38c27115337d6261ea63022f3dbd3195991c7fa0d77deb3f592d84d803f83
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-otp-resend-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/otp-resend.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: c1993c65c0f0937d5ee699c18260b148c44418e0ba9109f012ca7cdb9b186e43
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-tokenization-ru
+    provider: octo
+    product: cards
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/tokenization.html
+    refs: [skills/octo/references/cards/README.md, skills/octo/checklists/cards.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 958793fecb268c4e8ef4bdd9a7850167642656dd0087581059a5144a151920cc
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-refunds-ru
+    provider: octo
+    product: refunds
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/refunds.html
+    refs: [skills/octo/references/refunds/README.md, skills/octo/checklists/refunds.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 65e81ec043d2b14b14f7a4fa5c9729bf83fd5a59560d3915905fb26037fba3f9
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-fiscal-data-ru
+    provider: octo
+    product: fiscal
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/fiscal-data.html
+    refs: [skills/octo/references/fiscal/README.md, skills/octo/checklists/fiscal.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 25015860543a60e8351a7235c76f649e960b55bdafd0df75f048d0149e31cbab
+    fetched: 2026-11-04
+    status: ok

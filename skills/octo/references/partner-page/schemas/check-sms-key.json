@@ -1,0 +1,20 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-via-partner-web/methods/check-sms-key.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; no shop secret in the documented body; result = data (transaction object)"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "check-sms-key",
+  "endpoint": "POST https://secure.octo.uz/check_sms_key",
+  "params": {
+    "type": "object",
+    "properties": {
+      "smsKey": {"type": "string"},
+      "paymentId": {"type": "integer", "description": "data.id from pay"},
+      "verifyId": {"type": "integer", "description": "data.verifyId from verificationInfo or check_pan"}
+    },
+    "required": ["smsKey", "paymentId", "verifyId"]
+  },
+  "result": {"$ref": "pay-card.json#/result"}
+}

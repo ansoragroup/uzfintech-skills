@@ -1,0 +1,7 @@
+{
+  "octo_shop_id": 123,
+  "octo_secret": "<OCTO_SECRET>",
+  "octo_payment_UUID": "53684ec6-2794-43e1-a3e1-43e368604bae",
+  "accept_status": "capture",
+  "final_amount": 1000.0
+}
