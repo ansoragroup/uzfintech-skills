@@ -1,0 +1,9 @@
+{
+  "transaction_id": 100,
+  "transaction_partial_reverse_id": 1,
+  "result": {
+    "code": "OK",
+    "description": "No errors"
+  },
+  "request_id": "e66a1580-13f3-4c9d-814d-2b4eaff408bc"
+}

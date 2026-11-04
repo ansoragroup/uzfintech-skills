@@ -1,0 +1,112 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#transaction-confirmation-pinfl",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "pinfl-confirm",
+  "endpoint": "POST https://apigw.atmos.uz/ppa/transaction/confirm",
+  "params": {
+    "type": "object",
+    "properties": {
+      "ext_id": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      },
+      "transaction_id": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      }
+    },
+    "required": [
+      "ext_id",
+      "transaction_id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "\"200\" on success (a string in most samples, a number in cards/check)"
+      },
+      "description": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "message": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "transaction_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "ext_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "transaction_status": {
+            "type": "string",
+            "description": "SUCCESS, CANCELED, ..."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pan": {
+                  "type": "string",
+                  "description": "masked PAN of a debited card"
+                },
+                "amount": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ],
+                  "description": "tiyin (1 UZS = 100 tiyin)"
+                },
+                "upper_commission": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ],
+                  "description": "fee on this card, tiyin"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "ofd_url": {
+            "type": "string",
+            "description": "only when ofd_items were sent"
+          }
+        }
+      }
+    },
+    "required": [
+      "code"
+    ]
+  }
+}

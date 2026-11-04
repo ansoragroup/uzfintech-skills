@@ -1,0 +1,67 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#checking-card-update-status",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "pinfl-cards-check",
+  "endpoint": "POST https://apigw.atmos.uz/ppa/cards/check/{ext_id}",
+  "path": {
+    "type": "object",
+    "properties": {
+      "ext_id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "ext_id"
+    ]
+  },
+  "params": null,
+  "result": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "\"200\" on success (a string in most samples, a number in cards/check)"
+      },
+      "description": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "message": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "ext_id": {
+            "type": "string"
+          },
+          "masked_pinfl": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "SUCCESSFUL when the card list is refreshed"
+          },
+          "request_date": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "required": [
+      "code"
+    ]
+  }
+}

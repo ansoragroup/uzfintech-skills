@@ -1,0 +1,11 @@
+{
+  "transaction_id": 100,
+  "transaction_partial_reverse_id": 1,
+  "transaction_reverted_amount": 100000,
+  "transaction_left_amount": 400000,
+  "result": {
+    "code": "OK",
+    "description": "No errors"
+  },
+  "request_id": null
+}

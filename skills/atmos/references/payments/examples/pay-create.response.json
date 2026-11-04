@@ -1,0 +1,37 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "transaction_id": 100,
+  "store_transaction": {
+    "success_trans_id": null,
+    "trans_id": 100,
+    "store": {
+      "id": 100,
+      "name": "Merchant Example",
+      "desc": "",
+      "logo": null,
+      "ga_id": null
+    },
+    "terminal_id": "<TERMINAL_ID>",
+    "account": "100001",
+    "amount": 500000,
+    "confirmed": false,
+    "prepay_time": null,
+    "confirm_time": null,
+    "label": {
+      "type_id": 64,
+      "label_ru": "Номер инвойса",
+      "label_uz": "Invoys raqami",
+      "label_en": "Number of Invoice"
+    },
+    "details": null,
+    "commission_value": "0",
+    "commission_type": "0",
+    "total": 500000,
+    "card_id": null,
+    "status_code": null,
+    "status_message": null
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "card_id": 1,
+  "amount": 500000,
+  "client_ip_addr": "<CLIENT_IP>",
+  "transaction_id": 100
+}

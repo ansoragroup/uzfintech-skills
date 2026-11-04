@@ -1,0 +1,8 @@
+{
+  "card_token": "<CARD_TOKEN>",
+  "store_id": 100,
+  "account": "100001",
+  "payment_details": "Order 100001",
+  "amount": 500000,
+  "duration": 60
+}

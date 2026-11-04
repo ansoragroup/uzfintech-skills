@@ -1,0 +1,23 @@
+{
+  "transaction_id": 100,
+  "transaction_partial_reverse_id": 1,
+  "store_id": 100,
+  "ofd_items": [
+    {
+      "name": "Sample item",
+      "ofd_code": "<IKPU_CODE>",
+      "amount": 100000,
+      "details": [
+        {
+          "key": "quantity",
+          "value": "1",
+          "description": "quantity",
+          "status": 1,
+          "type": 0
+        }
+      ]
+    }
+  ],
+  "request_id": "8c477b0c-751e-4e7c-895d-b88682b16468",
+  "lang": "EN"
+}

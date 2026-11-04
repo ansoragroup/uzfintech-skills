@@ -1,0 +1,68 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "store_transaction": [
+    {
+      "success_trans_id": 200,
+      "trans_id": 100,
+      "store": {
+        "id": 100,
+        "name": "Merchant Example",
+        "desc": "",
+        "logo": null,
+        "ga_id": null
+      },
+      "terminal_id": "<TERMINAL_ID>",
+      "account": "100001",
+      "amount": 300000,
+      "confirmed": true,
+      "prepay_time": 1793775600000,
+      "confirm_time": 1793775630000,
+      "label": {
+        "type_id": 64,
+        "label_ru": "Номер инвойса",
+        "label_uz": "Invoys raqami",
+        "label_en": "Number of Invoice"
+      },
+      "details": null,
+      "commission_value": "0",
+      "commission_type": "0",
+      "total": 300000,
+      "card_id": "<CARD_TOKEN>",
+      "status_code": "0",
+      "status_message": "Success"
+    },
+    {
+      "success_trans_id": 201,
+      "trans_id": 101,
+      "store": {
+        "id": 100,
+        "name": "Merchant Example",
+        "desc": "",
+        "logo": null,
+        "ga_id": null
+      },
+      "terminal_id": "<TERMINAL_ID>",
+      "account": "100002",
+      "amount": 200000,
+      "confirmed": true,
+      "prepay_time": 1793775600000,
+      "confirm_time": 1793775630000,
+      "label": {
+        "type_id": 64,
+        "label_ru": "Номер инвойса",
+        "label_uz": "Invoys raqami",
+        "label_en": "Number of Invoice"
+      },
+      "details": null,
+      "commission_value": "0",
+      "commission_type": "0",
+      "total": 200000,
+      "card_id": "<CARD_TOKEN>",
+      "status_code": "0",
+      "status_message": "Success"
+    }
+  ]
+}

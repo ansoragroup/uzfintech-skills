@@ -1,0 +1,18 @@
+{
+  "ext_id": "e40909f5-9ec6-4c11-b591-d0c14c511d9a",
+  "amount": 500000,
+  "store_id": 100,
+  "ofd_items": [
+    {
+      "items_id": "1",
+      "ofd_code": "<IKPU_CODE>",
+      "name": "Sample item",
+      "amount": 500000,
+      "quantity": 1
+    }
+  ],
+  "account": "100001",
+  "invoice_id": "100001",
+  "card_id": 1,
+  "client_ip_addr": "<CLIENT_IP>"
+}

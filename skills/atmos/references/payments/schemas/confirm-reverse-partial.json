@@ -1,0 +1,79 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#confirming-a-partial-reversal",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "confirm-reverse-partial",
+  "endpoint": "POST https://apigw.atmos.uz/merchant/pay/confirm-reverse-partial",
+  "params": {
+    "type": "object",
+    "properties": {
+      "transaction_id": {
+        "type": "integer"
+      },
+      "transaction_partial_reverse_id": {
+        "type": "integer"
+      },
+      "store_id": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "merchant store id issued by Atmos; samples send it as a number and as a string"
+      },
+      "ofd_items": {
+        "type": "array",
+        "items": {
+          "$ref": "../../common/schemas/ofd-item.json"
+        },
+        "description": "fiscal lines for the returned part",
+        "minItems": 1
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "lang": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "transaction_id",
+      "transaction_partial_reverse_id",
+      "store_id",
+      "ofd_items"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "transaction_id": {
+        "type": "integer"
+      },
+      "transaction_partial_reverse_id": {
+        "type": "integer"
+      },
+      "transaction_reverted_amount": {
+        "type": "integer",
+        "description": "total reversed so far, tiyin"
+      },
+      "transaction_left_amount": {
+        "type": "integer",
+        "description": "still reversible, tiyin"
+      },
+      "result": {
+        "$ref": "../../common/schemas/status.json"
+      },
+      "request_id": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "result"
+    ]
+  }
+}

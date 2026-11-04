@@ -1,0 +1,125 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#create-an-invoice-ips",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "mps-invoice-create",
+  "endpoint": "POST https://apigw.atmos.uz/checkout/invoice/create",
+  "params": {
+    "type": "object",
+    "properties": {
+      "request_id": {
+        "type": "string",
+        "description": "your unique request id"
+      },
+      "store_id": {
+        "type": "integer"
+      },
+      "expiration_time": {
+        "type": "integer",
+        "description": "minutes until the invoice expires"
+      },
+      "expiration_date": {
+        "type": "string",
+        "description": "YYYY-MM-DDTHH:MM:SS"
+      },
+      "account": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)"
+      },
+      "success_url": {
+        "type": "string"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "items_id": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string",
+              "description": "IKPU code; in the sample, not in the table"
+            },
+            "name": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "integer",
+              "description": "tiyin (1 UZS = 100 tiyin)"
+            },
+            "quantity": {
+              "type": "integer"
+            },
+            "details": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "package_code, mark_code, tin, discount, quantity"
+                  },
+                  "values": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "values"
+                ]
+              }
+            }
+          },
+          "required": [
+            "items_id",
+            "name",
+            "amount",
+            "details"
+          ]
+        },
+        "minItems": 1
+      }
+    },
+    "required": [
+      "request_id",
+      "store_id",
+      "account",
+      "amount",
+      "success_url",
+      "items"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "store_id": {
+        "type": "integer"
+      },
+      "payment_id": {
+        "type": "integer",
+        "description": "for checkout/invoice/get"
+      },
+      "token": {
+        "type": "string",
+        "description": "for checkout/invoice/get"
+      },
+      "url": {
+        "type": "string",
+        "description": "hosted payment page"
+      },
+      "status": {
+        "$ref": "mps-status.json"
+      }
+    },
+    "required": [
+      "status"
+    ]
+  }
+}

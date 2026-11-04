@@ -1,0 +1,15 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "data": {
+    "card_id": 1,
+    "pan": null,
+    "expiry": null,
+    "card_holder": null,
+    "balance": null,
+    "phone": null,
+    "card_token": null
+  }
+}

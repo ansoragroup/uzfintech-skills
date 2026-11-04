@@ -1,0 +1,8 @@
+{
+  "result": {
+    "code": "STPIMS-ERR-145",
+    "description": "холдирование отменено"
+  },
+  "status": -242,
+  "processing": "UZCARD"
+}

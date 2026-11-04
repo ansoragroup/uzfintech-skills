@@ -1,0 +1,106 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#create-a-request-for-multiple-holding",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "hold-multiple-create",
+  "endpoint": "POST https://apigw.atmos.uz/hold/multiple/create",
+  "params": {
+    "type": "object",
+    "properties": {
+      "card_token": {
+        "type": "string"
+      },
+      "duration": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "minutes"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "store_id": {
+              "type": [
+                "integer",
+                "string"
+              ],
+              "description": "merchant store id issued by Atmos; samples send it as a number and as a string"
+            },
+            "account": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            },
+            "payment_details": {
+              "type": "string"
+            },
+            "amount": {
+              "type": [
+                "integer",
+                "string"
+              ],
+              "description": "tiyin (1 UZS = 100 tiyin)"
+            }
+          },
+          "required": [
+            "store_id",
+            "account",
+            "amount"
+          ]
+        },
+        "minItems": 1
+      }
+    },
+    "required": [
+      "card_token",
+      "duration",
+      "items"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "result": {
+        "$ref": "../../common/schemas/status.json"
+      },
+      "parent_id": {
+        "type": "integer",
+        "description": "pass it to PUT /hold/multiple/apply/{id}"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "hold_id": {
+              "type": "integer"
+            },
+            "account": {
+              "type": [
+                "integer",
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "result"
+    ]
+  }
+}

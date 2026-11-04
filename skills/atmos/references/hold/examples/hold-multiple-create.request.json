@@ -1,0 +1,18 @@
+{
+  "card_token": "<CARD_TOKEN>",
+  "duration": 60,
+  "items": [
+    {
+      "store_id": 100,
+      "account": "100001",
+      "payment_details": "Order 100001",
+      "amount": 300000
+    },
+    {
+      "store_id": 101,
+      "account": "100001",
+      "payment_details": "Order 100001",
+      "amount": 200000
+    }
+  ]
+}
