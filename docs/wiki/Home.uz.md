@@ -4,7 +4,8 @@
 
 Oʻzbekiston toʻlov APIʼlari uchun agent skillari: **Uzum Bank, Alif, Click, Paynet, Payme,
 Multicard, Atmos, Octo, Oson va Kapitalbank**, shuningdek ularning hammasi uchun umumiy
-fiskal chek skilli hamda provayder tanlash va solishtirish uchun router skill. Bu skillarni yuklagan agent API kontrakti boʻyicha aniq qaydlarga tayanib javob
+fiskal chek skilli, MXIK kodlarini qidirish va qayta tekshirish uchun Tasnif katalogi skilli
+hamda provayder tanlash va solishtirish uchun router skill. Bu skillarni yuklagan agent API kontrakti boʻyicha aniq qaydlarga tayanib javob
 beradi, imzo va payloadlarni ikkita kichik skript bilan tekshiradi hamda muddatlar, toʻlovni
 bekor qilish va fiskal cheklar haqida ular productionda muammoga aylanmasdan oldin ogohlantiradi.
 
@@ -35,6 +36,7 @@ bekor qilish va fiskal cheklar haqida ular productionda muammoga aylanmasdan old
 | [`oson`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/oson/SKILL.md) | Oson | Invoice API va imzolangan toʻlov xabarnomasi, Osonning ochiq kodli doʻkon plaginlari asosida tiklangan |
 | [`kapitalbank`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/kapitalbank/SKILL.md) | Kapitalbank | Yuridik shaxslar uchun Kapital API (toʻlov topshiriqnomalari, holat, koʻchirmalar, hisobni tekshirish, valyuta kurslari, hisob-fakturalar), Markaziy bank toʻlov maqsadi kodlari |
 | [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/fiscal/SKILL.md) | Barcha provayderlar | MXIK (IKPU) va qadoq kodlari, QQS va imtiyoz maydonlari, markirovka, chek turlari, har bir provayderdagi chek maydonlari |
+| [`tasnif`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/tasnif/SKILL.md) | Tasnif (soliq qoʻmitasi katalogi) | tasnif.soliq.uz saytidagi MXIK (IKPU) katalogidan qidirish: matn va shtrix-kod (GTIN) boʻyicha qidiruv, qadoq kodlari bilan kod kartasi, qayta tekshirish uchun tarix, rasmlar, klasslar roʻyxati, kassa uchun `cl-api` tekshiruvi, txkm orqali QQS toʻlovchisini tekshirish; hujjatlashtirilmagan ochiq endpointlar, test host oʻrniga saqlangan javoblar |
 | [`uzfintech`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/uzfintech/SKILL.md) | Barcha provayderlar | Router: provayderlarni tanlash va solishtirish, barcha provayderlar boʻyicha shpargalka (pul birliklari, auth, callbacklar, qaytarishlar, holdlar, fiskallashtirish, test hostlar), UzQR boʻyicha qaydlar |
 
 Vazifa provayder tanlash yoki solishtirish boʻlsa, `uzfintech` skillidan boshlang.
@@ -54,3 +56,5 @@ skills/<provider>/
 
 Qaydlar ochiq dasturchi hujjatlari asosida yozilgan. Har bir reference faylida manba sahifasi
 va u olingan sana koʻrsatilgan. Asosiy manba baribir provayder hujjatlari boʻlib qoladi.
+Tasnif API maʼlumotnomasini eʼlon qilmaydi, shuning uchun `tasnif` skilli tasnif.soliq.uz
+saytining oʻzi chaqiradigan endpointlarni olingan sanada kuzatilganidek tasvirlaydi.

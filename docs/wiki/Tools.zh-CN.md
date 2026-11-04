@@ -20,7 +20,7 @@ sign.py SCHEME ... --expect VALUE       verify a received signature or header
 sign.py --selftest                      check the implementation against fixed vectors
 ```
 
-`PAYLOAD` 是一个文件，或用 `-` 表示 stdin，格式为 JSON 或 form-urlencoded。`alif.webhook` 则对原始请求体字节签名。`-f key=value` 用于添加或覆盖字段。技能内附带的副本只列出该服务商的签名方案；没有自有方案的技能（`kapitalbank`、`fiscal`、`uzfintech`）会列出全部方案。
+`PAYLOAD` 是一个文件，或用 `-` 表示 stdin，格式为 JSON 或 form-urlencoded。`alif.webhook` 则对原始请求体字节签名。`-f key=value` 用于添加或覆盖字段。技能内附带的副本只列出该服务商的签名方案；没有自有方案的技能（`kapitalbank`、`fiscal`、`tasnif`、`uzfintech`）会列出全部方案。
 
 ### 签名方案
 
@@ -129,14 +129,15 @@ crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_paymen
 
 ## 技能专用工具
 
-有两个技能在共用的两个工具之外，还带有各自的离线脚本：
+有三个技能在共用的两个工具之外，还带有各自的离线脚本：
 
 | 脚本 | 用途 |
 |---|---|
 | `skills/kapitalbank/scripts/purpose_codes.py` | 适用于任何银行苏姆付款指令的中央银行付款用途代码：`check` 校验代码（可加 `--date`），`old` 把旧代码映射到新代码，`search` 按文本搜索，`details` 组装并校验“Детали платежа”，`account` 结合 MFO 校验账号 |
 | `skills/fiscal/scripts/mxik.py` | `check` 离线校验 17 位 MXIK（IKPU）代码；`lookup` 打印 Tasnif 链接，只有加 `--online` 才会访问 tasnif.soliq.uz；`--selftest` |
+| `skills/tasnif/scripts/tasnif.py` | 查询 Tasnif 目录：`search` 按文本搜索，`gtin` 按条形码查询，`code` 查看带包装代码的代码卡片，`history` 用于复核，`info` 做销售点检查（`--tin <TIN>`、`--terminal-id`），`classes`、`pictures`、`vat <TIN>`；打印 URL，只有加 `--online` 才会访问 Tasnif；`--file` 汇总已保存的应答；`--selftest` |
 
-`purpose_codes.py` 输出 `OK`、`NO ...` 或 `INVALID`，输入被拒绝、未知或无效时退出码为 `1`。`mxik.py check` 遇到无效代码时退出码为 `1`。
+`purpose_codes.py` 输出 `OK`、`NO ...` 或 `INVALID`，输入被拒绝、未知或无效时退出码为 `1`。`mxik.py check` 遇到无效代码时退出码为 `1`。`tasnif.py` 在应答中有匹配时退出码为 `0`，找不到或输入无效时为 `1`，用法错误、网络错误或应答意外时为 `2`（此时把结果视为未知，稍后重试）。
 
 ```console
 $ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
@@ -152,6 +153,11 @@ $ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
   OK: 17 digits
   ...
   confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
+
+$ python3 skills/tasnif/scripts/tasnif.py gtin --file skills/tasnif/references/sandbox/by-params-gtin.ru.json
+page: 1 shown of 1 (page 0, last True)
+  00901001004004005  Сублимированный кофе: Jacobs, Jacobs monarch 190 гр.  barcode=4607001771555
+next: load the card (code MXIK) for package codes; a person confirms the choice
 ```
 
 ## 在你的 CI 中使用

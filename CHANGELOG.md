@@ -4,6 +4,28 @@ All notable changes to this project. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-11-04
+
+### Added
+
+- `tasnif` skill: MXIK (IKPU) catalogue lookups on tasnif.soliq.uz. Tasnif publishes no API
+  reference, so the skill describes the public endpoints the site itself calls, as observed
+  on the fetch date: search by text and by barcode (GTIN), the code card with package codes,
+  history for re-checking stored codes, pictures, class lists, the point-of-sale `cl-api`
+  check and the txkm VAT-payer check. Saved replies stand in for a test host, and the
+  lifecycle page covers reply shapes, caching and codes that change without notice.
+- `skills/tasnif/scripts/tasnif.py`: prints each Tasnif request offline, sends one `GET` only
+  with `--online`, summarizes a saved reply with `--file`, and has a `--selftest`.
+- Eval case `tasnif-barcode-to-mxik`, 22 in all.
+- Three Tasnif entries in `sources.yaml`: the class list, picture names and the
+  point-of-sale information reply.
+
+### Changed
+
+- The fiscal MXIK page and the `fiscal` and `uzfintech` skills link to the `tasnif` skill for
+  searches, barcodes and re-checks.
+- README, wiki, `AGENTS.md`, `llms.txt` and the plugin descriptions list the Tasnif skill.
+
 ## [0.3.0] - 2026-11-04
 
 ### Added
@@ -83,6 +105,7 @@ All notable changes to this project. The format follows
 - `scripts/sync` and a weekly workflow that tracks upstream specs and pages.
 - Claude Code plugin and marketplace manifests.
 
+[0.4.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ansoragroup/uzfintech-skills/releases/tag/v0.1.0

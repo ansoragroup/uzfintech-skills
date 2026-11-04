@@ -9,7 +9,9 @@ skillarga yoʻl koʻrsating. Qarang: [Oʻrnatish](Install.uz.md).
 
 **Bu rasmiy loyihami?**
 Yoʻq. Loyiha hech qaysi provayderga aloqador emas. Qaydlar ochiq dasturchi hujjatlari asosida
-yozilgan va asosiy manba oʻsha hujjatlar hisoblanadi.
+yozilgan va asosiy manba oʻsha hujjatlar hisoblanadi. `tasnif` skilli bundan mustasno: soliq
+qoʻmitasi tasnif.soliq.uz uchun API maʼlumotnomasini eʼlon qilmaydi, shuning uchun skill
+saytning oʻzi chaqiradigan endpointlarni kuzatilganidek tasvirlaydi va buni ochiq aytadi.
 
 **Uni tijorat loyihasida ishlatsam boʻladimi?**
 Ha, MIT litsenziyasi asosida.
@@ -17,7 +19,8 @@ Ha, MIT litsenziyasi asosida.
 **Agentga internet kerakmi?**
 Yoʻq. Kontrakt qaydlari, sxemalar, sandbox maʼlumotlari va vositalar — hammasi repozitoriyda.
 Internet faqat `scripts/sync` uchun kerak, uni maintainerlar upstream bilan solishtirish uchun
-ishga tushiradi.
+ishga tushiradi. Yana `mxik.py lookup` yoki `tasnif.py` buyrugʻiga Tasnifni chaqirish uchun
+`--online` qoʻshganingizda kerak boʻladi.
 
 **Nega agent menga komissiyani aytmaydi?**
 Komissiya stavkalari, payout ulushlari va hisob-kitob kunlari har bir merchant shartnomasida
@@ -33,12 +36,14 @@ qilish. Ogohlantirishlar qisqa va oʻzgarmas IDʼlarga ega. Qarang: [Toʻlov hay
 `skills/<provider>/references/sandbox/README.md` faylida, har bir provayder qanday eʼlon qilgan
 boʻlsa, aynan shunday. Paynet test karta eʼlon qilmaydi, Octo test karta va OTP eʼlon qilmaydi
 (production hostida faqat `test` flagi bor), Oson va Kapitalbank esa test host ham, test
-maʼlumotlari ham eʼlon qilmaydi. Har bir skill karta oʻylab topish oʻrniga buni ochiq aytadi.
+maʼlumotlari ham eʼlon qilmaydi. Tasnifda ham test host yoʻq; uning oʻrniga `tasnif`
+skillida saqlangan javoblar bor. Har bir skill karta oʻylab topish oʻrniga buni ochiq aytadi.
 
 **Vositalar maxfiy kalitlarimni xavfsiz saqlaydimi?**
 Vositalar maxfiy kalitlarni faqat muhit oʻzgaruvchilaridan oʻqiydi, ularni `<SECRET>` deb
-chiqaradi va tarmoq orqali hech narsa yubormaydi. Production kalitlarini agent bilan chatga
-hech qachon joylamang.
+chiqaradi va tarmoq orqali hech narsa yubormaydi. Yagona istisno — `mxik.py` va
+`tasnif.py` vositalaridagi `--online`: Tasnifga bitta `GET` soʻrovi, unda maxfiy kalit yoʻq.
+Production kalitlarini agent bilan chatga hech qachon joylamang.
 
 **Maʼlumotlar qanchalik yangi?**
 Har bir reference faylida manba URL manzili va u olingan sana bor. Haftalik workflow manbalarni

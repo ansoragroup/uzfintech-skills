@@ -9,9 +9,10 @@
 
 Oʻzbekiston toʻlov provayderlari APIʼlari uchun agent skillari: **Uzum Bank, Alif, Click,
 Paynet, Payme, Multicard, Atmos, Octo, Oson va Kapitalbank**, shuningdek ularning hammasi
-uchun umumiy fiskal chek skilli hamda provayder tanlash va solishtirish uchun router skill.
-Ular Claude Code, Codex, Cursor va `SKILL.md` fayllarini oʻqiy oladigan boshqa har qanday
-agentda ishlaydi.
+uchun umumiy fiskal chek skilli, MXIK kodlarini qidirish va qayta tekshirish uchun Tasnif
+katalogi skilli hamda provayder tanlash va solishtirish uchun router skill. Ular Claude
+Code, Codex, Cursor va `SKILL.md` fayllarini oʻqiy oladigan boshqa har qanday agentda
+ishlaydi.
 
 Modellar bu APIʼlarni yuzaki biladi. Tiyin bilan soʻmni adashtiradi, notoʻgʻri satrni
 imzolaydi, xato kodlari va sandbox kartalarini oʻzidan toʻqib chiqaradi. Skillar bilan agent
@@ -41,6 +42,7 @@ payloadlarni esa skriptlar bilan tekshiradi. Har bir skillda quyidagilar bor:
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (pay_url qaytaradigan invoice/create, invoice/status) va imzolangan toʻlov xabarnomasi, Osonning ochiq kodli doʻkon plaginlari asosida tiklangan |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Yuridik shaxslar uchun Kapital API: APILogin, SendPaymentIBK toʻlov topshiriqnomalari, CheckPayments2, koʻchirmalar (GetDoc1C, GetMT940), hisob va oluvchini tekshirish, valyuta kurslari, hisob-fakturalar; istalgan bankdagi soʻmli toʻlov topshiriqnomalari uchun Markaziy bank toʻlov maqsadi kodlari |
 | [`fiscal`](skills/fiscal/SKILL.md) | Barcha provayderlar | Fiskal cheklar: Tasnifdagi MXIK (IKPU) kodlari, qadoq kodlari, QQS va imtiyoz maydonlari, Asl Belgisi markirovkasi, chek turlari, har bir provayderda chekni kim va qaysi maydonda roʻyxatdan oʻtkazadi |
+| [`tasnif`](skills/tasnif/SKILL.md) | Tasnif (soliq qoʻmitasi katalogi) | tasnif.soliq.uz saytidagi MXIK (IKPU) katalogidan qidirish: matn va shtrix-kod (GTIN) boʻyicha qidiruv, qadoq kodlari bilan kod kartasi, qayta tekshirish uchun tarix, rasmlar, klasslar roʻyxati, kassa uchun `cl-api` tekshiruvi, txkm orqali QQS toʻlovchisini tekshirish; hujjatlashtirilmagan ochiq endpointlar, test host oʻrniga saqlangan javoblar |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | Barcha provayderlar | Router: vazifa uchun provayder tanlash, provayderlarni solishtirish, barcha provayderlar boʻyicha shpargalka (pul birliklari, auth, callbacklar, qaytarishlar, holdlar, fiskallashtirish, test hostlar), UzQR boʻyicha qaydlar |
 
 Vazifa provayder tanlash yoki solishtirish boʻlsa, `uzfintech` skillidan boshlang. U
@@ -90,7 +92,8 @@ Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
-review changes against the matching `checklists/*.md`.
+review changes against the matching `checklists/*.md`. To look up or re-check MXIK codes in
+the Tasnif catalogue, read `vendor/uzfintech-skills/skills/tasnif/SKILL.md`.
 ```
 
 Yangilash, versiyani qotirib qoʻyish va muammolarni hal qilish haqida
@@ -121,7 +124,8 @@ ish esa faqat kerakli kontekst berilgan alohida joylarda bajariladi.
   soʻrovlar kabi qoidalar bir provayderdan boshqasiga hech qachon koʻchirilmaydi.
   `uzfintech` routeri tanlash va solishtirishga yordam beradi, keyin ishni provayder
   skilliga topshiradi. Barcha provayderlar uchun umumiy chek kodlari (MXIK, qadoq kodlari,
-  markirovka) `fiscal` skillida.
+  markirovka) `fiscal` skillida. Bu kodlarni Tasnif katalogida qidirish va qayta tekshirish
+  `tasnif` skillida.
 - **Avval tezkor yoʻl (fast path).** Imzolar, auth headerlar, checkout havolalari va payload
   tuzilishini model emas, kod hisoblaydi. Agent vositani ishga tushiradi va uning natijasini
   keltiradi.
@@ -193,9 +197,12 @@ Ikkala vosita ham muvaffaqiyatda `0`, mos kelmaslikda `1`, notoʻgʻri ishlatilg
 bilan chiqadi, shuning uchun ularni CI jarayonida ham ishlatsa boʻladi. Barcha sxemalar
 [Vositalar wiki sahifasida](docs/wiki/Tools.uz.md).
 
-Ikki skillning oʻz oflayn vositasi bor: `skills/kapitalbank/scripts/purpose_codes.py`
-Markaziy bank toʻlov maqsadi kodlarini qidiradi va tekshiradi, `skills/fiscal/scripts/mxik.py` esa MXIK
-kodlarini tekshiradi, Tasnifda qidirish faqat alohida flag bilan yoqiladi.
+Uch skillning oʻz oflayn vositasi bor: `skills/kapitalbank/scripts/purpose_codes.py`
+Markaziy bank toʻlov maqsadi kodlarini qidiradi va tekshiradi, `skills/fiscal/scripts/mxik.py`
+MXIK kodlarini tekshiradi, Tasnifda qidirish faqat alohida flag bilan yoqiladi,
+`skills/tasnif/scripts/tasnif.py` esa Tasnif katalogiga soʻrovlarni tuzadi (matn yoki
+shtrix-kod boʻyicha qidiruv, kod kartasi, tarix, savdo nuqtasi va QQS toʻlovchisi
+tekshiruvlari), ularni faqat `--online` bilan yuboradi va saqlangan javoblarni tahlil qiladi.
 
 ## Sinab koʻring
 
@@ -207,6 +214,7 @@ kodlarini tekshiradi, Tasnifda qidirish faqat alohida flag bilan yoqiladi.
 - "Multicard integratsiyamizni checklist boʻyicha tekshirib chiq."
 - "Qaysi provayderlar mablagʻni hold qilib, keyin yecha oladi? Atmos va Octoni solishtir."
 - "Toʻlov topshiriqnomamizda hali ham 00545 maqsad kodi turibdi. Uning oʻrniga nima?"
+- "4607001771555 shtrix-kodli mahsulot uchun MXIK kodi va qadoq kodini top."
 - "Payme sandboxida qaysi test kartalardan foydalanish mumkin?"
 
 ## Sifat
@@ -217,7 +225,7 @@ kodlarini tekshiradi, Tasnifda qidirish faqat alohida flag bilan yoqiladi.
 | Parser self-test | `scripts/sync --selftest` | ichki YAML parser PyYAML bilan bir xil natija beradi |
 | Xatti-harakat evallari | `claude plugin eval . --runs 3` | skill ulangan agent toʻgʻri provayderni yuklaydi, aniq kodlarni keltiradi, vositalarni ishga tushiradi va sandbox maʼlumotlari yoki tijorat shartlarini oʻylab topmaydi |
 
-21 ta eval holati [`evals/`](evals/README.md) papkasida. CI har bir PR uchun lintni ishga
+22 ta eval holati [`evals/`](evals/README.md) papkasida. CI har bir PR uchun lintni ishga
 tushiradi.
 
 ## Dolzarblik
@@ -252,10 +260,11 @@ Xavfsizlik muammolari haqida [SECURITY.md](SECURITY.md) faylida yozilganidek xab
 
 Bu loyiha u qamrab olgan toʻlov provayderlarining hech biriga aloqador emas. Qaydlar ochiq
 dasturchi hujjatlari asosida yozilgan va asosiy manba oʻsha hujjatlar hisoblanadi.
-Productionda qanday ishlashini provayderingiz bilan aniqlashtiring. Komissiya stavkalari va
-hisob-kitob shartlari har bir merchant shartnomasiga bogʻliq, shuning uchun skillar ularni
-koʻrsatmaydi. Haqiqiy kirish maʼlumotlari yoki mijozlar maʼlumotlarini hech qachon commit
-qilmang.
+Productionda qanday ishlashini provayderingiz bilan aniqlashtiring. `tasnif` skillidagi
+Tasnif endpointlari uchun eʼlon qilingan API maʼlumotnomasi yoʻq: ular kuzatilganidek
+tasvirlangan va ogohlantirishsiz oʻzgarishi mumkin. Komissiya stavkalari va hisob-kitob
+shartlari har bir merchant shartnomasiga bogʻliq, shuning uchun skillar ularni koʻrsatmaydi.
+Haqiqiy kirish maʼlumotlari yoki mijozlar maʼlumotlarini hech qachon commit qilmang.
 
 ## Litsenziya
 

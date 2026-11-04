@@ -26,6 +26,7 @@ explains the shared concepts and maps them across providers.
 |---|---|
 | fix "invalid SPIC / IKPU / package" or a rejected basket | `scripts/mxik.py check`, then [mxik](references/mxik/README.md) and [receipt-line](references/receipt-line/README.md#package-code-and-unit) |
 | find the code and package code of a product | [mxik](references/mxik/README.md#finding-the-right-code) (the Tasnif site; the lookup is opt-in) |
+| search Tasnif by barcode, re-check stored codes, read the point-of-sale `cl-api` reply | [tasnif skill](../tasnif/SKILL.md) |
 | send one catalogue to several providers | [providers](references/providers/README.md#mapping) and [receipt-line](references/receipt-line/README.md#quantity-and-price) |
 | know whether the provider or the shop registers the receipt | [receipts](references/receipts/README.md#who-registers-the-receipt) |
 | issue a refund receipt | [receipts](references/receipts/README.md#refund-receipts), then the provider's lifecycle page |

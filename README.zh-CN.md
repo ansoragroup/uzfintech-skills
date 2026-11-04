@@ -7,7 +7,7 @@
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#安装)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#工具)
 
-面向乌兹别克斯坦支付服务商 API 的智能体技能（Agent Skills）：**Uzum Bank、Alif、Click、Paynet、Payme、Multicard、Atmos、Octo、Oson 和 Kapitalbank**，外加一个所有服务商共用的税务小票技能，以及一个用于选择和比较服务商的路由技能。可在 Claude Code、Codex、Cursor 以及任何读取 `SKILL.md` 文件的智能体中使用。
+面向乌兹别克斯坦支付服务商 API 的智能体技能（Agent Skills）：**Uzum Bank、Alif、Click、Paynet、Payme、Multicard、Atmos、Octo、Oson 和 Kapitalbank**，外加一个所有服务商共用的税务小票技能、一个用于查询和复核 MXIK 代码的 Tasnif 目录技能，以及一个用于选择和比较服务商的路由技能。可在 Claude Code、Codex、Cursor 以及任何读取 `SKILL.md` 文件的智能体中使用。
 
 大模型对这些 API 只是一知半解。它们会把 tiyin 和 sum 搞混，对错误的字符串签名，还会编造错误码或沙箱测试卡。有了这些技能，智能体会依据精确的接口契约笔记作答，并用脚本校验签名和报文，而不是靠猜。每个技能包含：
 
@@ -33,6 +33,7 @@
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API（返回 pay_url 的 invoice/create、invoice/status）以及带签名的支付通知，依据 Oson 开源的商店插件整理 |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | 面向法人的 Kapital API：APILogin、SendPaymentIBK 付款指令、CheckPayments2、对账单（GetDoc1C、GetMT940）、账户与收款人核验、汇率、发票；适用于任何银行苏姆付款指令的中央银行付款用途代码 |
 | [`fiscal`](skills/fiscal/SKILL.md) | 所有服务商 | 税务小票：来自 Tasnif 的 MXIK（IKPU）代码、包装代码、增值税与优惠字段、Asl Belgisi 标识、小票类型，以及各服务商由谁、在哪个字段登记小票 |
+| [`tasnif`](skills/tasnif/SKILL.md) | Tasnif（税务委员会目录） | 在 tasnif.soliq.uz 上查询 MXIK（IKPU）目录：按文本和条形码（GTIN）搜索、带包装代码的代码卡片、用于复核的历史记录、图片、类别列表、收银端 `cl-api` 检查、txkm 增值税纳税人检查；未公开文档的公共端点，用保存的响应代替测试主机 |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | 所有服务商 | 路由：为任务选择服务商、比较服务商、跨服务商速查表（金额单位、鉴权、回调、退款、预授权、税务登记、测试主机）、UzQR 说明 |
 
 如果任务是选择或比较服务商，请从 `uzfintech` 开始。它会指向保存接口契约的服务商技能。
@@ -77,7 +78,8 @@ Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
-review changes against the matching `checklists/*.md`.
+review changes against the matching `checklists/*.md`. To look up or re-check MXIK codes in
+the Tasnif catalogue, read `vendor/uzfintech-skills/skills/tasnif/SKILL.md`.
 ```
 
 [安装 wiki 页面](docs/wiki/Install.zh-CN.md)介绍了如何更新、锁定版本和排查问题。
@@ -101,7 +103,7 @@ review changes against the matching `checklists/*.md`.
      └─────────────┘  └──────────────────────┘
 ```
 
-- **每个技能只对应一个服务商。** 涉及多个服务商的任务会分别加载各自的技能，最后再做对比。金额单位、鉴权、重试这类规则绝不会从一个服务商套用到另一个。`uzfintech` 路由技能帮助选择和比较，然后把工作交给服务商技能。所有服务商共用的小票代码（MXIK、包装代码、标识）放在 `fiscal` 技能中。
+- **每个技能只对应一个服务商。** 涉及多个服务商的任务会分别加载各自的技能，最后再做对比。金额单位、鉴权、重试这类规则绝不会从一个服务商套用到另一个。`uzfintech` 路由技能帮助选择和比较，然后把工作交给服务商技能。所有服务商共用的小票代码（MXIK、包装代码、标识）放在 `fiscal` 技能中。在 Tasnif 目录中搜索和复核这些代码则由 `tasnif` 技能负责。
 - **优先走快路径。** 签名、鉴权头、收银台 URL 和报文结构都由代码计算，绝不交给模型。智能体运行工具，并引用工具的输出。
 - **内联与外置（inline and spill）。** `SKILL.md` 只内联每个任务都需要的内容。接口契约、Schema、示例、沙箱数据和检查清单都放在文件里，由智能体按需读取。
 - **稳定的 ID。** 签名方案（`payme.basic`、`click.prepare`）、Schema 名称（`uzum/webhook-confirm`）和错误码在所有语言中都一样，绝不翻译。
@@ -146,7 +148,7 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 
 `validate.py` 会拆开 JSON-RPC 和 `{success, data}` 信封，能读取 form-urlencoded 请求体，并跳过 `<PLACEHOLDER>` 占位值。两个工具成功时退出码为 `0`，不匹配时为 `1`，用法错误时为 `2`，因此可以直接用在 CI 中。所有签名方案见[工具 wiki 页面](docs/wiki/Tools.zh-CN.md)。
 
-有两个技能还带有各自的离线工具：`skills/kapitalbank/scripts/purpose_codes.py` 查询并校验中央银行付款用途代码，`skills/fiscal/scripts/mxik.py` 校验 MXIK 代码，并可按需开启 Tasnif 在线查询。
+有三个技能还带有各自的离线工具：`skills/kapitalbank/scripts/purpose_codes.py` 查询并校验中央银行付款用途代码，`skills/fiscal/scripts/mxik.py` 校验 MXIK 代码，并可按需开启 Tasnif 在线查询；`skills/tasnif/scripts/tasnif.py` 构造 Tasnif 目录请求（按文本或条形码搜索、代码卡片、历史记录、销售点和增值税纳税人检查），只有加 `--online` 才会发送，并能汇总已保存的应答。
 
 ## 试一试
 
@@ -158,6 +160,7 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 - “对照检查清单审查我们的 Multicard 集成。”
 - “哪些服务商可以先冻结资金、之后再扣款？比较一下 Atmos 和 Octo。”
 - “我们的付款指令还在用用途代码 00545。应该换成什么？”
+- “查一下条形码为 4607001771555 的商品对应的 MXIK 代码和包装代码。”
 - “Payme sandboxida qaysi test kartalardan foydalanish mumkin?”
 
 ## 质量保证
@@ -168,7 +171,7 @@ INVALID references/merchant/schemas/CreateTransaction.json (params): 1 problem(s
 | 解析器自检 | `scripts/sync --selftest` | 内置的 YAML 解析器与 PyYAML 结果一致 |
 | 行为评测 | `claude plugin eval . --runs 3` | 加载了技能的智能体会选对服务商、引用准确的错误码、运行工具，并拒绝编造沙箱数据或商务条款 |
 
-21 个评测用例在 [`evals/`](evals/README.md) 中。CI 会在每个 PR 上运行 lint。
+22 个评测用例在 [`evals/`](evals/README.md) 中。CI 会在每个 PR 上运行 lint。
 
 ## 内容时效
 
@@ -192,7 +195,7 @@ scripts/sync                    # regenerate derived files, update sources.yaml
 
 ## 免责声明
 
-本项目与所涉及的任何支付服务商均无关联。这些笔记整理自公开的开发者文档，一切以该文档为准。生产环境的实际行为请向你的服务商确认。手续费率和结算条款取决于每个商户的合同，因此这些技能不会给出。切勿提交真实的凭据或客户数据。
+本项目与所涉及的任何支付服务商均无关联。这些笔记整理自公开的开发者文档，一切以该文档为准。生产环境的实际行为请向你的服务商确认。`tasnif` 技能中的 Tasnif 端点没有公开的 API 参考，它们按观察到的情况描述，可能不经通知就变更。手续费率和结算条款取决于每个商户的合同，因此这些技能不会给出。切勿提交真实的凭据或客户数据。
 
 ## 许可证
 

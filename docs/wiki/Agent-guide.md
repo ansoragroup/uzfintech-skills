@@ -40,7 +40,7 @@ worker gets only the context it needs.
 5. **Use sandbox data from `references/sandbox/`** for tests and examples: test hosts, cards,
    OTP codes and scenarios exactly as the vendor publishes them. Never invent a test card,
    and say so plainly when a provider publishes none (Paynet, Oson, Kapitalbank; Octo has no
-   test cards).
+   test cards). Tasnif has no test host; use the saved replies in the `tasnif` skill.
 6. **Say what is not documented.** When the references do not cover a fact, say the docs do
    not specify it and link the `Source:` page. Do not fill the gap from memory.
 7. **Leave commercial terms out.** Commission rates, payout shares and settlement days depend

@@ -27,7 +27,7 @@ sign.py --selftest                      check the implementation against fixed v
 `PAYLOAD` — это файл или `-` для stdin, в JSON или form-urlencoded. `alif.webhook`
 подписывает сырые байты тела. `-f key=value` добавляет или переопределяет поле. Копия внутри
 скилла показывает только схемы своего провайдера; скилл без собственных схем
-(`kapitalbank`, `fiscal`, `uzfintech`) показывает их все.
+(`kapitalbank`, `fiscal`, `tasnif`, `uzfintech`) показывает их все.
 
 ### Схемы
 
@@ -143,16 +143,19 @@ crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_paymen
 
 ## Инструменты отдельных скиллов
 
-У двух скиллов рядом с общей парой есть свой офлайн-скрипт:
+У трёх скиллов рядом с общей парой есть свой офлайн-скрипт:
 
 | Скрипт | Что делает |
 |---|---|
 | `skills/kapitalbank/scripts/purpose_codes.py` | Коды назначения платежа ЦБ для платёжных поручений в сумах в любом банке: `check` проверяет код (с `--date`), `old` сопоставляет старый код с новыми, `search` ищет по тексту, `details` собирает и проверяет «Детали платежа», `account` проверяет номер счёта вместе с МФО |
 | `skills/fiscal/scripts/mxik.py` | `check` проверяет 17-значные коды MXIK (ИКПУ) офлайн; `lookup` печатает URL в Tasnif и обращается к tasnif.soliq.uz только с `--online`; `--selftest` |
+| `skills/tasnif/scripts/tasnif.py` | Поиск в каталоге Tasnif: `search` по тексту, `gtin` по штрихкоду, `code` — карточка кода с кодами упаковки, `history` для перепроверки, `info` — проверка для точки продаж (`--tin <TIN>`, `--terminal-id`), `classes`, `pictures`, `vat <TIN>`; печатает URL и обращается к Tasnif только с `--online`; `--file` разбирает сохранённый ответ; `--selftest` |
 
 `purpose_codes.py` печатает `OK`, `NO ...` или `INVALID` и завершается с кодом `1`, если
 ввод отклонён, неизвестен или неверен. `mxik.py check` завершается с кодом `1` для неверного
-кода.
+кода. `tasnif.py` завершается с кодом `0`, если в ответе есть совпадение, `1`, если ничего не
+найдено или ввод неверен, и `2` при ошибке использования, ошибке сети или неожиданном ответе
+(считайте результат неизвестным и повторите позже).
 
 ```console
 $ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
@@ -168,6 +171,11 @@ $ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
   OK: 17 digits
   ...
   confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
+
+$ python3 skills/tasnif/scripts/tasnif.py gtin --file skills/tasnif/references/sandbox/by-params-gtin.ru.json
+page: 1 shown of 1 (page 0, last True)
+  00901001004004005  Сублимированный кофе: Jacobs, Jacobs monarch 190 гр.  barcode=4607001771555
+next: load the card (code MXIK) for package codes; a person confirms the choice
 ```
 
 ## В вашем CI

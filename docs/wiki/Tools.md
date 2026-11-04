@@ -25,7 +25,7 @@ sign.py --selftest                      check the implementation against fixed v
 `PAYLOAD` is a file or `-` for stdin, JSON or form-urlencoded. `alif.webhook` signs the raw
 body bytes instead. `-f key=value` adds or overrides a field. The copy inside a skill lists
 only that provider's schemes; a skill without schemes of its own (`kapitalbank`, `fiscal`,
-`uzfintech`) lists them all.
+`tasnif`, `uzfintech`) lists them all.
 
 ### Schemes
 
@@ -141,15 +141,18 @@ crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_paymen
 
 ## Skill-specific tools
 
-Two skills add an offline script of their own next to the shared pair:
+Three skills add an offline script of their own next to the shared pair:
 
 | Script | What it does |
 |---|---|
 | `skills/kapitalbank/scripts/purpose_codes.py` | CBU payment purpose codes for UZS payment orders in any bank: `check` a code (with `--date`), map an `old` code to the new ones, `search` by text, assemble and check "Детали платежа" with `details`, check an `account` number with its MFO |
 | `skills/fiscal/scripts/mxik.py` | `check` 17-digit MXIK (IKPU) codes offline; `lookup` prints the Tasnif URL, and calls tasnif.soliq.uz only with `--online`; `--selftest` |
+| `skills/tasnif/scripts/tasnif.py` | Tasnif catalogue lookups: `search` by text, `gtin` by barcode, `code` card with package codes, `history` for re-checks, `info` point-of-sale check (`--tin <TIN>`, `--terminal-id`), `classes`, `pictures`, `vat <TIN>`; prints the URL and calls Tasnif only with `--online`; `--file` summarizes a saved reply; `--selftest` |
 
 `purpose_codes.py` prints `OK`, `NO ...` or `INVALID` and exits `1` on a rejected, unknown or
-invalid input. `mxik.py check` exits `1` for an invalid code.
+invalid input. `mxik.py check` exits `1` for an invalid code. `tasnif.py` exits `0` when the
+reply shows a match, `1` when nothing is found or the input is invalid, and `2` on a usage or
+network error or an unexpected reply (treat that as unknown and retry later).
 
 ```console
 $ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
@@ -165,6 +168,11 @@ $ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
   OK: 17 digits
   ...
   confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
+
+$ python3 skills/tasnif/scripts/tasnif.py gtin --file skills/tasnif/references/sandbox/by-params-gtin.ru.json
+page: 1 shown of 1 (page 0, last True)
+  00901001004004005  Сублимированный кофе: Jacobs, Jacobs monarch 190 гр.  barcode=4607001771555
+next: load the card (code MXIK) for package codes; a person confirms the choice
 ```
 
 ## In your CI

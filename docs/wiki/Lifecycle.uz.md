@@ -33,6 +33,11 @@ qoidalarini solishtiradi. Muddatni faqat Uzum Fiscalization eʼlon qiladi (24 so
 Alif, Multicard, Octo va Atmos eʼlon qilmaydi, shuning uchun chekni toʻlov tasdiqlangan
 zahoti roʻyxatdan oʻtkazing.
 
+[`tasnif`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/tasnif/references/lifecycle/README.md) skilli Tasnif katalogida MXIK kodlarini
+qidirishni qamrab oladi. Bu faqat oʻqish: bekor qiladigan yoki qaytaradigan narsa yoʻq,
+chekni roʻyxatdan oʻtkazish ham kerak emas. Xavf SLAʼsiz norasmiy API, endpointga qarab har
+xil koʻrinadigan "topilmadi" javoblari va ogohlantirishsiz oʻzgaradigan kodlarda.
+
 ## Eng qimmatga tushadigan ogohlantirishlar
 
 | ID | Qachon tegishli | Nima buziladi |
@@ -57,6 +62,11 @@ zahoti roʻyxatdan oʻtkazing.
 | `kapitalbank.old-purpose-codes-rejected` | istalgan bankdagi soʻmli toʻlov topshiriqnomalari | 26.05.2026 dan keyin eski maqsad kodi bilan topshiriqnoma rad etiladi yoki kechiktiriladi |
 | `kapitalbank.poll-status-not-resend` | yoʻqolgan yoki noaniq `SendPaymentIBK` javoblari | qayta yuborish ikkinchi haqiqiy topshiriqnoma yaratadi |
 | `fiscal.one-receipt-per-payment` | chekni oʻzi roʻyxatdan oʻtkazadigan provayderlar | oʻz fiskal modulingizdan bitta sotuv uchun ikkinchi chek |
+| `tasnif.not-official-api` | Tasnif endpointlariga qurilgan kod | API maʼlumotnomasi, shartlar va SLA yoʻq; endpointlar ogohlantirishsiz oʻzgarishi yoki yopilishi mumkin, shuning uchun kodni qoʻlda kiritish imkonini qoldiring |
+| `tasnif.no-checkout-calls` | sotuv, toʻlov va chek yoʻllari | sekin yoki yopiq Tasnif sayti sotuvni toʻxtatadi; kodlarni mahsulot yaratilganda yoki tahrirlanganda aniqlang |
+| `tasnif.check-body-not-status` | "topilmadi" qarorlari | nomaʼlum kod endpointga qarab HTTP 403 matn, HTTP 200 `success: false` yoki boʻsh roʻyxatli HTTP 200 boʻladi |
+| `tasnif.barcode-hit-needs-review` | shtrix-kodni kodga bogʻlash | GTIN boʻyicha topilgan natija katalogdagi bogʻlanish, qaror emas; natija yoʻqligi esa mahsulotning kodi yoʻqligini bildirmaydi |
+| `tasnif.codes-change` | saqlangan kodlar | kodlar ogohlantirishsiz tahrirlanadi va oʻchiriladi; ularni jadval boʻyicha `history` bilan qayta tekshiring |
 
 Har bir ID oʻz provayderining hayot sikli sahifasida aniqlangan. Biror sahifa, `SKILL.md` yoki
 shu wiki aniqlanmagan IDʼni tilga olsa, `scripts/lint` xato beradi. IDʼlar hech qachon qayta
@@ -91,6 +101,10 @@ qachon koʻchirmang:
 - **Kapitalbank:** `SendPaymentIBK` dan oldin `uniq` ni saqlang. Javob yoʻqolsa,
   `CheckPayments2` dan `uniq` boʻyicha soʻrang va topshiriqnoma topilmagandagina qayta
   yuboring. Webhooklar yoʻq, shuning uchun holatni soʻrab turing.
+- **Tasnif:** faqat oʻqish, takrorlash xavfsiz. Timeout, 5xx yoki kutilmagan javob
+  tanasidan keyin kutib turing (1 daqiqa, 5 daqiqa, 30 daqiqa) va oxirgi yaxshi qiymatni
+  saqlang. Qayta tekshiruvni `mxikCode` boʻyicha qiling, hech qachon `history` dagi `id`
+  boʻyicha emas.
 
 ## Qoida eʼlon qilinmagan boʻlsa
 

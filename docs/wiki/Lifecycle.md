@@ -31,6 +31,11 @@ The [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/
 providers. Only Uzum Fiscalization publishes a deadline (24 h); Payme, Alif, Multicard,
 Octo and Atmos publish none, so register right after the payment is confirmed.
 
+The [`tasnif`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/tasnif/references/lifecycle/README.md) skill covers MXIK lookups in the
+Tasnif catalogue. They are read-only, so there is nothing to cancel or refund and no receipt
+to register. What bites is an unofficial API with no SLA, "not found" answers that differ by
+endpoint, and codes that change without notice.
+
 ## The warnings that cost the most
 
 | ID | When it applies | What goes wrong |
@@ -55,6 +60,11 @@ Octo and Atmos publish none, so register right after the payment is confirmed.
 | `kapitalbank.old-purpose-codes-rejected` | UZS payment orders in any bank | an old purpose code after 26.05.2026 gets the order refused or delayed |
 | `kapitalbank.poll-status-not-resend` | lost or unclear `SendPaymentIBK` answers | a resend creates a second real order |
 | `fiscal.one-receipt-per-payment` | providers that register the receipt themselves | a second receipt for the same sale on your own fiscal module |
+| `tasnif.not-official-api` | code built on the Tasnif endpoints | no API reference, terms or SLA; the endpoints can change or close without notice, so keep a manual way to enter a code |
+| `tasnif.no-checkout-calls` | sale, payment and receipt paths | a slow or closed Tasnif site stops a sale; resolve codes when a product is created or edited |
+| `tasnif.check-body-not-status` | "not found" decisions | an unknown code is HTTP 403 text, HTTP 200 `success: false` or HTTP 200 with an empty list, depending on the endpoint |
+| `tasnif.barcode-hit-needs-review` | barcode-to-code mapping | a GTIN hit is the catalogue's link, not a ruling, and no hit does not mean the product has no code |
+| `tasnif.codes-change` | stored codes | codes are edited and deactivated without notice; re-check them with `history` on a schedule |
 
 Every ID is defined on its provider's lifecycle page, and `scripts/lint` fails when a page,
 a `SKILL.md` or this wiki mentions an ID that is not defined. IDs are never renamed or
@@ -86,6 +96,9 @@ The rules differ by provider, so never carry them across:
 - **Kapitalbank:** store `uniq` before `SendPaymentIBK`. After a lost reply, ask
   `CheckPayments2` by `uniq` and resend only when the order is not found. There are no
   webhooks, so poll.
+- **Tasnif:** reads only, safe to repeat. Back off (1 min, 5 min, 30 min) on a timeout, 5xx
+  or an unexpected body and keep the last good value. Key re-checks by `mxikCode`, never by
+  the `history` `id`.
 
 ## When a rule is not published
 

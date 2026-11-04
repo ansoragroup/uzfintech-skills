@@ -2482,7 +2482,7 @@ sources:
     kind: file
     lang: ru
     url: https://tasnif.soliq.uz/api/cls-api/mxik/get/by-mxik?mxikCode=04016001002000000&lang=ru
-    refs: [skills/fiscal/references/mxik/README.md, skills/fiscal/references/sandbox/README.md]
+    refs: [skills/fiscal/references/mxik/README.md, skills/fiscal/references/sandbox/README.md, skills/tasnif/references/code/README.md]
     sha256: d43e6722ec2e6dc3144e8fed618eaa90658e404015247264101ada7df22bbf51
     fetched: 2026-11-04
     status: ok
@@ -2740,5 +2740,35 @@ sources:
     url: https://raw.githubusercontent.com/Osonuz/OSON-modul-for-1C-Bitriks/main/oson.payment/lib/api.php
     refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
     sha256: 7cffce9fb052b079ee23e13a7680ac13cf70728236bc35293827556dc83617db
+    fetched: 2026-11-04
+    status: ok
+  - id: tasnif-class-short-info-ru
+    provider: tasnif
+    product: search
+    kind: file
+    lang: ru
+    url: https://tasnif.soliq.uz/api/cls-api/class/short-info?groupCode=040&lang=ru
+    refs: [skills/tasnif/references/search/README.md, skills/tasnif/references/sandbox/README.md]
+    sha256: 4c99c4514b7d4226290feacdf60dcf3db9277dcae586388253d8a14960cf335a
+    fetched: 2026-11-04
+    status: ok
+  - id: tasnif-picture-names
+    provider: tasnif
+    product: code
+    kind: file
+    lang: uz
+    url: https://tasnif.soliq.uz/api/cls-api/integration-mxik/references/get/mxik/picture-names?mxik_code=04016001002000000
+    refs: [skills/tasnif/references/code/README.md, skills/tasnif/references/sandbox/README.md]
+    sha256: bf2784d18735fcb208b15a1101610112d6d5c0eff8285e925ce99a8ef47e5e30
+    fetched: 2026-11-04
+    status: ok
+  - id: tasnif-cl-api-information-ru
+    provider: tasnif
+    product: pos
+    kind: file
+    lang: ru
+    url: https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/information?mxikCode=04016001002000000&lang=ru
+    refs: [skills/tasnif/references/pos/README.md, skills/tasnif/references/sandbox/README.md, skills/tasnif/references/lifecycle/README.md]
+    sha256: 04b4aa95b5bbbdc512b1f8dbe7a0f83e84c878264f5c7f973a39e328d7a7bc43
     fetched: 2026-11-04
     status: ok

@@ -1,6 +1,6 @@
 ---
 name: uzfintech
-description: Router for the Uzbekistan payment skills in this plugin - Payme, Click, Uzum, Alif, Paynet, Multicard, Atmos, Octo, Oson, Kapitalbank and the cross-cutting fiscal skill. One features table (card payments, hosted checkout, merchant callbacks, card tokens and recurring charges, holds, full and partial refunds, QR, split, installments, payouts, who fiscalizes), a cheatsheet of the rules that differ per provider (amount units, auth and sign.py schemes, callback answers, refund rules, test hosts), QR notes on UzQR and Rahmat, and cross-provider warnings. Use when choosing a payment provider in Uzbekistan, comparing providers, planning a multi-provider checkout, or asking which provider supports holds, refunds, recurring payments, QR or fiscalization - then hand off to that provider's own skill for the exact contract.
+description: Router for the Uzbekistan payment skills in this plugin - Payme, Click, Uzum, Alif, Paynet, Multicard, Atmos, Octo, Oson, Kapitalbank, the cross-cutting fiscal skill and the Tasnif catalogue skill. One features table (card payments, hosted checkout, merchant callbacks, card tokens and recurring charges, holds, full and partial refunds, QR, split, installments, payouts, who fiscalizes), a cheatsheet of the rules that differ per provider (amount units, auth and sign.py schemes, callback answers, refund rules, test hosts), QR notes on UzQR and Rahmat, and cross-provider warnings. Use when choosing a payment provider in Uzbekistan, comparing providers, planning a multi-provider checkout, or asking which provider supports holds, refunds, recurring payments, QR or fiscalization - then hand off to that provider's own skill for the exact contract.
 ---
 
 # Uzbek payment providers: which one, and where to read it
@@ -24,6 +24,7 @@ signature, error code and window is in that provider's own skill.
 | [oson](../oson/SKILL.md) | invoice with `pay_url`, status, signed notification; rebuilt from Oson's plugins |
 | [kapitalbank](../kapitalbank/SKILL.md) | corporate internet-banking API: UZS payment orders, statuses, statements, invoices, purpose codes |
 | [fiscal](../fiscal/SKILL.md) | MXIK, package codes, marking, receipt types, and who registers the receipt per provider |
+| [tasnif](../tasnif/SKILL.md) | Tasnif catalogue lookups: text and barcode search, code card with packages, history, pictures, point-of-sale `cl-api` check, VAT-payer check |
 
 ## Pages
 
@@ -54,6 +55,7 @@ does not publish the feature or it does not apply; the
 | Visa / Mastercard / UnionPay | octo, atmos (MPS); check multicard and uzum for the scheme field |
 | Humo / Uzcard host to host with OTP, no callbacks | paynet |
 | fiscal receipts, or who registers them | fiscal, then the provider's skill |
+| MXIK search by barcode or name, package codes, re-checking stored codes | tasnif, then fiscal for the receipt line |
 | UZS payment orders, statements, purpose codes | kapitalbank |
 | compare units, auth, callbacks, refunds or test hosts | [cheatsheet](references/cheatsheet/README.md), then each provider's skill |
 | several providers behind one checkout | [lifecycle](references/lifecycle/README.md#warn-without-being-asked), the cheatsheet, then each skill |
