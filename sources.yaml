@@ -2476,3 +2476,23 @@ sources:
     sha256: a8b9415d092241207c68325ad7b741d5290b81aed499051732a9698ec1ee75a5
     fetched: 2026-11-04
     status: ok
+  - id: fiscal-tasnif-by-mxik-ru
+    provider: fiscal
+    product: mxik
+    kind: file
+    lang: ru
+    url: https://tasnif.soliq.uz/api/cls-api/mxik/get/by-mxik?mxikCode=04016001002000000&lang=ru
+    refs: [skills/fiscal/references/mxik/README.md, skills/fiscal/references/sandbox/README.md]
+    sha256: d43e6722ec2e6dc3144e8fed618eaa90658e404015247264101ada7df22bbf51
+    fetched: 2026-11-04
+    status: ok
+  - id: fiscal-soliq-marking-ru
+    provider: fiscal
+    product: receipt-line
+    kind: html
+    lang: ru
+    url: https://gov.uz/ru/soliq/activity_page/raqamli-markirovka
+    refs: [skills/fiscal/references/receipt-line/README.md, skills/fiscal/references/lifecycle/README.md]
+    sha256: f527c882c097d5f00ea0ec4c2abd1c006da5994e4a360b858d51c017d192953d
+    fetched: 2026-11-04
+    status: ok
