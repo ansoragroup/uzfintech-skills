@@ -32,7 +32,8 @@ All notable changes to this project. The format follows
   self-test vectors, 17 schemes in all.
 - `skills/kapitalbank/scripts/purpose_codes.py` for offline purpose code lookups and checks,
   and `skills/fiscal/scripts/mxik.py` for MXIK checks with an opt-in Tasnif lookup.
-- Eval cases for Atmos, Octo, Oson, Kapitalbank and the fiscal skill, 20 in all.
+- Eval cases for Atmos, Octo, Oson, Kapitalbank, the fiscal skill and the router, 21 in
+  all.
 
 ### Changed
 
