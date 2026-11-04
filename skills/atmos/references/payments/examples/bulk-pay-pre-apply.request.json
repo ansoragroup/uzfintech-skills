@@ -1,0 +1,8 @@
+{
+  "card_token": "<CARD_TOKEN>",
+  "store_id": 100,
+  "transaction_id": [
+    100,
+    101
+  ]
+}

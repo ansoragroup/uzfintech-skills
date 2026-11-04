@@ -1,0 +1,17 @@
+{
+  "payload": {
+    "transaction_id": "100",
+    "ext_id": "100001",
+    "transaction_status": "SUCCESS",
+    "details": [
+      {
+        "pan": "860012******0000",
+        "amount": "500000",
+        "upper_commission": "0",
+        "status": "SUCCESS"
+      }
+    ]
+  },
+  "code": "200",
+  "message": null
+}

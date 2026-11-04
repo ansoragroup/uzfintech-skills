@@ -1,0 +1,8 @@
+{
+  "error": 0,
+  "data": {
+    "shop_transaction_id": "100001",
+    "octo_payment_UUID": "53684ec6-2794-43e1-a3e1-43e368604bae",
+    "status": "waiting_for_capture"
+  }
+}

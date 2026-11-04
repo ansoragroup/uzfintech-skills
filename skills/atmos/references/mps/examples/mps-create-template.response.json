@@ -1,0 +1,24 @@
+{
+  "payload": {
+    "id": 101,
+    "status": 1,
+    "type": "TEMPLATE",
+    "api_id": 1,
+    "card_id": 1,
+    "external_id": "21741d72-61b5-4f3f-ab0e-5353913a7d86",
+    "mps_ext_id": "<MPS_EXT_ID>",
+    "status_ps": "Approved",
+    "status_3ds": "AUTHENTICATED",
+    "result_code": "Approved",
+    "masked_pan": "427831******0000",
+    "client_ip_addr": "<CLIENT_IP>",
+    "date_created": "2026-11-04 12:00:00",
+    "date_updated": "2026-11-04 12:00:00",
+    "redirect_uri": null
+  },
+  "status": {
+    "code": 0,
+    "message": "Success",
+    "trace_id": "<TRACE_ID>"
+  }
+}

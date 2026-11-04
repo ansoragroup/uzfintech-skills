@@ -1,0 +1,24 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-via-partner-web/methods/verification-info.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written; GET with only the payment UUID in the path; a failure keeps error 0 and returns secondsLeft 0; result = data"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "verification-info",
+  "endpoint": "GET https://secure.octo.uz/verificationInfo/{octo_payment_UUID}",
+  "params": {
+    "type": "object",
+    "properties": {"octo_payment_UUID": {"type": "string", "description": "path parameter"}},
+    "required": ["octo_payment_UUID"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "verifyId": {"type": "integer"},
+      "phone": {"type": "string", "description": "masked, for example +998** *****33"},
+      "secondsLeft": {"type": "integer", "minimum": 0, "description": "0 = expired or not active"}
+    },
+    "required": ["verifyId", "phone", "secondsLeft"]
+  }
+}

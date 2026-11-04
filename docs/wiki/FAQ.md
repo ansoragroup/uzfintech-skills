@@ -30,7 +30,9 @@ the funds. The warnings are short and have stable IDs. See [Lifecycle](Lifecycle
 
 **Where are the test cards?**
 In `skills/<provider>/references/sandbox/README.md`, exactly as each vendor publishes them.
-Paynet publishes none; the skill says so instead of inventing one.
+Paynet publishes none, Octo publishes no test cards or OTP (only a `test` flag on the
+production host), and Oson and Kapitalbank publish no test host or test data at all. Each
+skill says so instead of inventing one.
 
 **Are my secrets safe with the tools?**
 The tools read secrets only from environment variables, print them as `<SECRET>`, and send

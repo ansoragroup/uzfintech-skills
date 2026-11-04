@@ -25,7 +25,9 @@ worker gets only the context it needs.
 
 1. **Load one provider at a time.** For a task that touches Payme and Click, open
    `payme/SKILL.md`, finish the Payme part, then open `click/SKILL.md`. Compare at the end.
-   Units, auth and retry rules never carry over: Payme counts tiyin, Click counts sum.
+   Units, auth and retry rules never carry over: Payme counts tiyin, Click counts sum. To
+   choose or compare providers, start with the `uzfintech` router skill; it points to the
+   provider skill that holds the contract.
 2. **Pick the product from the decision table**, then open its `references/<product>/README.md`.
    Read `references/common/README.md` first when the skill has one: transport, auth and the
    error envelope live there.
@@ -37,7 +39,8 @@ worker gets only the context it needs.
    what happens to the fiscal receipt, even if nobody asked. See [Lifecycle](Lifecycle.md).
 5. **Use sandbox data from `references/sandbox/`** for tests and examples: test hosts, cards,
    OTP codes and scenarios exactly as the vendor publishes them. Never invent a test card,
-   and say so plainly when a provider publishes none (Paynet).
+   and say so plainly when a provider publishes none (Paynet, Oson, Kapitalbank; Octo has no
+   test cards).
 6. **Say what is not documented.** When the references do not cover a fact, say the docs do
    not specify it and link the `Source:` page. Do not fill the gap from memory.
 7. **Leave commercial terms out.** Commission rates, payout shares and settlement days depend

@@ -1,0 +1,113 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#get-invoice-status-mps",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "mps-invoice-get",
+  "endpoint": "POST https://apigw.atmos.uz/checkout/invoice/get",
+  "params": {
+    "type": "object",
+    "properties": {
+      "payment_id": {
+        "type": "integer"
+      },
+      "token": {
+        "type": "string"
+      }
+    },
+    "anyOf": [
+      {
+        "required": [
+          "payment_id"
+        ]
+      },
+      {
+        "required": [
+          "token"
+        ]
+      }
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "$ref": "mps-status.json"
+      },
+      "token": {
+        "type": "string"
+      },
+      "processing_id": {
+        "type": "string"
+      },
+      "store_id": {
+        "type": "integer"
+      },
+      "channel_type": {
+        "type": "string",
+        "description": "INVOICE"
+      },
+      "account": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "integer",
+        "description": "tiyin (1 UZS = 100 tiyin)"
+      },
+      "state": {
+        "type": "string",
+        "description": "e.g. SUCCESS"
+      },
+      "created_at": {
+        "type": "string",
+        "description": "ISO 8601"
+      },
+      "expires_at": {
+        "type": "string",
+        "description": "ISO 8601"
+      },
+      "payment_items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "price": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "quantity": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "amount": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "success_url": {
+        "type": "string"
+      },
+      "success": {
+        "type": "boolean",
+        "description": "true = paid"
+      },
+      "final": {
+        "type": "boolean",
+        "description": "true = the state will not change"
+      }
+    },
+    "required": [
+      "status"
+    ]
+  }
+}

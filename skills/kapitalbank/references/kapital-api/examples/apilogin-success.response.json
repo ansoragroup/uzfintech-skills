@@ -1,0 +1,43 @@
+{
+  "error": null,
+  "id": 100001,
+  "result": {
+    "login": "<LOGIN>",
+    "sid": "<SID>",
+    "clients": [
+      {
+        "id": "100",
+        "branch": "01042",
+        "code": "<ORG_CODE>",
+        "name": "Merchant Example",
+        "oper_day": "03.11.2026",
+        "inn": "300000001",
+        "phone": "998901234567",
+        "accounts": [
+          {
+            "aid": 200001,
+            "branch": "01042",
+            "account": "20208000012345678001",
+            "name": "UZS",
+            "val": "UZS",
+            "o_date": "01.01.2020",
+            "s_in": 0,
+            "s_out": 0,
+            "dt": 0,
+            "ct": 0,
+            "canpay": 1,
+            "state": 1,
+            "sign1": 0,
+            "sign2": 0,
+            "sign3": 0,
+            "stateName": "<STATE_NAME>"
+          }
+        ],
+        "payment_scheme": "0",
+        "k2_count": 0,
+        "cards_count": 0,
+        "canpay_sum": true
+      }
+    ]
+  }
+}

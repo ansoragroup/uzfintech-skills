@@ -1,0 +1,28 @@
+{
+  "error": 0,
+  "data": {
+    "id": 5520,
+    "uuid": "53684ec6-2794-43e1-a3e1-43e368604bae",
+    "merchantId": 123,
+    "merchantTransId": "100001",
+    "processorKey": "<PROCESSOR_KEY>",
+    "initialSum": 1000.0,
+    "totalSum": 1000.0,
+    "transferSum": 1000.0,
+    "refundedSum": 0.0,
+    "currency": "UZS",
+    "selectedMethod": "uzcard",
+    "createTime": 1793768400000,
+    "expireTime": 1793769300000,
+    "peyedTime": 1793768520000,
+    "description": "Order 100001",
+    "autoCapture": true,
+    "isTest": true,
+    "returnUrl": "https://merchant.example.com/orders/100001",
+    "redirectUrl": "<STATUS_PAGE_URL>",
+    "status": "succeeded",
+    "cardInputType": "merchant_site",
+    "fiscalDetails": {"status": "success", "errorCode": "0", "message": "accepted"},
+    "test": true
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/fiscal-data.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the prepare_payment basket table and the fiscal-data page; every item must be registered with Octo first"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "basket item",
+  "type": "object",
+  "properties": {
+    "position_desc": {
+      "type": "string",
+      "description": "receipt line; Latin letters, digits, spaces and - . _ ( )",
+      "pattern": "^[A-Za-z0-9 ._()-]+$"
+    },
+    "count": {
+      "type": "number",
+      "description": "quantity (BigDecimal)",
+      "minimum": 0
+    },
+    "price": {
+      "type": "number",
+      "description": "unit price in major units of the payment currency",
+      "minimum": 0
+    },
+    "spic": {
+      "type": "string",
+      "description": "IKPU / SPIC code; optional in the table, part of the registered fiscal object"
+    },
+    "inn": {
+      "type": "string",
+      "description": "TIN of a legal entity"
+    },
+    "pinfl": {
+      "type": "string",
+      "description": "PINFL of an individual entrepreneur (instead of inn, since 01.08.2025)"
+    },
+    "package_code": {
+      "type": "string"
+    },
+    "nds": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "0 = no VAT, 1 = VAT included"
+    }
+  },
+  "required": ["position_desc", "count", "price", "package_code", "nds"]
+}

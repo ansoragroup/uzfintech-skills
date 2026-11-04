@@ -1,0 +1,12 @@
+{
+  "ext_id": "100001",
+  "first_name": "SAMPLE",
+  "last_name": "HOLDER",
+  "middle_name": "TEST",
+  "pinfl": "<PINFL_14_DIGITS>",
+  "passport_series": "AA",
+  "passport_number": "<PASSPORT_NUMBER>",
+  "contract_number": "<CONTRACT_NUMBER>",
+  "amount": 500000,
+  "partial_debit": false
+}

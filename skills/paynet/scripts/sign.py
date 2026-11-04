@@ -79,6 +79,11 @@ def basic(user, secret):
 SCHEMES = {
     "alif.webhook": ("alif", "Signature header = base64(HMAC-SHA256(secret, raw body))",
                      "PAYLOAD = raw body bytes", "ALIF_WEBHOOK_SECRET"),
+    "atmos.basic": ("atmos", "POST /token: Authorization: Basic base64(consumer_key:consumer_secret)",
+                    "consumer_key", "ATMOS_CONSUMER_SECRET"),
+    "atmos.callback": ("atmos", "Callback API sign = hash(store_id transaction_id invoice amount api_key); "
+                       "the docs name no hash: tries md5, sha1, sha256, reports which matched",
+                       "store_id transaction_id invoice amount", "ATMOS_API_KEY"),
     "click.prepare": ("click", "SHOP API Prepare sign_string = md5(...)",
                       "click_trans_id service_id merchant_trans_id amount action sign_time",
                       "CLICK_SECRET_KEY"),
@@ -107,6 +112,12 @@ SCHEMES = {
                        "m a ac.<field>... [l] [c] [host]", None),
     "paynet.basic": ("paynet", "Authorization: Basic base64(service_id:secret_key)",
                      "service_id", "PAYNET_SECRET_KEY"),
+    "octo.notify": ("octo", "notify_url signature = upper(sha1(unique_key octo_payment_UUID status)); "
+                    "separator undocumented, plain concatenation assumed",
+                    "octo_payment_UUID status", "OCTO_UNIQUE_KEY"),
+    "oson.notify": ("oson", "notify signature = sha256(sha256(token:merchant_id):transaction_id:bill_id:status), "
+                    "lower-case hex, as the vendor plugins compute it; pass merchant_id with -f",
+                    "merchant_id transaction_id bill_id status", "OSON_TOKEN"),
 }
 
 
@@ -130,8 +141,8 @@ def compute(scheme, f, secret, body, backend=False):
     if scheme == "multicard.callback":
         head = "%s%s%s" % (f["store_id"], f["invoice_id"], f["amount"])
         return hexdigest("md5", head + secret), "md5(%s%s)" % (head, MASK), "sign"
-    if scheme in ("uzum.basic", "payme.basic", "paynet.basic"):
-        user = f["service_id" if scheme == "paynet.basic" else "login"]
+    if scheme in ("uzum.basic", "payme.basic", "paynet.basic", "atmos.basic"):
+        user = f[{"paynet.basic": "service_id", "atmos.basic": "consumer_key"}.get(scheme, "login")]
         return basic(user, secret), "base64(%s:%s)" % (user, MASK), None
     if scheme == "payme.xauth":
         value = "%s:%s" % (f["cashbox_id"], secret) if backend else str(f["cashbox_id"])
@@ -141,6 +152,14 @@ def compute(scheme, f, secret, body, backend=False):
         order = ["m"] + sorted(k for k in f if k.startswith("ac.")) + ["a", "l", "c", "ct", "cr"]
         pairs = ";".join("%s=%s" % (k, f[k]) for k in order if k in f)
         return host + "/" + base64.b64encode(pairs.encode()).decode(), pairs, None
+    if scheme == "octo.notify":
+        head = "%s%s" % (f["octo_payment_UUID"], f["status"])
+        return hexdigest("sha1", secret + head).upper(), "sha1(%s%s)" % (MASK, head), "signature"
+    if scheme == "oson.notify":
+        inner = hexdigest("sha256", "%s:%s" % (secret, f["merchant_id"]))
+        tail = "%s:%s:%s" % (f["transaction_id"], f["bill_id"], f["status"])
+        return hexdigest("sha256", "%s:%s" % (inner, tail)), \
+            "sha256(sha256(%s:%s):%s)" % (MASK, f["merchant_id"], tail), "signature"
     raise KeyError(scheme)
 
 
@@ -151,6 +170,16 @@ def multicard_webhook(f, secret, got):
         variants.append(("sha1", "%s%s%s" % (f["uuid"], f["invoice_id"], f["amount"])))
     rows = []
     for algo, head in variants:
+        value = hexdigest(algo, head + secret)
+        rows.append((value, "%s(%s%s)" % (algo, head, MASK), bool(got) and hmac.compare_digest(value, got)))
+    return rows
+
+
+def atmos_callback(f, secret, got):
+    """The docs give the field order but not the hash; try each and say which matched."""
+    head = "%s%s%s%s" % (f["store_id"], f["transaction_id"], f["invoice"], f["amount"])
+    rows = []
+    for algo in ("md5", "sha1", "sha256"):
         value = hexdigest(algo, head + secret)
         rows.append((value, "%s(%s%s)" % (algo, head, MASK), bool(got) and hmac.compare_digest(value, got)))
     return rows
@@ -213,9 +242,9 @@ def run(argv=None):
         k, _, v = kv.partition("=")
         f[k] = v
     try:
-        if a.scheme == "multicard.webhook":
+        if a.scheme in ("multicard.webhook", "atmos.callback"):
             got = (a.expect or str(f.get("sign", ""))).lower()
-            rows = multicard_webhook(f, secret, got)
+            rows = (multicard_webhook if a.scheme == "multicard.webhook" else atmos_callback)(f, secret, got)
             for value, shown, ok in rows:
                 print("%s  %s%s" % (value, shown, "  MATCH" if ok else ""))
             if got:
@@ -269,11 +298,16 @@ VECTORS = [
      "uz_test", "u-1:598249f27311ea11eeacd69ba5698e4f2cfe1ab3:1762146000000"),
     ("payme.basic", {"login": "Paycom"}, b"", "payme_test", "Basic UGF5Y29tOnBheW1lX3Rlc3Q="),
     ("paynet.basic", {"service_id": "101"}, b"", "paynet_test", "Basic MTAxOnBheW5ldF90ZXN0"),
+    ("atmos.basic", {"consumer_key": "consumer"}, b"", "atmos_test", "Basic Y29uc3VtZXI6YXRtb3NfdGVzdA=="),
     ("uzum.basic", {"login": "merchant"}, b"", "uz_pass", "Basic bWVyY2hhbnQ6dXpfcGFzcw=="),
     ("payme.xauth", {"cashbox_id": "5e730e8e0b852a417aa49ceb"}, b"", "", "5e730e8e0b852a417aa49ceb"),
     ("payme.checkout", {"m": "5e730e8e0b852a417aa49ceb", "ac.order_id": "100001", "a": "500000",
                         "l": "ru"}, b"", "",
      "https://checkout.paycom.uz/bT01ZTczMGU4ZTBiODUyYTQxN2FhNDljZWI7YWMub3JkZXJfaWQ9MTAwMDAxO2E9NTAwMDAwO2w9cnU="),
+    ("octo.notify", {"octo_payment_UUID": "53684ec6-2794-43e1-a3e1-43e368604bae", "status": "succeeded"},
+     b"", "octo_test", "0FCDF61B1F6B0C5FE8255E3E6B527F52CB10E794"),
+    ("oson.notify", {"merchant_id": "1001", "transaction_id": "100001", "bill_id": "200001", "status": "PAID"},
+     b"", "oson_test", "8b52d8cd889955406c49600621d1ee89ccdea8e6b9e68bb26703308d773d8205"),
 ]
 
 
@@ -292,6 +326,14 @@ def selftest(names):
         ok = [r[2] for r in rows] == [False, True]
         failed += not ok
         print("%s multicard.webhook" % ("ok  " if ok else "FAIL"))
+    if "atmos.callback" in names:
+        f = {"store_id": "1001", "transaction_id": "234569", "invoice": "100001", "amount": "500000"}
+        rows = atmos_callback(f, "atmos_test",
+                              "beeeaa9d16717b0921c563e5c2f34be43c50d54f9d774c28e9fac5da6cb9ccaf")
+        ok = [r[2] for r in rows] == [False, False, True] and [r[0] for r in rows[:2]] == [
+            "5b09db4790f4f4650473ac8667fbcb3e", "689b2cf7de472a75ddedbdb29b3332600ecdf31e"]
+        failed += not ok
+        print("%s atmos.callback" % ("ok  " if ok else "FAIL"))
     return 1 if failed else 0
 
 

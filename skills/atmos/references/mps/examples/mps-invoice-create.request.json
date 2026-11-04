@@ -1,0 +1,23 @@
+{
+  "request_id": "21741d72-61b5-4f3f-ab0e-5353913a7d86",
+  "store_id": 100,
+  "expiration_time": 30,
+  "account": "100001",
+  "amount": 500000,
+  "success_url": "https://merchant.example.com/orders/100001",
+  "items": [
+    {
+      "items_id": "1",
+      "code": "<IKPU_CODE>",
+      "name": "Sample item",
+      "amount": 500000,
+      "quantity": 1,
+      "details": [
+        {
+          "name": "package_code",
+          "values": "<PACKAGE_CODE>"
+        }
+      ]
+    }
+  ]
+}

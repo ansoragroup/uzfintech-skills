@@ -1,0 +1,64 @@
+{
+  "error": null,
+  "id": 1234567890123456,
+  "result": [
+    {
+      "aid": 200001,
+      "branch": "00014",
+      "account": "20208840100400001010",
+      "name": "UZS",
+      "val": "UZS",
+      "o_date": "01.01.2020",
+      "l_date": "24.02.2026",
+      "s_in": 50000000,
+      "s_out": 75000000,
+      "dt": 100000000,
+      "ct": 125000000,
+      "canpay": 1,
+      "state": 1,
+      "notif_in": 1,
+      "notif_out": 1,
+      "sign1": 0,
+      "sign2": 0,
+      "sign3": 0,
+      "stateName": "string",
+      "special": [
+        {
+          "branch": "string",
+          "acc": "string",
+          "id_special": 0,
+          "prim": "string"
+        }
+      ]
+    },
+    {
+      "aid": 200002,
+      "branch": "00014",
+      "account": "20208840100400001011",
+      "name": "USD",
+      "val": "USD",
+      "o_date": "15.03.2021",
+      "l_date": "24.02.2026",
+      "s_in": 10000,
+      "s_out": 15000,
+      "dt": 50000,
+      "ct": 55000,
+      "canpay": 1,
+      "state": 1,
+      "notif_in": 0,
+      "notif_out": 0,
+      "sign1": 0,
+      "sign2": 0,
+      "sign3": 0,
+      "stateName": "string",
+      "special": [
+        {
+          "branch": "string",
+          "acc": "string",
+          "id_special": 0,
+          "prim": "string"
+        }
+      ]
+    }
+  ]
+}

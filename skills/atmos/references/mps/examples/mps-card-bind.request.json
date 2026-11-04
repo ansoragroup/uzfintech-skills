@@ -1,0 +1,9 @@
+{
+  "store_id": 100,
+  "pan": "<CARD_PAN_16_DIGITS>",
+  "expiry": "<MMYY>",
+  "card_name": "SAMPLE HOLDER",
+  "cvc2": "<CVC2>",
+  "client_ip_addr": "<CLIENT_IP>",
+  "ext_id": "914bd19c-5e3d-44bf-8479-bcecb920bb9b"
+}

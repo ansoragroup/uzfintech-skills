@@ -1,17 +1,23 @@
 # uzfintech-skills
 
-> Agent skills with exact API contracts for the payment providers of Uzbekistan: Uzum Bank, Alif, Click, Paynet, Payme and Multicard. Each skill is a SKILL.md router with contract notes, trimmed JSON Schemas, anonymized examples, vendor sandbox data, lifecycle rules (deadlines, cancel / refund, retries, fiscal receipts), checklists, and two python3 tools that compute signatures and validate payloads.
+> Agent skills with exact API contracts for the payment providers of Uzbekistan: Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos, Octo, Oson and Kapitalbank, plus a cross-provider fiscal receipt skill and a router skill for choosing and comparing providers. Each skill is a SKILL.md router with contract notes, trimmed JSON Schemas, anonymized examples, vendor sandbox data, lifecycle rules (deadlines, cancel / refund, retries, fiscal receipts), checklists, and two python3 tools that compute signatures and validate payloads.
 
-Read the provider's SKILL.md first and follow its pointers. Run scripts/sign.py and scripts/validate.py instead of computing signatures by hand. Amounts: Payme in tiyin, Click in sum; check each provider's SKILL.md. Commission rates and settlement terms are per merchant contract and are not in the skills.
+To choose or compare providers, start with the uzfintech router skill. Otherwise read the provider's SKILL.md first and follow its pointers. Run scripts/sign.py and scripts/validate.py instead of computing signatures by hand. Amounts: Payme and Atmos in tiyin, Click and Oson in sum, Octo in major units; check each provider's SKILL.md. Commission rates and settlement terms are per merchant contract and are not in the skills.
 
 ## Skills
 
 - [Uzum Bank](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/uzum/SKILL.md): Merchant API webhooks, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub
-- [Alif](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/alif/SKILL.md): alifpay Checkout, Payments, Cards, Hold, Monitoring, Summary, legacy API map
+- [Alif](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/alif/SKILL.md): alifpay Checkout, Alif Nasiya instalments, Payments, Cards, Hold, Monitoring, Summary, legacy API map
 - [Click](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/click/SKILL.md): SHOP API, Advanced / Split Shop, Merchant API, card tokens, Fiscalization, CLICK Pass, Telegram Payments
 - [Paynet](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/paynet/SKILL.md): internet acquiring for Humo and Uzcard
 - [Payme](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/payme/SKILL.md): Merchant API, Subscribe API, Checkout, Fiscalization
 - [Multicard](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/multicard/SKILL.md): invoices, card binding, payments, refunds, holds, payouts, reports
+- [Atmos](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/atmos/SKILL.md): Uzcard / Humo payments, reversals, card linking, holds, withdrawal by PINFL, Visa / Mastercard (MPS / IPS), Callback API
+- [Octo](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/octo/SKILL.md): payment page (one-stage / two-stage), own card form, card tokens, refunds, fiscalization
+- [Oson](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/oson/SKILL.md): invoice API and signed payment notification, rebuilt from Oson's open-source shop plugins
+- [Kapitalbank](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/kapitalbank/SKILL.md): Kapital API for legal entities (payment orders, status, statements, account checks, exchange rates, invoices) and CBU payment purpose codes
+- [Fiscal](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/fiscal/SKILL.md): MXIK (IKPU) and package codes, VAT and benefit fields, marking, receipt types, per-provider receipt fields
+- [Router](https://raw.githubusercontent.com/ansoragroup/uzfintech-skills/main/skills/uzfintech/SKILL.md): choose and compare providers; cross-provider cheatsheet of units, auth, callbacks, refunds, holds, fiscalization and test hosts; UzQR notes
 
 ## Docs
 

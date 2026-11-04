@@ -2226,3 +2226,519 @@ sources:
     sha256: 1e3454019fcb7ecccde6df0436c0c835341c7699f11ad2a3692f081fc900dfec
     fetched: 2026-11-03
     status: ok
+  - id: octo-get-started-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/get-started.html
+    refs: [skills/octo/references/common/README.md, skills/octo/references/sandbox/README.md]
+    sha256: 47b88fe6c262be2660c566831ddbae37a614bb99238eaeee166d215a680dd800
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-statuses-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/statuses.html
+    refs: [skills/octo/references/common/README.md]
+    sha256: 23db00e5a3ae137cb1de58ed5210acd5c8cc551f9f1bfe8cc25e400e09d070c3
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-notifications-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/notifications.html
+    refs: [skills/octo/references/common/README.md, skills/octo/checklists/common.md, skills/octo/references/lifecycle/README.md]
+    sha256: 2568be92e663c0cf412b841c21f8a9cc255735d6d61065e32b6cfe649d546e7c
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-error-codes-ru
+    provider: octo
+    product: common
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/error-codes.html
+    refs: [skills/octo/references/common/README.md]
+    sha256: c163d9f713ba4a699172ab122b37b85057740a4452576a34f8fdf3c88fe18065
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-web-one-stage-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/one-stage.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/partner-page/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 50ce18df8f57d65896c3be9f4377e7ebc0c7171e91cfe0ee7a499d446aa66d67
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-web-two-stage-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/two-stage.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 36e412deff71782d6b6843e3a51a374a1e4bf3f0e27bdcab54f221f81abed5a7
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-prepare-payment-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/methods/prepare-payment.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/common/README.md, skills/octo/references/fiscal/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 2903245dc53f396c915858aa9ffb4b57a5a53850d00af51eb05b161817def003
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-set-accept-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/methods/set-accept.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 5160636224ebd6f7782f75080a57a98a24a88b7951ad563e7767085cc8204745
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-callback-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-web/methods/callback.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: c7aa3909bcd19b0840c29c3fc649dfc42900e7a07c0d8be9f7ef24ecfebee01b
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-check-status-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/check-status.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: f9a4146ede689536b3b180299908c9ee652fcc823ce8107f066429d4a0953d09
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-cancel-ru
+    provider: octo
+    product: payment-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/cancel.html
+    refs: [skills/octo/references/payment-page/README.md, skills/octo/references/refunds/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 6cdb47c11f63bdf54be7b3b00b5aef14055ee2f0cee714150b73e82b756ad2b2
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-partner-overview-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web.html
+    refs: [skills/octo/references/partner-page/README.md]
+    sha256: 9d255cc3641186565a59627d4104af3f9dc1b58efe789a9d10f77a73db513221
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-partner-one-stage-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/one-stage.html
+    refs: [skills/octo/references/partner-page/README.md]
+    sha256: 50b9dabce16f7e1c5238a0157a09d6cf19d086d4a6b3d8147c96cab7ba6c6ae7
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-partner-two-stage-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/two-stage.html
+    refs: [skills/octo/references/partner-page/README.md]
+    sha256: 481c3d2197af6bdc6f555ddd60a29832a4cdd2714196100d081e02d0a1d97425
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-pay-card-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-confirm-pay.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md]
+    sha256: b2a5eb825a58f439642740e17654c6585d2a5572551374104a0a2e7d0ab3dbc9
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-pay-token-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/confirm-pay/token.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/cards/README.md]
+    sha256: e95ea33225f5a8d164b7127c6fc27f90de08b8b6e7a1d468a79c7a9c8c678d86
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-verification-info-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/methods/verification-info.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md]
+    sha256: e73dea54ad3545001b2f080f09155d012143ad0dfa75807068add3ea84a6f969
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-check-sms-key-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/payment-via-partner-web/methods/check-sms-key.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md]
+    sha256: f3c38c27115337d6261ea63022f3dbd3195991c7fa0d77deb3f592d84d803f83
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-otp-resend-ru
+    provider: octo
+    product: partner-page
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/otp-resend.html
+    refs: [skills/octo/references/partner-page/README.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: c1993c65c0f0937d5ee699c18260b148c44418e0ba9109f012ca7cdb9b186e43
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-tokenization-ru
+    provider: octo
+    product: cards
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/tokenization.html
+    refs: [skills/octo/references/cards/README.md, skills/octo/checklists/cards.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 958793fecb268c4e8ef4bdd9a7850167642656dd0087581059a5144a151920cc
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-refunds-ru
+    provider: octo
+    product: refunds
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/refunds.html
+    refs: [skills/octo/references/refunds/README.md, skills/octo/checklists/refunds.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 65e81ec043d2b14b14f7a4fa5c9729bf83fd5a59560d3915905fb26037fba3f9
+    fetched: 2026-11-04
+    status: ok
+  - id: octo-fiscal-data-ru
+    provider: octo
+    product: fiscal
+    kind: html
+    lang: ru
+    url: https://help.octo.uz/fiscal-data.html
+    refs: [skills/octo/references/fiscal/README.md, skills/octo/checklists/fiscal.md, skills/octo/references/sandbox/README.md, skills/octo/references/lifecycle/README.md]
+    sha256: 25015860543a60e8351a7235c76f649e960b55bdafd0df75f048d0149e31cbab
+    fetched: 2026-11-04
+    status: ok
+  - id: atmos-docs-en
+    provider: atmos
+    product: common
+    kind: html
+    lang: en
+    url: https://docs.atmos.uz/en/
+    refs: [skills/atmos/SKILL.md, skills/atmos/references/common/README.md, skills/atmos/references/payments/README.md, skills/atmos/references/cards/README.md, skills/atmos/references/hold/README.md, skills/atmos/references/pinfl/README.md, skills/atmos/references/mps/README.md, skills/atmos/references/sandbox/README.md, skills/atmos/references/lifecycle/README.md]
+    sha256: 103b77d86952364f480e1a9c74151eed0e6817d32415194404b407c00a1c988d
+    fetched: 2026-11-04
+    status: ok
+  - id: atmos-docs-ru
+    provider: atmos
+    product: common
+    kind: html
+    lang: ru
+    url: https://docs.atmos.uz/ru/
+    refs: [skills/atmos/SKILL.md, skills/atmos/references/common/README.md, skills/atmos/references/payments/README.md, skills/atmos/references/cards/README.md, skills/atmos/references/hold/README.md, skills/atmos/references/pinfl/README.md, skills/atmos/references/mps/README.md, skills/atmos/references/sandbox/README.md, skills/atmos/references/lifecycle/README.md]
+    sha256: 946c0e60cc862f3d7f16422ba0de17e78f43e6184ab6d1e73635f9a94ac7517a
+    fetched: 2026-11-04
+    status: ok
+  - id: atmos-docs-uz
+    provider: atmos
+    product: common
+    kind: html
+    lang: uz
+    url: https://docs.atmos.uz/uz/
+    refs: [skills/atmos/SKILL.md, skills/atmos/references/common/README.md, skills/atmos/references/payments/README.md, skills/atmos/references/cards/README.md, skills/atmos/references/hold/README.md, skills/atmos/references/pinfl/README.md, skills/atmos/references/mps/README.md, skills/atmos/references/sandbox/README.md, skills/atmos/references/lifecycle/README.md]
+    sha256: a8b9415d092241207c68325ad7b741d5290b81aed499051732a9698ec1ee75a5
+    fetched: 2026-11-04
+    status: ok
+  - id: fiscal-tasnif-by-mxik-ru
+    provider: fiscal
+    product: mxik
+    kind: file
+    lang: ru
+    url: https://tasnif.soliq.uz/api/cls-api/mxik/get/by-mxik?mxikCode=04016001002000000&lang=ru
+    refs: [skills/fiscal/references/mxik/README.md, skills/fiscal/references/sandbox/README.md]
+    sha256: d43e6722ec2e6dc3144e8fed618eaa90658e404015247264101ada7df22bbf51
+    fetched: 2026-11-04
+    status: ok
+  - id: fiscal-soliq-marking-ru
+    provider: fiscal
+    product: receipt-line
+    kind: html
+    lang: ru
+    url: https://gov.uz/ru/soliq/activity_page/raqamli-markirovka
+    refs: [skills/fiscal/references/receipt-line/README.md, skills/fiscal/references/lifecycle/README.md]
+    sha256: f527c882c097d5f00ea0ec4c2abd1c006da5994e4a360b858d51c017d192953d
+    fetched: 2026-11-04
+    status: ok
+  - id: kapitalbank-api-reference-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/api-reference
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-connect-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/kapital-api-connect
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/checklists/go-live.md]
+  - id: kapitalbank-user-authorization-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/authorization/user-authorization
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/common.md]
+  - id: kapitalbank-create-payment-order-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/payment-orders/create-payment-order
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/payment-orders.md]
+  - id: kapitalbank-payment-status-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/payment-orders/payment-status
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/payment-orders.md]
+  - id: kapitalbank-document-list-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/statements-and-accounts/document-list
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-mt940-statement-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/statements-and-accounts/mt940-statement
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-account-information-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/clients-and-accounts/account-information
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-client-account-information-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/clients-and-accounts/client-account-information
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-oper-day-information-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/clients-and-accounts/oper-day-information
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-budget-recipient-account-check-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/directories/budget-recipient-account-check
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-treasury-account-check-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/directories/treasury-account-check
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-currency-rates-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/directories/currency-rates
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md]
+  - id: kapitalbank-create-invoice-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/invoices/create-invoice
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-invoice-status-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/invoices/invoice-status
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-connection-instruction-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: file
+    lang: ru
+    url: https://b2b-api.kapitalbank.uz/cdn/open-api/api-documentation.pdf
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/checklists/go-live.md]
+    status: fetch-failed 2026-11-04
+  - id: kapitalbank-connection-application-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: file
+    lang: ru
+    url: https://b2b-api.kapitalbank.uz/cdn/open-api/application-for-connection.docx
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/checklists/go-live.md]
+    status: fetch-failed 2026-11-04
+  - id: cbu-purpose-codes-ru
+    provider: kapitalbank
+    product: purpose-codes
+    kind: file
+    lang: ru
+    url: https://static.buhgalter.uz/tsdocs/ru/sravniteln_tabl_ru.xlsx
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md]
+    sha256: aea0465fc80e6c7ce39963d6808e5a6ff023df5c5e23427b4819de66ed91943f
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-codes-uz
+    provider: kapitalbank
+    product: purpose-codes
+    kind: file
+    lang: uz
+    url: https://static.buhgalter.uz/tsdocs/uz/sravniteln_tabl_uz.xlsx
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md]
+    sha256: 921aa80ac85c655acd2252fda979fa4e156e0a2e1347334db007ccc5ead828f7
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-codes-article-ru
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: ru
+    url: https://buxgalter.uz/publish/doc/text215319_kakie_kody_ispolzovat_pri_zapolnenii_platejnyh_porucheniy
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md, skills/kapitalbank/references/lifecycle/README.md]
+    sha256: e20e9926c20093cf8ea69eed82fc502e1cdeecff17da81382efcead54eb1f66e
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-codes-article-uz
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: uz
+    url: https://buxgalter.uz/oz/publish/doc/text215399_bank_tulovlarining_kodlari2
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md, skills/kapitalbank/references/lifecycle/README.md]
+    sha256: 7ec942c5e24f61a20adedfc45b031bc1275c19c94b653892aef3a167ecef5ac8
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-details-kdb-ru
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: ru
+    url: https://kdb.uz/ru/press-center/news/new-requirements-for-completing-the-payment-details-field-in-uzbek-soums-payment-orders
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md, skills/kapitalbank/references/lifecycle/README.md]
+    sha256: a7addee19ad4357f9b0194ab7abb1ff138a01e5f858562b77287c8d6c1e90be8
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-p2p-purpose-optional-en
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: en
+    url: https://kun.uz/en/news/2026/03/26/central-bank-backtracks-on-mandatory-p2p-transfer-descriptions-following-public-pressure
+    refs: [skills/kapitalbank/references/purpose-codes/README.md]
+    sha256: 7830c648c5c041fade62f64df9c7c186bfe9185abe8bbd9f71b5508b351a31b4
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-woocommerce-plugin
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/Woocommerce-gateway-oson/master/plugin.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 89343573cdb5c0c19877c38756c0de6c968d62d1defb2fa218329b543596d370
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-woocommerce-exchanger
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/Woocommerce-gateway-oson/master/inc/ic_exchanger_class.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 2ba344424e4a39bfd233f988b7079885ca045698974a132de1f5de8caf2acd79
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-webasyst-payment
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/Webasyst-Shop-Script-Plugin/master/oson/lib/osonPayment.class.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 48275bfed1dbf0f5785c76e81a513b8356ec6d75047f79a42452583338b5b506
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-opencart-controller
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/OpenCart-Plugin/master/upload/catalog/controller/extension/payment/osongw.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 817fcc6ca52d23d32c6ecf46d5760b9315bdc46526ec15227a4ee38202ddec87
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-bitrix-api
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/OSON-modul-for-1C-Bitriks/main/oson.payment/lib/api.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 7cffce9fb052b079ee23e13a7680ac13cf70728236bc35293827556dc83617db
+    fetched: 2026-11-04
+    status: ok

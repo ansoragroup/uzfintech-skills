@@ -1,0 +1,31 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/refunds.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the refund page; refund_time is printed as yyyy-MM-dd HH:mm:ss although the table says ISO 8601; result = data; trimmed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "refund",
+  "endpoint": "POST https://secure.octo.uz/refund",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "shop_refund_id": {"type": "string", "description": "your id, unique per refund request"},
+      "octo_secret": {"type": "string"},
+      "octo_payment_UUID": {"type": "string", "description": "the succeeded payment to refund"},
+      "amount": {"type": "number", "exclusiveMinimum": 0, "description": "major units; at least 1 USD or the UZS equivalent, at most 10 mln UZS per refund, never more than the unrefunded rest"}
+    },
+    "required": ["octo_shop_id", "shop_refund_id", "octo_secret", "octo_payment_UUID", "amount"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "octo_payment_UUID": {"type": "string"},
+      "refund_id": {"type": "string"},
+      "refund_time": {"type": "string"},
+      "status": {"type": "string", "enum": ["succeeded", "failed", "pending"]}
+    },
+    "required": ["octo_payment_UUID", "refund_id", "refund_time", "status"]
+  }
+}

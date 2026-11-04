@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "available_balance": 1000000,
+    "transaction_status": "CREATED",
+    "transaction_id": "100",
+    "ext_id": "100001",
+    "amount": "500000",
+    "first_name": "SAMPLE",
+    "middle_name": "TEST",
+    "last_name": "HOLDER",
+    "date_created": "2026-11-04 12:00:00"
+  },
+  "code": "200",
+  "description": "Transaction confirmed"
+}

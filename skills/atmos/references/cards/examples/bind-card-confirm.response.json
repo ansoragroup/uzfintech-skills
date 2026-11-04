@@ -1,0 +1,16 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "data": {
+    "card_id": 1,
+    "pan": "986009******0000",
+    "expiry": "2903",
+    "card_holder": "SAMPLE HOLDER",
+    "balance": 1000000,
+    "phone": "********4567",
+    "card_token": "<CARD_TOKEN>"
+  },
+  "transaction_id": 100
+}

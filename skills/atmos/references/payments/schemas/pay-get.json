@@ -1,0 +1,45 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#retrieving-transaction-information",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the docs.atmos.uz English page; trimmed to the documented fields; params = request body, result = whole answer body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "pay-get",
+  "endpoint": "POST https://apigw.atmos.uz/merchant/pay/get",
+  "params": {
+    "type": "object",
+    "properties": {
+      "store_id": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "description": "merchant store id issued by Atmos; samples send it as a number and as a string"
+      },
+      "transaction_id": {
+        "type": "integer",
+        "description": "trans_id"
+      }
+    },
+    "required": [
+      "store_id",
+      "transaction_id"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "result": {
+        "$ref": "../../common/schemas/status.json"
+      },
+      "store_transaction": {
+        "$ref": "../../common/schemas/store-transaction.json"
+      }
+    },
+    "required": [
+      "result"
+    ]
+  },
+  "x-note": "the vendor sample answers STPIMS-ERR-092 (closed) for a paid transaction; decide on store_transaction.confirmed and success_trans_id, not on result.code alone"
+}

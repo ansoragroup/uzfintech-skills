@@ -1,0 +1,62 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#card-binding-ips",
+    "fetched": "2026-11-04",
+    "note": "hand-written shared model; trimmed to the documented fields"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "card",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "card_id"
+    },
+    "status": {
+      "type": "boolean"
+    },
+    "approved": {
+      "type": "boolean"
+    },
+    "masked_pan": {
+      "type": "string"
+    },
+    "masked_card_holder": {
+      "type": "string"
+    },
+    "card_type": {
+      "type": "string",
+      "description": "VISA or MASTERCARD"
+    },
+    "date_created": {
+      "type": "string"
+    },
+    "date_updated": {
+      "type": "string"
+    },
+    "verified_state": {
+      "type": "string",
+      "description": "OPEN, PENDING, VERIFIED or FAILED",
+      "enum": [
+        "OPEN",
+        "PENDING",
+        "VERIFIED",
+        "FAILED"
+      ]
+    },
+    "status_3ds": {
+      "type": "string",
+      "description": "PENDING, VERIFIED, FAILED; samples also show AUTHENTICATED"
+    },
+    "card_region": {
+      "type": "string",
+      "description": "DOMESTIC or ONUS in samples"
+    },
+    "store_id": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

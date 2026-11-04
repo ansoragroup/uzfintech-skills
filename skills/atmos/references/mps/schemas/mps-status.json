@@ -1,0 +1,34 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.atmos.uz/en/#error-codes",
+    "fetched": "2026-11-04",
+    "note": "hand-written shared model; trimmed to the documented fields"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "status",
+  "description": "status object of every /mps answer; code 0 = success, negative = error (mps/README.md)",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "0 OK, -1 ERROR, -10 ... -400; see the table"
+    },
+    "message": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "used instead of message by /checkout calls"
+    },
+    "trace_id": {
+      "type": "string",
+      "description": "quote it to Atmos support"
+    }
+  },
+  "required": [
+    "code"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "code": "OK",
+    "description": "Нет ошибок"
+  },
+  "parent_id": 1,
+  "items": [
+    {
+      "result": null,
+      "hold_id": 100,
+      "account": "100001"
+    },
+    {
+      "result": null,
+      "hold_id": 101,
+      "account": "100001"
+    }
+  ]
+}

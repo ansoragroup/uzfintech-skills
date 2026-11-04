@@ -3,13 +3,14 @@
 **English** · [Русский](README.ru.md) · [Oʻzbekcha](README.uz.md) · [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-6%20providers-0a7c66.svg)](#providers)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#providers)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#install)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#tools)
 
-Agent skills for Uzbek payment provider APIs: **Uzum Bank, Alif, Click, Paynet, Payme and
-Multicard**. They work in Claude Code, Codex, Cursor and any other agent that reads
-`SKILL.md` files.
+Agent skills for Uzbek payment provider APIs: **Uzum Bank, Alif, Click, Paynet, Payme,
+Multicard, Atmos, Octo, Oson and Kapitalbank**, plus a fiscal receipt skill shared by all of
+them and a router skill for choosing and comparing providers. They work in Claude Code,
+Codex, Cursor and any other agent that reads `SKILL.md` files.
 
 Models know these APIs only roughly. They mix up tiyin and sum, sign the wrong string and
 invent error codes or sandbox cards. With these skills the agent answers from exact contract
@@ -27,11 +28,20 @@ notes and checks signatures and payloads with scripts instead of guessing. Each 
 | Skill | Provider | Products |
 |---|---|---|
 | [`uzum`](skills/uzum/SKILL.md) | Uzum Bank | Merchant API (webhooks), Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub |
-| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary, legacy API migration map |
+| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Alif Nasiya instalments, Payments, Cards, Hold, Monitoring, Summary, legacy API migration map |
 | [`click`](skills/click/SKILL.md) | Click | SHOP API, Advanced / Split Shop, Merchant API, card tokens, Fiscalization, CLICK Pass, payment link / button / widget, Telegram Payments |
 | [`paynet`](skills/paynet/SKILL.md) | Paynet | Internet acquiring (Humo / Uzcard): authorize, confirm, status, reverse |
 | [`payme`](skills/payme/SKILL.md) | Payme (Paycom) | Merchant API, Subscribe API (cards, receipts, holds), Checkout (GET / POST / button / QR), Fiscalization |
 | [`multicard`](skills/multicard/SKILL.md) | Multicard | Invoices and scanpay, card binding, payments (token / card / app / split), refunds, holds, payouts, reports |
+| [`atmos`](skills/atmos/SKILL.md) | Atmos | Payments (Uzcard / Humo: pay-create / pre-apply / apply, multi-payments, full and partial reversals, payment page, HTML widget), card linking, holds, withdrawal by PINFL, Visa / Mastercard (MPS / IPS), Callback API |
+| [`octo`](skills/octo/SKILL.md) | Octo | Visa / Mastercard / UnionPay and Uzcard / Humo acquiring: payment page (one-stage / two-stage), own card form (PCI DSS), card tokens, full and partial refunds, fiscalization (basket, fiscal-data) |
+| [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (invoice/create with a pay_url, invoice/status) and the signed payment notification, rebuilt from Oson's open-source shop plugins |
+| [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Kapital API for legal entities: APILogin, SendPaymentIBK payment orders, CheckPayments2, statements (GetDoc1C, GetMT940), account and payee checks, exchange rates, invoices; CBU payment purpose codes for UZS payment orders in any bank |
+| [`fiscal`](skills/fiscal/SKILL.md) | All providers | Fiscal receipts: MXIK (IKPU) codes from Tasnif, package codes, VAT and benefit fields, Asl Belgisi marking, receipt types, who registers the receipt and in which field at each provider |
+| [`uzfintech`](skills/uzfintech/SKILL.md) | All providers | Router: choose a provider for a task, compare providers, cross-provider cheatsheet (units, auth, callbacks, refunds, holds, fiscalization, test hosts), UzQR notes |
+
+Start with `uzfintech` when the task is to choose or compare providers. It points to the
+provider skill that holds the contract.
 
 ## Install
 
@@ -72,8 +82,10 @@ this to your project's `AGENTS.md`:
 
 ```md
 ## Payment provider contracts
-For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard), read
-`vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Run its
+For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
+Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+follow its pointers. To choose or compare providers, start with
+`vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
 review changes against the matching `checklists/*.md`.
 ```
@@ -103,7 +115,9 @@ work happens in focused places with only the context they need.
 
 - **One provider per skill.** A multi-provider task loads each skill on its own and compares
   afterwards. A rule such as units, auth or retries never carries over from one provider to
-  another.
+  another. The `uzfintech` router helps choose and compare, then hands over to the provider
+  skill. Receipt codes that every provider shares (MXIK, package codes, marking) live in the
+  `fiscal` skill.
 - **Fast path first.** Signatures, auth headers, checkout URLs and payload shapes are
   computed by code, never by the model. The agent runs the tool and quotes its output.
 - **Inline and spill.** `SKILL.md` inlines only what is needed on every task. Contracts,
@@ -170,6 +184,10 @@ bodies and skips `<PLACEHOLDER>` values. Both tools exit `0` on success, `1` on 
 and `2` on a usage error, so you can use them in CI. See the
 [Tools wiki page](docs/wiki/Tools.md) for every scheme.
 
+Two skills add an offline tool of their own: `skills/kapitalbank/scripts/purpose_codes.py`
+looks up and checks CBU payment purpose codes, and `skills/fiscal/scripts/mxik.py` checks
+MXIK codes, with an opt-in Tasnif lookup.
+
 ## Try it
 
 - "Click says our Prepare `sign_string` is wrong. Here is the request body."
@@ -178,6 +196,8 @@ and `2` on a usage error, so you can use them in CI. See the
 - "Verify an Alif webhook signature in Go."
 - "Which test cards and OTP codes does the Uzum Checkout sandbox use?"
 - "Review our Multicard integration against the checklist."
+- "Which providers can hold funds and capture later? Compare Atmos and Octo."
+- "Our payment order still uses purpose code 00545. What replaces it?"
 - "Payme sandboxida qaysi test kartalardan foydalanish mumkin?"
 
 ## Quality
@@ -188,7 +208,7 @@ and `2` on a usage error, so you can use them in CI. See the
 | Parser self-test | `scripts/sync --selftest` | the bundled YAML parser agrees with PyYAML |
 | Behaviour evals | `claude plugin eval . --runs 3` | an agent with the skill loads the right provider, quotes exact codes, runs the tools and refuses to invent sandbox data or commercial terms |
 
-The 12 eval cases are in [`evals/`](evals/README.md). CI runs the lint on every PR.
+The 21 eval cases are in [`evals/`](evals/README.md). CI runs the lint on every PR.
 
 ## Freshness
 

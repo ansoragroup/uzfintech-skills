@@ -22,6 +22,14 @@
 | [Paynet](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/paynet/references/lifecycle/README.md) | `reverse` только в течение **1 месяца** после платежа. Время жизни OTP берётся из `ttlSeconds`. | `reverse`, потом опрашивайте `status` (`CANCEL_PENDING` — не финальный). Блокируйте кнопку от повторного нажатия. | Кто регистрирует чек, не опубликовано. Спросите Paynet при подключении. |
 | [Payme](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/payme/references/lifecycle/README.md) | Транзакция в state `1` отменяется через **12 ч** (43 200 000 мс, reason `4`). Холды: **30 дней**. | Возврат — это полный `CancelTransaction` проведённой транзакции (state `-2`, reason `5`). Чтобы отказать, отвечайте `-31007`. | Payme фискализирует по `detail` и присылает `SetFiscalData` `PERFORM` / `CANCEL`. Храните их отдельными чеками и никогда не регистрируйте второй чек сами. |
 | [Multicard](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/multicard/references/lifecycle/README.md) | `expiry` холда в **минутах** (до 30 дней). `ttl` инвойса в секундах (по умолчанию 1 день). Токен авторизации живёт **24 ч**. | Возвраты полные; частичные — только если Multicard включил их на терминале, и они фискализируют новый чек. Выплаты отменить нельзя. | Решает `tax_registration` магазина: `1` — фискализирует Multicard, `0` — вы. |
+| [Atmos](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/atmos/references/lifecycle/README.md) | `duration` холда в **минутах**; списывайте до `hold_till`, иначе `STPIMS-ERR-144`. Bearer-токен живёт **3600 с**. Billing callback должен ответить HTTP 200 `{"status": 1}`, иначе списания нет. | `pay/reverse` принимает `success_trans_id`, а не черновой `transaction_id`. Частичный возврат — `create-reverse-partial`, затем `confirm-reverse-partial` с `ofd_items`. Списание по ПИНФЛ отменяется только до `confirm`. Возврат для MPS-платежа без холда не описан. | Передавайте `ofd_items` с ИКПУ; Atmos возвращает `ofd_url`, значит чек регистрирует он (вывод). Чек возврата при полном реверсе не описан. |
+| [Octo](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/octo/references/lifecycle/README.md) | Двухстадийный холд: `set_accept` в течение **30 мин** по страницам двухстадийной оплаты (страница отмены говорит до 30 дней для Humo / Uzcard и 7 дней для Visa / Mastercard), иначе Octo его отменяет. Неоплаченный платёж заканчивается через `ttl` минут. Три неверных OTP отменяют платёж. | `set_accept` `cancel` работает только на холде. Платёж в `succeeded` возвращается через `/refund`, полностью или частично, не меньше эквивалента 1 USD и не больше 10 млн UZS за вызов. | Octo регистрирует чек по позициям `basket`, которые ваш менеджер в банке зарегистрировал заранее, иначе `error: 403`; читайте его через `fiscal-data`. Чеки возврата не описаны. |
+| [Oson](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/oson/references/lifecycle/README.md) | Единица `lifetime` инвойса не документирована (плагины шлют `30` или `14400`); после неё статус `EXPIRED`. | Метода отмены или возврата нет ни в одном плагине; возвраты — через кабинет Oson или поддержку. | Ни один плагин не передаёт поля чека, и кто регистрирует чек, не документировано. Регистрируйте его сами, пока Oson не подтвердит иное. |
+| [Kapitalbank](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/kapitalbank/references/lifecycle/README.md) | Старые коды назначения отклоняются с **26.05.2026** (новые действуют с 06.05.2026). `anor: 0` (СЭП) работает 9:00–17:00 в операционные дни, `anor: 1` (Anor) — 24/7. Выписка с `fin: 0` не финальная. | Метод отзыва не опубликован; спрашивайте банк. Повторный `SendPaymentIBK` — это второе настоящее поручение. | Не применимо: платёжные поручения между юрлицами — это банковские переводы. |
+
+Скилл [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/fiscal/references/lifecycle/README.md) сравнивает правила чеков у
+разных провайдеров. Срок публикует только Uzum Fiscalization (24 ч); Payme, Alif, Multicard,
+Octo и Atmos его не публикуют, поэтому регистрируйте чек сразу после подтверждения платежа.
 
 ## Самые дорогие предупреждения
 
@@ -37,6 +45,16 @@
 | `payme.cancel-is-the-refund` | функции возврата | параметра суммы нет, поэтому возврат всегда на весь платёж |
 | `multicard.callback-reject-refunds` | обработчики `callback_url` | любой ответ, кроме HTTP 200 `{"success": true}`, отменяет платёж и возвращает деньги |
 | `multicard.payout-irreversible` | выплаты | эндпоинта отмены или реверса нет |
+| `atmos.callback-ack` | обработчики billing URL | любой ответ, кроме HTTP 200 `{"status": 1}`, означает, что списания нет |
+| `atmos.apply-no-resend` | `pay/apply`, списание холда и вызовы confirm после таймаута или 5xx | второй денежный вызов; вместо этого читайте состояние через `pay/get` или `GET /hold/{id}` |
+| `atmos.reverse-success-id` | функции возврата | `pay/reverse` с черновым `transaction_id` вместо `success_trans_id` |
+| `octo.test-flag-real-money` | непродовые окружения | без `test: true` платёж на `secure.octo.uz` настоящий |
+| `octo.hold-auto-cancel` | двухстадийные платежи | нет `set_accept` до истечения холда; Octo отменяет его, и деньги возвращаются плательщику |
+| `oson.verify-notify-signature` | обработчики уведомлений | непроверенная подпись пропускает поддельный `PAID` |
+| `oson.no-refund-api` | функции возврата | метода отмены или возврата нет; возвраты идут через кабинет или поддержку |
+| `kapitalbank.old-purpose-codes-rejected` | платёжные поручения в сумах в любом банке | со старым кодом назначения после 26.05.2026 поручение отклоняют или задерживают |
+| `kapitalbank.poll-status-not-resend` | потерянные или неясные ответы `SendPaymentIBK` | повторная отправка создаёт второе настоящее поручение |
+| `fiscal.one-receipt-per-payment` | провайдеры, которые сами регистрируют чек | второй чек на ту же продажу со своего фискального модуля |
 
 Каждый ID определён на странице жизненного цикла своего провайдера, и `scripts/lint` падает,
 если страница, `SKILL.md` или эта вики упоминают неопределённый ID. ID никогда не
@@ -59,6 +77,17 @@
   `ERROR_DEBIT_UNKNOWN`. Вместо этого опрашивайте платёж.
 - **Paynet:** ошибка, которую можно повторить, означает «проверь `status`», а не «отправь
   ещё раз».
+- **Atmos:** никогда не отправляйте повторно `pay/apply`, списание холда, MPS apply или
+  подтверждение по ПИНФЛ после таймаута, 5xx, `STPIMS-ERR-118`, `STPIMS-ERR-065` или
+  `INFO-202`. Вместо этого читайте `pay/get`, `GET /hold/{id}`, `get/ext_id` или `check`.
+- **Octo:** `shop_transaction_id` и `shop_refund_id` уникальны для каждой попытки и
+  сохраняются до вызова. После потерянного ответа проверяйте статус вызовом
+  `prepare_payment` с тремя полями.
+- **Oson:** для каждой попытки новый `transaction_id`. После потерянного ответа вызовите
+  `invoice/status` с тем же id, прежде чем создавать новый инвойс.
+- **Kapitalbank:** сохраните `uniq` до `SendPaymentIBK`. После потерянного ответа спросите
+  `CheckPayments2` по `uniq` и отправляйте повторно, только если поручение не найдено.
+  Вебхуков нет, поэтому опрашивайте.
 
 ## Если правило не опубликовано
 

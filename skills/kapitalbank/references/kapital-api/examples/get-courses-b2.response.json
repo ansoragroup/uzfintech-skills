@@ -1,0 +1,50 @@
+{
+  "error": null,
+  "id": 1234567890123456,
+  "result": {
+    "filial": "01042",
+    "date": "18.03.2026",
+    "time": "14:30:25",
+    "courses": [
+      {
+        "order": "1",
+        "flag_url": "https://example.com/flags/us.png",
+        "kod": "USD",
+        "char_kod": "840",
+        "name": "",
+        "course_cb": "12650.00",
+        "change_cb": "+0.15",
+        "course_buy": "12620.00",
+        "change_buy": "+0.10",
+        "course_sell": "12680.00",
+        "change_sell": "+0.20"
+      },
+      {
+        "order": "2",
+        "flag_url": "https://example.com/flags/eu.png",
+        "kod": "EUR",
+        "char_kod": "978",
+        "name": "",
+        "course_cb": "13850.50",
+        "change_cb": "-0.05",
+        "course_buy": "13820.00",
+        "change_buy": "-0.08",
+        "course_sell": "13881.00",
+        "change_sell": "-0.02"
+      },
+      {
+        "order": "3",
+        "flag_url": "https://example.com/flags/ru.png",
+        "kod": "RUB",
+        "char_kod": "643",
+        "name": "",
+        "course_cb": "134.25",
+        "change_cb": "+0.25",
+        "course_buy": "132.50",
+        "change_buy": "+0.20",
+        "course_sell": "135.80",
+        "change_sell": "+0.30"
+      }
+    ]
+  }
+}

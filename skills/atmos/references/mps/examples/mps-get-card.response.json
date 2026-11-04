@@ -1,0 +1,24 @@
+{
+  "payload": {
+    "card": {
+      "id": 1,
+      "status": true,
+      "masked_pan": "427831******0000",
+      "masked_card_holder": "SAMPLE HOLDER",
+      "card_type": "VISA",
+      "date_created": "2026-11-04 12:00:00",
+      "date_updated": "2026-11-04 12:00:00",
+      "verified_state": "VERIFIED",
+      "card_region": "DOMESTIC",
+      "approved": true,
+      "status_3ds": "VERIFIED",
+      "store_id": 100
+    },
+    "card_id": 1
+  },
+  "status": {
+    "code": 0,
+    "message": "Success",
+    "trace_id": "<TRACE_ID>"
+  }
+}

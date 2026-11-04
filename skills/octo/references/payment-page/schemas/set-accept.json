@@ -1,0 +1,35 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://help.octo.uz/payment-via-web/methods/set-accept.html",
+    "fetched": "2026-11-04",
+    "note": "hand-written from the set_accept and cancel pages; final_amount is required on the first and optional on the second; result = data; trimmed"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "set-accept",
+  "endpoint": "POST https://secure.octo.uz/set_accept",
+  "params": {
+    "type": "object",
+    "properties": {
+      "octo_shop_id": {"type": "integer"},
+      "octo_secret": {"type": "string"},
+      "octo_payment_UUID": {"type": "string"},
+      "accept_status": {"type": "string", "enum": ["capture", "cancel"]},
+      "final_amount": {"type": "number", "minimum": 0, "description": "amount to capture; less than the hold returns the rest to the payer"}
+    },
+    "required": ["octo_shop_id", "octo_secret", "octo_payment_UUID", "accept_status", "final_amount"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "shop_transaction_id": {"type": "string"},
+      "octo_payment_UUID": {"type": "string"},
+      "status": {"type": "string", "description": "succeeded after capture, canceled after cancel"},
+      "octo_pay_url": {"type": "string"},
+      "transfer_sum": {"type": "number"},
+      "refunded_sum": {"type": "number"},
+      "total_sum": {"type": "number"},
+      "payed_time": {"type": "string"}
+    },
+    "required": ["octo_payment_UUID", "status"]
+  }
+}

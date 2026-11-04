@@ -1,0 +1,8 @@
+{
+  "store_id": 1001,
+  "transaction_id": 234569,
+  "transaction_time": "2026-11-04 12:00:00",
+  "amount": 500000,
+  "invoice": "100001",
+  "sign": "beeeaa9d16717b0921c563e5c2f34be43c50d54f9d774c28e9fac5da6cb9ccaf"
+}

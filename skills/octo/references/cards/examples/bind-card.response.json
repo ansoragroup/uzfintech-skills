@@ -1,0 +1,11 @@
+{
+  "error": 0,
+  "data": {
+    "shop_transaction_id": "bind-100001",
+    "octo_payment_UUID": "2f1c9a40-7b3e-4d8a-9e51-6c0d2b7a8e13",
+    "status": "created",
+    "octo_pay_url": "https://pay2.octo.uz/uzcard/sms/2f1c9a40-7b3e-4d8a-9e51-6c0d2b7a8e13",
+    "refunded_sum": 0,
+    "total_sum": 1000
+  }
+}
