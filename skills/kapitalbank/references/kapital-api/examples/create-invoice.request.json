@@ -1,0 +1,11 @@
+{
+  "sid": "<SID>",
+  "code": "12345678",
+  "branch": "01042",
+  "senderAccountNumber": "20208000012345678001",
+  "receiverTinOrPinfl": "300000002",
+  "amount": 6000000,
+  "purposeText": "Оплата по договору № 100001 от 03.11.2026",
+  "purposeCode": "<PURPOSE_CODE>",
+  "dueDate": "2026-11-30T12:00:00+05:00"
+}

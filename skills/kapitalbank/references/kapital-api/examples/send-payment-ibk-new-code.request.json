@@ -1,0 +1,30 @@
+{
+  "client_id": 100,
+  "sid": "<SID>",
+  "payment": {
+    "document": {
+      "num": "100001",
+      "uniq": "100001",
+      "ddate": "03.11.2026",
+      "mfo_dt": "01042",
+      "acc_dt": "20208000012345678001",
+      "name_dt": "Merchant Example",
+      "inn_dt": "300000001",
+      "mfo_ct": "00014",
+      "acc_ct": "20208000098765432001",
+      "name_ct": "SAMPLE HOLDER",
+      "inn_ct": "300000002",
+      "purpose": "00076 алюминиевые смесители, по договору № 100001 от 03.11.2026, оплата",
+      "purp_code": "00076",
+      "amount": 100,
+      "anor": 1
+    },
+    "signs": [
+      {
+        "method": 1,
+        "sert_num": "<CERT_SERIAL>",
+        "signature": "<SIGNATURE>"
+      }
+    ]
+  }
+}

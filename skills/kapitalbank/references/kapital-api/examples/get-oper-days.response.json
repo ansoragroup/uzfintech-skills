@@ -1,0 +1,13 @@
+{
+  "error": null,
+  "id": 1234567890,
+  "result": [
+    {
+      "branch": "01042",
+      "name": " ",
+      "date": "18.03.2026",
+      "state": "OPEN",
+      "desc": " "
+    }
+  ]
+}

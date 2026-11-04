@@ -2446,3 +2446,199 @@ sources:
     sha256: 25015860543a60e8351a7235c76f649e960b55bdafd0df75f048d0149e31cbab
     fetched: 2026-11-04
     status: ok
+  - id: kapitalbank-api-reference-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/api-reference
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-connect-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/kapital-api-connect
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/checklists/go-live.md]
+  - id: kapitalbank-user-authorization-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/authorization/user-authorization
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/common.md]
+  - id: kapitalbank-create-payment-order-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/payment-orders/create-payment-order
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/payment-orders.md]
+  - id: kapitalbank-payment-status-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/payment-orders/payment-status
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/payment-orders.md]
+  - id: kapitalbank-document-list-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/statements-and-accounts/document-list
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-mt940-statement-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/statements-and-accounts/mt940-statement
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-account-information-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/clients-and-accounts/account-information
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-client-account-information-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/clients-and-accounts/client-account-information
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/checklists/statements.md]
+  - id: kapitalbank-oper-day-information-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/clients-and-accounts/oper-day-information
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-budget-recipient-account-check-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/directories/budget-recipient-account-check
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-treasury-account-check-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/directories/treasury-account-check
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-currency-rates-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/directories/currency-rates
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md]
+  - id: kapitalbank-create-invoice-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/invoices/create-invoice
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-invoice-status-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: html
+    lang: ru
+    url: https://b2b-api-docs.kapitalbank.uz/invoices/invoice-status
+    spa: bundle
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/lifecycle/README.md]
+  - id: kapitalbank-connection-instruction-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: file
+    lang: ru
+    url: https://b2b-api.kapitalbank.uz/cdn/open-api/api-documentation.pdf
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/checklists/go-live.md]
+    status: fetch-failed 2026-11-04
+  - id: kapitalbank-connection-application-ru
+    provider: kapitalbank
+    product: kapital-api
+    kind: file
+    lang: ru
+    url: https://b2b-api.kapitalbank.uz/cdn/open-api/application-for-connection.docx
+    refs: [skills/kapitalbank/references/kapital-api/README.md, skills/kapitalbank/references/sandbox/README.md, skills/kapitalbank/checklists/go-live.md]
+    status: fetch-failed 2026-11-04
+  - id: cbu-purpose-codes-ru
+    provider: kapitalbank
+    product: purpose-codes
+    kind: file
+    lang: ru
+    url: https://static.buhgalter.uz/tsdocs/ru/sravniteln_tabl_ru.xlsx
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md]
+    sha256: aea0465fc80e6c7ce39963d6808e5a6ff023df5c5e23427b4819de66ed91943f
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-codes-uz
+    provider: kapitalbank
+    product: purpose-codes
+    kind: file
+    lang: uz
+    url: https://static.buhgalter.uz/tsdocs/uz/sravniteln_tabl_uz.xlsx
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md]
+    sha256: 921aa80ac85c655acd2252fda979fa4e156e0a2e1347334db007ccc5ead828f7
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-codes-article-ru
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: ru
+    url: https://buxgalter.uz/publish/doc/text215319_kakie_kody_ispolzovat_pri_zapolnenii_platejnyh_porucheniy
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md, skills/kapitalbank/references/lifecycle/README.md]
+    sha256: e20e9926c20093cf8ea69eed82fc502e1cdeecff17da81382efcead54eb1f66e
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-codes-article-uz
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: uz
+    url: https://buxgalter.uz/oz/publish/doc/text215399_bank_tulovlarining_kodlari2
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md, skills/kapitalbank/references/lifecycle/README.md]
+    sha256: 7ec942c5e24f61a20adedfc45b031bc1275c19c94b653892aef3a167ecef5ac8
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-purpose-details-kdb-ru
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: ru
+    url: https://kdb.uz/ru/press-center/news/new-requirements-for-completing-the-payment-details-field-in-uzbek-soums-payment-orders
+    refs: [skills/kapitalbank/references/purpose-codes/README.md, skills/kapitalbank/checklists/purpose-codes.md, skills/kapitalbank/references/lifecycle/README.md]
+    sha256: a7addee19ad4357f9b0194ab7abb1ff138a01e5f858562b77287c8d6c1e90be8
+    fetched: 2026-11-04
+    status: ok
+  - id: cbu-p2p-purpose-optional-en
+    provider: kapitalbank
+    product: purpose-codes
+    kind: html
+    lang: en
+    url: https://kun.uz/en/news/2026/03/26/central-bank-backtracks-on-mandatory-p2p-transfer-descriptions-following-public-pressure
+    refs: [skills/kapitalbank/references/purpose-codes/README.md]
+    sha256: 7830c648c5c041fade62f64df9c7c186bfe9185abe8bbd9f71b5508b351a31b4
+    fetched: 2026-11-04
+    status: ok
