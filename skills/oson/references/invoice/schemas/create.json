@@ -1,0 +1,38 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://github.com/Osonuz/Woocommerce-gateway-oson/blob/43ff85efb26c2284bfca7b186026ee0f3d011613/plugin.php",
+    "fetched": "2026-11-04",
+    "note": "hand-written and reconstructed from Oson's own shop plugins (WooCommerce, OpenCart, Bitrix, Webasyst); no published schema exists. params = the JSON body every plugin sends, result = the fields the plugins read. Required lists are what all plugins send, not a vendor contract"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "invoice/create",
+  "endpoint": "POST https://api.oson.uz/api/invoice/create",
+  "params": {
+    "type": "object",
+    "properties": {
+      "merchant_id": {"type": ["string", "integer"], "description": "shop id from the cabinet"},
+      "transaction_id": {"type": "string", "minLength": 1, "maxLength": 255, "description": "your unique invoice id"},
+      "user_account": {"type": ["string", "integer"], "description": "order or customer id"},
+      "amount": {"type": ["number", "string"], "description": "major units of currency (soum for UZS), not tiyin"},
+      "currency": {"type": "string", "enum": ["UZS"]},
+      "comment": {"type": "string"},
+      "phone": {"type": "string", "description": "payer phone, digits only (Bitrix strips the plus)"},
+      "lang": {"type": "string", "enum": ["ru", "uz", "en"]},
+      "lifetime": {"type": ["integer", "string"], "description": "invoice lifetime; unit not stated (plugins send 30 or 14400)"},
+      "return_url": {"type": "string"},
+      "notify_url": {"type": "string", "description": "sent only by the OpenCart plugin"}
+    },
+    "required": ["merchant_id", "transaction_id", "amount", "currency"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {"type": "string", "description": "REGISTRED on success"},
+      "transaction_id": {"type": "string"},
+      "bill_id": {"type": ["integer", "string"]},
+      "pay_url": {"type": "string"},
+      "error_code": {"type": ["integer", "string"]},
+      "message": {"type": "string"}
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "merchant_id": "1001",
+  "transaction_id": "100001",
+  "user_account": "100001",
+  "amount": 150000,
+  "currency": "UZS",
+  "comment": "Payment order #100001",
+  "phone": "998901234567",
+  "lang": "ru",
+  "lifetime": 30,
+  "return_url": "https://merchant.example.com/checkout/return?order=100001",
+  "notify_url": "https://merchant.example.com/payments/oson/notify"
+}

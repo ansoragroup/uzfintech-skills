@@ -1,0 +1,20 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://github.com/Osonuz/OpenCart-Plugin/blob/b68320637c9dbd61f47359487921c036a466719d/upload/catalog/controller/extension/payment/osongw.php",
+    "fetched": "2026-11-04",
+    "note": "hand-written and reconstructed from Oson's own shop plugins; params = the JSON body Oson posts to your notify URL as the plugins read it. The expected answer is not documented, so there is no result schema"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "notify",
+  "endpoint": "POST <notify_url>",
+  "params": {
+    "type": "object",
+    "properties": {
+      "transaction_id": {"type": "string", "minLength": 1},
+      "bill_id": {"type": ["integer", "string"]},
+      "status": {"type": "string", "enum": ["REGISTRED", "ON_PROGRESS", "PAID", "DECLINED", "PAY_ERROR", "EXPIRED"]},
+      "signature": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "required": ["transaction_id", "bill_id", "status", "signature"]
+  }
+}

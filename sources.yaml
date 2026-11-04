@@ -2692,3 +2692,53 @@ sources:
     sha256: 7830c648c5c041fade62f64df9c7c186bfe9185abe8bbd9f71b5508b351a31b4
     fetched: 2026-11-04
     status: ok
+  - id: oson-woocommerce-plugin
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/Woocommerce-gateway-oson/master/plugin.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 89343573cdb5c0c19877c38756c0de6c968d62d1defb2fa218329b543596d370
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-woocommerce-exchanger
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/Woocommerce-gateway-oson/master/inc/ic_exchanger_class.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 2ba344424e4a39bfd233f988b7079885ca045698974a132de1f5de8caf2acd79
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-webasyst-payment
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/Webasyst-Shop-Script-Plugin/master/oson/lib/osonPayment.class.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 48275bfed1dbf0f5785c76e81a513b8356ec6d75047f79a42452583338b5b506
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-opencart-controller
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/OpenCart-Plugin/master/upload/catalog/controller/extension/payment/osongw.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 817fcc6ca52d23d32c6ecf46d5760b9315bdc46526ec15227a4ee38202ddec87
+    fetched: 2026-11-04
+    status: ok
+  - id: oson-bitrix-api
+    provider: oson
+    product: common
+    kind: file
+    lang: ru
+    url: https://raw.githubusercontent.com/Osonuz/OSON-modul-for-1C-Bitriks/main/oson.payment/lib/api.php
+    refs: [skills/oson/references/common/README.md, skills/oson/references/invoice/README.md, skills/oson/references/notify/README.md, skills/oson/references/lifecycle/README.md]
+    sha256: 7cffce9fb052b079ee23e13a7680ac13cf70728236bc35293827556dc83617db
+    fetched: 2026-11-04
+    status: ok

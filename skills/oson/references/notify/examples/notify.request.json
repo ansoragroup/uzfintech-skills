@@ -1,0 +1,6 @@
+{
+  "transaction_id": "100001",
+  "bill_id": 200001,
+  "status": "PAID",
+  "signature": "8b52d8cd889955406c49600621d1ee89ccdea8e6b9e68bb26703308d773d8205"
+}

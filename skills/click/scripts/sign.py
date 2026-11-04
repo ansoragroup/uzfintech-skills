@@ -115,6 +115,9 @@ SCHEMES = {
     "octo.notify": ("octo", "notify_url signature = upper(sha1(unique_key octo_payment_UUID status)); "
                     "separator undocumented, plain concatenation assumed",
                     "octo_payment_UUID status", "OCTO_UNIQUE_KEY"),
+    "oson.notify": ("oson", "notify signature = sha256(sha256(token:merchant_id):transaction_id:bill_id:status), "
+                    "lower-case hex, as the vendor plugins compute it; pass merchant_id with -f",
+                    "merchant_id transaction_id bill_id status", "OSON_TOKEN"),
 }
 
 
@@ -152,6 +155,11 @@ def compute(scheme, f, secret, body, backend=False):
     if scheme == "octo.notify":
         head = "%s%s" % (f["octo_payment_UUID"], f["status"])
         return hexdigest("sha1", secret + head).upper(), "sha1(%s%s)" % (MASK, head), "signature"
+    if scheme == "oson.notify":
+        inner = hexdigest("sha256", "%s:%s" % (secret, f["merchant_id"]))
+        tail = "%s:%s:%s" % (f["transaction_id"], f["bill_id"], f["status"])
+        return hexdigest("sha256", "%s:%s" % (inner, tail)), \
+            "sha256(sha256(%s:%s):%s)" % (MASK, f["merchant_id"], tail), "signature"
     raise KeyError(scheme)
 
 
@@ -298,6 +306,8 @@ VECTORS = [
      "https://checkout.paycom.uz/bT01ZTczMGU4ZTBiODUyYTQxN2FhNDljZWI7YWMub3JkZXJfaWQ9MTAwMDAxO2E9NTAwMDAwO2w9cnU="),
     ("octo.notify", {"octo_payment_UUID": "53684ec6-2794-43e1-a3e1-43e368604bae", "status": "succeeded"},
      b"", "octo_test", "0FCDF61B1F6B0C5FE8255E3E6B527F52CB10E794"),
+    ("oson.notify", {"merchant_id": "1001", "transaction_id": "100001", "bill_id": "200001", "status": "PAID"},
+     b"", "oson_test", "8b52d8cd889955406c49600621d1ee89ccdea8e6b9e68bb26703308d773d8205"),
 ]
 
 

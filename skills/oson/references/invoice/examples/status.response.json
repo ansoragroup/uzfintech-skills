@@ -1,0 +1,6 @@
+{
+  "status": "PAID",
+  "transaction_id": "100001",
+  "bill_id": 200001,
+  "pay_url": "https://pay.example.com/oson/200001"
+}

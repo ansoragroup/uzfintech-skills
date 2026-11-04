@@ -1,0 +1,29 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://github.com/Osonuz/Webasyst-Shop-Script-Plugin/blob/ea43f49aa0a9ff801d4e3a5d5a74f386b7e35ae3/oson/lib/osonPayment.class.php",
+    "fetched": "2026-11-04",
+    "note": "hand-written and reconstructed from Oson's own shop plugins; no published schema exists. params = what OpenCart, Bitrix and Webasyst send, result = the fields they read (Webasyst relies on pay_url being present in this reply)"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "invoice/status",
+  "endpoint": "POST https://api.oson.uz/api/invoice/status",
+  "params": {
+    "type": "object",
+    "properties": {
+      "merchant_id": {"type": ["string", "integer"]},
+      "transaction_id": {"type": "string", "minLength": 1, "maxLength": 255}
+    },
+    "required": ["merchant_id", "transaction_id"]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {"type": "string", "enum": ["REGISTRED", "ON_PROGRESS", "PAID", "DECLINED", "PAY_ERROR", "EXPIRED"]},
+      "transaction_id": {"type": "string"},
+      "bill_id": {"type": ["integer", "string"]},
+      "pay_url": {"type": "string"},
+      "error_code": {"type": ["integer", "string"]},
+      "message": {"type": "string"}
+    }
+  }
+}
