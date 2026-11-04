@@ -1,0 +1,35 @@
+{
+  "error": null,
+  "id": 1234567890,
+  "result": [
+    {
+      "aid": 12345,
+      "branch": "01042",
+      "account": "20208000012345678001",
+      "name": "OOO \"Demo Client\"",
+      "val": "000",
+      "o_date": "15.03.2023",
+      "l_date": "18.03.2026",
+      "s_in": 13000000000,
+      "s_out": 10000000000,
+      "dt": 9900000000,
+      "ct": 6900000000,
+      "canpay": 1,
+      "state": 2,
+      "notif_in": 1,
+      "notif_out": 1,
+      "sign1": 0,
+      "sign2": 0,
+      "sign3": 0,
+      "stateName": "string",
+      "special": [
+        {
+          "branch": "string",
+          "acc": "string",
+          "id_special": 0,
+          "prim": "string"
+        }
+      ]
+    }
+  ]
+}

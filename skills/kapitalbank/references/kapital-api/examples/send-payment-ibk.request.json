@@ -1,0 +1,37 @@
+{
+  "client_id": 123123,
+  "sid": "example-session-id",
+  "payment": {
+    "document": {
+      "num": "157",
+      "branch": null,
+      "general_id": null,
+      "uniq": "20200504111647102176",
+      "ddate": "20.05.2020",
+      "mfo_dt": "00974",
+      "acc_dt": "2020800002345678001",
+      "name_dt": "OOO \\\"TRUE CLIENT OF BANK\\\"",
+      "inn_dt": "777777777",
+      "mfo_ct": "00974",
+      "acc_ct": "20208000012345678001",
+      "name_ct": "test",
+      "inn_ct": "",
+      "purpose": "test",
+      "purp_code": "00699",
+      "amount": 100,
+      "dtype": "35",
+      "state": 1,
+      "dir": 1,
+      "err": "",
+      "err_msg": "",
+      "anor": 1
+    },
+    "signs": [
+      {
+        "method": 1,
+        "sert_num": "string",
+        "signature": "string"
+      }
+    ]
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://b2b-api-docs.kapitalbank.uz/payment-orders/create-payment-order",
+    "fetched": "2026-11-04",
+    "note": "transcribed from the field table on the page; descriptions in our own words; MFO and purp_code patterns derived (5-digit MFO elsewhere in the docs, 5-digit CBU codes); anor enum and signs minItems derived; the page says success returns the document id and code 55, while the sample prints result 1"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "kind": "path",
+  "method": "POST",
+  "path": "/Mobile.svc/SendPaymentIBK",
+  "summary": "Create a payment order in internet banking, including Online 24/7",
+  "requestBody": {
+    "required": true,
+    "contentType": "application/json",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "integer",
+          "description": "organization id (Client.id from APILogin)"
+        },
+        "sid": {
+          "type": "string",
+          "description": "session value (sid) from APILogin; optional because login and password may come in Authorization: Basic instead"
+        },
+        "payment": {
+          "type": "object",
+          "properties": {
+            "document": {
+              "type": "object",
+              "properties": {
+                "num": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "document number"
+                },
+                "branch": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "MFO"
+                },
+                "general_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "common document id"
+                },
+                "uniq": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "unique document code (yours; CheckPayments2 finds the document by it)"
+                },
+                "ddate": {
+                  "type": "string",
+                  "description": "document date; format not stated, the sample uses dd.MM.yyyy"
+                },
+                "mfo_dt": {
+                  "type": "string",
+                  "description": "payer bank MFO (5 digits)",
+                  "pattern": "^\\d{5}$"
+                },
+                "acc_dt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "payer account; not required in the table, the sample has 19 digits"
+                },
+                "name_dt": {
+                  "type": "string",
+                  "description": "payer name"
+                },
+                "inn_dt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "payer INN"
+                },
+                "mfo_ct": {
+                  "type": "string",
+                  "description": "payee bank MFO (5 digits)",
+                  "pattern": "^\\d{5}$"
+                },
+                "acc_ct": {
+                  "type": "string",
+                  "description": "payee account"
+                },
+                "name_ct": {
+                  "type": "string",
+                  "description": "payee name"
+                },
+                "inn_ct": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "payee INN"
+                },
+                "purpose": {
+                  "type": "string",
+                  "description": "payment details text (Детали платежа); the bank cleans it and may add to it"
+                },
+                "purp_code": {
+                  "type": "string",
+                  "description": "payment purpose code from the CBU directory; five digits (derived from the CBU table); old codes are rejected from 2026-05-26",
+                  "pattern": "^\\d{5}$"
+                },
+                "amount": {
+                  "type": "number",
+                  "description": "amount (decimal; unit not stated)"
+                },
+                "dtype": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "document type"
+                },
+                "state": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "description": "document status"
+                },
+                "dir": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "description": "direction"
+                },
+                "err": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "error code"
+                },
+                "err_msg": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "error message"
+                },
+                "anor": {
+                  "type": "integer",
+                  "description": "Флаг анорирования; GetDoc1C describes 0 as the SEP (9:00-17:00 on open-balance days) and 1 as Anor (24/7)",
+                  "enum": [
+                    0,
+                    1
+                  ]
+                }
+              },
+              "required": [
+                "ddate",
+                "mfo_dt",
+                "name_dt",
+                "mfo_ct",
+                "acc_ct",
+                "name_ct",
+                "purpose",
+                "purp_code",
+                "amount",
+                "anor"
+              ]
+            },
+            "signs": {
+              "type": "array",
+              "description": "electronic signatures (ЭЦП)",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "method": {
+                    "type": "integer",
+                    "description": "signature method"
+                  },
+                  "sert_num": {
+                    "type": "string",
+                    "description": "certificate serial number"
+                  },
+                  "signature": {
+                    "type": "string",
+                    "description": "signature value"
+                  }
+                }
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "document",
+            "signs"
+          ]
+        }
+      },
+      "required": [
+        "client_id",
+        "payment"
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "contentType": "application/json",
+      "description": "every documented answer is HTTP 200 with the {error, id, result} envelope; check error first",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "null on success",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "description": "error code"
+              },
+              "message": {
+                "type": "string",
+                "description": "error text"
+              }
+            }
+          },
+          "id": {
+            "type": "integer",
+            "description": "response id generated by the bank (long)"
+          },
+          "result": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "result code; the page says 55 on success (55 is also the draft status in CheckPayments2), the sample prints 1"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      }
+    }
+  }
+}
