@@ -24,25 +24,32 @@ sign.py --selftest                      check the implementation against fixed v
 
 `PAYLOAD` is a file or `-` for stdin, JSON or form-urlencoded. `alif.webhook` signs the raw
 body bytes instead. `-f key=value` adds or overrides a field. The copy inside a skill lists
-only that provider's schemes.
+only that provider's schemes; a skill without schemes of its own (`kapitalbank`, `fiscal`,
+`uzfintech`) lists them all.
 
 ### Schemes
 
 | Scheme | What it computes | Secret variable |
 |---|---|---|
 | `alif.webhook` | `Signature` header = base64(HMAC-SHA256(secret, raw body)) | `ALIF_WEBHOOK_SECRET` |
+| `atmos.basic` | `POST /token` `Authorization: Basic base64(consumer_key:consumer_secret)` | `ATMOS_CONSUMER_SECRET` |
+| `atmos.callback` | Callback API `sign` over store_id transaction_id invoice amount api_key; the docs name no hash, so it tries MD5, SHA1 and SHA256 and says which matched | `ATMOS_API_KEY` |
 | `click.prepare` | SHOP API Prepare `sign_string` (MD5) | `CLICK_SECRET_KEY` |
 | `click.complete` | SHOP API Complete `sign_string` (MD5) | `CLICK_SECRET_KEY` |
 | `click.advanced` | Advanced / Split Shop `sign_string`, `params` values in body order | `CLICK_SECRET_KEY` |
 | `click.auth` | Merchant API `Auth` header: `merchant_user_id:sha1(ts+secret):ts`, seconds | `CLICK_SECRET_KEY` |
 | `multicard.callback` | success callback `sign` = md5(store_id invoice_id amount secret) | `MULTICARD_SECRET` |
 | `multicard.webhook` | status webhook `sign`; tries the MD5 and SHA1 forms and says which matched | `MULTICARD_SECRET` |
+| `octo.notify` | `notify_url` `signature` = upper(sha1(unique_key octo_payment_UUID status)); the separator is undocumented, plain concatenation assumed | `OCTO_UNIQUE_KEY` |
+| `oson.notify` | notification `signature` = sha256(sha256(token:merchant_id):transaction_id:bill_id:status), lower-case hex, as the vendor plugins compute it; pass `merchant_id` with `-f` | `OSON_TOKEN` |
 | `payme.basic` | Merchant API `Authorization: Basic base64(login:KEY)` | `PAYME_KEY` |
 | `payme.xauth` | Subscribe API `X-Auth`: `CASHBOX_ID`, or `CASHBOX_ID:KEY` with `--backend` | `PAYME_KEY` |
 | `payme.checkout` | checkout GET URL = host + base64(`m=..;ac.<field>=..;a=..;l=..`) | none |
 | `paynet.basic` | `Authorization: Basic base64(service_id:secret_key)` | `PAYNET_SECRET_KEY` |
 | `uzum.fastpay` | FastPay / Dynamic QR `Authorization`: `user:sha1(ts+secret):ts`, milliseconds | `UZUM_SECRET_KEY` |
 | `uzum.basic` | Merchant API webhooks, CrossBorder, PaymentHub: Basic `login:password` | `UZUM_PASSWORD` |
+
+Kapitalbank has no scheme: the ЭЦП for `signs[]` in `SendPaymentIBK` is not published.
 
 ### Secrets
 
@@ -130,6 +137,34 @@ $ python3 skills/uzum/scripts/validate.py --list crossborder/confirm
 crossborder/confirmcredit                    POST /cbt/v1/transfer/confirm_credit Confirm Transfer to Uzbekistan
 crossborder/confirmdebit                     POST /cbt/v1/transfer/confirm_debit Confirm Transfer from Uzbekistan
 crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_payment Confirm a Cross-border Payment
+```
+
+## Skill-specific tools
+
+Two skills add an offline script of their own next to the shared pair:
+
+| Script | What it does |
+|---|---|
+| `skills/kapitalbank/scripts/purpose_codes.py` | CBU payment purpose codes for UZS payment orders in any bank: `check` a code (with `--date`), map an `old` code to the new ones, `search` by text, assemble and check "Детали платежа" with `details`, check an `account` number with its MFO |
+| `skills/fiscal/scripts/mxik.py` | `check` 17-digit MXIK (IKPU) codes offline; `lookup` prints the Tasnif URL, and calls tasnif.soliq.uz only with `--online`; `--selftest` |
+
+`purpose_codes.py` prints `OK`, `NO ...` or `INVALID` and exits `1` on a rejected, unknown or
+invalid input. `mxik.py check` exits `1` for an invalid code.
+
+```console
+$ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
+old 00545  Сантехнические товары | Сантехника товарлари
+  -> 00039  ПЛАСТМАССЫ И ИЗДЕЛИЯ ИЗ НИХ | ...   [note: изготовленные из пластмассы / ...]
+  -> 00068  ...
+  -> 00069  ...
+  -> 00076  ...
+  several new codes: pick the one whose note or name fits the goods
+
+$ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
+04016001002000000
+  OK: 17 digits
+  ...
+  confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
 ```
 
 ## In your CI

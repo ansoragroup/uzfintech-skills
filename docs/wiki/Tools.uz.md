@@ -27,6 +27,7 @@ sign.py --selftest                      check the implementation against fixed v
 `PAYLOAD` — fayl yoki stdin uchun `-`, JSON yoki form-urlencoded formatda. `alif.webhook` esa
 buning oʻrniga soʻrov tanasining xom baytlarini imzolaydi. `-f key=value` maydon qoʻshadi yoki
 mavjud maydonni almashtiradi. Skill ichidagi nusxa faqat oʻsha provayderning sxemalarini
+koʻrsatadi; oʻz sxemasi boʻlmagan skill (`kapitalbank`, `fiscal`, `uzfintech`) hammasini
 koʻrsatadi.
 
 ### Sxemalar
@@ -34,18 +35,24 @@ koʻrsatadi.
 | Sxema | Nimani hisoblaydi | Maxfiy kalit oʻzgaruvchisi |
 |---|---|---|
 | `alif.webhook` | `Signature` headeri = base64(HMAC-SHA256(secret, raw body)) | `ALIF_WEBHOOK_SECRET` |
+| `atmos.basic` | `POST /token` `Authorization: Basic base64(consumer_key:consumer_secret)` | `ATMOS_CONSUMER_SECRET` |
+| `atmos.callback` | Callback API `sign` qiymati store_id transaction_id invoice amount api_key boʻyicha; hujjatlarda xesh nomi yoʻq, shuning uchun MD5, SHA1 va SHA256 ni sinab koʻradi va qaysi biri mos kelganini aytadi | `ATMOS_API_KEY` |
 | `click.prepare` | SHOP API Prepare `sign_string` (MD5) | `CLICK_SECRET_KEY` |
 | `click.complete` | SHOP API Complete `sign_string` (MD5) | `CLICK_SECRET_KEY` |
 | `click.advanced` | Advanced / Split Shop `sign_string`, `params` qiymatlari soʻrov tanasidagi tartibda | `CLICK_SECRET_KEY` |
 | `click.auth` | Merchant API `Auth` headeri: `merchant_user_id:sha1(ts+secret):ts`, soniyalarda | `CLICK_SECRET_KEY` |
 | `multicard.callback` | success callbackidagi `sign` = md5(store_id invoice_id amount secret) | `MULTICARD_SECRET` |
 | `multicard.webhook` | status webhookidagi `sign`; MD5 va SHA1 variantlarini sinab koʻradi va qaysi biri mos kelganini aytadi | `MULTICARD_SECRET` |
+| `octo.notify` | `notify_url` dagi `signature` = upper(sha1(unique_key octo_payment_UUID status)); ajratuvchi hujjatlashtirilmagan, oddiy ulash deb olingan | `OCTO_UNIQUE_KEY` |
+| `oson.notify` | xabarnomadagi `signature` = sha256(sha256(token:merchant_id):transaction_id:bill_id:status), kichik harfli hex, provayder plaginlari hisoblaganidek; `merchant_id` ni `-f` bilan bering | `OSON_TOKEN` |
 | `payme.basic` | Merchant API `Authorization: Basic base64(login:KEY)` | `PAYME_KEY` |
 | `payme.xauth` | Subscribe API `X-Auth`: `CASHBOX_ID` yoki `--backend` bilan `CASHBOX_ID:KEY` | `PAYME_KEY` |
 | `payme.checkout` | checkout GET havolasi = host + base64(`m=..;ac.<field>=..;a=..;l=..`) | yoʻq |
 | `paynet.basic` | `Authorization: Basic base64(service_id:secret_key)` | `PAYNET_SECRET_KEY` |
 | `uzum.fastpay` | FastPay / Dynamic QR `Authorization`: `user:sha1(ts+secret):ts`, millisekundlarda | `UZUM_SECRET_KEY` |
 | `uzum.basic` | Merchant API webhooklari, CrossBorder, PaymentHub: Basic `login:password` | `UZUM_PASSWORD` |
+
+Kapitalbank uchun sxema yoʻq: `SendPaymentIBK` dagi `signs[]` uchun ERI (ЭЦП) eʼlon qilinmagan.
 
 ### Maxfiy kalitlar
 
@@ -135,6 +142,35 @@ $ python3 skills/uzum/scripts/validate.py --list crossborder/confirm
 crossborder/confirmcredit                    POST /cbt/v1/transfer/confirm_credit Confirm Transfer to Uzbekistan
 crossborder/confirmdebit                     POST /cbt/v1/transfer/confirm_debit Confirm Transfer from Uzbekistan
 crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_payment Confirm a Cross-border Payment
+```
+
+## Alohida skillarning vositalari
+
+Ikki skillda umumiy juftlik yonida oʻz oflayn skripti bor:
+
+| Skript | Nima qiladi |
+|---|---|
+| `skills/kapitalbank/scripts/purpose_codes.py` | Istalgan bankdagi soʻmli toʻlov topshiriqnomalari uchun Markaziy bank toʻlov maqsadi kodlari: `check` kodni tekshiradi (`--date` bilan), `old` eski kodni yangilariga moslaydi, `search` matn boʻyicha qidiradi, `details` "Детали платежа" ni yigʻadi va tekshiradi, `account` hisob raqamini MFO bilan birga tekshiradi |
+| `skills/fiscal/scripts/mxik.py` | `check` 17 xonali MXIK (IKPU) kodlarini oflayn tekshiradi; `lookup` Tasnif URL manzilini chiqaradi va tasnif.soliq.uz ga faqat `--online` bilan murojaat qiladi; `--selftest` |
+
+`purpose_codes.py` `OK`, `NO ...` yoki `INVALID` chiqaradi va kiritilgan qiymat rad etilgan,
+nomaʼlum yoki notoʻgʻri boʻlsa, `1` kodi bilan chiqadi. `mxik.py check` notoʻgʻri kod uchun
+`1` kodi bilan chiqadi.
+
+```console
+$ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
+old 00545  Сантехнические товары | Сантехника товарлари
+  -> 00039  ПЛАСТМАССЫ И ИЗДЕЛИЯ ИЗ НИХ | ...   [note: изготовленные из пластмассы / ...]
+  -> 00068  ...
+  -> 00069  ...
+  -> 00076  ...
+  several new codes: pick the one whose note or name fits the goods
+
+$ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
+04016001002000000
+  OK: 17 digits
+  ...
+  confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
 ```
 
 ## CI jarayonida

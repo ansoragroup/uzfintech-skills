@@ -52,7 +52,7 @@ Install from a tag to keep the same contract notes until you choose to update:
 
 ```sh
 git submodule add https://github.com/ansoragroup/uzfintech-skills vendor/uzfintech-skills
-git -C vendor/uzfintech-skills checkout v0.2.0
+git -C vendor/uzfintech-skills checkout v0.3.0
 ```
 
 [CHANGELOG.md](https://github.com/ansoragroup/uzfintech-skills/blob/main/CHANGELOG.md) lists
@@ -65,8 +65,10 @@ Vendor the repository (the submodule above works) and add this to your project's
 
 ```md
 ## Payment provider contracts
-For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard), read
-`vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Run its
+For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
+Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+follow its pointers. To choose or compare providers, start with
+`vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
 review changes against the matching `checklists/*.md`.
 ```

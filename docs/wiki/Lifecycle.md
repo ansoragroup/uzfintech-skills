@@ -22,6 +22,14 @@ fiscalizes a payment.
 | [Paynet](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/paynet/references/lifecycle/README.md) | `reverse` only within **1 month** of the payment. OTP lifetime comes from `ttlSeconds`. | `reverse`, then poll `status` (`CANCEL_PENDING` is not final). Lock the button against a second click. | Who registers the receipt is not published. Ask Paynet at onboarding. |
 | [Payme](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/payme/references/lifecycle/README.md) | A state `1` transaction is cancelled after **12 h** (43 200 000 ms, reason `4`). Holds: **30 days**. | A refund is a full `CancelTransaction` on a performed transaction (state `-2`, reason `5`). Answer `-31007` to refuse. | Payme fiscalizes from `detail` and sends `SetFiscalData` `PERFORM` / `CANCEL`. Store them as separate receipts and never register a second one yourself. |
 | [Multicard](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/multicard/references/lifecycle/README.md) | Hold `expiry` in **minutes** (up to 30 days). Invoice `ttl` in seconds (default 1 day). Auth token lives **24 h**. | Full refunds; partial ones only when Multicard enables them on the terminal, and they fiscalize a new receipt. Payouts cannot be undone. | `tax_registration` on the store decides: `1` Multicard fiscalizes, `0` you do. |
+| [Atmos](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/atmos/references/lifecycle/README.md) | Hold `duration` in **minutes**; capture before `hold_till` or get `STPIMS-ERR-144`. Bearer token lives **3600 s**. The billing callback must answer HTTP 200 `{"status": 1}`, or there is no debit. | `pay/reverse` takes the `success_trans_id`, not the draft `transaction_id`. A partial refund is `create-reverse-partial`, then `confirm-reverse-partial` with `ofd_items`. A PINFL debit can be cancelled only before `confirm`. No refund is documented for an MPS payment without a hold. | Send `ofd_items` with the IKPU; Atmos returns `ofd_url`, so it registers the receipt (derived). A refund receipt for a full reversal is not described. |
+| [Octo](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/octo/references/lifecycle/README.md) | Two-stage hold: `set_accept` within **30 min** by the two-stage pages (the cancel page says up to 30 days Humo / Uzcard, 7 days Visa / Mastercard), or Octo cancels it. An unpaid payment ends after `ttl` minutes. Three wrong OTPs cancel the payment. | `set_accept` `cancel` works only on a hold. A `succeeded` payment goes back through `/refund`, full or partial, at least 1 USD equivalent and at most 10 mln UZS per call. | Octo registers it from `basket` items that your bank manager registered first, else `error: 403`; read it with `fiscal-data`. Return receipts are not described. |
+| [Oson](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/oson/references/lifecycle/README.md) | Invoice `lifetime` unit is not documented (plugins send `30` or `14400`); after it the status is `EXPIRED`. | No cancel or refund method in any plugin; refunds go through the Oson cabinet or support. | No plugin sends receipt fields, and who registers the receipt is not documented. Register it yourself until Oson confirms. |
+| [Kapitalbank](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/kapitalbank/references/lifecycle/README.md) | Old purpose codes are refused from **26.05.2026** (new codes in force from 06.05.2026). `anor: 0` (СЭП) runs 9:00–17:00 on open days, `anor: 1` (Anor) 24/7. A `fin: 0` statement is not final. | No recall method is published; ask the bank. A resent `SendPaymentIBK` is a second real order. | Not applicable: payment orders between legal entities are bank transfers. |
+
+The [`fiscal`](https://github.com/ansoragroup/uzfintech-skills/blob/main/skills/fiscal/references/lifecycle/README.md) skill compares receipt rules across
+providers. Only Uzum Fiscalization publishes a deadline (24 h); Payme, Alif, Multicard,
+Octo and Atmos publish none, so register right after the payment is confirmed.
 
 ## The warnings that cost the most
 
@@ -37,6 +45,16 @@ fiscalizes a payment.
 | `payme.cancel-is-the-refund` | refund features | there is no amount parameter, so a refund is always the full payment |
 | `multicard.callback-reject-refunds` | `callback_url` handlers | any answer other than HTTP 200 `{"success": true}` cancels and refunds the payment |
 | `multicard.payout-irreversible` | payouts | no cancel or reversal endpoint exists |
+| `atmos.callback-ack` | billing URL handlers | any answer other than HTTP 200 `{"status": 1}` means no debit |
+| `atmos.apply-no-resend` | `pay/apply`, hold capture and confirm calls after a timeout or 5xx | a second money call; read the state with `pay/get` or `GET /hold/{id}` instead |
+| `atmos.reverse-success-id` | refund features | `pay/reverse` with the draft `transaction_id` instead of `success_trans_id` |
+| `octo.test-flag-real-money` | non-production environments | without `test: true` the payment on `secure.octo.uz` is real |
+| `octo.hold-auto-cancel` | two-stage payments | no `set_accept` before the hold expires; Octo cancels it and the payer gets the money back |
+| `oson.verify-notify-signature` | notification handlers | an unchecked signature lets a forged `PAID` through |
+| `oson.no-refund-api` | refund features | no cancel or refund method; refunds go through the cabinet or support |
+| `kapitalbank.old-purpose-codes-rejected` | UZS payment orders in any bank | an old purpose code after 26.05.2026 gets the order refused or delayed |
+| `kapitalbank.poll-status-not-resend` | lost or unclear `SendPaymentIBK` answers | a resend creates a second real order |
+| `fiscal.one-receipt-per-payment` | providers that register the receipt themselves | a second receipt for the same sale on your own fiscal module |
 
 Every ID is defined on its provider's lifecycle page, and `scripts/lint` fails when a page,
 a `SKILL.md` or this wiki mentions an ID that is not defined. IDs are never renamed or
@@ -57,6 +75,17 @@ The rules differ by provider, so never carry them across:
 - **Multicard:** never resend a money call after a timeout, 5xx or `ERROR_DEBIT_UNKNOWN`. Poll
   the payment instead.
 - **Paynet:** a retryable error means "check `status`", not "send again".
+- **Atmos:** never resend `pay/apply`, a hold capture, an MPS apply or a PINFL confirm after a
+  timeout, 5xx, `STPIMS-ERR-118`, `STPIMS-ERR-065` or `INFO-202`. Read `pay/get`,
+  `GET /hold/{id}`, `get/ext_id` or `check` instead.
+- **Octo:** `shop_transaction_id` and `shop_refund_id` are unique per attempt and stored
+  before the call. After a lost reply, check the status with the three-field
+  `prepare_payment` call.
+- **Oson:** use a fresh `transaction_id` per attempt. After a lost reply, call
+  `invoice/status` with the same id before creating a new invoice.
+- **Kapitalbank:** store `uniq` before `SendPaymentIBK`. After a lost reply, ask
+  `CheckPayments2` by `uniq` and resend only when the order is not found. There are no
+  webhooks, so poll.
 
 ## When a rule is not published
 

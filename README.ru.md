@@ -3,13 +3,14 @@
 [English](README.md) · **Русский** · [Oʻzbekcha](README.uz.md) · [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-6%20providers-0a7c66.svg)](#провайдеры)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#провайдеры)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#установка)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#инструменты)
 
 Скиллы для агентов по API узбекских платёжных провайдеров: **Uzum Bank, Alif, Click,
-Paynet, Payme и Multicard**. Работают в Claude Code, Codex, Cursor и любом другом агенте,
-который читает файлы `SKILL.md`.
+Paynet, Payme, Multicard, Atmos, Octo, Oson и Kapitalbank**, а также общий для всех них
+скилл по фискальным чекам и скилл-роутер для выбора и сравнения провайдеров. Работают в
+Claude Code, Codex, Cursor и любом другом агенте, который читает файлы `SKILL.md`.
 
 Модели знают эти API лишь приблизительно. Путают tiyin и сумы, подписывают не ту строку,
 придумывают коды ошибок и тестовые карты. Со скиллами агент отвечает по точным заметкам о
@@ -27,11 +28,20 @@ Paynet, Payme и Multicard**. Работают в Claude Code, Codex, Cursor и 
 | Скилл | Провайдер | Продукты |
 |---|---|---|
 | [`uzum`](skills/uzum/SKILL.md) | Uzum Bank | Merchant API (вебхуки), Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub |
-| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary, карта перехода со старого API |
+| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, рассрочка Alif Nasiya, Payments, Cards, Hold, Monitoring, Summary, карта перехода со старого API |
 | [`click`](skills/click/SKILL.md) | Click | SHOP API, Advanced / Split Shop, Merchant API, токены карт, Fiscalization, CLICK Pass, платёжная ссылка / кнопка / виджет, Telegram Payments |
 | [`paynet`](skills/paynet/SKILL.md) | Paynet | Интернет-эквайринг (Humo / Uzcard): authorize, confirm, status, reverse |
 | [`payme`](skills/payme/SKILL.md) | Payme (Paycom) | Merchant API, Subscribe API (карты, чеки, холды), Checkout (GET / POST / кнопка / QR), Fiscalization |
 | [`multicard`](skills/multicard/SKILL.md) | Multicard | Инвойсы и scanpay, привязка карт, платежи (токен / карта / приложение / сплит), возвраты, холды, выплаты, отчёты |
+| [`atmos`](skills/atmos/SKILL.md) | Atmos | Платежи (Uzcard / Humo: pay-create / pre-apply / apply, мультиплатежи, полный и частичный реверс, платёжная страница, HTML-виджет), привязка карт, холды, списание по ПИНФЛ, Visa / Mastercard (MPS / IPS), Callback API |
+| [`octo`](skills/octo/SKILL.md) | Octo | Эквайринг Visa / Mastercard / UnionPay и Uzcard / Humo: платёжная страница (одностадийная / двухстадийная), своя форма карты (PCI DSS), токены карт, полный и частичный возврат, фискализация (basket, fiscal-data) |
+| [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (invoice/create с pay_url, invoice/status) и подписанное уведомление об оплате, восстановлено по открытым плагинам Oson для магазинов |
+| [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Kapital API для юрлиц: APILogin, платёжные поручения SendPaymentIBK, CheckPayments2, выписки (GetDoc1C, GetMT940), проверка счёта и получателя, курсы валют, счета-фактуры; коды назначения платежа ЦБ для платёжных поручений в сумах в любом банке |
+| [`fiscal`](skills/fiscal/SKILL.md) | Все провайдеры | Фискальные чеки: коды MXIK (ИКПУ) из Tasnif, коды упаковки, поля НДС и льгот, маркировка Asl Belgisi, типы чеков, кто регистрирует чек и в каком поле у каждого провайдера |
+| [`uzfintech`](skills/uzfintech/SKILL.md) | Все провайдеры | Роутер: выбор провайдера под задачу, сравнение провайдеров, шпаргалка по всем провайдерам (единицы, авторизация, колбэки, возвраты, холды, фискализация, тестовые хосты), заметки по UzQR |
+
+Если задача — выбрать или сравнить провайдеров, начните с `uzfintech`. Он указывает на
+скилл провайдера, в котором лежит контракт.
 
 ## Установка
 
@@ -72,8 +82,10 @@ cp -R uzfintech-skills/skills/* ~/.codex/skills/     # Codex
 
 ```md
 ## Payment provider contracts
-For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard), read
-`vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Run its
+For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
+Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+follow its pointers. To choose or compare providers, start with
+`vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
 review changes against the matching `checklists/*.md`.
 ```
@@ -103,7 +115,9 @@ review changes against the matching `checklists/*.md`.
 
 - **Один провайдер на скилл.** Задача с несколькими провайдерами загружает каждый скилл
   отдельно и сравнивает в конце. Правила единиц, авторизации или повторов никогда не
-  переносятся с одного провайдера на другой.
+  переносятся с одного провайдера на другой. Роутер `uzfintech` помогает выбрать и
+  сравнить, а затем передаёт работу скиллу провайдера. Коды для чеков, общие для всех
+  провайдеров (MXIK, коды упаковки, маркировка), лежат в скилле `fiscal`.
 - **Сначала быстрый путь.** Подписи, заголовки авторизации, ссылки на оплату и форму payload
   считает код, а не модель. Агент запускает инструмент и цитирует его вывод.
 - **Inline и spill.** В `SKILL.md` лежит только то, что нужно в каждой задаче. Контракты,
@@ -170,6 +184,10 @@ form-urlencoded тела и пропускает значения `<PLACEHOLDER>
 кодом `0` при успехе, `1` при несовпадении и `2` при ошибке использования, так что их можно
 ставить в CI. Все схемы описаны на [вики-странице «Инструменты»](docs/wiki/Tools.ru.md).
 
+У двух скиллов есть свой офлайн-инструмент: `skills/kapitalbank/scripts/purpose_codes.py`
+ищет и проверяет коды назначения платежа ЦБ, а `skills/fiscal/scripts/mxik.py` проверяет
+коды MXIK, с поиском в Tasnif по явному флагу.
+
 ## Попробуйте
 
 - «Click говорит, что наш `sign_string` в Prepare неверный. Вот тело запроса.»
@@ -178,6 +196,8 @@ form-urlencoded тела и пропускает значения `<PLACEHOLDER>
 - «Проверь подпись вебхука Alif на Go.»
 - «Какие тестовые карты и OTP-коды в песочнице Uzum Checkout?»
 - «Проверь нашу интеграцию Multicard по чек-листу.»
+- «Какие провайдеры умеют холдировать средства и списывать позже? Сравни Atmos и Octo.»
+- «В нашем платёжном поручении всё ещё код назначения 00545. Чем его заменить?»
 - «Payme sandboxida qaysi test kartalardan foydalanish mumkin?»
 
 ## Качество
@@ -188,7 +208,7 @@ form-urlencoded тела и пропускает значения `<PLACEHOLDER>
 | Самотест парсера | `scripts/sync --selftest` | встроенный YAML-парсер совпадает с PyYAML |
 | Поведенческие evals | `claude plugin eval . --runs 3` | агент со скиллом грузит нужного провайдера, цитирует точные коды, запускает инструменты и не выдумывает тестовые данные и коммерческие условия |
 
-12 eval-кейсов лежат в [`evals/`](evals/README.md). CI запускает lint на каждом PR.
+20 eval-кейсов лежат в [`evals/`](evals/README.md). CI запускает lint на каждом PR.
 
 ## Актуальность
 

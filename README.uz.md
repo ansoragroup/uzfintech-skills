@@ -3,13 +3,15 @@
 [English](README.md) · [Русский](README.ru.md) · **Oʻzbekcha** · [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-6%20providers-0a7c66.svg)](#provayderlar)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#provayderlar)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#oʻrnatish)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#vositalar)
 
 Oʻzbekiston toʻlov provayderlari APIʼlari uchun agent skillari: **Uzum Bank, Alif, Click,
-Paynet, Payme va Multicard**. Ular Claude Code, Codex, Cursor va `SKILL.md` fayllarini oʻqiy
-oladigan boshqa har qanday agentda ishlaydi.
+Paynet, Payme, Multicard, Atmos, Octo, Oson va Kapitalbank**, shuningdek ularning hammasi
+uchun umumiy fiskal chek skilli hamda provayder tanlash va solishtirish uchun router skill.
+Ular Claude Code, Codex, Cursor va `SKILL.md` fayllarini oʻqiy oladigan boshqa har qanday
+agentda ishlaydi.
 
 Modellar bu APIʼlarni yuzaki biladi. Tiyin bilan soʻmni adashtiradi, notoʻgʻri satrni
 imzolaydi, xato kodlari va sandbox kartalarini oʻzidan toʻqib chiqaradi. Skillar bilan agent
@@ -29,11 +31,20 @@ payloadlarni esa skriptlar bilan tekshiradi. Har bir skillda quyidagilar bor:
 | Skill | Provayder | Mahsulotlar |
 |---|---|---|
 | [`uzum`](skills/uzum/SKILL.md) | Uzum Bank | Merchant API (webhooklar), Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub |
-| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Payments, Cards, Hold, Monitoring, Summary, eski APIʼdan oʻtish xaritasi |
+| [`alif`](skills/alif/SKILL.md) | Alif (alifpay) | Checkout, Alif Nasiya muddatli toʻlovi, Payments, Cards, Hold, Monitoring, Summary, eski APIʼdan oʻtish xaritasi |
 | [`click`](skills/click/SKILL.md) | Click | SHOP API, Advanced / Split Shop, Merchant API, karta tokenlari, Fiscalization, CLICK Pass, toʻlov havolasi / tugmasi / vidjeti, Telegram Payments |
 | [`paynet`](skills/paynet/SKILL.md) | Paynet | Internet-ekvayring (Humo / Uzcard): authorize, confirm, status, reverse |
 | [`payme`](skills/payme/SKILL.md) | Payme (Paycom) | Merchant API, Subscribe API (kartalar, cheklar, holdlar), Checkout (GET / POST / tugma / QR), Fiscalization |
 | [`multicard`](skills/multicard/SKILL.md) | Multicard | Invoyslar va scanpay, karta bogʻlash, toʻlovlar (token / karta / ilova / split), qaytarishlar, holdlar, payoutlar, hisobotlar |
+| [`atmos`](skills/atmos/SKILL.md) | Atmos | Toʻlovlar (Uzcard / Humo: pay-create / pre-apply / apply, multi-toʻlovlar, toʻliq va qisman reverse, toʻlov sahifasi, HTML vidjet), karta bogʻlash, holdlar, PINFL boʻyicha yechib olish, Visa / Mastercard (MPS / IPS), Callback API |
+| [`octo`](skills/octo/SKILL.md) | Octo | Visa / Mastercard / UnionPay va Uzcard / Humo ekvayringi: toʻlov sahifasi (bir bosqichli / ikki bosqichli), oʻz karta formangiz (PCI DSS), karta tokenlari, toʻliq va qisman qaytarish, fiskallashtirish (basket, fiscal-data) |
+| [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (pay_url qaytaradigan invoice/create, invoice/status) va imzolangan toʻlov xabarnomasi, Osonning ochiq kodli doʻkon plaginlari asosida tiklangan |
+| [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Yuridik shaxslar uchun Kapital API: APILogin, SendPaymentIBK toʻlov topshiriqnomalari, CheckPayments2, koʻchirmalar (GetDoc1C, GetMT940), hisob va oluvchini tekshirish, valyuta kurslari, hisob-fakturalar; istalgan bankdagi soʻmli toʻlov topshiriqnomalari uchun Markaziy bank toʻlov maqsadi kodlari |
+| [`fiscal`](skills/fiscal/SKILL.md) | Barcha provayderlar | Fiskal cheklar: Tasnifdagi MXIK (IKPU) kodlari, qadoq kodlari, QQS va imtiyoz maydonlari, Asl Belgisi markirovkasi, chek turlari, har bir provayderda chekni kim va qaysi maydonda roʻyxatdan oʻtkazadi |
+| [`uzfintech`](skills/uzfintech/SKILL.md) | Barcha provayderlar | Router: vazifa uchun provayder tanlash, provayderlarni solishtirish, barcha provayderlar boʻyicha shpargalka (pul birliklari, auth, callbacklar, qaytarishlar, holdlar, fiskallashtirish, test hostlar), UzQR boʻyicha qaydlar |
+
+Vazifa provayder tanlash yoki solishtirish boʻlsa, `uzfintech` skillidan boshlang. U
+kontrakt saqlanadigan provayder skilliga yoʻl koʻrsatadi.
 
 ## Oʻrnatish
 
@@ -74,8 +85,10 @@ submodule sifatida) va loyihangizdagi `AGENTS.md` fayliga quyidagini yozing:
 
 ```md
 ## Payment provider contracts
-For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard), read
-`vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and follow its pointers. Run its
+For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
+Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+follow its pointers. To choose or compare providers, start with
+`vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and
 review changes against the matching `checklists/*.md`.
 ```
@@ -106,6 +119,9 @@ ish esa faqat kerakli kontekst berilgan alohida joylarda bajariladi.
 - **Bitta skill — bitta provayder.** Bir nechta provayderga tegishli vazifada har bir skill
   alohida yuklanadi, solishtirish esa oxirida qilinadi. Pul birligi, auth yoki takroriy
   soʻrovlar kabi qoidalar bir provayderdan boshqasiga hech qachon koʻchirilmaydi.
+  `uzfintech` routeri tanlash va solishtirishga yordam beradi, keyin ishni provayder
+  skilliga topshiradi. Barcha provayderlar uchun umumiy chek kodlari (MXIK, qadoq kodlari,
+  markirovka) `fiscal` skillida.
 - **Avval tezkor yoʻl (fast path).** Imzolar, auth headerlar, checkout havolalari va payload
   tuzilishini model emas, kod hisoblaydi. Agent vositani ishga tushiradi va uning natijasini
   keltiradi.
@@ -177,6 +193,10 @@ Ikkala vosita ham muvaffaqiyatda `0`, mos kelmaslikda `1`, notoʻgʻri ishlatilg
 bilan chiqadi, shuning uchun ularni CI jarayonida ham ishlatsa boʻladi. Barcha sxemalar
 [Vositalar wiki sahifasida](docs/wiki/Tools.uz.md).
 
+Ikki skillning oʻz oflayn vositasi bor: `skills/kapitalbank/scripts/purpose_codes.py`
+Markaziy bank toʻlov maqsadi kodlarini qidiradi va tekshiradi, `skills/fiscal/scripts/mxik.py` esa MXIK
+kodlarini tekshiradi, Tasnifda qidirish faqat alohida flag bilan yoqiladi.
+
 ## Sinab koʻring
 
 - "Click bizning Prepare `sign_string` notoʻgʻri deyapti. Mana soʻrov tanasi."
@@ -185,6 +205,8 @@ bilan chiqadi, shuning uchun ularni CI jarayonida ham ishlatsa boʻladi. Barcha 
 - "Alif webhook imzosini Go tilida tekshirib ber."
 - "Uzum Checkout sandboxida qaysi test kartalar va OTP kodlar ishlatiladi?"
 - "Multicard integratsiyamizni checklist boʻyicha tekshirib chiq."
+- "Qaysi provayderlar mablagʻni hold qilib, keyin yecha oladi? Atmos va Octoni solishtir."
+- "Toʻlov topshiriqnomamizda hali ham 00545 maqsad kodi turibdi. Uning oʻrniga nima?"
 - "Payme sandboxida qaysi test kartalardan foydalanish mumkin?"
 
 ## Sifat
@@ -195,7 +217,7 @@ bilan chiqadi, shuning uchun ularni CI jarayonida ham ishlatsa boʻladi. Barcha 
 | Parser self-test | `scripts/sync --selftest` | ichki YAML parser PyYAML bilan bir xil natija beradi |
 | Xatti-harakat evallari | `claude plugin eval . --runs 3` | skill ulangan agent toʻgʻri provayderni yuklaydi, aniq kodlarni keltiradi, vositalarni ishga tushiradi va sandbox maʼlumotlari yoki tijorat shartlarini oʻylab topmaydi |
 
-12 ta eval holati [`evals/`](evals/README.md) papkasida. CI har bir PR uchun lintni ishga
+20 ta eval holati [`evals/`](evals/README.md) papkasida. CI har bir PR uchun lintni ishga
 tushiradi.
 
 ## Dolzarblik

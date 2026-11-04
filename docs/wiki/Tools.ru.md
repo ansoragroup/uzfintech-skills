@@ -26,25 +26,32 @@ sign.py --selftest                      check the implementation against fixed v
 
 `PAYLOAD` — это файл или `-` для stdin, в JSON или form-urlencoded. `alif.webhook`
 подписывает сырые байты тела. `-f key=value` добавляет или переопределяет поле. Копия внутри
-скилла показывает только схемы своего провайдера.
+скилла показывает только схемы своего провайдера; скилл без собственных схем
+(`kapitalbank`, `fiscal`, `uzfintech`) показывает их все.
 
 ### Схемы
 
 | Схема | Что считает | Переменная секрета |
 |---|---|---|
 | `alif.webhook` | заголовок `Signature` = base64(HMAC-SHA256(secret, raw body)) | `ALIF_WEBHOOK_SECRET` |
+| `atmos.basic` | `POST /token` `Authorization: Basic base64(consumer_key:consumer_secret)` | `ATMOS_CONSUMER_SECRET` |
+| `atmos.callback` | `sign` в Callback API по store_id transaction_id invoice amount api_key; хеш в документации не назван, поэтому пробует MD5, SHA1 и SHA256 и говорит, какой совпал | `ATMOS_API_KEY` |
 | `click.prepare` | `sign_string` для SHOP API Prepare (MD5) | `CLICK_SECRET_KEY` |
 | `click.complete` | `sign_string` для SHOP API Complete (MD5) | `CLICK_SECRET_KEY` |
 | `click.advanced` | `sign_string` для Advanced / Split Shop, значения `params` в порядке тела | `CLICK_SECRET_KEY` |
 | `click.auth` | заголовок `Auth` Merchant API: `merchant_user_id:sha1(ts+secret):ts`, секунды | `CLICK_SECRET_KEY` |
 | `multicard.callback` | `sign` в success callback = md5(store_id invoice_id amount secret) | `MULTICARD_SECRET` |
 | `multicard.webhook` | `sign` в вебхуке статуса; пробует формы MD5 и SHA1 и говорит, какая совпала | `MULTICARD_SECRET` |
+| `octo.notify` | `signature` в `notify_url` = upper(sha1(unique_key octo_payment_UUID status)); разделитель не документирован, принята простая конкатенация | `OCTO_UNIQUE_KEY` |
+| `oson.notify` | `signature` уведомления = sha256(sha256(token:merchant_id):transaction_id:bill_id:status), hex в нижнем регистре, как считают плагины вендора; `merchant_id` передайте через `-f` | `OSON_TOKEN` |
 | `payme.basic` | Merchant API `Authorization: Basic base64(login:KEY)` | `PAYME_KEY` |
 | `payme.xauth` | Subscribe API `X-Auth`: `CASHBOX_ID` или `CASHBOX_ID:KEY` с `--backend` | `PAYME_KEY` |
 | `payme.checkout` | GET-ссылка на оплату = хост + base64(`m=..;ac.<field>=..;a=..;l=..`) | нет |
 | `paynet.basic` | `Authorization: Basic base64(service_id:secret_key)` | `PAYNET_SECRET_KEY` |
 | `uzum.fastpay` | `Authorization` для FastPay / Dynamic QR: `user:sha1(ts+secret):ts`, миллисекунды | `UZUM_SECRET_KEY` |
 | `uzum.basic` | вебхуки Merchant API, CrossBorder, PaymentHub: Basic `login:password` | `UZUM_PASSWORD` |
+
+У Kapitalbank схемы нет: ЭЦП для `signs[]` в `SendPaymentIBK` не опубликована.
 
 ### Секреты
 
@@ -132,6 +139,35 @@ $ python3 skills/uzum/scripts/validate.py --list crossborder/confirm
 crossborder/confirmcredit                    POST /cbt/v1/transfer/confirm_credit Confirm Transfer to Uzbekistan
 crossborder/confirmdebit                     POST /cbt/v1/transfer/confirm_debit Confirm Transfer from Uzbekistan
 crossborder/confirmpayment                   POST /cbt/v1/payment/confirm_payment Confirm a Cross-border Payment
+```
+
+## Инструменты отдельных скиллов
+
+У двух скиллов рядом с общей парой есть свой офлайн-скрипт:
+
+| Скрипт | Что делает |
+|---|---|
+| `skills/kapitalbank/scripts/purpose_codes.py` | Коды назначения платежа ЦБ для платёжных поручений в сумах в любом банке: `check` проверяет код (с `--date`), `old` сопоставляет старый код с новыми, `search` ищет по тексту, `details` собирает и проверяет «Детали платежа», `account` проверяет номер счёта вместе с МФО |
+| `skills/fiscal/scripts/mxik.py` | `check` проверяет 17-значные коды MXIK (ИКПУ) офлайн; `lookup` печатает URL в Tasnif и обращается к tasnif.soliq.uz только с `--online`; `--selftest` |
+
+`purpose_codes.py` печатает `OK`, `NO ...` или `INVALID` и завершается с кодом `1`, если
+ввод отклонён, неизвестен или неверен. `mxik.py check` завершается с кодом `1` для неверного
+кода.
+
+```console
+$ python3 skills/kapitalbank/scripts/purpose_codes.py old 00545
+old 00545  Сантехнические товары | Сантехника товарлари
+  -> 00039  ПЛАСТМАССЫ И ИЗДЕЛИЯ ИЗ НИХ | ...   [note: изготовленные из пластмассы / ...]
+  -> 00068  ...
+  -> 00069  ...
+  -> 00076  ...
+  several new codes: pick the one whose note or name fits the goods
+
+$ python3 skills/fiscal/scripts/mxik.py check 04016001002000000
+04016001002000000
+  OK: 17 digits
+  ...
+  confirm on https://tasnif.soliq.uz/ and take the package code from the code's card
 ```
 
 ## В вашем CI
