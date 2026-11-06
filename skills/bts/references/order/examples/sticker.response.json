@@ -1,0 +1,9 @@
+{
+  "status": true,
+  "status_code": 200,
+  "message": "success",
+  "data": {
+    "labelEncode": "https://merchant.example.com/label-large.pdf",
+    "labelSticker": "https://merchant.example.com/label-small.pdf"
+  }
+}

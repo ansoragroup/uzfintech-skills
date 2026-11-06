@@ -1,0 +1,70 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/test-update-status",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; test environment only. params = JSON body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "order/test-update-status",
+  "endpoint": "POST https://apitest.bts.uz:28345/v1/order/test-update-status",
+  "params": {
+    "type": "object",
+    "properties": {
+      "orderId": {
+        "type": "integer"
+      },
+      "statusCode": {
+        "type": "string",
+        "description": "target code as a string, e.g. \"200\""
+      }
+    },
+    "required": [
+      "orderId",
+      "statusCode"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "orderId": {
+            "type": "integer"
+          },
+          "oldStatus": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "newStatus": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

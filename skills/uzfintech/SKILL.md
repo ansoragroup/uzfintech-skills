@@ -23,6 +23,7 @@ signature, error code and window is in that provider's own skill.
 | [octo](../octo/SKILL.md) | payment page or own card form, one- and two-stage payments, card tokens, refunds, fiscal basket, test flag |
 | [oson](../oson/SKILL.md) | invoice with `pay_url`, status, signed notification; rebuilt from Oson's plugins |
 | [kapitalbank](../kapitalbank/SKILL.md) | corporate internet-banking API: UZS payment orders, statuses, statements, invoices, purpose codes |
+| [bts](../bts/SKILL.md) | courier, not payments: BTS Express quote, shipment create / cancel / track, sticker, status webhook; Fargo has no public API |
 | [fiscal](../fiscal/SKILL.md) | MXIK, package codes, marking, receipt types, and who registers the receipt per provider |
 | [tasnif](../tasnif/SKILL.md) | Tasnif catalogue lookups: text and barcode search, code card with packages, history, pictures, point-of-sale `cl-api` check, VAT-payer check |
 
@@ -57,6 +58,7 @@ does not publish the feature or it does not apply; the
 | fiscal receipts, or who registers them | fiscal, then the provider's skill |
 | MXIK search by barcode or name, package codes, re-checking stored codes | tasnif, then fiscal for the receipt line |
 | UZS payment orders, statements, purpose codes | kapitalbank |
+| courier delivery: quote, create a shipment, track, label, status webhook | bts |
 | compare units, auth, callbacks, refunds or test hosts | [cheatsheet](references/cheatsheet/README.md), then each provider's skill |
 | several providers behind one checkout | [lifecycle](references/lifecycle/README.md#warn-without-being-asked), the cheatsheet, then each skill |
 | test without moving real money | [cheatsheet](references/cheatsheet/README.md#refunds-holds-receipts-and-test-hosts), then the provider's sandbox page |

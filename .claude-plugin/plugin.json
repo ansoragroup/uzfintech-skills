@@ -1,7 +1,7 @@
 {
   "name": "uzfintech",
-  "version": "0.4.0",
-  "description": "Exact API contracts and implementation checklists for Uzbek payment providers: Uzum Bank (Merchant API, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub), Alif (alifpay, including Alif Nasiya instalments), Click (SHOP API, Merchant API, card tokens, fiscalization, CLICK Pass, Telegram Payments), Paynet (Humo / Uzcard acquiring), Payme (Merchant API, Subscribe API, Checkout, fiscalization), Multicard (invoices, card binding, payments, holds, payouts), Atmos (Uzcard / Humo payments, card linking, holds, withdrawal by PINFL, Visa / Mastercard), Octo (payment page, one- and two-stage payments, card tokens, refunds, fiscalization), Oson (invoice API and payment notification) and Kapitalbank (Kapital API for legal entities and CBU payment purpose codes), plus a cross-provider fiscal receipt skill (MXIK, package codes, marking), a Tasnif catalogue skill (MXIK search by name and barcode, package codes, re-checks, point-of-sale and VAT-payer checks) and a router skill for choosing and comparing providers, with vendor sandbox test data, lifecycle warnings (deadlines, refunds, fiscal receipts) and signature / payload checking tools.",
+  "version": "0.5.0",
+  "description": "Exact API contracts and implementation checklists for Uzbek payment providers: Uzum Bank (Merchant API, Checkout, Fiscalization, FastPay, Dynamic QR, CrossBorder, Remit Core, Ratekeeper, Nasiya, PaymentHub), Alif (alifpay, including Alif Nasiya instalments), Click (SHOP API, Merchant API, card tokens, fiscalization, CLICK Pass, Telegram Payments), Paynet (Humo / Uzcard acquiring), Payme (Merchant API, Subscribe API, Checkout, fiscalization), Multicard (invoices, card binding, payments, holds, payouts), Atmos (Uzcard / Humo payments, card linking, holds, withdrawal by PINFL, Visa / Mastercard), Octo (payment page, one- and two-stage payments, card tokens, refunds, fiscalization), Oson (invoice API and payment notification) and Kapitalbank (Kapital API for legal entities and CBU payment purpose codes), the BTS Express courier API (quotes, shipments, tracking, labels, status webhook), plus a cross-provider fiscal receipt skill (MXIK, package codes, marking), a Tasnif catalogue skill (MXIK search by name and barcode, package codes, re-checks, point-of-sale and VAT-payer checks) and a router skill for choosing and comparing providers, with vendor sandbox test data, lifecycle warnings (deadlines, refunds, fiscal receipts) and signature / payload checking tools.",
   "author": {
     "name": "uzfintech-skills contributors"
   },
@@ -23,6 +23,7 @@
     "octo",
     "oson",
     "kapitalbank",
+    "bts",
     "mxik",
     "ikpu",
     "tasnif",

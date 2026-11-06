@@ -1,0 +1,292 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/order-add",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page and a production client; params = JSON body. The page marks few fields required; the list below is what a working create sends"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "order/add",
+  "endpoint": "POST https://apitest.bts.uz:28345/v1/order/add",
+  "params": {
+    "type": "object",
+    "properties": {
+      "clientId": {
+        "type": "string",
+        "description": "your order id; echoed in the webhook"
+      },
+      "wcs_code": {
+        "type": "string"
+      },
+      "pickup_type": {
+        "type": "string",
+        "enum": [
+          "self",
+          "courier"
+        ]
+      },
+      "dropoff_type": {
+        "type": "string",
+        "enum": [
+          "courier",
+          "branch"
+        ]
+      },
+      "is_sender_location": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "is_receiver_location": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "ready_to_take": {
+        "type": "string"
+      },
+      "sender": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "description": "+998XXXXXXXXX"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city_code": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "branch_code": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "phone",
+          "city_code"
+        ]
+      },
+      "receiver": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "description": "+998XXXXXXXXX"
+          },
+          "phone1": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city_code": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "branch_code": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "phone",
+          "city_code"
+        ]
+      },
+      "bringBackMoney": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ],
+        "description": "1 = cash on delivery"
+      },
+      "back_money": {
+        "type": "number",
+        "description": "amount to collect when bringBackMoney is 1"
+      },
+      "takePhoto": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "bringBackWaybill": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "cargo": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "kilograms"
+          },
+          "volume": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "piece": {
+            "type": "integer"
+          },
+          "packageId": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "postTypeId": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "postTypes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ]
+                },
+                "count": {
+                  "type": "integer"
+                },
+                "cost": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "optionId": {
+                  "type": "integer"
+                },
+                "goods": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "mxikGoodsId": {
+                        "type": "string",
+                        "description": "MXIK (IKPU) code of the item"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "goodPrice": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "weight"
+        ]
+      }
+    },
+    "required": [
+      "pickup_type",
+      "dropoff_type",
+      "sender",
+      "receiver",
+      "cargo"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "integer"
+          },
+          "barcode": {
+            "type": "string"
+          },
+          "status": {
+            "type": [
+              "object",
+              "integer",
+              "string"
+            ]
+          },
+          "cost": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

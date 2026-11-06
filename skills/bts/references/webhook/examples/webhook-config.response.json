@@ -1,0 +1,12 @@
+{
+  "status": true,
+  "status_code": 200,
+  "message": "success",
+  "data": {
+    "webhook_url": "https://merchant.example.com/bts/webhook",
+    "environment": "test",
+    "has_token": true,
+    "method": "POST",
+    "date": "2026-11-06 10:00:00"
+  }
+}

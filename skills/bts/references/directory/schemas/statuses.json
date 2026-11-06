@@ -1,0 +1,63 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/status",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; codes 900 and 1000 are not in the list"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "status/index",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/status/index",
+  "params": {
+    "type": "object",
+    "properties": {}
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "next_possible_statuses": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

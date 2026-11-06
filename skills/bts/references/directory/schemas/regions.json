@@ -1,0 +1,57 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/directory-regions",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; params = query string (none), result = the response envelope"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "directory/regions",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/directory/regions",
+  "params": {
+    "type": "object",
+    "properties": {}
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

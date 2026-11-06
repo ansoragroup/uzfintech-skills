@@ -1,0 +1,6 @@
+{
+  "webhook_url": "https://merchant.example.com/bts/webhook",
+  "environment": "test",
+  "has_token": true,
+  "itx-apiKey": "<WEBHOOK_TOKEN>"
+}

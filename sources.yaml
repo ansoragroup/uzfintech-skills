@@ -2722,6 +2722,136 @@ sources:
     sha256: 48275bfed1dbf0f5785c76e81a513b8356ec6d75047f79a42452583338b5b506
     fetched: 2026-11-04
     status: ok
+  - id: bts-auth-login
+    provider: bts
+    product: common
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/auth-login
+    refs: [skills/bts/references/common/README.md]
+    sha256: 52c14ec44f8189eeb10169707d564c05fa62e20e9ead08a13f2a330bd44de10c
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-auth-login-refresh
+    provider: bts
+    product: common
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/auth-login-refresh
+    refs: [skills/bts/references/common/README.md]
+    sha256: 00daab54781c0de8e74d6e2574fba1547214f6ddd5cd50e4bf4434c5c61ed344
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-directory-regions
+    provider: bts
+    product: directory
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/directory-regions
+    refs: [skills/bts/references/directory/README.md]
+    sha256: ae0b38b6c438c37d3b6648f620fa925805fabd71a36b2e5f06d5188372cf277e
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-directory-cities
+    provider: bts
+    product: directory
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/directory-cities
+    refs: [skills/bts/references/directory/README.md]
+    sha256: 1c6286e577b2ac70d09d9affd317e2f024666cd55bf4a80f9ad015125d62865d
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-directory-branches
+    provider: bts
+    product: directory
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/directory-branches
+    refs: [skills/bts/references/directory/README.md]
+    sha256: fa887fea9318e16b96d19051a5cc9e5ee813db5d2f9a67497d1698659f307fca
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-status
+    provider: bts
+    product: common
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/status
+    refs: [skills/bts/references/common/README.md, skills/bts/references/lifecycle/README.md]
+    sha256: bc07d24bfd34bb15f2d4c924ffba24b001fdc6856b51eff0be9cee525cdc1a04
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-order-add
+    provider: bts
+    product: order
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/order-add
+    refs: [skills/bts/references/order/README.md, skills/bts/references/lifecycle/README.md]
+    sha256: ddad9514c4562ecc1455b038e109effa8f705ca7fb60c601750b9fd3286037f3
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-order-calculator
+    provider: bts
+    product: quote
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/order-calculator
+    refs: [skills/bts/references/quote/README.md]
+    sha256: 836cad5c0b4d2ae839868ec43d99a886da8852d150a2f3f51071b20cd83aa70c
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-order-cancel
+    provider: bts
+    product: order
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/order-cancel
+    refs: [skills/bts/references/order/README.md, skills/bts/references/lifecycle/README.md]
+    sha256: 9405b32b2d75593ebe38935e81b4d98a602f92f319393ffefedba3b6623641f5
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-tracking
+    provider: bts
+    product: order
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/tracking
+    refs: [skills/bts/references/order/README.md]
+    sha256: 05fdf8add452e80675a23673610fd84101cddf53b17e64208a4fca266f1581d7
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-order-sticker
+    provider: bts
+    product: order
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/order-sticker
+    refs: [skills/bts/references/order/README.md]
+    sha256: e04bb65563539082df9f6b00b0220c05fe54e031bba6b63a4629293eb841a5d7
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-webhook
+    provider: bts
+    product: webhook
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/webhook
+    refs: [skills/bts/references/webhook/README.md, skills/bts/references/lifecycle/README.md]
+    sha256: 4f247ee3f775c987df6121faa1c35596f067f21888069628d889d016c33e5a88
+    fetched: 2026-11-06
+    status: ok
+  - id: bts-test-update-status
+    provider: bts
+    product: sandbox
+    kind: html
+    lang: uz
+    url: https://docs.bts.uz/page/test-update-status
+    refs: [skills/bts/references/sandbox/README.md]
+    sha256: ef2d3cfeab217a70361a1f51242f16f652c93aa2ef887eea7d099e639b5c0abf
+    fetched: 2026-11-06
+    status: ok
   - id: oson-opencart-controller
     provider: oson
     product: common

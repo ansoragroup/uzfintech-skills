@@ -1,0 +1,88 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/webhook",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page. The page says GET but documents a body; send JSON and confirm the method with BTS"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "webhook/webhook-config",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/webhook/webhook-config",
+  "params": {
+    "type": "object",
+    "properties": {
+      "webhook_url": {
+        "type": "string",
+        "description": "your HTTPS endpoint"
+      },
+      "environment": {
+        "type": "string",
+        "enum": [
+          "production",
+          "test"
+        ]
+      },
+      "has_token": {
+        "type": [
+          "boolean",
+          "integer"
+        ]
+      },
+      "itx-apiKey": {
+        "type": "string",
+        "maxLength": 512,
+        "description": "shared secret BTS sends back with every webhook"
+      }
+    },
+    "required": [
+      "webhook_url",
+      "environment"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "webhook_url": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "has_token": {
+            "type": [
+              "boolean",
+              "integer"
+            ]
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "POST"
+            ]
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}
