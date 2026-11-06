@@ -72,6 +72,28 @@ response `{"message": "success"}`, but the parameter table says `refund_id` and 
 [`../checkout/schemas/_payInvoiceWithMobi.json`](../checkout/schemas/_payInvoiceWithMobi.json),
 [`../payments/schemas/_completeInstallmentRefund.json`](../payments/schemas/_completeInstallmentRefund.json).
 
+## Observed sandbox behaviour (live run, 2026-11)
+
+The live sandbox host differs from the documented test plan in several places. Code must handle
+the documented production behaviour, but do not fail a sandbox run on these differences:
+
+- Card outcomes come back as **HTTP 200 with a `status` string** (`INSUFFICIENT_FUNDS`,
+  `SMS_NOTIFICATION_IS_OFF`, `BLOCKED_CARD`, `INCORRECT_OTP`), not as `error.code` values. Map both
+  shapes.
+- Wrong OTP returns `INCORRECT_OTP` on every attempt. No `1100`/`1106` lockout was observed after
+  four attempts.
+- The 5,000,000,000 tiyin limit is not enforced: a larger valid-card charge `SUCCEEDED`.
+- `getCardToken` with a phone that is not the card's SMS phone succeeded (no `1110`).
+- `refundPayment` (full) on a card payment returns `REVERTED`. `refundPaymentPartial` on a card or
+  `TOKEN` payment returns `1005` "partial refund allowed only with BML": partial refunds are
+  instalment-only, so reject partial card refunds before calling the bank.
+- `MOBI_SHOW_QR` with the mock tokens returned `1002` until the method is enabled for the shop.
+- `_payInvoiceWithMobi` with `installment: false` paid the invoice. `installment: true` returned
+  `1003` internal error, which blocks scenario 12 until the vendor fixes it.
+- `HOLD` capture: `pay` with `id` equal to the hold id and `method {"type": "HOLD", "id": <hold
+  id>}` `SUCCEEDED`. After that the hold reads as dismissed, and another `pay` against it returns
+  "already dismissed". `dismissHold` releases an unused hold.
+
 ## Vendor samples (copied exactly; use them in sandbox tests)
 
 `POST https://api-dev.alifpay.uz/v2/getCardToken`
