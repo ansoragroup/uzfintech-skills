@@ -1,6 +1,6 @@
 ---
 name: fiscal
-description: Provider-neutral fiscal receipt knowledge for Uzbekistan online payments - the 17-digit MXIK (IKPU / SPIC) product code from the tax committee's Tasnif catalogue (tasnif.soliq.uz) and its levels, package codes versus units, VAT and benefit (lgota) fields, Asl Belgisi marking codes for marked goods, receipt types (sale, refund, advance, credit), the ofd.soliq.uz receipt link, and one table of who registers the receipt and which field carries each value at Payme, Click, Uzum (Fiscalization and Checkout), Alif, Multicard, Octo, Paynet and Atmos. Includes an offline MXIK checker with an opt-in Tasnif lookup. Use when a provider rejects receipt items or a basket, when choosing or validating MXIK and package codes, mapping one product catalogue to several providers' fiscal fields, deciding who issues the sale or refund receipt, handling marked goods, or testing fiscalization without creating real receipts.
+description: Provider-neutral fiscal receipt knowledge for Uzbekistan online payments - the 17-digit MXIK (IKPU / SPIC) product code from the tax committee's Tasnif catalogue (tasnif.soliq.uz) and its levels, package codes versus units, VAT and benefit (lgota) fields, Asl Belgisi marking codes for marked goods, receipt types (sale, refund, advance, credit), the ofd.soliq.uz receipt link, and one table of who registers the receipt and which field carries each value at Payme, Click, Uzum (Fiscalization and Checkout), Alif, Multicard, Octo, Paynet and Atmos, plus direct ОФД (ofd.uz) integration with your own ВФМ (signed receipts, test.ofd.uz). Includes an offline MXIK checker with an opt-in Tasnif lookup. Use when a provider rejects receipt items or a basket, when choosing or validating MXIK and package codes, mapping one catalogue to several providers, deciding who issues the sale or refund receipt, handling marked goods, or testing fiscalization without creating real receipts.
 ---
 
 # Fiscal receipts (MXIK, package codes, marking, receipt types)
@@ -17,6 +17,7 @@ explains the shared concepts and maps them across providers.
 | Receipt line | package code and unit, quantity and price per provider, VAT, benefits (`lgota`), marking codes (Asl Belgisi), principal TIN / PINFL | [references/receipt-line/](references/receipt-line/README.md) |
 | Receipts | sale, refund, advance and credit receipts; who registers; refund receipts; the `ofd.soliq.uz` link | [references/receipts/](references/receipts/README.md) |
 | Providers | one mapping table: who registers, MXIK, package code, VAT, marking, refund receipt, deadline, with links to each provider's reference | [references/providers/](references/providers/README.md) |
+| Direct OFD (ВФМ) | onboarding, certificate, CMS signing, `test.ofd.uz` endpoints, ReceiptInfo fields, `ReceiptSeq`, refund, advance and credit receipts, daily report, reply codes, txkm registration API | [references/ofd-direct/](references/ofd-direct/README.md) |
 | Sandbox and samples | which providers test fiscalization, rules for tests, vendor sample codes, saved Tasnif replies | [references/sandbox/](references/sandbox/README.md) |
 | Lifecycle | warnings, deadlines, refunds, retries, what is not documented | [references/lifecycle/](references/lifecycle/README.md) |
 
@@ -32,6 +33,7 @@ explains the shared concepts and maps them across providers.
 | issue a refund receipt | [receipts](references/receipts/README.md#refund-receipts), then the provider's lifecycle page |
 | sell tobacco, alcohol, medicines, appliances, water or soft drinks | [receipt-line](references/receipt-line/README.md#marking-codes-asl-belgisi) |
 | take prepayments or sell on credit | [receipts](references/receipts/README.md#receipt-types) |
+| send receipts straight to ofd.uz with your own ВФМ / certificate | [ofd-direct](references/ofd-direct/README.md) |
 | test receipts | [sandbox](references/sandbox/README.md) |
 | exact fields of one provider | that provider's skill, linked from [providers](references/providers/README.md) |
 
@@ -71,8 +73,11 @@ the fix. Every source, deadline and refund path is in
   Uzum answers 400 `code` `2`, Click takes one of two calls.
 - `fiscal.refund-needs-sale-receipt`: Uzum and Alif issue refund receipts only when the sale
   receipt exists; watch sale-receipt failures.
-- `fiscal.test-fiscalization-only-in-tests`: only Uzum Fiscalization has a test OFD host; a
-  receipt on production is a real tax record.
+- `fiscal.test-fiscalization-only-in-tests`: only Uzum Fiscalization and the direct OFD
+  (`test.ofd.uz`) have test hosts; a receipt on production is a real tax record.
+- `fiscal.ofd-receipt-seq-per-vfm`: with your own ВФМ, assign `ReceiptSeq` once per receipt
+  and resend that number on retry; a new certificate restarts it at 1.
+- `fiscal.ofd-receipt-24h`: the ОФД rejects a receipt more than 24 h old (code `100`).
 
 ## Top gotchas
 

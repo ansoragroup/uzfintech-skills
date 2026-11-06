@@ -6,6 +6,15 @@ All notable changes to this project. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `fiscal`: direct OFD integration with your own virtual fiscal module (ВФМ), from the
+  ОФД's "Инструкция по интеграции" v6.5. Covers onboarding, the certificate and CMS
+  signing, the `test.ofd.uz` endpoints (HTTPS and WebSocket), ReceiptInfo and its
+  sub-objects, `ReceiptSeq`, refund, advance and credit receipts, the daily report, reply
+  codes with a retry policy, commission sales, the txkm registration API and the `cl-api`
+  methods. New warnings `fiscal.ofd-receipt-seq-per-vfm` and `fiscal.ofd-receipt-24h`.
+
 ### Changed
 
 - `click`: field notes from a production SHOP API setup. Covers the cabinet's separate

@@ -13,6 +13,7 @@ test host, and mock the provider's fiscal replies everywhere else. Warning
 | Provider | Test fiscalization | What the provider's sandbox page gives |
 |---|---|---|
 | [Uzum Fiscalization](../../../uzum/references/sandbox/README.md#fiscalization) | **yes**: test host `https://test-ofd.ipt-merch.com`, test key and test SPIC values from the Uzum manager | the receipts Uzum expects to see on the test host before go-live (sale, refund, discount and voucher variants) |
+| [Direct OFD (own ВФМ)](../ofd-direct/README.md#endpoints) | **yes**: test host `https://test.ofd.uz` (`/emp/v2/QRPayment`, `/emp/v3/receipt`, `wss://…/ws/emp/v3/receipt`, `/emp/v3/dreport`), test certificate from txkm `/emr-api/application/add/test`, root certificate saved from the site | the onboarding test set: sale, refund, advance and credit receipts; the instruction's sample item (below) |
 | [Uzum Checkout](../../../uzum/references/sandbox/README.md) | test terminal; the minimum test plan includes an auto-fiscalization cart that does not match `amount` (`3059`); whether the test terminal registers receipts is not stated | the Checkout test plan |
 | [Payme](../../../payme/references/sandbox/README.md) | test host `test.paycom.uz`; whether it registers receipts is not stated | vendor `detail` and `SetFiscalData` sample values |
 | [Alif](../../../alif/references/sandbox/README.md) | dev host `api-dev.alifpay.uz`; whether it registers receipts is not stated | receipt items with sample `spic` values |
@@ -55,6 +56,24 @@ real use):
 
 The Payme code ends in `001`, so it is an identification code, not a base code (derived
 from the digit levels).
+
+## Direct OFD sample (instruction v6.5)
+
+The ОФД instruction's ReceiptInfo sample item, as printed (synthetic values; `SPIC` and
+`PackageCode` there are not real Tasnif codes). Its receipt has `ReceiptSeq` `14` and
+`Time` `"2025-09-22 09:49:14"`:
+
+```json
+{"Name": "AAAA", "Barcode": "4910510714261",
+ "Labels": ["163421669813535993417", "676474780484529331078"],
+ "SPIC": "25673905740500811", "Units": 161109698, "PackageCode": "63204831988716932430",
+ "OwnerType": 1, "GoodPrice": 11793, "Price": 23586, "VAT": 2527, "VATPercent": 12,
+ "Amount": 2000, "Discount": 23586, "Other": 0, "Voucher": 0,
+ "CommissionInfo": {"PINFL": "41997648931701"}}
+```
+
+Sample reply link: `https://ofd.soliq.uz/epi?t=EZ000000000043&r=2&c=20220302113650&s=852425411426`.
+Test receipts go to `https://test.ofd.uz` only, signed with the **test** certificate.
 
 ## Tasnif replies (public classifier data)
 
