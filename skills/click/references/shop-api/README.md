@@ -174,6 +174,15 @@ The exact inputs, signatures, run order and the generator's own inconsistencies 
    The docs define no other status code.
 8. Restrict the endpoints to Click if you can. Click publishes no source IP list in the
    current docs, so the signature is the only documented protection.
+9. The merchant cabinet has two separate fields, **Prepare URL** and **Complete URL**. One
+   endpoint that branches on `action` works for both. If you expose two paths (for example
+   `.../prepare` and `.../complete`), still branch on `action` and answer `-3` when the
+   path and `action` disagree, so a swapped URL fails loudly instead of paying silently.
+   Changing these URLs moves every new payment of that `service_id` at once; switch only
+   after the new handler is deployed and an old billing is no longer expected to answer.
+10. Each service has its own minimum and maximum payment amount, set by Click for that
+   `service_id`. Reject amounts outside them in Prepare with `-2` and keep the bounds in
+   configuration, not in code.
 
 ## Examples
 

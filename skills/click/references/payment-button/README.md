@@ -62,6 +62,15 @@ snake_case keys (`service_id`, `merchant_id`, `amount`, `transaction_param`,
   callback on iOS), looking it up by `transaction_param`.
 - With `return_url`, the app opens that URL (`ACTION_VIEW`) after success or error. Bind it
   to an Activity or a Universal Link / custom scheme.
+- A website opened in a phone browser gets the same behaviour: the `https://my.click.uz/services/pay`
+  link is an app link / universal link, so the CLICK app takes it over when installed.
+  Navigate the top-level page in the same tab (`location.assign` or a plain `<a href>`),
+  started from the payer's tap. `window.open`, an iframe or a `fetch` never reach the app,
+  and popups are often blocked on mobile.
+- When the CLICK app closes, the browser may restore your page from the back/forward cache
+  without reloading it, or just make the tab visible again. Re-read the order status on
+  `pageshow` (with `event.persisted`) and on `visibilitychange` to `visible`, not only on
+  page load. Without `return_url` the payer comes back to the page they left.
 - A native Android SDK exists: `github.com/click-llc/android-msdk`. Merchants that have
   their own billing still implement the SHOP API on the server.
 
