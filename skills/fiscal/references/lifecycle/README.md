@@ -59,10 +59,19 @@ receipts, refund receipts without a sale receipt, and test receipts on productio
    fix them before the refund. Click has no refund-receipt call
    (`click.no-refund-receipt-api`). [receipts](../receipts/README.md#refund-receipts)
 9. **`fiscal.test-fiscalization-only-in-tests`**: when testing → a receipt on a production
-   fiscal module is a real tax record. Only Uzum Fiscalization documents a test OFD host;
+   fiscal module is a real tax record. Only Uzum Fiscalization and the direct OFD
+   integration (`https://test.ofd.uz`, test certificate from txkm) document a test host;
    Click documents none; Octo without `test: true` moves real money
    (`octo.test-flag-real-money`). Point tests at test hosts or stubs, never at production
    fiscal endpoints. [sandbox](../sandbox/README.md#test-fiscalization-per-provider)
+10. **`fiscal.ofd-receipt-seq-per-vfm`**: when sending receipts to the ОФД with your own ВФМ
+   → `TerminalID` + `ReceiptSeq` is the receipt's key. Assign the next number once, persist
+   it before sending and resend the same number on codes `1`, `4`, `11`, `20`, `21`; a
+   refund takes a new number. A renewed (yearly) certificate is a new ВФМ and restarts at
+   1. [ofd-direct](../ofd-direct/README.md#reply-codes-and-retries)
+11. **`fiscal.ofd-receipt-24h`**: when queueing receipts for the ОФД → a receipt more than 24
+   h older than server time is rejected with code `100`; set the current `Time`, sign again
+   and resend. Send right after the payment. [ofd-direct](../ofd-direct/README.md#reply-codes-and-retries)
 
 ## Deadlines and windows
 
@@ -70,6 +79,8 @@ receipts, refund receipts without a sale receipt, and test receipts on productio
 |---|---|---|
 | Uzum Fiscalization sale receipt | `date_time` within 24 h after the confirmed payment, not in the future; later fails with 422 (`uzum.fiscal-receipt-24h`) | [uzum fiscalization](../../../uzum/references/fiscalization/README.md#gotchas) |
 | Click `submit_items` / `submit_qrcode` | only after `payment_status` `2`; no end documented | [click fiscalization](../../../click/references/fiscalization/README.md#operations) |
+| Direct OFD (own ВФМ) | `Time` not more than 24 h older than server time; later fails with code `100` (`fiscal.ofd-receipt-24h`) | [ofd-direct](../ofd-direct/README.md#reply-codes-and-retries) |
+| ВФМ certificate (direct OFD) | one year; the renewal is a new ВФМ and `ReceiptSeq` restarts at 1 | [ofd-direct](../ofd-direct/README.md#certificate) |
 | Payme, Alif, Multicard, Octo, Atmos | no deadline published; register right after the payment is confirmed | provider references |
 | Marking obligation | per product group, since the dates on the tax committee's marking page | [receipt-line](../receipt-line/README.md#marking-codes-asl-belgisi) |
 | Tasnif codes and packages | change as the catalogue is edited; no change notice is published | [mxik](../mxik/README.md#public-json-endpoints-used-by-the-site-not-a-documented-api) |
@@ -86,6 +97,7 @@ receipts, refund receipts without a sale receipt, and test receipts on productio
 | Octo | not documented |
 | Atmos | partial reversal takes `ofd_items`; full `pay/reverse` takes none |
 | Paynet | not documented (`paynet.fiscal-owner-unknown`) |
+| Direct OFD (own ВФМ) | a new receipt with the next `ReceiptSeq`, `IsRefund` `1` and `RefundInfo` of the sale ([ofd-direct](../ofd-direct/README.md#refunds-advances-and-credit)) |
 
 When you register refund receipts yourself, register them on the module that made the
 sale, link them to that sale, and never above the sale total. Details:
@@ -101,6 +113,10 @@ sale, link them to that sale, and never above the sale total. Details:
   own record and answer success for a repeat (derived from the separate receipts).
 - **Alif, Multicard, Atmos**: retry rules for receipt calls are not documented; read the
   payment or receipt state before you send again.
+- **Direct OFD (own ВФМ)**: resend the same signed receipt with the same `ReceiptSeq` on
+  codes `1`, `4`, `11`, `20`, `21`; re-sign with the current `Time` on `100`; fix and never
+  resend unchanged on `2`, `3`, `5`, `6`, `10`, `30`. Over WebSocket, match replies by the
+  16-byte `RequestId` (`fiscal.ofd-receipt-seq-per-vfm`).
 - **Tasnif lookups**: cache the code card per product; do not call the site's endpoints on
   every checkout ([mxik](../mxik/README.md#public-json-endpoints-used-by-the-site-not-a-documented-api)).
 
@@ -113,8 +129,9 @@ and the `ofd.soliq.uz` link: [receipts](../receipts/README.md#receipt-types).
 
 ## Not documented — ask the provider / tax authority
 
-- **Tax authority**: an official, documented integration API or terms of use for the
-  Tasnif catalogue (the JSON endpoints are the site's own), and the meaning of the reply
+- **Tax authority**: terms of use for the Tasnif catalogue. The OFD instruction documents
+  the `cl-api` integration methods ([ofd-direct](../ofd-direct/README.md#classifier-api-cl-api));
+  the site's other JSON endpoints are its own. Also and the meaning of the reply
   flags `label`, `useCard`, `usePackage` and `isUnitPackage`.
 - **Tax authority / accountant**: which MXIK, package, VAT treatment and benefit (`lgota`)
   apply to a product, and which receipt type a prepayment, instalment or partial delivery
@@ -130,4 +147,7 @@ and the `ofd.soliq.uz` link: [receipts](../receipts/README.md#receipt-types).
 - **Click, Multicard, Octo, Atmos**: advance and credit receipts.
 - **Payme, Alif, Multicard, Octo**: whether their test hosts register test receipts.
 - **Every provider except Uzum Fiscalization**: a deadline for registering the receipt.
+- **ОФД (direct integration)**: the production host, the sum and discount formula (an
+  image in the instruction), the `OwnerType` values, and whether a rejected `ReceiptSeq`
+  may be reused.
 - **Paynet**: who registers receipts, and the shape of `data.attributes`.
