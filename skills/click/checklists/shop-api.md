@@ -31,6 +31,9 @@ pass / fail / n.a. and cite the file and line that proves it.
   refunded with `payment/reversal` instead.
 
 ## Operations
+- [ ] If Prepare and Complete use separate paths, each path still checks `action` and
+  answers `-3` on a mismatch.
+- [ ] Prepare rejects amounts outside the service's minimum and maximum with `-2`.
 - [ ] Reservations without a Complete are released by your own timeout.
 - [ ] All 15 Postman generator scenarios pass with a test amount other than 300.
 - [ ] The Playground works against the endpoint (CORS allows docs.click.uz) or is not used.

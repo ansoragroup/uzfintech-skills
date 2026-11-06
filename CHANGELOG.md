@@ -4,6 +4,16 @@ All notable changes to this project. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- `click`: field notes from a production SHOP API setup. Covers the cabinet's separate
+  Prepare and Complete URL fields (branch on `action` and answer `-3` on a mismatch), the
+  minimum and maximum amount for each service, and how mobile websites open the CLICK app:
+  a same-tab navigation, with the status read again on `pageshow` and `visibilitychange`.
+  The checklists gain matching items.
+
 ## [0.4.0] - 2026-11-04
 
 ### Added

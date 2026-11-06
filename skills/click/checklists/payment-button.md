@@ -20,3 +20,7 @@ pass / fail / n.a. and cite the file and line that proves it.
 - [ ] `checkout.js` loads from `https://my.click.uz`, allowed by any Content Security Policy.
 - [ ] The app refreshes the order from your server when it returns to the foreground.
 - [ ] Deeplinks fall back to the browser when the CLICK app is missing.
+- [ ] On a mobile website the payment link opens with a same-tab top-level navigation from
+  the payer's tap, never `window.open`, an iframe or `fetch`.
+- [ ] The return or pending page re-reads the status on `pageshow` (back/forward cache) and
+  `visibilitychange`, and an older status reply cannot overwrite a newer one.
