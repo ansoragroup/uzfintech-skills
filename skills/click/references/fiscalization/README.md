@@ -87,3 +87,12 @@ The response is `error_code` and `error_note`.
   [`submit-items.response.json`](examples/submit-items.response.json)
 - [`submit-qrcode.request.json`](examples/submit-qrcode.request.json)
 - [`get-ofd-data.response.json`](examples/get-ofd-data.response.json)
+6. Click OFD can only fiscalize payments that went through Click: every call needs a Click
+   `payment_id`. If your platform sends all receipts through one fiscal channel, route by
+   payment provider and never make Click OFD the default for every payment, or receipts for
+   other providers fail.
+7. The docs call `Amount` the quantity but do not give its scale. Other fiscal APIs in
+   Uzbekistan expect thousandths (1 piece = `1000`). Confirm with Click whether `Amount` is
+   whole units or thousandths before going live.
+8. The docs do not say which `received_*` field a card payment made in Click belongs in
+   (`received_card` or `received_ecash`). Confirm with Click and keep the choice in config.

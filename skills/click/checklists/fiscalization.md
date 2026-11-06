@@ -8,6 +8,7 @@ item pass / fail / n.a. and cite the file and line that proves it.
 - [ ] Each payment uses either `submit_items` (Click fiscalizes) or `submit_qrcode` (your own
   receipt), never both.
 - [ ] Fiscalization runs only after the payment succeeded.
+- [ ] Only Click payments go to Click OFD; other providers keep their own fiscal channel.
 
 ## submit_items
 - [ ] Item keys are PascalCase and the top-level keys snake_case; no serializer renames them.
@@ -16,6 +17,8 @@ item pass / fail / n.a. and cite the file and line that proves it.
 - [ ] `Price` is the line total and `GoodPrice` the unit price, both integer tiyin.
 - [ ] `CommissionInfo` carries exactly one of `TIN` (9) or `PINFL` (14), confirmed with Click.
 - [ ] `received_ecash + received_cash + received_card` equals the payment total in tiyin.
+- [ ] The `Amount` scale (whole units or thousandths) and the `received_*` field for card
+  payments are confirmed with Click, not guessed.
 - [ ] Field lengths hold: `Name` 63, `Barcode` 13, `SPIC` 17, `PackageCode` 20, `Labels` 300.
 
 ## Results
