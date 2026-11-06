@@ -90,7 +90,11 @@ The response is `error_code` and `error_note`.
 6. Click OFD can only fiscalize payments that went through Click: every call needs a Click
    `payment_id`. If your platform sends all receipts through one fiscal channel, route by
    payment provider and never make Click OFD the default for every payment, or receipts for
-   other providers fail.
+   other providers fail. Declare the scope on the fiscal adapter (for example a list of
+   payment providers it accepts) instead of a provider check in routing code, and apply it
+   everywhere an OFD is picked: first issue, retries and backlog drains, refunds, and the
+   checkout check that hides an external-fiscalization payment method when no OFD covers
+   it. A dedicated Click OFD should win over a generic OFD for Click payments.
 7. The docs call `Amount` the quantity but do not give its scale. Other fiscal APIs in
    Uzbekistan expect thousandths (1 piece = `1000`). Confirm with Click whether `Amount` is
    whole units or thousandths before going live.
