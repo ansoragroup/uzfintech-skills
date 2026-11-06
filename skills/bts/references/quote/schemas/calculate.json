@@ -1,0 +1,180 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/order-calculator",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; params = JSON body"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "order-calculate/index",
+  "endpoint": "POST https://apitest.bts.uz:28345/v1/order-calculate/index",
+  "params": {
+    "type": "object",
+    "properties": {
+      "senderCityCode": {
+        "type": "string",
+        "description": "city code, e.g. \"1001\""
+      },
+      "receiverCityCode": {
+        "type": "string",
+        "description": "city code, e.g. \"7001\""
+      },
+      "pickup_type": {
+        "type": "string",
+        "enum": [
+          "courier",
+          "branch",
+          "self"
+        ]
+      },
+      "dropoff_type": {
+        "type": "string",
+        "enum": [
+          "courier",
+          "branch",
+          "self"
+        ]
+      },
+      "is_multiple_cost": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ],
+        "description": "0 = only the chosen pair, 1 = all four pairs"
+      },
+      "weight": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "description": "kilograms, not grams"
+      },
+      "volume": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        },
+        "description": "centimetres"
+      }
+    },
+    "required": [
+      "senderCityCode",
+      "receiverCityCode",
+      "pickup_type",
+      "dropoff_type",
+      "weight"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "branch_to_branch": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "price": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "branch_to_courier": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "price": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "courier_to_branch": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "price": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "courier_to_courier": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "price": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

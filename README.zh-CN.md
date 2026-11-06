@@ -3,7 +3,7 @@
 [English](README.md) · [Русский](README.ru.md) · [Oʻzbekcha](README.uz.md) · **简体中文**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#支付服务商)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-11%20providers-0a7c66.svg)](#支付服务商)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#安装)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#工具)
 
@@ -32,6 +32,7 @@
 | [`octo`](skills/octo/SKILL.md) | Octo | Visa / Mastercard / UnionPay 与 Uzcard / Humo 收单：支付页面（一步式 / 两步式）、自有卡表单（PCI DSS）、卡令牌、全额和部分退款、税务登记（basket、fiscal-data） |
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API（返回 pay_url 的 invoice/create、invoice/status）以及带签名的支付通知，依据 Oson 开源的商店插件整理 |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | 面向法人的 Kapital API：APILogin、SendPaymentIBK 付款指令、CheckPayments2、对账单（GetDoc1C、GetMT940）、账户与收款人核验、汇率、发票；适用于任何银行苏姆付款指令的中央银行付款用途代码 |
+| [`bts`](skills/bts/SKILL.md) | BTS Express | 快递 API：登录与令牌刷新、地区 / 城市 / 网点目录、运费计算、订单创建 / 取消 / 跟踪、面单（PDF）、状态 webhook、测试主机上的状态模拟器；Fargo 没有公开 API |
 | [`fiscal`](skills/fiscal/SKILL.md) | 所有服务商 | 税务小票：来自 Tasnif 的 MXIK（IKPU）代码、包装代码、增值税与优惠字段、Asl Belgisi 标识、小票类型，以及各服务商由谁、在哪个字段登记小票 |
 | [`tasnif`](skills/tasnif/SKILL.md) | Tasnif（税务委员会目录） | 在 tasnif.soliq.uz 上查询 MXIK（IKPU）目录：按文本和条形码（GTIN）搜索、带包装代码的代码卡片、用于复核的历史记录、图片、类别列表、收银端 `cl-api` 检查、txkm 增值税纳税人检查；未公开文档的公共端点，用保存的响应代替测试主机 |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | 所有服务商 | 路由：为任务选择服务商、比较服务商、跨服务商速查表（金额单位、鉴权、回调、退款、预授权、税务登记、测试主机）、UzQR 说明 |
@@ -74,7 +75,7 @@ cp -R uzfintech-skills/skills/* ~/.codex/skills/     # Codex
 ```md
 ## Payment provider contracts
 For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
-Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+Octo, Oson, Kapitalbank) or the BTS courier API (`bts`), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and

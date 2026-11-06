@@ -1,0 +1,58 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/webhook",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page. BTS posts form-data whose single field holds this JSON as a string; params = that decoded JSON. Strings may carry spaces; trim them"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webhook": "notify",
+  "endpoint": "POST <webhook_url>",
+  "params": {
+    "type": "object",
+    "properties": {
+      "clientId": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "orderId": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      },
+      "barcode": {
+        "type": "string"
+      },
+      "status": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "internal id; not code/100"
+          },
+          "code": {
+            "type": "integer",
+            "description": "the status code to act on"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "date": {
+        "type": "string",
+        "description": "YYYY-MM-DD HH:MM:SS"
+      }
+    },
+    "required": [
+      "orderId",
+      "status",
+      "date"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/order-cancel",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; params = query string. Allowed only while status code is 100"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "order-cancel/index",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/order-cancel/index",
+  "params": {
+    "type": "object",
+    "properties": {
+      "orderId": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      }
+    },
+    "required": [
+      "orderId"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

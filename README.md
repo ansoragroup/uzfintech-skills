@@ -3,13 +3,13 @@
 **English** · [Русский](README.ru.md) · [Oʻzbekcha](README.uz.md) · [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#providers)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-11%20providers-0a7c66.svg)](#providers)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#install)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#tools)
 
 Agent skills for Uzbek payment provider APIs: **Uzum Bank, Alif, Click, Paynet, Payme,
-Multicard, Atmos, Octo, Oson and Kapitalbank**, plus a fiscal receipt skill shared by all of
-them, a Tasnif catalogue skill for looking up and re-checking MXIK codes and a router skill
+Multicard, Atmos, Octo, Oson and Kapitalbank**, the BTS Express courier API, plus a fiscal
+receipt skill shared by all of them, a Tasnif catalogue skill for looking up and re-checking MXIK codes and a router skill
 for choosing and comparing providers. They work in Claude Code, Codex, Cursor and any other
 agent that reads `SKILL.md` files.
 
@@ -38,6 +38,7 @@ notes and checks signatures and payloads with scripts instead of guessing. Each 
 | [`octo`](skills/octo/SKILL.md) | Octo | Visa / Mastercard / UnionPay and Uzcard / Humo acquiring: payment page (one-stage / two-stage), own card form (PCI DSS), card tokens, full and partial refunds, fiscalization (basket, fiscal-data) |
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (invoice/create with a pay_url, invoice/status) and the signed payment notification, rebuilt from Oson's open-source shop plugins |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Kapital API for legal entities: APILogin, SendPaymentIBK payment orders, CheckPayments2, statements (GetDoc1C, GetMT940), account and payee checks, exchange rates, invoices; CBU payment purpose codes for UZS payment orders in any bank |
+| [`bts`](skills/bts/SKILL.md) | BTS Express | Courier API: login and token refresh, regions / cities / branches directory, delivery quote, order create / cancel / track, sticker (label PDF), status webhook, test-host status simulator; Fargo has no public API |
 | [`fiscal`](skills/fiscal/SKILL.md) | All providers | Fiscal receipts: MXIK (IKPU) codes from Tasnif, package codes, VAT and benefit fields, Asl Belgisi marking, receipt types, who registers the receipt and in which field at each provider |
 | [`tasnif`](skills/tasnif/SKILL.md) | Tasnif (tax committee catalogue) | MXIK (IKPU) catalogue lookups on tasnif.soliq.uz: text and barcode (GTIN) search, code card with package codes, history for re-checks, pictures, class lists, point-of-sale `cl-api` check, txkm VAT-payer check; undocumented public endpoints, saved replies instead of a test host |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | All providers | Router: choose a provider for a task, compare providers, cross-provider cheatsheet (units, auth, callbacks, refunds, holds, fiscalization, test hosts), UzQR notes |
@@ -85,7 +86,7 @@ this to your project's `AGENTS.md`:
 ```md
 ## Payment provider contracts
 For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
-Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+Octo, Oson, Kapitalbank) or the BTS courier API (`bts`), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and

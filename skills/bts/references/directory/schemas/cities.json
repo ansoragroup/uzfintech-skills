@@ -1,0 +1,75 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/directory-cities",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; params = query string"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "directory/cities",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/directory/cities",
+  "params": {
+    "type": "object",
+    "properties": {
+      "regionCode": {
+        "type": [
+          "string",
+          "integer"
+        ],
+        "description": "region code from directory/regions, e.g. 70"
+      }
+    },
+    "required": [
+      "regionCode"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ],
+                  "description": "city code used as senderCityCode / receiverCityCode, e.g. 7001"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "regionCode": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

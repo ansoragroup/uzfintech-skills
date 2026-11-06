@@ -3,7 +3,7 @@
 [English](README.md) · **Русский** · [Oʻzbekcha](README.uz.md) · [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#провайдеры)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-11%20providers-0a7c66.svg)](#провайдеры)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#установка)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#инструменты)
 
@@ -38,6 +38,7 @@ Paynet, Payme, Multicard, Atmos, Octo, Oson и Kapitalbank**, а также об
 | [`octo`](skills/octo/SKILL.md) | Octo | Эквайринг Visa / Mastercard / UnionPay и Uzcard / Humo: платёжная страница (одностадийная / двухстадийная), своя форма карты (PCI DSS), токены карт, полный и частичный возврат, фискализация (basket, fiscal-data) |
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (invoice/create с pay_url, invoice/status) и подписанное уведомление об оплате, восстановлено по открытым плагинам Oson для магазинов |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Kapital API для юрлиц: APILogin, платёжные поручения SendPaymentIBK, CheckPayments2, выписки (GetDoc1C, GetMT940), проверка счёта и получателя, курсы валют, счета-фактуры; коды назначения платежа ЦБ для платёжных поручений в сумах в любом банке |
+| [`bts`](skills/bts/SKILL.md) | BTS Express | Курьерский API: вход и обновление токена, справочник регионов / городов / филиалов, расчёт доставки, создание / отмена / отслеживание заказа, стикер (PDF), вебхук статусов, симулятор статусов на тестовом хосте; у Fargo нет публичного API |
 | [`fiscal`](skills/fiscal/SKILL.md) | Все провайдеры | Фискальные чеки: коды MXIK (ИКПУ) из Tasnif, коды упаковки, поля НДС и льгот, маркировка Asl Belgisi, типы чеков, кто регистрирует чек и в каком поле у каждого провайдера |
 | [`tasnif`](skills/tasnif/SKILL.md) | Tasnif (каталог налогового комитета) | Поиск по каталогу MXIK (ИКПУ) на tasnif.soliq.uz: поиск по тексту и штрихкоду (GTIN), карточка кода с кодами упаковки, история для перепроверки, картинки, списки классов, проверка для кассы через `cl-api`, проверка плательщика НДС в txkm; недокументированные публичные эндпоинты, сохранённые ответы вместо тестового хоста |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | Все провайдеры | Роутер: выбор провайдера под задачу, сравнение провайдеров, шпаргалка по всем провайдерам (единицы, авторизация, колбэки, возвраты, холды, фискализация, тестовые хосты), заметки по UzQR |
@@ -85,7 +86,7 @@ cp -R uzfintech-skills/skills/* ~/.codex/skills/     # Codex
 ```md
 ## Payment provider contracts
 For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
-Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+Octo, Oson, Kapitalbank) or the BTS courier API (`bts`), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and

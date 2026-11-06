@@ -10,7 +10,8 @@ directly.
   and does not replace it.
 - Read the provider's `skills/<provider>/SKILL.md` first: `uzum` (Uzum Bank), `alif`
   (alifpay), `click`, `paynet`, `payme` (Paycom), `multicard`, `atmos`, `octo`, `oson`,
-  `kapitalbank` (Kapital API and CBU payment purpose codes). For fiscal receipt codes shared
+  `kapitalbank` (Kapital API and CBU payment purpose codes), and `bts` (BTS Express courier
+  API: quotes, shipments, tracking, labels, status webhook). For fiscal receipt codes shared
   by every provider (MXIK, package codes, marking, receipt types), read `skills/fiscal/SKILL.md`.
   To search Tasnif by name or barcode, read package codes or re-check stored codes, read
   `skills/tasnif/SKILL.md`.

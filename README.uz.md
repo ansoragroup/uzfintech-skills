@@ -3,7 +3,7 @@
 [English](README.md) · [Русский](README.ru.md) · **Oʻzbekcha** · [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-10%20providers-0a7c66.svg)](#provayderlar)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-11%20providers-0a7c66.svg)](#provayderlar)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#oʻrnatish)
 [![Python 3.9+ stdlib](https://img.shields.io/badge/tools-python3%20stdlib-3776ab.svg)](#vositalar)
 
@@ -41,6 +41,7 @@ payloadlarni esa skriptlar bilan tekshiradi. Har bir skillda quyidagilar bor:
 | [`octo`](skills/octo/SKILL.md) | Octo | Visa / Mastercard / UnionPay va Uzcard / Humo ekvayringi: toʻlov sahifasi (bir bosqichli / ikki bosqichli), oʻz karta formangiz (PCI DSS), karta tokenlari, toʻliq va qisman qaytarish, fiskallashtirish (basket, fiscal-data) |
 | [`oson`](skills/oson/SKILL.md) | Oson | Invoice API (pay_url qaytaradigan invoice/create, invoice/status) va imzolangan toʻlov xabarnomasi, Osonning ochiq kodli doʻkon plaginlari asosida tiklangan |
 | [`kapitalbank`](skills/kapitalbank/SKILL.md) | Kapitalbank | Yuridik shaxslar uchun Kapital API: APILogin, SendPaymentIBK toʻlov topshiriqnomalari, CheckPayments2, koʻchirmalar (GetDoc1C, GetMT940), hisob va oluvchini tekshirish, valyuta kurslari, hisob-fakturalar; istalgan bankdagi soʻmli toʻlov topshiriqnomalari uchun Markaziy bank toʻlov maqsadi kodlari |
+| [`bts`](skills/bts/SKILL.md) | BTS Express | Kuryerlik API: kirish va tokenni yangilash, viloyat / shahar / filiallar maʼlumotnomasi, yetkazib berish narxini hisoblash, buyurtma yaratish / bekor qilish / kuzatish, stiker (PDF), holat vebxuki, test xostidagi holat simulyatori; Fargoʻda ochiq API yoʻq |
 | [`fiscal`](skills/fiscal/SKILL.md) | Barcha provayderlar | Fiskal cheklar: Tasnifdagi MXIK (IKPU) kodlari, qadoq kodlari, QQS va imtiyoz maydonlari, Asl Belgisi markirovkasi, chek turlari, har bir provayderda chekni kim va qaysi maydonda roʻyxatdan oʻtkazadi |
 | [`tasnif`](skills/tasnif/SKILL.md) | Tasnif (soliq qoʻmitasi katalogi) | tasnif.soliq.uz saytidagi MXIK (IKPU) katalogidan qidirish: matn va shtrix-kod (GTIN) boʻyicha qidiruv, qadoq kodlari bilan kod kartasi, qayta tekshirish uchun tarix, rasmlar, klasslar roʻyxati, kassa uchun `cl-api` tekshiruvi, txkm orqali QQS toʻlovchisini tekshirish; hujjatlashtirilmagan ochiq endpointlar, test host oʻrniga saqlangan javoblar |
 | [`uzfintech`](skills/uzfintech/SKILL.md) | Barcha provayderlar | Router: vazifa uchun provayder tanlash, provayderlarni solishtirish, barcha provayderlar boʻyicha shpargalka (pul birliklari, auth, callbacklar, qaytarishlar, holdlar, fiskallashtirish, test hostlar), UzQR boʻyicha qaydlar |
@@ -88,7 +89,7 @@ submodule sifatida) va loyihangizdagi `AGENTS.md` fayliga quyidagini yozing:
 ```md
 ## Payment provider contracts
 For Uzbek payment provider work (Uzum Bank, Alif, Click, Paynet, Payme, Multicard, Atmos,
-Octo, Oson, Kapitalbank), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
+Octo, Oson, Kapitalbank) or the BTS courier API (`bts`), read `vendor/uzfintech-skills/skills/<provider>/SKILL.md` first and
 follow its pointers. To choose or compare providers, start with
 `vendor/uzfintech-skills/skills/uzfintech/SKILL.md`. Run its
 `scripts/sign.py` and `scripts/validate.py` instead of computing signatures by hand, and

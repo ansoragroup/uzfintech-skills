@@ -1,0 +1,115 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/directory-branches",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; params = query string. office_exists is read by a production client but not shown on the page"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "directory/branches",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/directory/branches",
+  "params": {
+    "type": "object",
+    "properties": {
+      "regionCode": {
+        "type": [
+          "string",
+          "integer"
+        ]
+      },
+      "cityCode": {
+        "type": [
+          "string",
+          "integer"
+        ]
+      }
+    }
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ],
+                  "description": "branch code used as branch_code, e.g. 7017"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "regionCode": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ]
+                },
+                "cityCode": {
+                  "type": [
+                    "string",
+                    "integer"
+                  ]
+                },
+                "address": {
+                  "type": "string"
+                },
+                "lat_long": {
+                  "type": "string",
+                  "description": "\"lat,long\" in one string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "video_link": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "working_hours": {
+                  "type": "object",
+                  "description": "keys \"1\"..\"7\" (Monday..Sunday), value \"HH:MM-HH:MM\" or null when closed",
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "office_exists": {
+                  "type": [
+                    "boolean",
+                    "integer"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "status": true,
+  "status_code": 200,
+  "message": "success",
+  "data": {
+    "branch_to_branch": {
+      "available": true,
+      "price": 0,
+      "reason": null
+    },
+    "branch_to_courier": {
+      "available": true,
+      "price": 0,
+      "reason": null
+    },
+    "courier_to_branch": {
+      "available": true,
+      "price": 0,
+      "reason": null
+    },
+    "courier_to_courier": {
+      "available": false,
+      "price": null,
+      "reason": "not served"
+    }
+  }
+}

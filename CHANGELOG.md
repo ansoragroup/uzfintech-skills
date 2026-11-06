@@ -6,8 +6,15 @@ All notable changes to this project. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-06
+
 ### Added
 
+- `bts` skill for the BTS Express courier API, from docs.bts.uz: login and token refresh,
+  the regions / cities / branches directory, the delivery quote, order create / cancel /
+  track, the sticker, the status webhook and the test-host status simulator. Covers the
+  status code mapping, config fields, sandbox values, 13 warnings (`bts.*`) and
+  checklists, plus a note that Fargo has no public API.
 - `fiscal`: direct OFD integration with your own virtual fiscal module (ВФМ), from the
   ОФД's "Инструкция по интеграции" v6.5. Covers onboarding, the certificate and CMS
   signing, the `test.ofd.uz` endpoints (HTTPS and WebSocket), ReceiptInfo and its
@@ -124,6 +131,7 @@ All notable changes to this project. The format follows
 - `scripts/sync` and a weekly workflow that tracks upstream specs and pages.
 - Claude Code plugin and marketplace manifests.
 
+[0.5.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ansoragroup/uzfintech-skills/compare/v0.1.0...v0.2.0

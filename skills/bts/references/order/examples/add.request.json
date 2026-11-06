@@ -1,0 +1,46 @@
+{
+  "clientId": "100001",
+  "pickup_type": "courier",
+  "dropoff_type": "courier",
+  "sender": {
+    "name": "Merchant Example",
+    "phone": "+998901234567",
+    "address": "Example street 1",
+    "city_code": "1001",
+    "branch_code": ""
+  },
+  "receiver": {
+    "name": "Test Customer",
+    "phone": "+998901234567",
+    "phone1": "",
+    "address": "Example street 2",
+    "city_code": "7001",
+    "branch_code": ""
+  },
+  "bringBackMoney": 0,
+  "takePhoto": 0,
+  "bringBackWaybill": 0,
+  "cargo": {
+    "weight": 1.0,
+    "volume": {
+      "x": 30,
+      "y": 20,
+      "z": 10
+    },
+    "piece": 1,
+    "packageId": "1",
+    "postTypeId": "1",
+    "options": [
+      {
+        "optionId": 2,
+        "goods": [
+          {
+            "mxikGoodsId": "<MXIK_CODE>",
+            "amount": 1,
+            "goodPrice": 100000
+          }
+        ]
+      }
+    ]
+  }
+}

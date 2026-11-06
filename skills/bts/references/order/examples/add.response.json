@@ -1,0 +1,11 @@
+{
+  "status": true,
+  "status_code": 200,
+  "message": "success",
+  "data": {
+    "orderId": 1234567,
+    "barcode": "0101 1234567",
+    "status": 100,
+    "cost": 0
+  }
+}

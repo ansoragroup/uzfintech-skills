@@ -1,0 +1,76 @@
+{
+  "x-uzfintech-source": {
+    "source_url": "https://docs.bts.uz/page/order-sticker",
+    "fetched": "2026-11-06",
+    "note": "hand-written from the BTS docs page; params = query string. The _base64 fields come only with decode=1"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "method": "order/sticker",
+  "endpoint": "GET https://apitest.bts.uz:28345/v1/order/sticker",
+  "params": {
+    "type": "object",
+    "properties": {
+      "orderId": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      },
+      "decode": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "enum": [
+          0,
+          1,
+          "0",
+          "1"
+        ]
+      }
+    },
+    "required": [
+      "orderId"
+    ]
+  },
+  "result": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "boolean"
+      },
+      "status_code": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "labelEncode": {
+            "type": "string",
+            "description": "URL of the large PDF label"
+          },
+          "labelSticker": {
+            "type": "string",
+            "description": "URL of the small PDF sticker"
+          },
+          "labelEncode_base64": {
+            "type": "string"
+          },
+          "labelSticker_base64": {
+            "type": "string"
+          }
+        }
+      },
+      "errors": {
+        "type": [
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  }
+}
