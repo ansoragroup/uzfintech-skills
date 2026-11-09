@@ -30,6 +30,12 @@ pass / fail / n.a. and cite the file and line that proves it.
 - [ ] Transactions left `CREATED` for 30+ minutes are expired on your side.
 - [ ] Confirm-only fields (`paymentSource`, `phone`, `tariff`, `processingReferenceNumber`, `cardType`) are stored.
 
+## App deeplink (if checkout sends payers to the Uzum Bank app)
+- [ ] Link built from config: `https://uzumbank.uz/open-service?serviceId=<id>&<param_key>=<order>&amount=<tiyin>`.
+- [ ] `<param_key>` equals the `params` key `/check` reads; order number URL-encoded.
+- [ ] `amount` in tiyin, equal to the amount `/check` and `/create` will accept.
+- [ ] Live and test `serviceId` are separate config values; the link uses the same one the webhooks validate.
+
 ## Operations
 - [ ] Every call is logged with `transId` and outcome, without secrets.
 - [ ] A test covers each endpoint, each error code you emit, and the confirm-retry path.
