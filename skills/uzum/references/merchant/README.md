@@ -121,6 +121,26 @@ The vendor error table names an answer for every repeat:
 - A second `create` for an order that already has a live transaction: decide whether
   to reject (`10008` if paid) or allow; Uzum does not dedupe by `params`.
 
+## App deeplink (sending the payer to your service)
+
+After Uzum activates the service it issues the live `serviceId` and an app link that opens
+your service in the Uzum Bank app:
+
+```
+https://uzumbank.uz/open-service?serviceId=<SERVICE_ID>
+https://uzumbank.uz/open-service?serviceId=<SERVICE_ID>&<PARAM_KEY>=<ORDER_NUMBER>&amount=<AMOUNT_TIYIN>
+```
+
+- The second form pre-fills the payment. `<PARAM_KEY>` is the same key Uzum sends back in
+  `params` on `/check` and `/create` (e.g. `order_number` -> `{"order_number": "100001"}`),
+  so name it exactly as agreed during onboarding.
+- `amount` is in **tiyin**, like every Merchant API amount. 125 000 UZS is `12500000`.
+- URL-encode the order number. Your `/check` still validates it and the amount; the link is
+  only a convenience and anyone can edit it.
+- The test (sandbox) `serviceId` differs from the live one. Keep both in config, never in
+  code, and switch the link together with the webhook credentials.
+- Redirect from your checkout with a plain top-level navigation (no iframe, no popup).
+
 ## Gotchas
 
 - `errorCode` is a string in the schema; sending a JSON number fails strict parsers.
